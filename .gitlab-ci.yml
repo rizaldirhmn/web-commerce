@@ -4,8 +4,7 @@ cache:
 
 build:
   artifacts:
-    name: build
-    path:
+    paths:
       - build
   image: node:13.11
   script:
