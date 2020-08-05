@@ -2,12 +2,17 @@ cache:
   paths:
     - node_modules/
 
+artifacts:
+  name: build
+  path:
+    - build
+
 build:
   stage: build
   image: node:13.11
   script:
     - npm install
-    - CI=false npm run build
+    - npm run build
 
 deploy_dev:
   stage: deploy
