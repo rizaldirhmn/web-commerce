@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 		height: '500px'
 	},
   cardContentRoot: {
-		width: '100%',
+		width: '90%',
   },
   media: {
     height: 140,
@@ -47,7 +47,6 @@ const Product = () => {
 				<PerfectScrollbar>
 					<Grid
 						container
-						spacing={2}
 					>
 						<Grid
 							item
