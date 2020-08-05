@@ -7,7 +7,7 @@ build:
   image: node:13.11
   script:
     - npm install
-    - npm run build
+    - CI=false npm run build
 
 deploy_dev:
   stage: deploy
