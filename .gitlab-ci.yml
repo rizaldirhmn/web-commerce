@@ -20,4 +20,4 @@ deploy_dev:
     - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - rsync -rav --delete build/* deploy@$SSH_SERVER_DEV.com:/var/www/$SSH_SERVER_DEV/current/public
+    - rsync -rav --delete build/* deploy@$SSH_SERVER_DEV:/var/www/$SSH_SERVER_DEV/current/public/
