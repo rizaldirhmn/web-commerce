@@ -1,8 +1,6 @@
-import React, { forwardRef, useState } from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/styles';
-import { Typography } from '@material-ui/core';
-import { Link as RouterLink } from 'react-router-dom';
+import { makeStyles } from '@material-ui/styles';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -11,16 +9,15 @@ import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
+// import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import InputBase from '@material-ui/core/InputBase';
 
 const drawerWidth = 240;
 const appDrawerBlue = '#0277BD';
-const appDrawerDefault = '#FFFFFF';
+// const appDrawerDefault = '#FFFFFF';
 
 const iconBlack = '#000000';
 
@@ -128,10 +125,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Appbar = props => {
-  const { handleDrawerOpen, open, setOpen } = props;
+  const { handleDrawerOpen, open } = props;
 
   const classes = useStyles();
-  const theme = useTheme();
+  // const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 

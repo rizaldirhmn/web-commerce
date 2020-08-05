@@ -14,7 +14,6 @@
     "axios": "^0.19.2",
     "clsx": "^1.1.1",
     "firebase": "^7.16.1",
-    "material-ui-bottom-sheet": "^0.5.1",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

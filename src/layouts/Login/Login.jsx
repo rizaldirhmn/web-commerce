@@ -7,13 +7,9 @@ import {
   CardActions,
   CardContent,
   Button,
-	InputLabel,
-	Input,
   CardHeader,
-	Avatar,
-  InputAdornment
 } from "@material-ui/core";
-import { Send, Mail, Lock } from "@material-ui/icons";
+import { Send } from "@material-ui/icons";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
@@ -42,7 +38,7 @@ const SignInSchema = yup.object().shape({
 const Login = ({ addLogin }) => {
 	const classes = useStyles();
 	const history = useHistory();
-	const { register, handleSubmit, watch, errors } = useForm({
+	const { register, handleSubmit, errors } = useForm({
 		resolver: yupResolver(SignInSchema)
 	});
 	
@@ -62,7 +58,7 @@ const Login = ({ addLogin }) => {
 					<Fragment>
 						<Card className={classes.card}>
 							<CardHeader
-								// avatar={<Avatar src={Logo} className={classes.avatar} />}
+								// ={< src={Logo} className={classes.} />}
 								title="Access"
 							/>
 							<form onSubmit={handleSubmit(onSubmit)}>

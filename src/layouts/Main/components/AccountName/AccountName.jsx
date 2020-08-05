@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Avatar, Typography } from '@material-ui/core';
 
 const nameColorWhite = '#FFFFFF';
-const nameColorBlack = '#000000';
+// const nameColorBlack = '#000000';
 
 const useStyles = makeStyles(theme => ({
   root: {

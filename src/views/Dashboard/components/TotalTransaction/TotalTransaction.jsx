@@ -1,11 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
-import axios from 'axios';
+import { 
+  Card, 
+  CardContent, 
+  Grid, 
+  Typography, 
+} from '@material-ui/core';
 import NumberFormat from 'react-number-format';
-import Skeleton from '@material-ui/lab/Skeleton';
 
 const useStyles = makeStyles(theme => ({
   root: {

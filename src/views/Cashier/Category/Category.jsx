@@ -3,12 +3,9 @@ import { makeStyles } from '@material-ui/styles'
 import {
     Card,
     CardContent,
-    Typography,
-    Grid,
     Button,
     Toolbar
 } from '@material-ui/core'
-import PerfectScrollbar from '@opuscapita/react-perfect-scrollbar'
 
 const useStyles = makeStyles(theme => ({
     root: {

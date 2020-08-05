@@ -1,7 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles'
 import {
-	Paper,
 	Typography,
 	Grid,
 	Card,
@@ -9,14 +8,13 @@ import {
 	CardActions,
 	CardActionArea,
 	CardMedia,
-	Button
 } from '@material-ui/core'
 import PerfectScrollbar from '@opuscapita/react-perfect-scrollbar'
 import NumberFormat from 'react-number-format'
 
 const useStyles = makeStyles(theme => ({
 	root:{
-		margin: theme.spacing(2)
+		padding: theme.spacing(2)
 	},	
 	cardContent: {
 		width: '100%',
@@ -24,6 +22,8 @@ const useStyles = makeStyles(theme => ({
 	},
   cardContentRoot: {
 		width: '90%',
+		marginBottom: theme.spacing(2),
+		marginTop: theme.spacing(2),
   },
   media: {
     height: 140,

@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, useEffect } from 'react';
+import React, { forwardRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/styles';
@@ -7,9 +7,7 @@ import { Link as RouterLink, Redirect } from 'react-router-dom';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
@@ -24,7 +22,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import SignOutIcon from '@material-ui/icons/Input';
-import Icon from '@material-ui/core/Icon';
 
 import Hidden from '@material-ui/core/Hidden';
 
@@ -32,10 +29,8 @@ import { Footer, AppBar, AccountName } from './components';
 
 const drawerWidth = 240;
 const drawerColorBlue = '#0277BD';
-const drawerColorDefault = '#FFFFFF';
 
 const textMenuWhite = '#FFFFFF';
-const textMenuBlack = '#000000';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -120,45 +115,14 @@ const CustomRouterLink = forwardRef((props, ref) => (
   </div>
 ));
 
-function useWindowSize() {
-  const isClient = typeof window === 'object';
-
-  function getSize() {
-    return {
-      width: isClient ? window.innerWidth : 0,
-      height: isClient ? window.innerHeight : 0
-    };
-  }
-
-  const [windowSize, setWindowSize] = useState(getSize);
-
-  useEffect(() => {
-    if (!isClient) {
-      return false;
-    }
-    
-    function handleResize() {
-      setWindowSize(getSize());
-    }
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []); // Empty array ensures that effect is only run on mount and unmount
-
-  return windowSize;
-}
-
 const Main = props => {
-  const { children, className } = props;
+  const { children } = props;
 
   const classes = useStyles();
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
     defaultMatches: true
   });
-
-  const size = useWindowSize();
-  console.log(size)
 
   const [open, setOpen] = useState(false);
 
