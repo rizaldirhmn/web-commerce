@@ -95,7 +95,7 @@ const Product = () => {
 										title="Contemplative Reptile"
 									/>
 									<CardContent>
-										<Typography gutterBottom variant="h5" component="h2">
+										<Typography gutterBottom variant="h5" component="h2" className={classes.title}>
 											0.1 gram
 										</Typography>
 										<Typography variant="body2" color="textSecondary" component="p">
@@ -126,7 +126,7 @@ const Product = () => {
 										title="Contemplative Reptile"
 									/>
 									<CardContent>
-										<Typography gutterBottom variant="h5" component="h2">
+										<Typography gutterBottom variant="h5" component="h2" className={classes.title}>
 											0.1 gram
 										</Typography>
 										<Typography variant="body2" color="textSecondary" component="p">
@@ -157,7 +157,7 @@ const Product = () => {
 										title="Contemplative Reptile"
 									/>
 									<CardContent>
-										<Typography gutterBottom variant="h5" component="h2">
+										<Typography gutterBottom variant="h5" component="h2" className={classes.title}>
 											0.1 gram
 										</Typography>
 										<Typography variant="body2" color="textSecondary" component="p">
