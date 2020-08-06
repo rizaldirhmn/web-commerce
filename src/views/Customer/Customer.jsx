@@ -54,7 +54,7 @@ const useStyles = makeStyles(theme => ({
     },
     fab: {
         position: 'fixed',
-        bottom: theme.spacing(2),
+        bottom: theme.spacing(4),
         right: theme.spacing(2),
     },
 }))
@@ -88,7 +88,7 @@ const Customer = () => {
                         </Grid>
                     </Hidden>
                     <Hidden only={['md','lg','xl']}>
-                        <Fab variant="extended" color="primary" aria-label="add" className={classes.fab}>
+                        <Fab color="primary" aria-label="add" className={classes.fab}>
                             <AddCircle/>
                         </Fab>
                     </Hidden>
