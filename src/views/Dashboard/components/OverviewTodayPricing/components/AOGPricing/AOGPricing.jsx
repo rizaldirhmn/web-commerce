@@ -27,6 +27,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	caption: {
 		fontWeight: 700,
+		fontSize: 15,
 		color: '#fff',
 		fontFamily: 'Arial',
 	},

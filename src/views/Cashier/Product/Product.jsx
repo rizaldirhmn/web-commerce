@@ -53,7 +53,7 @@ const Product = () => {
 							lg={4}
 							md={4}
 							sm={6}
-							xs={6}
+							xs={12}
 						>
 							<Card className={classes.cardContentRoot}>
 								<CardActionArea>
@@ -84,7 +84,7 @@ const Product = () => {
 							lg={4}
 							md={4}
 							sm={6}
-							xs={6}
+							xs={12}
 						>
 							<Card className={classes.cardContentRoot}>
 								<CardActionArea>
@@ -115,7 +115,7 @@ const Product = () => {
 							lg={4}
 							md={4}
 							sm={6}
-							xs={6}
+							xs={12}
 						>
 							<Card className={classes.cardContentRoot}>
 								<CardActionArea>
@@ -146,7 +146,7 @@ const Product = () => {
 							lg={4}
 							md={4}
 							sm={6}
-							xs={6}
+							xs={12}
 						>
 							<Card className={classes.cardContentRoot}>
 								<CardActionArea>

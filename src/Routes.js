@@ -6,7 +6,8 @@ import { Main as MainLayout, Login } from './layouts';
 
 import {
   Dashboard as DashboardView,
-  Cashier as CashierView
+  Cashier as CashierView,
+  Customer as CustomerView
 } from './views';
 
 const Routes = () => {
@@ -30,6 +31,13 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/cashier"
+      />
+
+      <RouteWithLayout
+        component={CustomerView}
+        exact
+        layout={MainLayout}
+        path="/customer"
       />
 
       <Route

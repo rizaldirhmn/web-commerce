@@ -131,7 +131,7 @@ const Cashier = () => {
 							>
 								<TextField
 									select
-									value='nama'
+									defaultValue='nama'
 									name="params"
 									// onChange={event => setCatQuery(event.target.value)}
 									className={classes.catSelectSearch}
@@ -273,8 +273,8 @@ const Cashier = () => {
 					<Hidden only={['md','lg','xl']}>
 						<Fab color="primary" aria-label="add" className={classes.fab} onClick={handleModalOpen}>
 							<Badge badgeContent={17} color="secondary">
-								<CartIcon />
-						</Badge>
+									<CartIcon />
+							</Badge>
 						</Fab>
 						<SwipeableDrawer
 							anchor='bottom'

@@ -2,7 +2,7 @@ import React, { forwardRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/styles';
-import { useMediaQuery, Button, Typography, Tooltip } from '@material-ui/core';
+import { useMediaQuery, Button, Typography } from '@material-ui/core';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 
 import Drawer from '@material-ui/core/Drawer';
@@ -15,6 +15,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import CartIcon from '@material-ui/icons/AddShoppingCart';
+import UserIcon from '@material-ui/icons/People';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -42,13 +44,14 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
     paddingTop: 56,
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: -drawerWidth,
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up("sm")]: {
+      padding: theme.spacing(3),
+      paddingTop: 56,
+      width: `calc(100% - ${drawerWidth}px)`
+    }
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
@@ -58,8 +61,9 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 0,
   },
   drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
+    [theme.breakpoints.up("sm")]: {
+      flexShrink: 0
+    }
   },
   drawerPaper: {
     width: drawerWidth,
@@ -197,9 +201,10 @@ const Main = props => {
       <AppBar handleDrawerOpen={handleDrawerOpen} open={open} setOpen={setOpen} />
       <Drawer
         className={classes.drawer}
-        variant="persistent"
+        variant="temporary"
         anchor="left"
         open={open}
+        onClose={handleDrawerClose}
         classes={{
           paper: classes.drawerPaper,
         }}
@@ -221,20 +226,36 @@ const Main = props => {
             to='/dashboard'
           >
             <ListItem button key='dashboard'>
-              {!open ? (
-                <Tooltip title="Dashboard" arrow placement="right">
-                  <ListItemIcon>
-                    <DashboardIcon style={{ color: textMenuWhite }} />
-                  </ListItemIcon>
-                </Tooltip>
-              ):(
-                <>
-                  <ListItemIcon>
-                    <DashboardIcon style={{ color: textMenuWhite }} />
-                  </ListItemIcon>
-                  <ListItemText primary={<Typography type="subtitle1" className={classes.textMenu}>Dashboard</Typography>} />
-                </>
-              )}
+              <ListItemIcon>
+                <DashboardIcon style={{ color: textMenuWhite }} />
+              </ListItemIcon>
+              <ListItemText primary={<Typography type="subtitle1" className={classes.textMenu}>Dashboard</Typography>} />
+            </ListItem>
+          </Button>
+          <Button
+            activeclassname={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            to='/cashier'
+          >
+            <ListItem button key='cashier'>
+              <ListItemIcon>
+                <CartIcon style={{ color: textMenuWhite }} />
+              </ListItemIcon>
+              <ListItemText primary={<Typography type="subtitle1" className={classes.textMenu}>Cashier</Typography>} />
+            </ListItem>
+          </Button>
+          <Button
+            activeclassname={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            to='/customer'
+          >
+            <ListItem button key='customer'>
+                <ListItemIcon>
+                  <UserIcon style={{ color: textMenuWhite }} />
+                </ListItemIcon>
+                <ListItemText primary={<Typography type="subtitle1" className={classes.textMenu}>Customer</Typography>} />
             </ListItem>
           </Button>
           <Button
@@ -258,9 +279,7 @@ const Main = props => {
         </List>
       </Drawer>
       <main 
-        className={clsx(classes.content, {
-          [classes.contentShift]: open,
-        })}
+        className={classes.content}
       >
         {children}
         <Hidden only={['xs','sm']}>
