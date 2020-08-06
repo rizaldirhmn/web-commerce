@@ -1,6 +1,3 @@
-import "core-js/stable";
-// Babel Polyfill
-import '@babel/polyfill'
 import React, { useEffect } from 'react';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
