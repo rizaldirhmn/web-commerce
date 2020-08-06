@@ -1,3 +1,6 @@
+import "core-js/stable";
+// Babel Polyfill
+import '@babel/polyfill'
 import React, { useEffect } from 'react';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
@@ -16,23 +19,27 @@ import { Provider } from 'react-redux'
 import store from './store'
 import Alert from './components/layout/Alert'
 
+
+
 const browserHistory = createBrowserHistory();
 
 export default function App() {
   const fetchData = async () => {
-    messaging.requestPermission()
-    .then(async function() {
-      const token = await messaging.getToken();
-      console.log(token);
-    })
-    .catch(function(err) {
-      console.log("Unable to get permission to notify.", err);
-    });
-    navigator.serviceWorker.addEventListener("message", (message) => console.log(message.data.data.link));
+      messaging.requestPermission()
+      .then(async function() {
+        const token = await messaging.getToken();
+        console.log(token);
+      })
+      .catch(function(err) {
+        console.log("Unable to get permission to notify.", err);
+      });
+      navigator.serviceWorker.addEventListener("message", (message) => console.log(message.data.data.link));
   }
 
   useEffect(() => {
-    fetchData();
+    if(messaging !== undefined){
+      fetchData();
+    }
   });
 
   return (
