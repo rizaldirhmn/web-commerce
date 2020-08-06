@@ -5,7 +5,7 @@ import { makeStyles, useTheme } from '@material-ui/styles';
 import { useMediaQuery, Button, Typography } from '@material-ui/core';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 
-import Drawer from '@material-ui/core/Drawer';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import List from '@material-ui/core/List';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -199,12 +199,12 @@ const Main = props => {
       })}
     >
       <AppBar handleDrawerOpen={handleDrawerOpen} open={open} setOpen={setOpen} />
-      <Drawer
+      <SwipeableDrawer
         className={classes.drawer}
-        variant="temporary"
         anchor="left"
         open={open}
         onClose={handleDrawerClose}
+        onOpen={handleDrawerOpen}
         classes={{
           paper: classes.drawerPaper,
         }}
@@ -277,7 +277,7 @@ const Main = props => {
             </ListItem>
           </div> */}
         </List>
-      </Drawer>
+      </SwipeableDrawer>
       <main 
         className={classes.content}
       >
