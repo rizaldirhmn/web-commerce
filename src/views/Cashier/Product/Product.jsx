@@ -141,6 +141,37 @@ const Product = () => {
 								</CardActions>
 							</Card>
 						</Grid>
+						<Grid
+							item
+							lg={4}
+							md={4}
+							sm={6}
+							xs={6}
+						>
+							<Card className={classes.cardContentRoot}>
+								<CardActionArea>
+									<CardMedia
+										square
+										className={classes.media}
+										image="https://api.ngampooz.com/images/120105/20200729200020.jpg"
+										title="Contemplative Reptile"
+									/>
+									<CardContent>
+										<Typography gutterBottom variant="h5" component="h2" className={classes.title}>
+											0.1 gram
+										</Typography>
+										<Typography variant="body2" color="textSecondary" component="p">
+											<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										</Typography>
+									</CardContent>
+								</CardActionArea>
+								<CardActions>
+									<Typography variant="body2" color="textSecondary" component="p">
+										Stok : <NumberFormat value="5" displayType={'text'} thousandSeparator={true} />
+									</Typography>
+								</CardActions>
+							</Card>
+						</Grid>
 					</Grid>
 				</PerfectScrollbar>
 			</CardContent>
