@@ -38,6 +38,44 @@ const useStyles = makeStyles(theme => ({
 
 const Product = () => {
 	const classes = useStyles()
+	const produk = [
+		{
+			nama : '0.1 gram',
+			image: `${process.env.PUBLIC_URL + '/images/produk/0,1.jpg'}`,
+			harga: 1000000,
+			stok : 10
+		},
+		{
+			nama : '0.2 gram',
+			image: `${process.env.PUBLIC_URL + '/images/produk/0,2.jpg'}`,
+			harga: 1000000,
+			stok : 10
+		},
+		{
+			nama : '0.5 gram',
+			image: `${process.env.PUBLIC_URL + '/images/produk/0,5.jpg'}`,
+			harga: 1000000,
+			stok : 10
+		},
+		{
+			nama : '1 gram',
+			image: `${process.env.PUBLIC_URL + '/images/produk/1.jpg'}`,
+			harga: 1000000,
+			stok : 10
+		},
+		{
+			nama : '2 gram',
+			image: `${process.env.PUBLIC_URL + '/images/produk/2.jpg'}`,
+			harga: 1000000,
+			stok : 10
+		},
+		{
+			nama : '5 gram',
+			image: `${process.env.PUBLIC_URL + '/images/produk/5.jpg'}`,
+			harga: 1000000,
+			stok : 10
+		}
+	]
 
 	return(
 		<Card
@@ -48,130 +86,39 @@ const Product = () => {
 					<Grid
 						container
 					>
-						<Grid
-							item
-							lg={4}
-							md={4}
-							sm={6}
-							xs={12}
-						>
-							<Card className={classes.cardContentRoot}>
-								<CardActionArea>
-									<CardMedia
-										square
-										className={classes.media}
-										image="https://api.ngampooz.com/images/120105/20200729200020.jpg"
-										title="Contemplative Reptile"
-									/>
-									<CardContent>
-										<Typography gutterBottom variant="h5" component="h2" className={classes.title}>
-											0.1 gram
-										</Typography>
+						{produk.map(item => (
+							<Grid
+								item
+								lg={4}
+								md={4}
+								sm={6}
+								xs={12}
+							>
+								<Card className={classes.cardContentRoot}>
+									<CardActionArea>
+										<CardMedia
+											square
+											className={classes.media}
+											image={item.image}
+											title={item.nama}
+										/>
+										<CardContent>
+											<Typography gutterBottom variant="h5" component="h2" className={classes.title}>
+												{item.nama}
+											</Typography>
+											<Typography variant="body2" color="textSecondary" component="p">
+												<NumberFormat value={item.harga} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+											</Typography>
+										</CardContent>
+									</CardActionArea>
+									<CardActions>
 										<Typography variant="body2" color="textSecondary" component="p">
-											<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+											Stok : <NumberFormat value={item.stok} displayType={'text'} thousandSeparator={true} />
 										</Typography>
-									</CardContent>
-								</CardActionArea>
-								<CardActions>
-									<Typography variant="body2" color="textSecondary" component="p">
-										Stok : <NumberFormat value="5" displayType={'text'} thousandSeparator={true} />
-									</Typography>
-								</CardActions>
-							</Card>
-						</Grid>
-						<Grid
-							item
-							lg={4}
-							md={4}
-							sm={6}
-							xs={12}
-						>
-							<Card className={classes.cardContentRoot}>
-								<CardActionArea>
-									<CardMedia
-										square
-										className={classes.media}
-										image="https://api.ngampooz.com/images/120105/20200729200020.jpg"
-										title="Contemplative Reptile"
-									/>
-									<CardContent>
-										<Typography gutterBottom variant="h5" component="h2" className={classes.title}>
-											0.1 gram
-										</Typography>
-										<Typography variant="body2" color="textSecondary" component="p">
-											<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-										</Typography>
-									</CardContent>
-								</CardActionArea>
-								<CardActions>
-									<Typography variant="body2" color="textSecondary" component="p">
-										Stok : <NumberFormat value="5" displayType={'text'} thousandSeparator={true} />
-									</Typography>
-								</CardActions>
-							</Card>
-						</Grid>
-						<Grid
-							item
-							lg={4}
-							md={4}
-							sm={6}
-							xs={12}
-						>
-							<Card className={classes.cardContentRoot}>
-								<CardActionArea>
-									<CardMedia
-										square
-										className={classes.media}
-										image="https://api.ngampooz.com/images/120105/20200729200020.jpg"
-										title="Contemplative Reptile"
-									/>
-									<CardContent>
-										<Typography gutterBottom variant="h5" component="h2" className={classes.title}>
-											0.1 gram
-										</Typography>
-										<Typography variant="body2" color="textSecondary" component="p">
-											<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-										</Typography>
-									</CardContent>
-								</CardActionArea>
-								<CardActions>
-									<Typography variant="body2" color="textSecondary" component="p">
-										Stok : <NumberFormat value="5" displayType={'text'} thousandSeparator={true} />
-									</Typography>
-								</CardActions>
-							</Card>
-						</Grid>
-						<Grid
-							item
-							lg={4}
-							md={4}
-							sm={6}
-							xs={12}
-						>
-							<Card className={classes.cardContentRoot}>
-								<CardActionArea>
-									<CardMedia
-										square
-										className={classes.media}
-										image="https://api.ngampooz.com/images/120105/20200729200020.jpg"
-										title="Contemplative Reptile"
-									/>
-									<CardContent>
-										<Typography gutterBottom variant="h5" component="h2" className={classes.title}>
-											0.1 gram
-										</Typography>
-										<Typography variant="body2" color="textSecondary" component="p">
-											<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-										</Typography>
-									</CardContent>
-								</CardActionArea>
-								<CardActions>
-									<Typography variant="body2" color="textSecondary" component="p">
-										Stok : <NumberFormat value="5" displayType={'text'} thousandSeparator={true} />
-									</Typography>
-								</CardActions>
-							</Card>
-						</Grid>
+									</CardActions>
+								</Card>
+							</Grid>
+						))}
 					</Grid>
 				</PerfectScrollbar>
 			</CardContent>
