@@ -19,11 +19,22 @@ import { Provider } from 'react-redux'
 import store from './store'
 import Alert from './components/layout/Alert'
 
+// Clear Cache
+import { useClearCache } from 'react-clear-cache';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
+
 
 
 const browserHistory = createBrowserHistory();
 
 export default function App() {
+  const { isLatestVersion, emptyCacheStorage } = useClearCache({ duration: 5000 });
   const fetchData = async () => {
       messaging.requestPermission()
       .then(async function() {
@@ -45,6 +56,35 @@ export default function App() {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
+      {!isLatestVersion && (
+          <Dialog
+            open={true}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">{"Update info"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Update aplikasi nya dulu yuk
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button color="primary">
+                Tidak
+              </Button>
+              <Button 
+                onClick={e => {
+                  e.preventDefault();
+                  emptyCacheStorage();
+                }} 
+                color="primary" 
+                autoFocus
+              >
+                Ya
+              </Button>
+            </DialogActions>
+          </Dialog>
+        )}
         <Alert />
         <Router history={browserHistory}>
           <Routes />
