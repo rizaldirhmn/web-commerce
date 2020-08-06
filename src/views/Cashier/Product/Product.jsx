@@ -8,6 +8,7 @@ import {
 	CardActions,
 	CardActionArea,
 	CardMedia,
+	CardHeader
 } from '@material-ui/core'
 import PerfectScrollbar from '@opuscapita/react-perfect-scrollbar'
 import NumberFormat from 'react-number-format'
@@ -23,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   cardContentRoot: {
 		width: '90%',
 		marginBottom: theme.spacing(2),
-		marginTop: theme.spacing(2),
+		marginTop: theme.spacing(1),
   },
   media: {
     height: 140,
@@ -81,6 +82,9 @@ const Product = () => {
 		<Card
 			className={classes.root}
 		>
+			<CardHeader
+				title="EOA Gold"
+			/>
 			<CardContent className={classes.cardContent}>
 				<PerfectScrollbar>
 					<Grid

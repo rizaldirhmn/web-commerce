@@ -9,10 +9,14 @@ import {
 
 const useStyles = makeStyles(theme => ({
     root: {
-        // padding: theme.spacing(2),
         width: '100%',
         height: '100px',
         borderRadius: theme.spacing(1)
+    },
+    btnLink: {
+        [theme.breakpoints.down('sm')]: {
+            fontSize: 12
+        }
     }
 }))
 
@@ -23,9 +27,9 @@ const Category = () => {
         <Card className={classes.root}>
             <CardContent>
                 <Toolbar>
-                    <Button color="inherit">Semua Produk</Button>
-                    <Button color="inherit">EOA Gold</Button>
-                    <Button color="inherit">Lainnya</Button>
+                    <Button color="inherit" className={classes.btnLink}>Semua Produk</Button>
+                    <Button color="inherit" className={classes.btnLink}>EOA Gold</Button>
+                    <Button color="inherit" className={classes.btnLink}>Lainnya</Button>
                 </Toolbar>
             </CardContent>
         </Card>
