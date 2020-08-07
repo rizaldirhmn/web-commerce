@@ -3,19 +3,10 @@ import { makeStyles } from '@material-ui/styles'
 import { 
   Grid, 
   Typography,
-	Button,
-	Paper,
-	TextField,
-	MenuItem,
-	IconButton,
-	InputBase,
-	Divider,
 	Hidden,
 	Badge,
 	SwipeableDrawer
 } from '@material-ui/core'
-import SearchIcon from '@material-ui/icons/Search'
-import AddUserIcon from '@material-ui/icons/People'
 import Fab from '@material-ui/core/Fab'
 import CartIcon from '@material-ui/icons/AddShoppingCart'
 
@@ -23,6 +14,8 @@ import CartIcon from '@material-ui/icons/AddShoppingCart'
 import Product from './Product'
 import Cart from './Cart'
 import Category from './Category'
+import MobileView from './MobileView'
+import SearchCustomer from './SearchCustomer'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -102,6 +95,8 @@ const Cashier = () => {
 	}
 
   return (
+		<>
+		<Hidden only={['sm','xs']}>
       <div className={classes.root}>
         <div className={classes.bgColor}></div>
         <Grid
@@ -113,121 +108,8 @@ const Cashier = () => {
             <Typography variant="h4">Kasir</Typography>
           </Grid>
         </Grid>
-				<div className={classes.row}>
-					<Grid
-						container
-						spacing={2}
-					>
-						<Grid
-							item
-							lg={4}
-							md={6}
-							sm={6}
-							xs={12}
-						>
-							<Typography>Cari Customer Berdasarkan</Typography>
-							<Paper 
-                className={classes.catSearch}
-							>
-								<TextField
-									select
-									defaultValue='nama'
-									name="params"
-									// onChange={event => setCatQuery(event.target.value)}
-									className={classes.catSelectSearch}
-								>
-									<MenuItem value='nama'>Nama</MenuItem>
-									<MenuItem value='telepon'>No Telepon</MenuItem>
-									<MenuItem value='no_buku_anggota'>No Buku Anggota</MenuItem>
-								</TextField>
-							</Paper>
-						</Grid>
-						<Grid
-							item
-							lg={4}
-							md={6}
-							sm={6}
-							xs={12}
-						>
-							<Typography>Tambah Customer Baru</Typography>
-							<Paper 
-                className={classes.catSearch}
-							>
-								<Button variant="outlined" startIcon={<AddUserIcon />}>
-									Tambah Customer
-								</Button>
-							</Paper>
-						</Grid>
-					</Grid>
-				</div>
-				<div className={classes.row}>
-					<Grid
-						container
-						spacing={2}
-					>
-						<Grid
-							item
-							lg={4}
-							md={6}
-							sm={6}
-							xs={12}
-						>
-							<Typography>Cari Customer</Typography>
-							<Paper component="form" className={classes.searchRoot}>
-								<InputBase
-									className={classes.input}
-									name="pesan"
-									placeholder="Cari Customer"
-									inputProps={{ 'aria-label': 'Cari Customer' }}
-								/>
-								<Divider className={classes.divider} orientation="vertical" />
-								<IconButton type="submit" className={classes.iconButton} aria-label="search">
-									<SearchIcon />
-								</IconButton>
-							</Paper>
-						</Grid>
-						<Grid
-							item
-							lg={4}
-							md={6}
-							sm={6}
-							xs={12}
-						>
-							<Typography>Tipe Customer</Typography>
-							<Paper 
-                className={classes.catSearch}
-							>
-								<InputBase
-									className={classes.catSelectSearch}
-									placeholder="Tipe Customer"
-									InputProps={{
-										readOnly: true,
-									}}
-								/>
-							</Paper>
-						</Grid>
-						<Grid
-							item
-							lg={4}
-							md={6}
-							sm={6}
-							xs={12}
-						>
-							<Typography>No ID</Typography>
-							<Paper 
-                className={classes.catSearch}
-							>
-								<InputBase
-									className={classes.catSelectSearch}
-									placeholder="No ID"
-									InputProps={{
-										readOnly: true,
-									}}
-								/>
-							</Paper>
-						</Grid>
-					</Grid>
-				</div>
+				
+				<SearchCustomer />
 
 				<div className={classes.row}>
 					<Grid
@@ -288,7 +170,12 @@ const Cashier = () => {
 					</Hidden>
 				</div>
       </div>
-    
+		</Hidden>
+
+		<Hidden only={['md','lg','xl']}>
+			<MobileView />
+		</Hidden>
+    </>
   );
 };
 

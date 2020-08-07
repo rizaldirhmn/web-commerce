@@ -3,7 +3,8 @@ import { makeStyles } from '@material-ui/styles';
 import { 
   Grid, 
   Typography,
-  Button
+  Button,
+  Hidden
 } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -113,31 +114,57 @@ const Dashboard = () => {
             <TotalCost />
           </Grid>
         </Grid>
-        <Grid
-          container
-          spacing={2}
-        >
-          <Grid
-            item
-            lg={8}
-            md={8}
-            sm={12}
-            xs={12}
-          >
-            <OverviewTodayPricing />
-          </Grid>
-          <Grid
-            item
-            lg={4}
-            md={4}
-            sm={6}
-            xs={12}
-          >
-            <TotalProfit />
-          </Grid>
-        </Grid>
+          <Hidden only={['sm','xs']}>
+              <Grid
+                container
+                spacing={2}
+              >
+                <Grid
+                  item
+                  lg={8}
+                  md={8}
+                  sm={12}
+                  xs={12}
+                >
+                  <OverviewTodayPricing />
+                </Grid>
+                <Grid
+                  item
+                  lg={4}
+                  md={4}
+                  sm={6}
+                  xs={12}
+                >
+                  <TotalProfit />
+                </Grid>
+              </Grid>
+          </Hidden>
+          <Hidden only={['md','lg','xl']}>
+              <Grid
+                container
+                spacing={2}
+              >
+                <Grid
+                  item
+                  lg={4}
+                  md={4}
+                  sm={6}
+                  xs={12}
+                >
+                  <TotalProfit />
+                </Grid>
+                <Grid
+                  item
+                  lg={8}
+                  md={8}
+                  sm={12}
+                  xs={12}
+                >
+                  <OverviewTodayPricing />
+                </Grid>
+              </Grid>
+          </Hidden>
       </div>
-    
   );
 };
 

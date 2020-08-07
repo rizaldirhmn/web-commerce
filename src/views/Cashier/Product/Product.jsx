@@ -9,7 +9,7 @@ import {
 	CardActionArea,
 	CardMedia,
 	CardHeader,
-	SwipeableDrawer
+	SwipeableDrawer,
 } from '@material-ui/core'
 import PerfectScrollbar from '@opuscapita/react-perfect-scrollbar'
 import NumberFormat from 'react-number-format'
@@ -25,18 +25,30 @@ const useStyles = makeStyles(theme => ({
 		width: '100%',
 		height: '500px'
 	},
-  cardContentRoot: {
+	cardContentRoot: {
 		width: '90%',
 		marginBottom: theme.spacing(2),
 		marginTop: theme.spacing(1),
-  },
-  media: {
-    height: 140,
+	},
+	media: {
+		height: 140,
 	},
 	title: {
 		fontSize: 16,
 		[theme.breakpoints.down('sm')]: {
-			fontSize: 12
+			fontSize: 16
+		},
+	},
+	price: {
+		fontSize: 16,
+		[theme.breakpoints.down('sm')]: {
+			fontSize: 16
+		},
+	},
+	stock: {
+		fontSize: 16,
+		[theme.breakpoints.down('sm')]: {
+			fontSize: 15
 		},
 	}
 }));
@@ -124,13 +136,13 @@ const Product = () => {
 											<Typography gutterBottom variant="h5" component="h2" className={classes.title}>
 												{item.nama}
 											</Typography>
-											<Typography variant="body2" color="textSecondary" component="p">
+											<Typography variant="body2" color="textSecondary" component="p" className={classes.price}>
 												<NumberFormat value={item.harga} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 											</Typography>
 										</CardContent>
 									</CardActionArea>
 									<CardActions>
-										<Typography variant="body2" color="textSecondary" component="p">
+										<Typography variant="body2" color="textSecondary" component="p" className={classes.stock}>
 											Stok : <NumberFormat value={item.stok} displayType={'text'} thousandSeparator={true} />
 										</Typography>
 									</CardActions>
