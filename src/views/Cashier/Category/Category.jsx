@@ -13,7 +13,12 @@ const useStyles = makeStyles(theme => ({
         height: '100px',
         borderRadius: theme.spacing(1)
     },
+    content: {
+        margin: 'auto',
+        textAlign: 'center'
+    },
     btnLink: {
+        margin: 'auto',
         [theme.breakpoints.down('sm')]: {
             fontSize: 12
         }
@@ -25,11 +30,11 @@ const Category = () => {
 
     return(
         <Card className={classes.root}>
-            <CardContent>
+            <CardContent className={classes.content}>
                 <Toolbar>
-                    <Button color="inherit" className={classes.btnLink}>Semua Produk</Button>
-                    <Button color="inherit" className={classes.btnLink}>EOA Gold</Button>
-                    <Button color="inherit" className={classes.btnLink}>Lainnya</Button>
+                    <Button variant="outlined" color="primary" className={classes.btnLink}>Semua Produk</Button>
+                    <Button variant="contained" color="primary" className={classes.btnLink}>EOA Gold</Button>
+                    <Button variant="outlined" color="primary" className={classes.btnLink}>Lainnya</Button>
                 </Toolbar>
             </CardContent>
         </Card>

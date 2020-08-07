@@ -19,7 +19,7 @@ import CounterSlice from './CounterSlice'
 
 const useStyles = makeStyles(theme => ({
 	root:{
-		padding: theme.spacing(2)
+		padding: theme.spacing(1)
 	},	
 	cardContent: {
 		width: '100%',

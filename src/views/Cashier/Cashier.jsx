@@ -114,7 +114,6 @@ const Cashier = () => {
 				<div className={classes.row}>
 					<Grid
 						container
-						spacing={2}
 					>
 						<Grid
 							item

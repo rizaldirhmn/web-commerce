@@ -229,7 +229,7 @@ const Main = props => {
               <ListItemIcon>
                 <DashboardIcon style={{ color: textMenuWhite }} />
               </ListItemIcon>
-              <ListItemText primary={<Typography type="subtitle1" className={classes.textMenu}>Dashboard</Typography>} />
+              <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Dashboard</Typography>} />
             </ListItem>
           </Button>
           <Button
@@ -242,7 +242,7 @@ const Main = props => {
               <ListItemIcon>
                 <CartIcon style={{ color: textMenuWhite }} />
               </ListItemIcon>
-              <ListItemText primary={<Typography type="subtitle1" className={classes.textMenu}>Cashier</Typography>} />
+              <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Cashier</Typography>} />
             </ListItem>
           </Button>
           <Button
@@ -255,7 +255,7 @@ const Main = props => {
                 <ListItemIcon>
                   <UserIcon style={{ color: textMenuWhite }} />
                 </ListItemIcon>
-                <ListItemText primary={<Typography type="subtitle1" className={classes.textMenu}>Customer</Typography>} />
+                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Customer</Typography>} />
             </ListItem>
           </Button>
           <Button
@@ -266,7 +266,7 @@ const Main = props => {
                 <ListItemIcon>
                   <SignOutIcon style={{ color: textMenuWhite }} />
                 </ListItemIcon>
-                <ListItemText primary={<Typography type="subtitle1" className={classes.textMenu}>Signout</Typography>} />
+                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Sign Out</Typography>} />
             </ListItem>
           </Button>
           {/* <div className={classes.bottomPush}>

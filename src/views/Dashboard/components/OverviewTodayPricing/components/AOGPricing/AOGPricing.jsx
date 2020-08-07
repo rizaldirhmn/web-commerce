@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	caption: {
 		fontWeight: 700,
-		fontSize: 15,
+		fontSize: 18,
 		color: '#fff',
 		fontFamily: 'Arial',
 	},
@@ -95,7 +95,7 @@ const AOGPricing = props => {
 							>
 								<Grid item>
 									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										<NumberFormat value="500000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</Grid>
 							</Grid>

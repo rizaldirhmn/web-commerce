@@ -36,6 +36,9 @@ const useStyles = makeStyles(theme => ({
   extendedIcon: {
     marginRight: theme.spacing(1),
   },
+  executiveSummary: {
+    marginBottom: theme.spacing(2)
+  }
 }));
 
 const CustomRouterLink = forwardRef((props, ref) => (

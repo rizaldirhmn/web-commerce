@@ -36,7 +36,7 @@ const Profile = props => {
   const user = {
     name: 'Rizaldi Rahman',
     avatar: '/images/avatars/avatar.png',
-    position: 'Operantor'
+    position: 'Operator'
   };
 
   return (

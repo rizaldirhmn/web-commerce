@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	caption: {
 		fontWeight: 700,
-		fontSize: 15,
+		fontSize: 18,
 		color: '#fff',
 		fontFamily: 'Arial',
 	},
@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
   differenceValue: {
     color: theme.palette.error.dark,
     marginRight: theme.spacing(1)
-  }
+  },
 }));
 
 const BranchPricing = props => {
@@ -95,7 +95,7 @@ const BranchPricing = props => {
 							>
 								<Grid item>
 									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										<NumberFormat value="135150" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</Grid>
 							</Grid>
@@ -128,7 +128,7 @@ const BranchPricing = props => {
 							>
 								<Grid item>
 									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										<NumberFormat value="269150" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</Grid>
 							</Grid>
@@ -161,7 +161,7 @@ const BranchPricing = props => {
 							>
 								<Grid item>
 									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										<NumberFormat value="600000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</Grid>
 							</Grid>
@@ -194,7 +194,7 @@ const BranchPricing = props => {
 							>
 								<Grid item>
 									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										<NumberFormat value="1074500" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</Grid>
 							</Grid>
@@ -227,7 +227,7 @@ const BranchPricing = props => {
 							>
 								<Grid item>
 									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										<NumberFormat value="2088500" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</Grid>
 							</Grid>
@@ -260,7 +260,7 @@ const BranchPricing = props => {
 							>
 								<Grid item>
 									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										<NumberFormat value="5150500" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</Grid>
 							</Grid>
@@ -312,7 +312,7 @@ const BranchPricing = props => {
 							>
 								<Grid item>
 									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										<NumberFormat value="135150" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</Grid>
 							</Grid>
@@ -345,7 +345,7 @@ const BranchPricing = props => {
 							>
 								<Grid item>
 									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										<NumberFormat value="269150" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</Grid>
 							</Grid>
@@ -378,7 +378,7 @@ const BranchPricing = props => {
 							>
 								<Grid item>
 									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										<NumberFormat value="600000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</Grid>
 							</Grid>
@@ -411,7 +411,7 @@ const BranchPricing = props => {
 							>
 								<Grid item>
 									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										<NumberFormat value="1074500" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</Grid>
 							</Grid>
@@ -444,7 +444,7 @@ const BranchPricing = props => {
 							>
 								<Grid item>
 									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										<NumberFormat value="2088500" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</Grid>
 							</Grid>
@@ -477,7 +477,7 @@ const BranchPricing = props => {
 							>
 								<Grid item>
 									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										<NumberFormat value="5150500" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</Grid>
 							</Grid>
@@ -529,7 +529,7 @@ const BranchPricing = props => {
 							>
 								<Grid item>
 									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										<NumberFormat value="135150" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</Grid>
 							</Grid>
@@ -562,7 +562,7 @@ const BranchPricing = props => {
 							>
 								<Grid item>
 									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										<NumberFormat value="269150" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</Grid>
 							</Grid>
@@ -595,7 +595,7 @@ const BranchPricing = props => {
 							>
 								<Grid item>
 									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										<NumberFormat value="600000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</Grid>
 							</Grid>
@@ -628,7 +628,7 @@ const BranchPricing = props => {
 							>
 								<Grid item>
 									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										<NumberFormat value="1074500" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</Grid>
 							</Grid>
@@ -661,7 +661,7 @@ const BranchPricing = props => {
 							>
 								<Grid item>
 									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										<NumberFormat value="2088500" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</Grid>
 							</Grid>
@@ -694,7 +694,7 @@ const BranchPricing = props => {
 							>
 								<Grid item>
 									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										<NumberFormat value="5150500" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</Grid>
 							</Grid>

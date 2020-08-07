@@ -9,15 +9,19 @@ const useStyles = makeStyles(theme => ({
   root: {
 		height: 'auto',
 		backgroundColor: '#FFFFFF',
-		borderRadius: theme.spacing(2)
+    borderRadius: theme.spacing(2),
+    marginTop: theme.spacing(2)
   },
   content: {
     alignItems: 'center',
     display: 'flex'
   },
   title: {
-		fontWeight: 700,
-		color: '#000'
+    fontSize: 18,
+    fontFamily: 'Roboto',
+		fontWeight: 400,
+    color: '#757575',
+    marginTop: theme.spacing(2)
 	},
 	numbers: {
 		color: '#000'
@@ -61,27 +65,19 @@ const TotalProfit = props => {
           justify="space-between"
         >
           <Grid item>
+						<Typography className={classes.numbers} variant="h3">
+							<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+						</Typography>
             <Typography
               className={classes.title}
               color="textSecondary"
               gutterBottom
               variant="body2"
             >
-              PENDAPATAN BERSIH
+              Total Pendapatan Bersih
             </Typography>
-						<Typography className={classes.numbers} variant="h3">
-							<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-						</Typography>
           </Grid>
         </Grid>
-        <div className={classes.difference}>
-          <Typography
-            className={classes.caption}
-            variant="caption"
-          >
-            See Details
-          </Typography>
-        </div>
       </CardContent>
     </Card>
   );
