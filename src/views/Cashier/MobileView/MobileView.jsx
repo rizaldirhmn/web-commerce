@@ -7,14 +7,16 @@ import {
     Badge,
     SwipeableDrawer,
 	Button,
+	CardActionArea
 } from '@material-ui/core'
 import CartIcon from '@material-ui/icons/AddShoppingCart'
 import AddUserIcon from '@material-ui/icons/PersonAdd'
+import PerfectScrollbar from '@opuscapita/react-perfect-scrollbar'
 
 import ProductCard from './ProductCard'
 import Cart from '../Cart'
 import SearchCustomer from '../SearchCustomer'
-import PerfectScrollbar from '@opuscapita/react-perfect-scrollbar'
+import CounterSlice from '../Product/CounterSlice'
 
 const useStyles = makeStyles(theme => ({
     content: {
@@ -48,13 +50,13 @@ const useStyles = makeStyles(theme => ({
 	},
 	dividerHorizontal: {
 		marginTop: 10,
-		marginBottom: 10
 	}
 
 }))
 
 const MobileView = () => {
-    const classes = useStyles()
+	const classes = useStyles()
+	// Modal Cart
     const [ modalOpen, setModalOpen ] = useState(false)
 
 	const handleModalOpen = () => {
@@ -64,7 +66,8 @@ const MobileView = () => {
 	const handleModalClose = () => {
 		setModalOpen(false)
 	}
-
+	// End Cart
+	// Modal Search
 	const [ searchModalOpen, setSearchModalOpen ] = useState(false)
 
 	const handleSearchModalOpen = () => {
@@ -74,6 +77,18 @@ const MobileView = () => {
 	const handleSearchModalClose = () => {
 		setSearchModalOpen(false)
 	}
+	// End Search
+	// QTY Modal
+	const [ qtyModalOpen, setQtyModalOpen ] = useState(false)
+
+	const handleQtyModalOpen = () => {
+		setQtyModalOpen(true)
+	}
+
+	const handleQtyModalClose = () => {
+		setQtyModalOpen(false)
+	}
+	// End QTY
 
     const produk = [
 		{
@@ -152,7 +167,10 @@ const MobileView = () => {
 							item
 							xs={12}
 						>
-							<ProductCard product={item} />
+							<CardActionArea onClick={handleQtyModalOpen}>
+								<ProductCard product={item} />
+							</CardActionArea>
+							<hr />
 						</Grid>
 					))}
 				</Grid>
@@ -181,6 +199,15 @@ const MobileView = () => {
 				disableSwipeToOpen
 			>
 				<SearchCustomer />
+			</SwipeableDrawer>
+			<SwipeableDrawer
+				anchor='bottom'
+				open={qtyModalOpen}
+				onClose={handleQtyModalClose}
+				onOpen={handleQtyModalOpen}
+				disableSwipeToOpen
+			>
+				<CounterSlice />
 			</SwipeableDrawer>
         </div>
     </>

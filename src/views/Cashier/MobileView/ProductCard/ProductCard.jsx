@@ -10,6 +10,7 @@ const useStyles = makeStyles(theme => ({
   root: {
 		width: '100%',
 		marginBottom: theme.spacing(2),
+		marginTop: theme.spacing(2)
 	},
   imageContainer: {
     height: 100,
@@ -36,38 +37,38 @@ const ProductCard = props => {
 	const classes = useStyles()
   return (
 		<div className={classes.root}>
-			<Grid
-				container
-				justify="space-between"
-			>
 				<Grid
-					item
-					xs={3}
+					container
+					justify="space-between"
 				>
-					<div className={classes.imageContainer}>
-						<img
-							alt="Product"
-							className={classes.image}
-							src={product.image}
-						/>
-					</div>
-					
+					<Grid
+						item
+						xs={3}
+					>
+						<div className={classes.imageContainer}>
+							<img
+								alt="Product"
+								className={classes.image}
+								src={product.image}
+							/>
+						</div>
+						
+					</Grid>
+					<Grid
+						item
+						xs={6}
+					>
+						<Typography variant='h5'>
+							{product.nama}
+						</Typography>
+						<Typography className={classes.capDetail}>
+							<NumberFormat value={product.harga} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+						</Typography>
+						<Typography className={classes.capDetail}>
+							Stok : {product.stok}
+						</Typography>
+					</Grid>
 				</Grid>
-				<Grid
-					item
-					xs={6}
-				>
-					<Typography variant='h5'>
-						{product.nama}
-					</Typography>
-					<Typography className={classes.capDetail}>
-						<NumberFormat value={product.harga} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-					</Typography>
-					<Typography className={classes.capDetail}>
-						Stok : {product.stok}
-					</Typography>
-				</Grid>
-			</Grid>
 		</div>
   );
 };
