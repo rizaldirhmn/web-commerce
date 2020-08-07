@@ -17,7 +17,7 @@ import { makeStyles } from '@material-ui/styles'
 const useStyles = makeStyles(theme => ({
     root: {
         padding: theme.spacing(1),
-        width: '50%',
+        width: '30%',
         margin: 'auto',
         [theme.breakpoints.down('sm')]: {
             borderRadius: theme.spacing(4),
@@ -63,8 +63,9 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const PaymentMethodOptions = () => {
+const PaymentMethodOptions = (props) => {
     const classes = useStyles()
+    const { handleDrawerPaymentClose } = props
     
     return(
         <Card className={classes.root}>
@@ -161,7 +162,7 @@ const PaymentMethodOptions = () => {
                 >
                     <Grid
                         item
-                        lg={4}
+                        lg={6}
                         md={6}
                         sm={6}
                         xs={12}
@@ -178,7 +179,7 @@ const PaymentMethodOptions = () => {
                     </Grid>
                     <Grid
                         item
-                        lg={4}
+                        lg={6}
                         md={6}
                         sm={6}
                         xs={12}
@@ -198,12 +199,12 @@ const PaymentMethodOptions = () => {
             <CardActions>
                 <Grid container spacing={2} justify="space-between">
                     <Grid item>
-                        <Button variant="outlined" size="medium" color="primary">
+                        <Button onClick={handleDrawerPaymentClose} variant="outlined" size="medium" color="primary">
                             Batal
                         </Button>
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" size="medium" color="primary">
+                        <Button onClick={handleDrawerPaymentClose} variant="contained" size="medium" color="primary">
                             Bayar
                         </Button>
                     </Grid>

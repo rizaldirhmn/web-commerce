@@ -462,7 +462,7 @@ const Cart = () => {
                 onOpen={handleDrawerPaymentOpen}
                 disableSwipeToOpen
             >
-                <PaymentMethodOptions />
+                <PaymentMethodOptions handleDrawerPaymentClose={handleDrawerPaymentClose} />
             </SwipeableDrawer>
         </Card>
     )
