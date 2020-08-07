@@ -149,7 +149,7 @@ const Cashier = () => {
 								inputProps={{ 'aria-label': 'Cari Customer' }}
 							/>
 							<Divider className={classes.divider} orientation="vertical" />
-							<IconButton type="submit" className={classes.iconButton} aria-label="search">
+							<IconButton type="button" className={classes.iconButton} aria-label="search">
 								<SearchIcon />
 							</IconButton>
 						</Paper>
