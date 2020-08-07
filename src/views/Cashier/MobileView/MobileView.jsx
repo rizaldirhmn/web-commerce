@@ -7,7 +7,11 @@ import {
     Badge,
     SwipeableDrawer,
 	Button,
-	CardActionArea
+	CardActionArea,
+	CardContent,
+	Card,
+	CardActions,
+	CardHeader
 } from '@material-ui/core'
 import CartIcon from '@material-ui/icons/AddShoppingCart'
 import AddUserIcon from '@material-ui/icons/PersonAdd'
@@ -59,9 +63,8 @@ const MobileView = () => {
 	// Modal Cart
     const [ modalOpen, setModalOpen ] = useState(false)
 
-	const handleModalOpen = (event) => {
-		// setModalOpen(true)
-		console.log(event)
+	const handleModalOpen = () => {
+		setModalOpen(true)
 	}
 
 	const handleModalClose = () => {
@@ -162,7 +165,7 @@ const MobileView = () => {
 						startIcon={<AddUserIcon />}
 						onClick={handleSearchModalOpen}
 					>
-						Cari Pembeli
+						Cari Customer
 					</Button>
                 </Grid>
             </Grid>
@@ -207,7 +210,17 @@ const MobileView = () => {
 				onOpen={handleSearchModalOpen}
 				disableSwipeToOpen
 			>
-				<SearchCustomer />
+				<Card>
+					<CardHeader title="Cari Customer" />
+					<CardContent>
+						<SearchCustomer />
+					</CardContent>
+					<CardActions>
+						<Button fullWidth variant="contained" onClick={handleSearchModalClose} color="primary" size="small">
+							Terapkan
+						</Button>
+					</CardActions>
+				</Card>
 			</SwipeableDrawer>
 			<SwipeableDrawer
 				anchor='bottom'

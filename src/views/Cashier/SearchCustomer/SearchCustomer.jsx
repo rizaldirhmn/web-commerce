@@ -14,10 +14,6 @@ import SearchIcon from '@material-ui/icons/Search'
 
 const useStyles = makeStyles(theme => ({
   root: {
-		// padding: theme.spacing(4),
-		[theme.breakpoints.down('sm')]: {
-			padding: theme.spacing(4)
-		}
   },
   bgColor: {
     backgroundColor: '#BCE0FD',
@@ -170,6 +166,7 @@ const Cashier = () => {
 							className={classes.catSearch}
 						>
 							<InputBase
+								disabled
 								className={classes.catSelectSearch}
 								placeholder="Tipe Customer"
 								InputProps={{
@@ -190,6 +187,7 @@ const Cashier = () => {
 							className={classes.catSearch}
 						>
 							<InputBase
+								disabled
 								className={classes.catSelectSearch}
 								placeholder="No ID"
 								InputProps={{

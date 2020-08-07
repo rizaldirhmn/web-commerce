@@ -116,7 +116,7 @@ const CounterSlice = (props) => {
                         </Button>
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" size="medium" color="primary">
+                        <Button variant="contained" onClick={handleModalClose} size="medium" color="primary">
                             Simpan
                         </Button>
                     </Grid>
