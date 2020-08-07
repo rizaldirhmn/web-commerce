@@ -7,7 +7,7 @@ import {
 
 export const addLogin = (data, history) => async dispatch => {
 
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/partner/auth/login`
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/admin/auth/login`
 
     const myData = new FormData();
     myData.set('email', data.email);
