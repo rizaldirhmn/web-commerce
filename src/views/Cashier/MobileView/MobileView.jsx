@@ -59,8 +59,9 @@ const MobileView = () => {
 	// Modal Cart
     const [ modalOpen, setModalOpen ] = useState(false)
 
-	const handleModalOpen = () => {
-		setModalOpen(true)
+	const handleModalOpen = (event) => {
+		// setModalOpen(true)
+		console.log(event)
 	}
 
 	const handleModalClose = () => {
@@ -80,9 +81,11 @@ const MobileView = () => {
 	// End Search
 	// QTY Modal
 	const [ qtyModalOpen, setQtyModalOpen ] = useState(false)
+	const [ item, setItem ] = useState()
 
-	const handleQtyModalOpen = () => {
+	const handleQtyModalOpen = (event) => {
 		setQtyModalOpen(true)
+		setItem(event)
 	}
 
 	const handleQtyModalClose = () => {
@@ -92,36 +95,42 @@ const MobileView = () => {
 
     const produk = [
 		{
+			id : 1,
 			nama : '0.1 gram',
 			image: `${process.env.PUBLIC_URL + '/images/produk/0,1.jpg'}`,
 			harga: 1000000,
 			stok : 10
 		},
 		{
+			id : 2,
 			nama : '0.2 gram',
 			image: `${process.env.PUBLIC_URL + '/images/produk/0,2.jpg'}`,
 			harga: 1000000,
 			stok : 10
 		},
 		{
+			id : 3,
 			nama : '0.5 gram',
 			image: `${process.env.PUBLIC_URL + '/images/produk/0,5.jpg'}`,
 			harga: 1000000,
 			stok : 10
 		},
 		{
+			id : 4,
 			nama : '1 gram',
 			image: `${process.env.PUBLIC_URL + '/images/produk/1.jpg'}`,
 			harga: 1000000,
 			stok : 10
 		},
 		{
+			id : 5,
 			nama : '2 gram',
 			image: `${process.env.PUBLIC_URL + '/images/produk/2.jpg'}`,
 			harga: 1000000,
 			stok : 10
 		},
 		{
+			id : 6,
 			nama : '5 gram',
 			image: `${process.env.PUBLIC_URL + '/images/produk/5.jpg'}`,
 			harga: 1000000,
@@ -167,7 +176,7 @@ const MobileView = () => {
 							item
 							xs={12}
 						>
-							<CardActionArea onClick={handleQtyModalOpen}>
+							<CardActionArea onClick={() => handleQtyModalOpen(item)}>
 								<ProductCard product={item} />
 							</CardActionArea>
 							<hr />
@@ -207,7 +216,7 @@ const MobileView = () => {
 				onOpen={handleQtyModalOpen}
 				disableSwipeToOpen
 			>
-				<CounterSlice />
+				<CounterSlice handleModalClose={handleQtyModalClose} product={item} />
 			</SwipeableDrawer>
         </div>
     </>

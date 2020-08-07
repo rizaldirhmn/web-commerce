@@ -95,9 +95,11 @@ const Product = () => {
 	]
 
 	const [ modalOpen, setModalOpen ] = useState(false)
+	const [ item, setItem ] = useState()
 
-	const handleModalOpen = () => {
+	const handleModalOpen = (event) => {
 		setModalOpen(true)
+		setItem(event)
 	}
 
 	const handleModalClose = () => {
@@ -125,7 +127,7 @@ const Product = () => {
 								xs={12}
 							>
 								<Card className={classes.cardContentRoot}>
-									<CardActionArea onClick={handleModalOpen}>
+									<CardActionArea onClick={() => handleModalOpen(item)}>
 										<CardMedia
 											square
 											className={classes.media}
@@ -158,7 +160,7 @@ const Product = () => {
 					onOpen={handleModalOpen}
 					disableSwipeToOpen
 				>
-					<CounterSlice handleModalClose={handleModalClose} />
+					<CounterSlice handleModalClose={handleModalClose} product={item} />
 				</SwipeableDrawer>
 			</CardContent>
 		</Card>

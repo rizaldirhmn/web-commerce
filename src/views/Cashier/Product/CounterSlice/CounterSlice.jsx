@@ -9,7 +9,8 @@ import {
     Grid,
     IconButton,
     InputBase,
-    Divider
+    Divider,
+    CardHeader
 } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
@@ -78,7 +79,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const CounterSlice = (props) => {
-    const { handleModalClose } = props
+    const { handleModalClose, product } = props
     const classes = useStyles()
     const [count, setCount] = React.useState(1);
     const more = () => setCount(count + 1);
@@ -88,21 +89,8 @@ const CounterSlice = (props) => {
     return (
         <Card className={classes.root}>
             <hr className={classes.cardNotch} />
+            <CardHeader title={product.nama} />
             <CardContent className={classes.cardContent}>
-                {/* <Typography>Masukan Jumlah</Typography> */}
-                {/* <Button size="small" color="primary" variant="contained" onClick={less}>
-                    -
-                </Button>
-                <TextField type="number" 
-                    // id={cells.id} 
-                    inputProps={{min: 0, style: { textAlign: 'center' }}} // the change is here
-                    InputProps={classes.inputText}  
-                    className={classes.inputComponent} 
-                    onChange={onChange}
-                    value={count} />
-                <Button size="small" color="primary" variant="contained" onClick={more}>
-                    +
-                </Button> */}
                 <Paper component="form" className={classes.searchRoot}>
                     <IconButton onClick={less} className={classes.iconButton}>
                         -
