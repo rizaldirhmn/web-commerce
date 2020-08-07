@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import {
 	Typography,
@@ -8,10 +8,14 @@ import {
 	CardActions,
 	CardActionArea,
 	CardMedia,
-	CardHeader
+	CardHeader,
+	SwipeableDrawer
 } from '@material-ui/core'
 import PerfectScrollbar from '@opuscapita/react-perfect-scrollbar'
 import NumberFormat from 'react-number-format'
+
+// Components
+import CounterSlice from './CounterSlice'
 
 const useStyles = makeStyles(theme => ({
 	root:{
@@ -78,6 +82,16 @@ const Product = () => {
 		}
 	]
 
+	const [ modalOpen, setModalOpen ] = useState(false)
+
+	const handleModalOpen = () => {
+		setModalOpen(true)
+	}
+
+	const handleModalClose = () => {
+		setModalOpen(false)
+	}
+
 	return(
 		<Card
 			className={classes.root}
@@ -99,7 +113,7 @@ const Product = () => {
 								xs={12}
 							>
 								<Card className={classes.cardContentRoot}>
-									<CardActionArea>
+									<CardActionArea onClick={handleModalOpen}>
 										<CardMedia
 											square
 											className={classes.media}
@@ -125,6 +139,15 @@ const Product = () => {
 						))}
 					</Grid>
 				</PerfectScrollbar>
+				<SwipeableDrawer
+					anchor='bottom'
+					open={modalOpen}
+					onClose={handleModalClose}
+					onOpen={handleModalOpen}
+					disableSwipeToOpen
+				>
+					<CounterSlice handleModalClose={handleModalClose} />
+				</SwipeableDrawer>
 			</CardContent>
 		</Card>
 	)
