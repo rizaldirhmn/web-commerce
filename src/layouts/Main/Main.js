@@ -30,7 +30,7 @@ import Hidden from '@material-ui/core/Hidden';
 import { Footer, AppBar, AccountName } from './components';
 
 const drawerWidth = 240;
-const drawerColorBlue = '#0277BD';
+const drawerColorBlue = '#011747';
 
 const textMenuWhite = '#FFFFFF';
 

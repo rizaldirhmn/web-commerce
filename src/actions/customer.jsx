@@ -1,0 +1,77 @@
+
+import axios from 'axios'
+import { setAlert } from './alert'
+import { 
+    ADD_CUSTOMER,
+    GET_CUSTOMER,
+} from './types'
+
+export const getCustomer = () => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/customer`
+    const token = sessionStorage.getItem('access_token')
+
+    try {
+        const res = await axios({
+            url: endpoint,
+            method: "GET",
+            loading: true,
+            headers: { 
+              'Content-Type': 'application/json', 
+              'Accept' : 'application/json', 
+              'Authorization' : `bearer ${token}`
+            }
+        });
+
+        dispatch({
+            type: GET_CUSTOMER,
+            payload: res.data
+        })
+
+    } catch (error) {
+        dispatch(setAlert("Something Went Wrong", "error"))
+        console.log(error)
+        // dispatch({
+        //     payload: { msg: error.response.statusText, status: error.response.status },
+        //     type: STAGE_ERROR
+        // })
+    }
+}
+
+export const addCustomer = (formData, history) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/customer`
+
+    const myData = new FormData();
+    myData.set('id_agent', formData.id_agent);
+    myData.set('name', formData.name);
+    myData.set('address', formData.address);
+    myData.set('status', formData.status);
+    myData.set('is_active', formData.is_active);
+
+    try {
+        const res = await axios({
+            url: endpoint,
+            method: "POST",
+            data: myData,
+            loading: true,
+            headers: { 
+              'Content-Type': 'multipart/form-data', 
+              'Accept' : 'application/json', 
+              'Authorization' : `bearer ${sessionStorage.getItem('access_token')}`
+            }
+        });
+        dispatch({
+            type: ADD_CUSTOMER,
+            payload: res.data
+        })
+
+        dispatch(setAlert("Customer Added", "success"))
+        history.push(`/customer`);
+    } catch (error) {
+        dispatch(setAlert("Email atau Password Salah", "error"))
+        console.log(error)
+        // dispatch({
+        //     payload: { msg: error.response.statusText, status: error.response.status },
+        //     type: STAGE_ERROR
+        // })
+    }
+}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import {
     Typography,
@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core'
 import AddCircle from '@material-ui/icons/AddCircle'
 import SearchIcon from '@material-ui/icons/Search'
+import { Link as RouterLink } from 'react-router-dom';
 
 // Components
 import ListCustomer from './ListCustomer'
@@ -59,6 +60,15 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
+const CustomRouterLink = forwardRef((props, ref) => (
+    <div
+      ref={ref}
+      style={{ flexGrow: 1 }}
+    >
+      <RouterLink {...props} />
+    </div>
+));
+
 const Customer = () => {
     const classes = useStyles()
     return(
@@ -81,7 +91,7 @@ const Customer = () => {
                 >
                     <Hidden only={['xs','sm']}>
                         <Grid item lg={6} md={6} sm={6} xs={12}>
-                            <Fab variant="extended" className={classes.btnAddCustomer}>
+                            <Fab variant="extended" className={classes.btnAddCustomer} component={CustomRouterLink} to='/customer/create'>
                                 <AddCircle className={classes.extendedIcon} />
                                 Tambah Customer
                             </Fab>

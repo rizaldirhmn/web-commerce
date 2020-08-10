@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -8,24 +8,19 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import Skeleton from '@material-ui/lab/Skeleton'
+
+import { connect } from 'react-redux';
+import { getCustomer } from '../../../actions/customer'
 
 const columns = [
-  { id: 'no', 'label' : 'No',minWidth: 100},
-  { id: 'nama', label: 'Nama', minWidth: 170 },
   { id: 'no_id', label: 'No ID', minWidth: 100 },
-  { id: 'tipe', label: 'Tipe', minWidth: 100 },
-  { id: 'no_hp', label: 'Nomor HP', minWidth: 100 },
-  { id: 'status', label: 'Status', minWidth: 100 },
-  { id: 'action', label: 'Action', minWidth: 170 },
+  { id: 'nama', label: 'Nama', minWidth: 150 },
+  { id: 'alamat', label: 'Alamat', minWidth: 200 },
+  { id: 'kategori', label: 'Kategori', minWidth: 100 },
+  { id: 'status_aktif', label: 'Status', minWidth: 100 },
+  { id: 'action', label: 'Action', minWidth: 140 },
   
-];
-
-function createData(no, nama, no_id, tipe, no_hp, status, action) {
-  return { no, nama, no_id, tipe, no_hp, status, action };
-}
-
-const rows = [
-  createData('1', 'Rizaldi Rahman', 1324171354, 'Lorem Ipsum','08123123123','Aktif',''),
 ];
 
 const useStyles = makeStyles({
@@ -37,7 +32,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function StickyHeadTable() {
+const ListCustomer = ({ getCustomer, customer : { customers, loading } }) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -50,6 +45,10 @@ export default function StickyHeadTable() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  useEffect(() => {
+		getCustomer()
+	}, [getCustomer]);
 
   return (
     <Paper className={classes.root}>
@@ -69,27 +68,45 @@ export default function StickyHeadTable() {
             </TableRow>
         </TableHead>
         <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-            return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                {columns.map((column) => {
-                    const value = row[column.id];
-                    return (
-                    <TableCell key={column.id} align={column.align}>
-                        {column.format && typeof value === 'number' ? column.format(value) : value}
-                    </TableCell>
-                    );
-                })}
-                </TableRow>
-            );
-            })}
+			{!loading ? (
+				<>
+					{customers.data.map((customer) => (
+						<TableRow>
+							<TableCell>
+								{customer.id_agent}
+							</TableCell>
+							<TableCell>
+								{customer.name}
+							</TableCell>
+							<TableCell>
+								{customer.address}
+							</TableCell>
+							<TableCell>
+								{customer.status}
+							</TableCell>
+							<TableCell>
+								{customer.is_active}
+							</TableCell>
+							<TableCell>
+		
+							</TableCell>
+						</TableRow>
+					))}
+				</>
+			):(
+				<TableRow>
+					<TableCell colSpan={6}>
+						<Skeleton variant="rect"></Skeleton>
+					</TableCell>
+				</TableRow>
+			)}
         </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={!loading && customers.data.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={handleChangePage}
@@ -98,3 +115,9 @@ export default function StickyHeadTable() {
     </Paper>
   );
 }
+
+const mapStateToProps = state => ({
+  customer: state.customer
+})
+
+export default connect(mapStateToProps, { getCustomer })(ListCustomer)

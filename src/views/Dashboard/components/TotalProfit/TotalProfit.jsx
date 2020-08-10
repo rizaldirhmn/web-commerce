@@ -5,6 +5,10 @@ import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography } from '@material-ui/core';
 import NumberFormat from 'react-number-format';
 
+// Chart js
+import { Doughnut } from 'react-chartjs-2'
+import { options, data } from './chart'
+
 const useStyles = makeStyles(theme => ({
   root: {
 		height: 'auto',
@@ -55,6 +59,7 @@ const TotalProfit = props => {
   const classes = useStyles();
 
   return (
+    <>
     <Card
       {...rest}
       className={clsx(classes.root, className)}
@@ -80,6 +85,25 @@ const TotalProfit = props => {
         </Grid>
       </CardContent>
     </Card>
+    <Card
+      {...rest}
+      className={clsx(classes.root, className)}
+    >
+      <CardContent>
+        <Grid
+          container
+          justify="center"
+        >
+          <Grid item>
+            <Doughnut 
+              data={data}
+              options={options}
+            />
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
+    </>
   );
 };
 

@@ -8,7 +8,7 @@ import NumberFormat from 'react-number-format';
 const useStyles = makeStyles(theme => ({
   root: {
 		height: '100%',
-		backgroundColor: '#0195FF',
+		backgroundColor: '#011747',
   },
   content: {
     alignItems: 'center',
@@ -16,24 +16,20 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
 		fontWeight: 700,
-		color: '#fff'
+		color: '#FF9300'
 	},
 	numbers: {
-		color: '#fff'
+		color: '#FF9300'
 	},
 	caption: {
 		fontWeight: 700,
-		color: '#fff',
+		color: '#FF9300',
 		fontFamily: 'Arial',
 	},
   avatar: {
     backgroundColor: '#fff',
     height: 56,
     width: 56
-  },
-  icon: {
-    height: 32,
-    width: 32
   },
   difference: {
     marginTop: theme.spacing(2),

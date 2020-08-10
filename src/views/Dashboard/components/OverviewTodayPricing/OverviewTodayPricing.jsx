@@ -44,10 +44,12 @@ TabPanel.propTypes = {
 
 const AntTabs = withStyles({
   root: {
+    padding: 8,
     borderBottom: '1px solid #e8e8e8',
   },
   indicator: {
-    backgroundColor: '#1890ff',
+    height: 5,
+    backgroundColor: '#FF9300',
   },
 })(Tabs);
 
@@ -56,18 +58,17 @@ const AntTab = withStyles((theme) => ({
     textTransform: 'none',
     minWidth: 72,
     fontWeight: theme.typography.fontWeightRegular,
-    // marginRight: theme.spacing(4),
     margin: 'auto',
     fontFamily: [
       'Roboto',
     ].join(','),
     '&:hover': {
-      color: '#40a9ff',
+      color: '#011747',
       opacity: 1,
     },
     '&$selected': {
       color: '#FFFFFF',
-      backgroundColor: '#0277BD',
+      backgroundColor: '#011747',
       fontWeight: theme.typography.fontWeightMedium,
       borderRadius: theme.spacing(4),
       margin: 'auto'
@@ -115,6 +116,7 @@ export default function ScrollableTabsButtonAuto() {
             aria-label="ant example" 
             variant="scrollable"
             scrollButtons="auto"
+            classes={{ indicator: classes.bigIndicator}}
             centered 
           >
             <AntTab label="Cabang" />
