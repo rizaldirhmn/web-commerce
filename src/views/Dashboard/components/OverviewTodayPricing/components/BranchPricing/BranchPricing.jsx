@@ -1,9 +1,14 @@
-import React from 'react';
-import clsx from 'clsx';
+import React, { useEffect, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography } from '@material-ui/core';
 import NumberFormat from 'react-number-format';
+import Backdrop from '@material-ui/core/Backdrop'
+import CircularProgress from '@material-ui/core/CircularProgress'
+
+// redux
+import { connect } from 'react-redux'
+import { getProduct } from '../../../../../../actions/dashboard'
 
 const useStyles = makeStyles(theme => ({
 	gridRoot: {
@@ -54,669 +59,190 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const BranchPricing = props => {
-  const { className, ...rest } = props;
+const BranchPricing = ({ getProduct, dashboard: {products, loading}}) => {
 
   const classes = useStyles();
 
-  return (
-		<>
-		<div className={classes.gridRoot}>
-			<Grid
-				container
-				spacing={3}
-			>
-				<Grid
-					item
-					lg={12}
-				>
-					<Typography variant="h4">Harga Jual</Typography>
-				</Grid>
-			</Grid>
-			<Grid
-				container
-				spacing={2}
-			>
-				<Grid
-					item
-					lg={4}
-					md={4}
-					sm={6}
-					xs={12}
-				>
-					<Card
-						{...rest}
-						className={clsx(classes.root, className)}
-					>
-						<CardContent>
-							<Grid
-								container
-								justify="space-between"
-							>
-								<Grid item>
-									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="135150" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-									</Typography>
-								</Grid>
-							</Grid>
-							<div className={classes.difference}>
-								<Typography
-									className={classes.caption}
-									variant="caption"
-								>
-									0.1 gram
-								</Typography>
-							</div>
-						</CardContent>
-					</Card>
-				</Grid>
-				<Grid
-					item
-					lg={4}
-					md={4}
-					sm={6}
-					xs={12}
-				>
-					<Card
-						{...rest}
-						className={clsx(classes.root, className)}
-					>
-						<CardContent>
-							<Grid
-								container
-								justify="space-between"
-							>
-								<Grid item>
-									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="269150" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-									</Typography>
-								</Grid>
-							</Grid>
-							<div className={classes.difference}>
-								<Typography
-									className={classes.caption}
-									variant="caption"
-								>
-									0.2 gram
-								</Typography>
-							</div>
-						</CardContent>
-					</Card>
-				</Grid>
-				<Grid
-					item
-					lg={4}
-					md={4}
-					sm={6}
-					xs={12}
-				>
-					<Card
-						{...rest}
-						className={clsx(classes.root, className)}
-					>
-						<CardContent>
-							<Grid
-								container
-								justify="space-between"
-							>
-								<Grid item>
-									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="600000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-									</Typography>
-								</Grid>
-							</Grid>
-							<div className={classes.difference}>
-								<Typography
-									className={classes.caption}
-									variant="caption"
-								>
-									0.5 gram
-								</Typography>
-							</div>
-						</CardContent>
-					</Card>
-				</Grid>
-				<Grid
-					item
-					lg={4}
-					md={4}
-					sm={6}
-					xs={12}
-				>
-					<Card
-						{...rest}
-						className={clsx(classes.root, className)}
-					>
-						<CardContent>
-							<Grid
-								container
-								justify="space-between"
-							>
-								<Grid item>
-									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1074500" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-									</Typography>
-								</Grid>
-							</Grid>
-							<div className={classes.difference}>
-								<Typography
-									className={classes.caption}
-									variant="caption"
-								>
-									1 gram
-								</Typography>
-							</div>
-						</CardContent>
-					</Card>
-				</Grid>
-				<Grid
-					item
-					lg={4}
-					md={4}
-					sm={6}
-					xs={12}
-				>
-					<Card
-						{...rest}
-						className={clsx(classes.root, className)}
-					>
-						<CardContent>
-							<Grid
-								container
-								justify="space-between"
-							>
-								<Grid item>
-									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="2088500" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-									</Typography>
-								</Grid>
-							</Grid>
-							<div className={classes.difference}>
-								<Typography
-									className={classes.caption}
-									variant="caption"
-								>
-									2 gram
-								</Typography>
-							</div>
-						</CardContent>
-					</Card>
-				</Grid>
-				<Grid
-					item
-					lg={4}
-					md={4}
-					sm={6}
-					xs={12}
-				>
-					<Card
-						{...rest}
-						className={clsx(classes.root, className)}
-					>
-						<CardContent>
-							<Grid
-								container
-								justify="space-between"
-							>
-								<Grid item>
-									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="5150500" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-									</Typography>
-								</Grid>
-							</Grid>
-							<div className={classes.difference}>
-								<Typography
-									className={classes.caption}
-									variant="caption"
-								>
-									5 gram
-								</Typography>
-							</div>
-						</CardContent>
-					</Card>
-				</Grid>
-			</Grid>
-		</div>
+	useEffect(() => {
+		getProduct('branch')
+	}, [getProduct])
 
-		<div className={classes.gridRoot}>
-			<Grid
-				container
-				spacing={3}
-			>
+	return loading || products === null ? 
+		<Backdrop className={classes.backdrop} open>
+			<CircularProgress color="inherit" />
+		</Backdrop> 
+		:
+		<Fragment>
+			<div className={classes.gridRoot}>
 				<Grid
-					item
-					lg={12}
+					container
+					spacing={3}
 				>
-					<Typography variant="h4">Harga Beli</Typography>
+					<Grid
+						item
+						lg={12}
+					>
+						<Typography variant="h4">Harga Jual</Typography>
+					</Grid>
 				</Grid>
-			</Grid>
-			<Grid
+				<Grid
 				container
 				spacing={2}
-			>
-				<Grid
-					item
-					lg={4}
-					md={4}
-					sm={6}
-					xs={12}
 				>
-					<Card
-						{...rest}
-						className={clsx(classes.root, className)}
-					>
-						<CardContent>
-							<Grid
-								container
-								justify="space-between"
+					{products.harga_jual.map((item) => (
+						<Grid
+							item
+							lg={4}
+							md={4}
+							sm={6}
+							xs={12}
+						>
+							<Card
+								// {...rest}
+								className={classes.root}
 							>
-								<Grid item>
-									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="135150" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-									</Typography>
-								</Grid>
-							</Grid>
-							<div className={classes.difference}>
-								<Typography
-									className={classes.caption}
-									variant="caption"
-								>
-									0.1 gram
-								</Typography>
-							</div>
-						</CardContent>
-					</Card>
+								<CardContent>
+									<Grid
+										container
+										justify="space-between"
+									>
+										<Grid item>
+											<Typography className={classes.numbers} variant="h3">
+												<NumberFormat value={item.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+											</Typography>
+										</Grid>
+									</Grid>
+									<div className={classes.difference}>
+										<Typography
+											className={classes.caption}
+											variant="caption"
+										>
+											{item.weight} {item.unit}
+										</Typography>
+									</div>
+								</CardContent>
+							</Card>
+						</Grid>
+					))}
 				</Grid>
-				<Grid
-					item
-					lg={4}
-					md={4}
-					sm={6}
-					xs={12}
-				>
-					<Card
-						{...rest}
-						className={clsx(classes.root, className)}
-					>
-						<CardContent>
-							<Grid
-								container
-								justify="space-between"
-							>
-								<Grid item>
-									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="269150" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-									</Typography>
-								</Grid>
-							</Grid>
-							<div className={classes.difference}>
-								<Typography
-									className={classes.caption}
-									variant="caption"
-								>
-									0.2 gram
-								</Typography>
-							</div>
-						</CardContent>
-					</Card>
-				</Grid>
-				<Grid
-					item
-					lg={4}
-					md={4}
-					sm={6}
-					xs={12}
-				>
-					<Card
-						{...rest}
-						className={clsx(classes.root, className)}
-					>
-						<CardContent>
-							<Grid
-								container
-								justify="space-between"
-							>
-								<Grid item>
-									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="600000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-									</Typography>
-								</Grid>
-							</Grid>
-							<div className={classes.difference}>
-								<Typography
-									className={classes.caption}
-									variant="caption"
-								>
-									0.5 gram
-								</Typography>
-							</div>
-						</CardContent>
-					</Card>
-				</Grid>
-				<Grid
-					item
-					lg={4}
-					md={4}
-					sm={6}
-					xs={12}
-				>
-					<Card
-						{...rest}
-						className={clsx(classes.root, className)}
-					>
-						<CardContent>
-							<Grid
-								container
-								justify="space-between"
-							>
-								<Grid item>
-									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1074500" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-									</Typography>
-								</Grid>
-							</Grid>
-							<div className={classes.difference}>
-								<Typography
-									className={classes.caption}
-									variant="caption"
-								>
-									1 gram
-								</Typography>
-							</div>
-						</CardContent>
-					</Card>
-				</Grid>
-				<Grid
-					item
-					lg={4}
-					md={4}
-					sm={6}
-					xs={12}
-				>
-					<Card
-						{...rest}
-						className={clsx(classes.root, className)}
-					>
-						<CardContent>
-							<Grid
-								container
-								justify="space-between"
-							>
-								<Grid item>
-									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="2088500" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-									</Typography>
-								</Grid>
-							</Grid>
-							<div className={classes.difference}>
-								<Typography
-									className={classes.caption}
-									variant="caption"
-								>
-									2 gram
-								</Typography>
-							</div>
-						</CardContent>
-					</Card>
-				</Grid>
-				<Grid
-					item
-					lg={4}
-					md={4}
-					sm={6}
-					xs={12}
-				>
-					<Card
-						{...rest}
-						className={clsx(classes.root, className)}
-					>
-						<CardContent>
-							<Grid
-								container
-								justify="space-between"
-							>
-								<Grid item>
-									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="5150500" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-									</Typography>
-								</Grid>
-							</Grid>
-							<div className={classes.difference}>
-								<Typography
-									className={classes.caption}
-									variant="caption"
-								>
-									5 gram
-								</Typography>
-							</div>
-						</CardContent>
-					</Card>
-				</Grid>
-			</Grid>
-		</div>
+			</div>
 
-		<div className={classes.gridRoot}>
-			<Grid
-				container
-				spacing={3}
-			>
+			<div className={classes.gridRoot}>
 				<Grid
-					item
-					lg={12}
+					container
+					spacing={3}
 				>
-					<Typography variant="h4">Harga Buyback</Typography>
-				</Grid>
-			</Grid>
-			<Grid
-				container
-				spacing={2}
-			>
-				<Grid
-					item
-					lg={4}
-					md={4}
-					sm={6}
-					xs={12}
-				>
-					<Card
-						{...rest}
-						className={clsx(classes.root, className)}
+					<Grid
+						item
+						lg={12}
 					>
-						<CardContent>
-							<Grid
-								container
-								justify="space-between"
-							>
-								<Grid item>
-									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="135150" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-									</Typography>
-								</Grid>
-							</Grid>
-							<div className={classes.difference}>
-								<Typography
-									className={classes.caption}
-									variant="caption"
-								>
-									0.1 gram
-								</Typography>
-							</div>
-						</CardContent>
-					</Card>
+						<Typography variant="h4">Harga Beli</Typography>
+					</Grid>
 				</Grid>
 				<Grid
-					item
-					lg={4}
-					md={4}
-					sm={6}
-					xs={12}
+					container
+					spacing={2}
 				>
-					<Card
-						{...rest}
-						className={clsx(classes.root, className)}
-					>
-						<CardContent>
-							<Grid
-								container
-								justify="space-between"
+					{products.harga_beli.map((item) => (
+						<Grid
+							item
+							lg={4}
+							md={4}
+							sm={6}
+							xs={12}
+						>
+							<Card
+								// {...rest}
+								className={classes.root}
 							>
-								<Grid item>
-									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="269150" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-									</Typography>
-								</Grid>
-							</Grid>
-							<div className={classes.difference}>
-								<Typography
-									className={classes.caption}
-									variant="caption"
-								>
-									0.2 gram
-								</Typography>
-							</div>
-						</CardContent>
-					</Card>
+								<CardContent>
+									<Grid
+										container
+										justify="space-between"
+									>
+										<Grid item>
+											<Typography className={classes.numbers} variant="h3">
+												<NumberFormat value={item.buy_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+											</Typography>
+										</Grid>
+									</Grid>
+									<div className={classes.difference}>
+										<Typography
+											className={classes.caption}
+											variant="caption"
+										>
+											{item.weight} {item.unit}
+										</Typography>
+									</div>
+								</CardContent>
+							</Card>
+						</Grid>
+					))}
+				</Grid>
+			</div>
+
+			<div className={classes.gridRoot}>
+				<Grid
+					container
+					spacing={3}
+				>
+					<Grid
+						item
+						lg={12}
+					>
+						<Typography variant="h4">Harga Buyback</Typography>
+					</Grid>
 				</Grid>
 				<Grid
-					item
-					lg={4}
-					md={4}
-					sm={6}
-					xs={12}
+					container
+					spacing={2}
 				>
-					<Card
-						{...rest}
-						className={clsx(classes.root, className)}
-					>
-						<CardContent>
-							<Grid
-								container
-								justify="space-between"
+					{products.harga_buyback.map((item) => (
+						<Grid
+							item
+							lg={4}
+							md={4}
+							sm={6}
+							xs={12}
+						>
+							<Card
+								// {...rest}
+								className={classes.root}
 							>
-								<Grid item>
-									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="600000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-									</Typography>
-								</Grid>
-							</Grid>
-							<div className={classes.difference}>
-								<Typography
-									className={classes.caption}
-									variant="caption"
-								>
-									0.5 gram
-								</Typography>
-							</div>
-						</CardContent>
-					</Card>
+								<CardContent>
+									<Grid
+										container
+										justify="space-between"
+									>
+										<Grid item>
+											<Typography className={classes.numbers} variant="h3">
+												<NumberFormat value={item.buyback_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+											</Typography>
+										</Grid>
+									</Grid>
+									<div className={classes.difference}>
+										<Typography
+											className={classes.caption}
+											variant="caption"
+										>
+											{item.weight} {item.unit}
+										</Typography>
+									</div>
+								</CardContent>
+							</Card>
+						</Grid>
+					))}
 				</Grid>
-				<Grid
-					item
-					lg={4}
-					md={4}
-					sm={6}
-					xs={12}
-				>
-					<Card
-						{...rest}
-						className={clsx(classes.root, className)}
-					>
-						<CardContent>
-							<Grid
-								container
-								justify="space-between"
-							>
-								<Grid item>
-									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="1074500" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-									</Typography>
-								</Grid>
-							</Grid>
-							<div className={classes.difference}>
-								<Typography
-									className={classes.caption}
-									variant="caption"
-								>
-									1 gram
-								</Typography>
-							</div>
-						</CardContent>
-					</Card>
-				</Grid>
-				<Grid
-					item
-					lg={4}
-					md={4}
-					sm={6}
-					xs={12}
-				>
-					<Card
-						{...rest}
-						className={clsx(classes.root, className)}
-					>
-						<CardContent>
-							<Grid
-								container
-								justify="space-between"
-							>
-								<Grid item>
-									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="2088500" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-									</Typography>
-								</Grid>
-							</Grid>
-							<div className={classes.difference}>
-								<Typography
-									className={classes.caption}
-									variant="caption"
-								>
-									2 gram
-								</Typography>
-							</div>
-						</CardContent>
-					</Card>
-				</Grid>
-				<Grid
-					item
-					lg={4}
-					md={4}
-					sm={6}
-					xs={12}
-				>
-					<Card
-						{...rest}
-						className={clsx(classes.root, className)}
-					>
-						<CardContent>
-							<Grid
-								container
-								justify="space-between"
-							>
-								<Grid item>
-									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value="5150500" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-									</Typography>
-								</Grid>
-							</Grid>
-							<div className={classes.difference}>
-								<Typography
-									className={classes.caption}
-									variant="caption"
-								>
-									5 gram
-								</Typography>
-							</div>
-						</CardContent>
-					</Card>
-				</Grid>
-			</Grid>
-		</div>
-		</>
-  );
+			</div>
+		</Fragment>
 };
 
 BranchPricing.propTypes = {
   className: PropTypes.string
 };
 
-export default BranchPricing;
+const mapStateToProps = state => ({
+	dashboard: state.dashboard
+})
+
+export default connect(mapStateToProps, {getProduct})(BranchPricing)

@@ -4,6 +4,8 @@ import { setAlert } from './alert'
 import { 
     ADD_CUSTOMER,
     GET_CUSTOMER,
+    EDIT_CUSTOMER,
+    GET_DETAIL_CUSTOMER
 } from './types'
 
 export const getCustomer = () => async dispatch => {
@@ -67,7 +69,69 @@ export const addCustomer = (formData, history) => async dispatch => {
         dispatch(setAlert("Customer Added", "success"))
         history.push(`/customer`);
     } catch (error) {
-        dispatch(setAlert("Email atau Password Salah", "error"))
+        dispatch(setAlert("Something Went Wrong", "error"))
+        console.log(error)
+        // dispatch({
+        //     payload: { msg: error.response.statusText, status: error.response.status },
+        //     type: STAGE_ERROR
+        // })
+    }
+}
+
+export const getDetailCustomer = (id) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/customer/${id}`
+    const token = sessionStorage.getItem('access_token')
+
+    try {
+        const res = await axios({
+            url: endpoint,
+            method: "GET",
+            loading: true,
+            headers: { 
+              'Content-Type': 'application/json', 
+              'Accept' : 'application/json', 
+              'Authorization' : `bearer ${token}`
+            }
+        });
+        dispatch({
+            type: GET_DETAIL_CUSTOMER,
+            payload: res.data
+        })
+
+    } catch (error) {
+        dispatch(setAlert("Something Went Wrong", "error"))
+        console.log(error)
+        // dispatch({
+        //     payload: { msg: error.response.statusText, status: error.response.status },
+        //     type: STAGE_ERROR
+        // })
+    }
+}
+
+export const editCustomer = (formData, history, id) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/customer/${id}`
+
+    try {
+        const res = await axios({
+            url: endpoint,
+            method: "PATCH",
+            data: formData,
+            loading: true,
+            headers: { 
+              'Content-Type': 'application/json', 
+              'Accept' : 'application/json', 
+              'Authorization' : `bearer ${sessionStorage.getItem('access_token')}`
+            }
+        });
+        dispatch({
+            type: EDIT_CUSTOMER,
+            payload: res.data
+        })
+
+        dispatch(setAlert("Customer Edited", "success"))
+        history.push(`/customer`);
+    } catch (error) {
+        dispatch(setAlert("Something went wrong", "error"))
         console.log(error)
         // dispatch({
         //     payload: { msg: error.response.statusText, status: error.response.status },

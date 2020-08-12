@@ -8,7 +8,10 @@ import {
   Dashboard as DashboardView,
   Cashier as CashierView,
   Customer as CustomerView,
-  CreateCustomer as CreateCustomerView
+  CreateCustomer as CreateCustomerView,
+  EditCustomer as EditCustomerView,
+  PurchaseOrder as PurchaseOrderView,
+  CreatePurchaseOrder as CreatePurchaseOrderView
 } from './views';
 
 const Routes = () => {
@@ -46,6 +49,27 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/customer/create"
+      />
+
+      <RouteWithLayout
+        component={EditCustomerView}
+        exact
+        layout={MainLayout}
+        path="/customer/edit/:id"
+      />
+
+      <RouteWithLayout
+        component={PurchaseOrderView}
+        exact
+        layout={MainLayout}
+        path="/purchase-order"
+      />
+
+      <RouteWithLayout
+        component={CreatePurchaseOrderView}
+        exact
+        layout={MainLayout}
+        path="/purchase-order/create/:id"
       />
 
       <Route

@@ -1,12 +1,15 @@
 import {
     ADD_CUSTOMER,
     ADD_CUSTOMER_ERROR,
-    GET_CUSTOMER
+    GET_CUSTOMER,
+    EDIT_CUSTOMER,
+    GET_DETAIL_CUSTOMER
 } from '../actions/types'
 
 const initialState = {
     customer: {},
-    customers : [],
+    customers : null,
+    currentCustomer: {},
     loading: true,
     error: {}
 }
@@ -26,10 +29,22 @@ export default function (state = initialState, action) {
                 customer: payload,
                 loading: false
             }
+        case EDIT_CUSTOMER:
+            return {
+                ...state,
+                customer: payload,
+                loading: false
+            }
         case GET_CUSTOMER:
             return {
                 ...state,
                 customers: payload,
+                loading: false
+            }
+        case GET_DETAIL_CUSTOMER:
+            return {
+                ...state,
+                currentCustomer: payload,
                 loading: false
             }
         default:

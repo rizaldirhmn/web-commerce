@@ -13,7 +13,6 @@ import {
 	BranchPricing,
 	AOGPricing,
 	MOGPricing,
-  CustomerPricing,
 } from './components'
 
 function TabPanel(props) {
@@ -117,12 +116,10 @@ export default function ScrollableTabsButtonAuto() {
             variant="scrollable"
             scrollButtons="auto"
             classes={{ indicator: classes.bigIndicator}}
-            centered 
           >
             <AntTab label="Cabang" />
             <AntTab label="Agent of Gold" />
             <AntTab label="Member of Gold" />
-            <AntTab label="Customer" />
           </AntTabs>
           <TabPanel value={value} index={0}>
             <BranchPricing />
@@ -132,9 +129,6 @@ export default function ScrollableTabsButtonAuto() {
           </TabPanel>
           <TabPanel value={value} index={2}>
             <MOGPricing />
-          </TabPanel>
-          <TabPanel value={value} index={3}>
-            <CustomerPricing />
           </TabPanel>
         </Paper>
     </div>

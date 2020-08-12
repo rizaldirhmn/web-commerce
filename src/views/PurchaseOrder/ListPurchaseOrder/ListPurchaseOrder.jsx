@@ -17,20 +17,17 @@ import Backdrop from '@material-ui/core/Backdrop'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 import { connect } from 'react-redux';
-import { getCustomer } from '../../../actions/customer'
+import { getPurchaseOrder } from '../../../actions/purchaseOrder'
 import { 
 	Tooltip,
 	IconButton,
-	Chip
 } from '@material-ui/core';
 
 const columns = [
-  { id: 'no_id', label: 'No ID', minWidth: 100 },
-  { id: 'nama', label: 'Nama', minWidth: 150 },
-  { id: 'alamat', label: 'Alamat', minWidth: 200 },
-  { id: 'kategori', label: 'Kategori', minWidth: 100 },
-  { id: 'status_aktif', label: 'Status', minWidth: 100 },
-  { id: 'action', label: 'Action', minWidth: 140 },
+  { id: 'no_invoice', label: 'No Invoice', minWidth: 100 },
+  { id: 'nama', label: 'Nama Pembeli', minWidth: 150 },
+  { id: 'cabang', label: 'Cabang', minWidth: 200 },
+  { id: 'action', label: 'Aksi', minWidth: 200 },
   
 ];
 
@@ -56,9 +53,9 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const ListCustomer = ({ 
-	getCustomer, 
-	customer : { customers, loading } 
+const ListPurchaseOrder = ({ 
+	getPurchaseOrder, 
+	purchaseOrder : { purchaseOrders, loading } 
 }) => {
 	const classes = useStyles();
 	const [page, setPage] = React.useState(0);
@@ -74,10 +71,10 @@ const ListCustomer = ({
 	};
 
 	useEffect(() => {
-		getCustomer()
-	}, [loading, getCustomer]);
+		getPurchaseOrder()
+	}, [loading, getPurchaseOrder]);
 
-	return loading || customers == null ? 
+	return loading || purchaseOrders == null ? 
 		<Backdrop className={classes.backdrop} open>
 			<CircularProgress color="inherit" />
 		</Backdrop> 
@@ -100,35 +97,25 @@ const ListCustomer = ({
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{customers.data.map((customer) => (
+					{purchaseOrders.map((customer) => (
 						<TableRow key={customer.id}>
 							<TableCell>
-								{customer.id_agent}
+								{customer.inv_name}
 							</TableCell>
 							<TableCell>
-								{customer.name}
+								{customer.user.name}
 							</TableCell>
 							<TableCell>
-								{customer.address}
-							</TableCell>
-							<TableCell>
-								{customer.status}
-							</TableCell>
-							<TableCell>
-								{customer.is_active === '1' ? (
-									<Chip label='Aktif' color="primary" />
-								): (
-									<Chip label='Tidak Aktif' color="secondary" />
-								)}
+								{customer.branch.name}
 							</TableCell>
 							<TableCell>
 								<Tooltip title="Detail Customer">
-									<IconButton aria-label="detail">
+									<IconButton aria-label="detail" component={CustomRouterLink} to={`/purchase-order/create/${customer.id}`}>
 										<DetailIcon />
 									</IconButton>
 								</Tooltip>
 								<Tooltip title="Edit Customer">
-									<IconButton aria-label="edit" component={CustomRouterLink} to={`/customer/edit/${customer.id}`}>
+									<IconButton aria-label="edit">
 										<EditIcon />
 									</IconButton>
 								</Tooltip>
@@ -146,7 +133,7 @@ const ListCustomer = ({
 			<TablePagination
 				rowsPerPageOptions={[10, 25, 100]}
 				component="div"
-				// count={!loading && customers.data.length}
+				count={!loading && purchaseOrders.length}
 				rowsPerPage={rowsPerPage}
 				page={page}
 				onChangePage={handleChangePage}
@@ -157,12 +144,12 @@ const ListCustomer = ({
 	
 }
 
-ListCustomer.propTypes = {
-    getCustomer: PropTypes.func.isRequired
+ListPurchaseOrder.propTypes = {
+    getPurchaseOrder: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  customer: state.customer
+  purchaseOrder: state.purchaseOrder
 })
 
-export default connect(mapStateToProps, { getCustomer })(ListCustomer)
+export default connect(mapStateToProps, { getPurchaseOrder })(ListPurchaseOrder)

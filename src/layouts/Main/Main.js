@@ -259,6 +259,19 @@ const Main = props => {
             </ListItem>
           </Button>
           <Button
+            activeclassname={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            to='/purchase-order'
+          >
+            <ListItem button key='purchase-order'>
+                <ListItemIcon>
+                  <UserIcon style={{ color: textMenuWhite }} />
+                </ListItemIcon>
+                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Purchase Order</Typography>} />
+            </ListItem>
+          </Button>
+          <Button
             className={classes.button}
             onClick={handlingSignout}
           >

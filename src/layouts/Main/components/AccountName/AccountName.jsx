@@ -32,11 +32,12 @@ const Profile = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
+  const data = JSON.parse(sessionStorage.getItem('data'))
 
   const user = {
-    name: 'Rizaldi Rahman',
-    avatar: '/images/avatars/avatar.png',
-    position: 'Operator'
+    name: data.name,
+    avatar: data.image,
+    position: data.role
   };
 
   return (
