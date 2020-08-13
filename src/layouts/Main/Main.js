@@ -266,7 +266,7 @@ const Main = props => {
           >
             <ListItem button key='purchase-order'>
                 <ListItemIcon>
-                  <UserIcon style={{ color: textMenuWhite }} />
+                  <CartIcon style={{ color: textMenuWhite }} />
                 </ListItemIcon>
                 <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Purchase Order</Typography>} />
             </ListItem>

@@ -3,15 +3,18 @@ import {
     ADD_CUSTOMER_ERROR,
     GET_CUSTOMER,
     EDIT_CUSTOMER,
-    GET_DETAIL_CUSTOMER
+    GET_DETAIL_CUSTOMER,
+    GET_SEARCH_CUSTOMER
 } from '../actions/types'
 
 const initialState = {
     customer: {},
     customers : null,
     currentCustomer: {},
+    searchCustomer: {},
     loading: true,
-    error: {}
+    error: {},
+    counting : 0
 }
 
 export default function (state = initialState, action) {
@@ -46,6 +49,13 @@ export default function (state = initialState, action) {
                 ...state,
                 currentCustomer: payload,
                 loading: false
+            }
+        case GET_SEARCH_CUSTOMER:
+            return {
+                ...state,
+                searchCustomer: payload,
+                loading: false,
+                counting : initialState.counting +=1
             }
         default:
             return state

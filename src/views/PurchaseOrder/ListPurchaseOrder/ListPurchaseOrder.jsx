@@ -100,7 +100,7 @@ const ListPurchaseOrder = ({
 								{po.branch.name}
 							</TableCell>
 							<TableCell>
-								{po.status}
+								{po.status_name}
 							</TableCell>
 							<TableCell>
 								<Tooltip title="Detail Invoice">

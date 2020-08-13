@@ -5,6 +5,7 @@ import customer from './customer'
 import dashboard from './dashboard'
 import purchaseOrder from './purchaseOrder'
 import product from './product'
+import cart from './cart'
 
 export default combineReducers({
     alert,
@@ -13,4 +14,5 @@ export default combineReducers({
     dashboard,
     purchaseOrder,
     product,
+    cart,
 })

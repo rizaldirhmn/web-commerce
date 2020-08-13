@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles'
+import { useHistory } from 'react-router-dom'
 import { 
     Button, 
     Card, 
@@ -12,6 +13,10 @@ import {
     Divider,
     CardHeader
 } from '@material-ui/core';
+
+// Redux
+import { connect } from 'react-redux'
+import { addToCart } from '../../../../actions/cart'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -79,23 +84,23 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const CounterSlice = (props) => {
-    const { handleModalClose, product, onAddToCart } = props
+    const { handleModalClose, product, searchCustomer, addToCart } = props
     const classes = useStyles()
+    const history = useHistory()
     const [count, setCount] = React.useState(1);
     const more = () => setCount(count + 1);
     const less = () => setCount(count - 1);
     const onChange = e => setCount(+e.target.value);
 
-    const onClickCart = e => {
-        console.log(e.product)
-        // setCart(e)
-        onAddToCart(e)
+    const onSubmit = () => {
+        handleModalClose()
+        addToCart(product.product.id, searchCustomer.status, count, history)
     }
 
     return (
         <Card className={classes.root}>
             <hr className={classes.cardNotch} />
-            <CardHeader title={product.nama} />
+            <CardHeader title={`${product.product.name} ${product.product.weight} ${product.product.unit}`} />
             <CardContent className={classes.cardContent}>
                 <Paper component="form" className={classes.searchRoot}>
                     <IconButton onClick={less} className={classes.iconButton}>
@@ -107,6 +112,7 @@ const CounterSlice = (props) => {
                         InputProps={classes.inputText}  
                         className={classes.inputComponent} 
                         onChange={onChange}
+                        name="qty"
                         value={count} />
                     <Divider className={classes.divider} orientation="vertical" />
                     <IconButton onClick={more} className={classes.iconButton}>
@@ -122,7 +128,7 @@ const CounterSlice = (props) => {
                         </Button>
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" onClick={() => onClickCart(product)} size="medium" color="primary">
+                        <Button variant="contained" onClick={onSubmit} size="medium" color="primary">
                             Simpan
                         </Button>
                     </Grid>
@@ -132,4 +138,4 @@ const CounterSlice = (props) => {
     );
 }
 
-export default CounterSlice
+export default connect(null, { addToCart })(CounterSlice)

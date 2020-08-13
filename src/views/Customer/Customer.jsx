@@ -8,7 +8,8 @@ import {
     IconButton,
     InputBase,
     Divider,
-    Hidden
+    Hidden,
+    Button
 } from '@material-ui/core'
 import AddCircle from '@material-ui/icons/AddCircle'
 import SearchIcon from '@material-ui/icons/Search'
@@ -77,9 +78,15 @@ const Customer = () => {
                 <Grid
                     container
                     spacing={2}
+                    justify="space-between"
                 >
                     <Grid item>  
                         <Typography variant="h4">Customer</Typography>
+                    </Grid>
+                    <Grid item>  
+                        <Button variant="contained" color="primary">
+                            Import
+                        </Button>
                     </Grid>
                 </Grid>
             </div>

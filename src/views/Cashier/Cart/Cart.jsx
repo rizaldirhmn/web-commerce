@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import {
     Grid,
     Typography,
@@ -20,6 +20,10 @@ import PerfectScrollbar from '@opuscapita/react-perfect-scrollbar'
 
 // Components to Props
 import PaymentMethodOptions from './PaymentMethodOptions'
+
+// Redux
+import { connect } from 'react-redux'
+import { getCart } from '../../../actions/cart'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -61,7 +65,7 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const Cart = () => {
+const Cart = ({ getCart , cart : { carts, loading, counting } }) => {
     const classes = useStyles()
 
     const [ modalPaymentOpen, setModalPaymentOpen ] = useState(false)
@@ -73,8 +77,14 @@ const Cart = () => {
     const handleDrawerPaymentClose = () => {
         setModalPaymentOpen(false)
     }
-    
-    return(
+
+    useEffect(() => {
+        getCart()
+    }, [loading, getCart, counting])
+
+    return loading || carts === null ? '' 
+    :
+    <Fragment>
         <Card className={classes.root}>
             <Hidden only={['md','lg','xl']}>
                 <hr className={classes.cardNotch} />
@@ -85,329 +95,27 @@ const Cart = () => {
             <CardContent>
                 <PerfectScrollbar>
                     <div className={classes.contentItems}>
-                        <Grid
-                            container
-                            spacing={2}
-                            justify="space-between"
-                        >
-                            <Grid item>
-                                <Typography variant="h6">Emas 0.1 gram</Typography>
+                        {carts.cart.map((item) => (
+                            <Grid
+                                container
+                                spacing={2}
+                                justify="space-between"
+                            >
+                                <Grid item>
+                                    <Typography variant="h6">
+                                        {item.product.name} {item.product.weight} {item.product.unit} (x{item.qty})
+                                    </Typography>
+                                </Grid>
+                                <Grid item>
+                                    <Typography variant="subtitle2">
+                                        <NumberFormat value={item.total_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+                                        <IconButton aria-label="delete" className={classes.margin}>
+                                            <Delete fontSize="small" />
+                                        </IconButton>
+                                    </Typography>
+                                </Grid>
                             </Grid>
-                            <Grid item>
-                                <Typography variant="subtitle2">
-                                    <NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    <IconButton aria-label="delete" className={classes.margin}>
-                                        <Delete fontSize="small" />
-                                    </IconButton>
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid
-                            container
-                            spacing={2}
-                            justify="space-between"
-                        >
-                            <Grid item>
-                                <Typography variant="h6">Emas 0.1 gram</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant="subtitle2">
-                                    <NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    <IconButton aria-label="delete" className={classes.margin}>
-                                        <Delete fontSize="small" />
-                                    </IconButton>
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid
-                            container
-                            spacing={2}
-                            justify="space-between"
-                        >
-                            <Grid item>
-                                <Typography variant="h6">Emas 0.1 gram</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant="subtitle2">
-                                    <NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    <IconButton aria-label="delete" className={classes.margin}>
-                                        <Delete fontSize="small" />
-                                    </IconButton>
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid
-                            container
-                            spacing={2}
-                            justify="space-between"
-                        >
-                            <Grid item>
-                                <Typography variant="h6">Emas 0.1 gram</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant="subtitle2">
-                                    <NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    <IconButton aria-label="delete" className={classes.margin}>
-                                        <Delete fontSize="small" />
-                                    </IconButton>
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid
-                            container
-                            spacing={2}
-                            justify="space-between"
-                        >
-                            <Grid item>
-                                <Typography variant="h6">Emas 0.1 gram</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant="subtitle2">
-                                    <NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    <IconButton aria-label="delete" className={classes.margin}>
-                                        <Delete fontSize="small" />
-                                    </IconButton>
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid
-                            container
-                            spacing={2}
-                            justify="space-between"
-                        >
-                            <Grid item>
-                                <Typography variant="h6">Emas 0.1 gram</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant="subtitle2">
-                                    <NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    <IconButton aria-label="delete" className={classes.margin}>
-                                        <Delete fontSize="small" />
-                                    </IconButton>
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid
-                            container
-                            spacing={2}
-                            justify="space-between"
-                        >
-                            <Grid item>
-                                <Typography variant="h6">Emas 0.1 gram</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant="subtitle2">
-                                    <NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    <IconButton aria-label="delete" className={classes.margin}>
-                                        <Delete fontSize="small" />
-                                    </IconButton>
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid
-                            container
-                            spacing={2}
-                            justify="space-between"
-                        >
-                            <Grid item>
-                                <Typography variant="h6">Emas 0.1 gram</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant="subtitle2">
-                                    <NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    <IconButton aria-label="delete" className={classes.margin}>
-                                        <Delete fontSize="small" />
-                                    </IconButton>
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid
-                            container
-                            spacing={2}
-                            justify="space-between"
-                        >
-                            <Grid item>
-                                <Typography variant="h6">Emas 0.1 gram</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant="subtitle2">
-                                    <NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    <IconButton aria-label="delete" className={classes.margin}>
-                                        <Delete fontSize="small" />
-                                    </IconButton>
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid
-                            container
-                            spacing={2}
-                            justify="space-between"
-                        >
-                            <Grid item>
-                                <Typography variant="h6">Emas 0.1 gram</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant="subtitle2">
-                                    <NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    <IconButton aria-label="delete" className={classes.margin}>
-                                        <Delete fontSize="small" />
-                                    </IconButton>
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid
-                            container
-                            spacing={2}
-                            justify="space-between"
-                        >
-                            <Grid item>
-                                <Typography variant="h6">Emas 0.1 gram</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant="subtitle2">
-                                    <NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    <IconButton aria-label="delete" className={classes.margin}>
-                                        <Delete fontSize="small" />
-                                    </IconButton>
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid
-                            container
-                            spacing={2}
-                            justify="space-between"
-                        >
-                            <Grid item>
-                                <Typography variant="h6">Emas 0.1 gram</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant="subtitle2">
-                                    <NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    <IconButton aria-label="delete" className={classes.margin}>
-                                        <Delete fontSize="small" />
-                                    </IconButton>
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid
-                            container
-                            spacing={2}
-                            justify="space-between"
-                        >
-                            <Grid item>
-                                <Typography variant="h6">Emas 0.1 gram</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant="subtitle2">
-                                    <NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    <IconButton aria-label="delete" className={classes.margin}>
-                                        <Delete fontSize="small" />
-                                    </IconButton>
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid
-                            container
-                            spacing={2}
-                            justify="space-between"
-                        >
-                            <Grid item>
-                                <Typography variant="h6">Emas 0.1 gram</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant="subtitle2">
-                                    <NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    <IconButton aria-label="delete" className={classes.margin}>
-                                        <Delete fontSize="small" />
-                                    </IconButton>
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid
-                            container
-                            spacing={2}
-                            justify="space-between"
-                        >
-                            <Grid item>
-                                <Typography variant="h6">Emas 0.1 gram</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant="subtitle2">
-                                    <NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    <IconButton aria-label="delete" className={classes.margin}>
-                                        <Delete fontSize="small" />
-                                    </IconButton>
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid
-                            container
-                            spacing={2}
-                            justify="space-between"
-                        >
-                            <Grid item>
-                                <Typography variant="h6">Emas 0.1 gram</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant="subtitle2">
-                                    <NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    <IconButton aria-label="delete" className={classes.margin}>
-                                        <Delete fontSize="small" />
-                                    </IconButton>
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid
-                            container
-                            spacing={2}
-                            justify="space-between"
-                        >
-                            <Grid item>
-                                <Typography variant="h6">Emas 0.1 gram</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant="subtitle2">
-                                    <NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    <IconButton aria-label="delete" className={classes.margin}>
-                                        <Delete fontSize="small" />
-                                    </IconButton>
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid
-                            container
-                            spacing={2}
-                            justify="space-between"
-                        >
-                            <Grid item>
-                                <Typography variant="h6">Emas 0.1 gram</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant="subtitle2">
-                                    <NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    <IconButton aria-label="delete" className={classes.margin}>
-                                        <Delete fontSize="small" />
-                                    </IconButton>
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid
-                            container
-                            spacing={2}
-                            justify="space-between"
-                        >
-                            <Grid item>
-                                <Typography variant="h6">Emas 0.1 gram</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant="subtitle2">
-                                    <NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    <IconButton aria-label="delete" className={classes.margin}>
-                                        <Delete fontSize="small" />
-                                    </IconButton>
-                                </Typography>
-                            </Grid>
-                        </Grid>
+                        ))}
                     </div>
                 </PerfectScrollbar>
                 <Divider />
@@ -422,12 +130,22 @@ const Cart = () => {
                         </Grid>
                         <Grid item>
                             <Typography variant="body">
-                                <NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+                                <NumberFormat value={carts.total_payment} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
                             </Typography>
                         </Grid>
                     </Grid>
                 </div>
                 <div className={classes.contentItemsPayment}>
+                    <Grid
+                        container
+                        spacing={2}
+                    >
+                        <Grid item lg={12} md={12} sm={12} xs={12}>
+                            <Button fullWidth variant="contained" onClick={handleDrawerPaymentOpen} className={classes.btnPayment}>
+                                Pilih Pembayaran
+                            </Button>
+                        </Grid>
+                    </Grid>
                     <Grid
                         container
                         spacing={2}
@@ -442,11 +160,7 @@ const Cart = () => {
                                 Kosongkan
                             </Button>
                         </Grid>
-                        <Grid item>
-                            <Button variant="contained" onClick={handleDrawerPaymentOpen} className={classes.btnPayment}>
-                                Pilih Pembayaran
-                            </Button>
-                        </Grid>
+                        
                         <Grid item>
                             <Button fullWidth variant="outlined">
                                 Invoice
@@ -465,7 +179,11 @@ const Cart = () => {
                 <PaymentMethodOptions handleDrawerPaymentClose={handleDrawerPaymentClose} />
             </SwipeableDrawer>
         </Card>
-    )
+    </Fragment>
 }
 
-export default Cart
+const mapStateToProps = state => ({
+	cart: state.cart
+})
+
+export default connect(mapStateToProps, { getCart })(Cart)

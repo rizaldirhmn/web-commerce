@@ -196,7 +196,7 @@ export const deletePurchaseOrderDetail = (id_po, id_po_detail, history) => async
             payload: res.data
         })
 
-        dispatch(setAlert("Invoice Deleted", "success"))
+        dispatch(setAlert("Item Deleted", "success"))
         history.push(`/purchase-order/create/${id_po}`);
 
     } catch (error) {

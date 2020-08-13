@@ -6,7 +6,7 @@ import {
 } from './types'
 
 export const getProduct = (type) => async dispatch => {
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/product`
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/product/filter?type=${type}`
     const token = sessionStorage.getItem('access_token')
 
     try {

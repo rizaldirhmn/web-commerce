@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/styles'
+import PropTypes from 'prop-types'
 import { 
   Grid, 
   Typography,
@@ -16,6 +17,11 @@ import Cart from './Cart'
 import Category from './Category'
 import MobileView from './MobileView'
 import SearchCustomer from './SearchCustomer'
+
+// Redux
+import { connect } from 'react-redux'
+import { getSearchCustomerAndClear } from '../../actions/customer'
+import { useEffect } from 'react'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -81,7 +87,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const Cashier = () => {
+const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomer, loading } }) => {
 	const classes = useStyles();
 	
 	const [ modalOpen, setModalOpen ] = useState(false)
@@ -93,6 +99,15 @@ const Cashier = () => {
 	const handleModalClose = () => {
 		setModalOpen(false)
 	}
+
+	const [ formState ] = useState({
+		params: '',
+		kata_kunci: ''
+	})
+
+	useEffect(() => {
+		getSearchCustomerAndClear(formState.params, formState.kata_kunci)
+	}, [loading, getSearchCustomerAndClear, formState])
 
   return (
 		<>
@@ -110,64 +125,71 @@ const Cashier = () => {
         </Grid>
 				
 				<SearchCustomer />
-
-				<div className={classes.row}>
-					<Grid
-						container
-					>
-						<Grid
-							item
-							lg={12}
-							md={12}
-							sm={12}
-						>
-							<Category />
-						</Grid>
-					</Grid>
-				</div>
-				<div className={classes.row}>
-					<Grid
-						container
-						spacing={2}
-					>
-						<Grid
-							item
-							lg={7}
-							md={7}
-							sm={12}
-							xs={12}
-						>
-							<Product />
-						</Grid>
-						<Hidden only={['xs', 'sm']}>
+				{!loading && (
+					<>
+					{searchCustomer && (
+						<>
+						<div className={classes.row}>
 							<Grid
-								item
-								lg={5}
-								md={5}
-								sm={12}
-								xs={12}
+								container
 							>
-								<Cart />
+								<Grid
+									item
+									lg={12}
+									md={12}
+									sm={12}
+								>
+									<Category />
+								</Grid>
 							</Grid>
-						</Hidden>
-					</Grid>
-					<Hidden only={['md','lg','xl']}>
-						<Fab color="primary" aria-label="add" className={classes.fab} onClick={handleModalOpen}>
-							<Badge badgeContent={17} color="secondary">
-									<CartIcon />
-							</Badge>
-						</Fab>
-						<SwipeableDrawer
-							anchor='bottom'
-							open={modalOpen}
-							onClose={handleModalClose}
-							onOpen={handleModalOpen}
-							disableSwipeToOpen
-						>
-							<Cart />
-						</SwipeableDrawer>
-					</Hidden>
-				</div>
+						</div>
+						<div className={classes.row}>
+							<Grid
+								container
+								spacing={2}
+							>
+								<Grid
+									item
+									lg={7}
+									md={7}
+									sm={12}
+									xs={12}
+								>
+									<Product searchCustomer={searchCustomer}/>
+								</Grid>
+								<Hidden only={['xs', 'sm']}>
+									<Grid
+										item
+										lg={5}
+										md={5}
+										sm={12}
+										xs={12}
+									>
+										<Cart />
+									</Grid>
+								</Hidden>
+							</Grid>
+							<Hidden only={['md','lg','xl']}>
+								<Fab color="primary" aria-label="add" className={classes.fab} onClick={handleModalOpen}>
+									<Badge badgeContent={17} color="secondary">
+											<CartIcon />
+									</Badge>
+								</Fab>
+								<SwipeableDrawer
+									anchor='bottom'
+									open={modalOpen}
+									onClose={handleModalClose}
+									onOpen={handleModalOpen}
+									disableSwipeToOpen
+								>
+									<Cart />
+								</SwipeableDrawer>
+							</Hidden>
+						</div>
+						</>
+					)}
+					</>
+				)}
       </div>
 		</Hidden>
 
@@ -178,4 +200,12 @@ const Cashier = () => {
   );
 };
 
-export default Cashier;
+Cashier.propTypes = {
+	getSearchCustomerAndClear: PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+customer: state.customer
+})
+
+export default connect(mapStateToProps, { getSearchCustomerAndClear })(Cashier);

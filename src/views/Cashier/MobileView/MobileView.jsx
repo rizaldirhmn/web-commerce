@@ -3,24 +3,28 @@ import { makeStyles } from '@material-ui/styles'
 import {
     Grid,
     Typography,
-    Fab,
-    Badge,
+    // Fab,
+    // Badge,
     SwipeableDrawer,
 	Button,
-	CardActionArea,
+	// CardActionArea,
 	CardContent,
 	Card,
-	CardActions,
+	// CardActions,
 	CardHeader
 } from '@material-ui/core'
-import CartIcon from '@material-ui/icons/AddShoppingCart'
+// import CartIcon from '@material-ui/icons/AddShoppingCart'
 import AddUserIcon from '@material-ui/icons/PersonAdd'
 import PerfectScrollbar from '@opuscapita/react-perfect-scrollbar'
 
 import ProductCard from './ProductCard'
-import Cart from '../Cart'
+// import Cart from '../Cart'
 import SearchCustomer from '../SearchCustomer'
 import CounterSlice from '../Product/CounterSlice'
+// Redux
+import { connect } from 'react-redux'
+import { getSearchCustomerAndClear } from '../../../actions/customer'
+import { useEffect } from 'react'
 
 const useStyles = makeStyles(theme => ({
     content: {
@@ -58,19 +62,9 @@ const useStyles = makeStyles(theme => ({
 
 }))
 
-const MobileView = () => {
+const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomer, loading } }) => {
 	const classes = useStyles()
-	// Modal Cart
-    const [ modalOpen, setModalOpen ] = useState(false)
-
-	const handleModalOpen = () => {
-		setModalOpen(true)
-	}
-
-	const handleModalClose = () => {
-		setModalOpen(false)
-	}
-	// End Cart
+	
 	// Modal Search
 	const [ searchModalOpen, setSearchModalOpen ] = useState(false)
 
@@ -96,50 +90,14 @@ const MobileView = () => {
 	}
 	// End QTY
 
-    const produk = [
-		{
-			id : 1,
-			nama : '0.1 gram',
-			image: `${process.env.PUBLIC_URL + '/images/produk/0,1.jpg'}`,
-			harga: 1000000,
-			stok : 10
-		},
-		{
-			id : 2,
-			nama : '0.2 gram',
-			image: `${process.env.PUBLIC_URL + '/images/produk/0,2.jpg'}`,
-			harga: 1000000,
-			stok : 10
-		},
-		{
-			id : 3,
-			nama : '0.5 gram',
-			image: `${process.env.PUBLIC_URL + '/images/produk/0,5.jpg'}`,
-			harga: 1000000,
-			stok : 10
-		},
-		{
-			id : 4,
-			nama : '1 gram',
-			image: `${process.env.PUBLIC_URL + '/images/produk/1.jpg'}`,
-			harga: 1000000,
-			stok : 10
-		},
-		{
-			id : 5,
-			nama : '2 gram',
-			image: `${process.env.PUBLIC_URL + '/images/produk/2.jpg'}`,
-			harga: 1000000,
-			stok : 10
-		},
-		{
-			id : 6,
-			nama : '5 gram',
-			image: `${process.env.PUBLIC_URL + '/images/produk/5.jpg'}`,
-			harga: 1000000,
-			stok : 10
-		}
-	]
+	const [ formState ] = useState({
+		params: '',
+		kata_kunci: ''
+	})
+
+	useEffect(() => {
+		getSearchCustomerAndClear(formState.params, formState.kata_kunci)
+	}, [loading, getSearchCustomerAndClear, formState])
 
     return(
     <>
@@ -159,6 +117,7 @@ const MobileView = () => {
 				justify="space-between"
             >
 				<Grid item>  
+				{!searchCustomer ? (
 					<Button
 						variant="outlined"
 						color="secondary"
@@ -167,42 +126,26 @@ const MobileView = () => {
 					>
 						Cari Customer
 					</Button>
+				):(
+					<Typography>Customer : {searchCustomer.name}</Typography>
+				)}
                 </Grid>
             </Grid>
 		</div>
 		<hr className={classes.dividerHorizontal} />
 		<div className={classes.contentProduct}>
-			<PerfectScrollbar>
-				<Grid container>
-					{produk.map(item => (
-						<Grid
-							item
-							xs={12}
-						>
-							<CardActionArea onClick={() => handleQtyModalOpen(item)}>
-								<ProductCard product={item} />
-							</CardActionArea>
-							<hr />
-						</Grid>
-					))}
-				</Grid>
-			</PerfectScrollbar>
+			{!loading && (
+				<>
+				{searchCustomer && (
+					<PerfectScrollbar>
+						<ProductCard handleQtyModalOpen={handleQtyModalOpen} />
+					</PerfectScrollbar>
+				)}
+				</>
+			)}
         </div>
         <div className={classes.fixedComponents}>
-			<Fab color="primary" aria-label="add" className={classes.fab} onClick={handleModalOpen}>
-				<Badge badgeContent={17} color="secondary">
-						<CartIcon />
-				</Badge>
-			</Fab>
-			<SwipeableDrawer
-				anchor='bottom'
-				open={modalOpen}
-				onClose={handleModalClose}
-				onOpen={handleModalOpen}
-				disableSwipeToOpen
-			>
-				<Cart />
-			</SwipeableDrawer>
+			
 			<SwipeableDrawer
 				anchor='bottom'
 				open={searchModalOpen}
@@ -215,11 +158,11 @@ const MobileView = () => {
 					<CardContent>
 						<SearchCustomer />
 					</CardContent>
-					<CardActions>
+					{/* <CardActions>
 						<Button fullWidth variant="contained" onClick={handleSearchModalClose} color="primary" size="small">
 							Terapkan
 						</Button>
-					</CardActions>
+					</CardActions> */}
 				</Card>
 			</SwipeableDrawer>
 			<SwipeableDrawer
@@ -229,11 +172,15 @@ const MobileView = () => {
 				onOpen={handleQtyModalOpen}
 				disableSwipeToOpen
 			>
-				<CounterSlice handleModalClose={handleQtyModalClose} product={item} />
+				<CounterSlice handleModalClose={handleQtyModalClose} product={item} searchCustomer={searchCustomer} />
 			</SwipeableDrawer>
         </div>
     </>
     )
 }
 
-export default MobileView
+const mapStateToProps = state => ({
+	customer: state.customer,
+})
+
+export default connect(mapStateToProps, { getSearchCustomerAndClear })(MobileView)

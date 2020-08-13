@@ -5,7 +5,8 @@ import {
     ADD_CUSTOMER,
     GET_CUSTOMER,
     EDIT_CUSTOMER,
-    GET_DETAIL_CUSTOMER
+    GET_DETAIL_CUSTOMER,
+    GET_SEARCH_CUSTOMER
 } from './types'
 
 export const getCustomer = () => async dispatch => {
@@ -131,6 +132,68 @@ export const editCustomer = (formData, history, id) => async dispatch => {
         history.push(`/customer`);
     } catch (error) {
         dispatch(setAlert("Something went wrong", "error"))
+        console.log(error)
+        // dispatch({
+        //     payload: { msg: error.response.statusText, status: error.response.status },
+        //     type: STAGE_ERROR
+        // })
+    }
+}
+
+export const getSearchCustomer = (params, kata_kunci) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/customer/search?type=${params}&kata_kunci=${kata_kunci}`
+    const token = sessionStorage.getItem('access_token')
+
+    try {
+        const res = await axios({
+            url: endpoint,
+            method: "GET",
+            loading: true,
+            headers: { 
+              'Content-Type': 'application/json', 
+              'Accept' : 'application/json', 
+              'Authorization' : `bearer ${token}`
+            }
+        });
+
+        dispatch({
+            type: GET_SEARCH_CUSTOMER,
+            payload: res.data
+        })
+
+    } catch (error) {
+        dispatch(setAlert("Something Went Wrong", "error"))
+        console.log(error)
+        // dispatch({
+        //     payload: { msg: error.response.statusText, status: error.response.status },
+        //     type: STAGE_ERROR
+        // })
+    }
+}
+
+export const getSearchCustomerAndClear = (params, kata_kunci) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/customer_and_clear/search?type=${params}&kata_kunci=${kata_kunci}`
+    const token = sessionStorage.getItem('access_token')
+
+    try {
+        const res = await axios({
+            url: endpoint,
+            method: "GET",
+            loading: true,
+            headers: { 
+              'Content-Type': 'application/json', 
+              'Accept' : 'application/json', 
+              'Authorization' : `bearer ${token}`
+            }
+        });
+
+        dispatch({
+            type: GET_SEARCH_CUSTOMER,
+            payload: res.data.data[0]
+        })
+
+    } catch (error) {
+        dispatch(setAlert("Something Went Wrong", "error"))
         console.log(error)
         // dispatch({
         //     payload: { msg: error.response.statusText, status: error.response.status },

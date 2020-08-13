@@ -63,10 +63,8 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const Product = ({ getProduct, product: { products, loading }}, props) => {
+const Product = ({ getProduct, product: { products, loading }, customer : { searchCustomer }}) => {
 	const classes = useStyles()
-	const { onAddToCart } = props
-
 	const [ modalOpen, setModalOpen ] = useState(false)
 	const [ item, setItem ] = useState()
 
@@ -80,8 +78,8 @@ const Product = ({ getProduct, product: { products, loading }}, props) => {
 	}
 
 	useEffect(() => {
-		getProduct()
-	}, [getProduct])
+		getProduct(searchCustomer.name_status)
+	}, [getProduct, searchCustomer])
 
 	return loading || products === null ? 
 	<Backdrop className={classes.backdrop} open>
@@ -121,13 +119,13 @@ const Product = ({ getProduct, product: { products, loading }}, props) => {
 												{item.product.name} {item.product.weight} {item.product.unit}
 											</Typography>
 											<Typography variant="body2" color="textSecondary" className={classes.price}>
-												<NumberFormat value={item.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+												<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 											</Typography>
 										</CardContent>
 									</CardActionArea>
 									<CardActions>
 										<Typography variant="body2" color="textSecondary" component="p" className={classes.stock}>
-											{/* Stok : <NumberFormat value={item.stok} displayType={'text'} thousandSeparator={true} /> */}
+											Stok : <NumberFormat value={item.product.stock} displayType={'text'} thousandSeparator={true} />
 										</Typography>
 									</CardActions>
 								</Card>
@@ -142,7 +140,7 @@ const Product = ({ getProduct, product: { products, loading }}, props) => {
 					onOpen={handleModalOpen}
 					disableSwipeToOpen
 				>
-					<CounterSlice handleModalClose={handleModalClose} onAddToCart={onAddToCart} product={item} />
+					<CounterSlice handleModalClose={handleModalClose} product={item} searchCustomer={searchCustomer} />
 				</SwipeableDrawer>
 			</CardContent>
 		</Card>
@@ -151,7 +149,8 @@ const Product = ({ getProduct, product: { products, loading }}, props) => {
 }
 
 const mapStateToProps = state => ({
-	product: state.product
+	product: state.product,
+	customer: state.customer
 })
 
 export default connect(mapStateToProps, {getProduct})(Product);
