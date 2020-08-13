@@ -10,8 +10,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import EditIcon from '@material-ui/icons/Edit'
-import DeleteIcon from '@material-ui/icons/Delete'
-import DetailIcon from '@material-ui/icons/Search'
+// import DeleteIcon from '@material-ui/icons/Delete'
+// import DetailIcon from '@material-ui/icons/Search'
 import { Link as RouterLink } from 'react-router-dom'
 import Backdrop from '@material-ui/core/Backdrop'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -21,7 +21,8 @@ import { getCustomer } from '../../../actions/customer'
 import { 
 	Tooltip,
 	IconButton,
-	Chip
+	Chip,
+	Typography
 } from '@material-ui/core';
 
 const columns = [
@@ -112,7 +113,11 @@ const ListCustomer = ({
 								{customer.address}
 							</TableCell>
 							<TableCell>
-								{customer.status}
+								{customer.status === '1' ? (
+									<Typography>AOG</Typography>
+								): (
+									<Typography>MOG</Typography>
+								)}
 							</TableCell>
 							<TableCell>
 								{customer.is_active === '1' ? (
@@ -122,21 +127,21 @@ const ListCustomer = ({
 								)}
 							</TableCell>
 							<TableCell>
-								<Tooltip title="Detail Customer">
+								{/* <Tooltip title="Detail Customer">
 									<IconButton aria-label="detail">
 										<DetailIcon />
 									</IconButton>
-								</Tooltip>
+								</Tooltip> */}
 								<Tooltip title="Edit Customer">
 									<IconButton aria-label="edit" component={CustomRouterLink} to={`/customer/edit/${customer.id}`}>
 										<EditIcon />
 									</IconButton>
 								</Tooltip>
-								<Tooltip title="Hapus Customer">
+								{/* <Tooltip title="Hapus Customer">
 									<IconButton aria-label="delete">
 										<DeleteIcon />
 									</IconButton>
-								</Tooltip>
+								</Tooltip> */}
 							</TableCell>
 						</TableRow>
 					))}

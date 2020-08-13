@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect, Fragment } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import {
 	Typography,
@@ -13,9 +13,15 @@ import {
 } from '@material-ui/core'
 import PerfectScrollbar from '@opuscapita/react-perfect-scrollbar'
 import NumberFormat from 'react-number-format'
+import Backdrop from '@material-ui/core/Backdrop'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 // Components
 import CounterSlice from './CounterSlice'
+
+// Redux
+import { connect } from 'react-redux'
+import { getProduct } from '../../../actions/product'
 
 const useStyles = makeStyles(theme => ({
 	root:{
@@ -50,11 +56,16 @@ const useStyles = makeStyles(theme => ({
 		[theme.breakpoints.down('sm')]: {
 			fontSize: 15
 		},
-	}
+	},
+	backdrop: {
+		zIndex: theme.zIndex.drawer + 1,
+		color: '#fff',
+	},
 }));
 
-const Product = () => {
+const Product = ({ getProduct, product: { products, loading }}, props) => {
 	const classes = useStyles()
+	const { onAddToCart } = props
 	const produk = [
 		{
 			nama : '0.1 gram',
@@ -106,7 +117,16 @@ const Product = () => {
 		setModalOpen(false)
 	}
 
-	return(
+	useEffect(() => {
+		getProduct()
+	}, [getProduct])
+
+	return loading || products === null ? 
+	<Backdrop className={classes.backdrop} open>
+		<CircularProgress color="inherit" />
+	</Backdrop> 
+	:
+	<Fragment>
 		<Card
 			className={classes.root}
 		>
@@ -118,7 +138,7 @@ const Product = () => {
 					<Grid
 						container
 					>
-						{produk.map(item => (
+						{products.map(item => (
 							<Grid
 								item
 								lg={4}
@@ -131,21 +151,21 @@ const Product = () => {
 										<CardMedia
 											square
 											className={classes.media}
-											image={item.image}
-											title={item.nama}
+											image={item.product.image}
+											title={item.product.name}
 										/>
 										<CardContent>
-											<Typography gutterBottom variant="h5" component="h2" className={classes.title}>
-												{item.nama}
+											<Typography gutterBottom variant="body2" className={classes.title}>
+												{item.product.name} {item.product.weight} {item.product.unit}
 											</Typography>
-											<Typography variant="body2" color="textSecondary" component="p" className={classes.price}>
-												<NumberFormat value={item.harga} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+											<Typography variant="body2" color="textSecondary" className={classes.price}>
+												<NumberFormat value={item.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 											</Typography>
 										</CardContent>
 									</CardActionArea>
 									<CardActions>
 										<Typography variant="body2" color="textSecondary" component="p" className={classes.stock}>
-											Stok : <NumberFormat value={item.stok} displayType={'text'} thousandSeparator={true} />
+											{/* Stok : <NumberFormat value={item.stok} displayType={'text'} thousandSeparator={true} /> */}
 										</Typography>
 									</CardActions>
 								</Card>
@@ -160,11 +180,16 @@ const Product = () => {
 					onOpen={handleModalOpen}
 					disableSwipeToOpen
 				>
-					<CounterSlice handleModalClose={handleModalClose} product={item} />
+					<CounterSlice handleModalClose={handleModalClose} onAddToCart={onAddToCart} product={item} />
 				</SwipeableDrawer>
 			</CardContent>
 		</Card>
-	)
+	</Fragment>
+	
 }
 
-export default Product;
+const mapStateToProps = state => ({
+	product: state.product
+})
+
+export default connect(mapStateToProps, {getProduct})(Product);

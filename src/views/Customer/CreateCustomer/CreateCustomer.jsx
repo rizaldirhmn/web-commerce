@@ -104,10 +104,10 @@ const CreateCustomer = ({ addCustomer }) => {
                                                 inputRef={register}
                                                 select
                                             >
-                                                <MenuItem key='aog' value="aog">
+                                                <MenuItem key='aog' value="1">
                                                     AOG
                                                 </MenuItem>
-                                                <MenuItem key='mog' value="mog">
+                                                <MenuItem key='mog' value="2">
                                                     MOG
                                                 </MenuItem>
                                             </TextField>

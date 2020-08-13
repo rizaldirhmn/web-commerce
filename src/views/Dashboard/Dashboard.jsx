@@ -14,7 +14,9 @@ import {
   TotalPurchasing,
   TotalCost,
   OverviewTodayPricing,
-  TotalProfit
+  TotalProfit,
+  TotalProfitClean,
+  TotalCustomer
 } from './components'
 
 const useStyles = makeStyles(theme => ({
@@ -38,6 +40,10 @@ const useStyles = makeStyles(theme => ({
   },
   executiveSummary: {
     marginBottom: theme.spacing(2)
+  },
+  btn: {
+    backgroundColor: '#011747',
+    color: '#FF9300'
   }
 }));
 
@@ -67,7 +73,7 @@ const Dashboard = () => {
           <Grid item>
             <Button
               fullWidth
-              color="secondary"
+              className={classes.btn}
               variant="contained"
               component={CustomRouterLink}
               to='/cashier'
@@ -82,8 +88,8 @@ const Dashboard = () => {
         >
           <Grid
             item
-            lg={3}
-            md={3}
+            lg={4}
+            md={4}
             sm={6}
             xs={12}
           >
@@ -91,8 +97,8 @@ const Dashboard = () => {
           </Grid>
           <Grid
             item
-            lg={3}
-            md={3}
+            lg={4}
+            md={4}
             sm={6}
             xs={12}
           >
@@ -100,8 +106,8 @@ const Dashboard = () => {
           </Grid>
           <Grid
             item
-            lg={3}
-            md={3}
+            lg={4}
+            md={4}
             sm={6}
             xs={12}
           >
@@ -109,12 +115,30 @@ const Dashboard = () => {
           </Grid>
           <Grid
             item
-            lg={3}
-            md={3}
+            lg={4}
+            md={4}
             sm={6}
             xs={12}
           >
             <TotalCost />
+          </Grid>
+          <Grid
+            item
+            lg={4}
+            md={4}
+            sm={6}
+            xs={12}
+          >
+            <TotalProfitClean />
+          </Grid>
+          <Grid
+            item
+            lg={4}
+            md={4}
+            sm={6}
+            xs={12}
+          >
+            <TotalCustomer />
           </Grid>
         </Grid>
           <Hidden only={['sm','xs']}>

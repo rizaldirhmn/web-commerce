@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	root: {
 		height: '100%',
-		backgroundColor: '#0195FF',
+		backgroundColor: '#011747',
 		borderRadius: theme.spacing(2)
 	},
 	content: {
@@ -25,15 +25,15 @@ const useStyles = makeStyles(theme => ({
 	},
 	title: {
 		fontWeight: 700,
-		color: '#fff'
+		color: '#FF9300'
 	},
 	numbers: {
-		color: '#fff'
+		color: '#FF9300'
 	},
 	caption: {
 		fontWeight: 700,
 		fontSize: 18,
-		color: '#fff',
+		color: '#FF9300',
 		fontFamily: 'Arial',
 	},
 	avatar: {

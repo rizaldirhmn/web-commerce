@@ -85,6 +85,15 @@ const Cashier = () => {
 	const classes = useStyles();
 	
 	const [ modalOpen, setModalOpen ] = useState(false)
+	const [ cart, setCart ] = useState({})
+
+
+	const onAddToCart = e => {
+		console.log(e)
+		// setCart({e})
+	}
+
+	console.log(cart)
 
 	const handleModalOpen = () => {
 		setModalOpen(true)
@@ -137,7 +146,7 @@ const Cashier = () => {
 							sm={12}
 							xs={12}
 						>
-							<Product />
+							<Product onAddToCart={onAddToCart} />
 						</Grid>
 						<Hidden only={['xs', 'sm']}>
 							<Grid

@@ -79,12 +79,18 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const CounterSlice = (props) => {
-    const { handleModalClose, product } = props
+    const { handleModalClose, product, onAddToCart } = props
     const classes = useStyles()
     const [count, setCount] = React.useState(1);
     const more = () => setCount(count + 1);
     const less = () => setCount(count - 1);
     const onChange = e => setCount(+e.target.value);
+
+    const onClickCart = e => {
+        console.log(e.product)
+        // setCart(e)
+        onAddToCart(e)
+    }
 
     return (
         <Card className={classes.root}>
@@ -116,7 +122,7 @@ const CounterSlice = (props) => {
                         </Button>
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" onClick={handleModalClose} size="medium" color="primary">
+                        <Button variant="contained" onClick={() => onClickCart(product)} size="medium" color="primary">
                             Simpan
                         </Button>
                     </Grid>

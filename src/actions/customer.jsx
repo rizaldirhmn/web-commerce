@@ -110,7 +110,6 @@ export const getDetailCustomer = (id) => async dispatch => {
 
 export const editCustomer = (formData, history, id) => async dispatch => {
     const endpoint = `${process.env.REACT_APP_BASE_URL}/user/customer/${id}`
-
     try {
         const res = await axios({
             url: endpoint,

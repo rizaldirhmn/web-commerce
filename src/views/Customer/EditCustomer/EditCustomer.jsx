@@ -41,20 +41,14 @@ const EditCustomer = ({
 }) => {
     const classes = useStyles()
     const history = useHistory()
-    const params = useParams()
+    const { id } = useParams()
     const { register, handleSubmit, errors } = useForm({
 		resolver: yupResolver(SchemaValidation)
     });
-    const [formState, setFormState] = useState({
-        name: '',
-        status: '',
-        is_active: '',
-        address: '',
-        id_agent: ''
-    });
+    const [formState, setFormState] = useState({});
 
-    useEffect((params) => {
-        getDetailCustomer(params.id)
+    useEffect(() => {
+        getDetailCustomer(id)
 
         // setFormState({
         //     name : loading || !currentCustomer.name ? '' : currentCustomer.name,
@@ -64,7 +58,7 @@ const EditCustomer = ({
         //     id_agent : loading || !currentCustomer.id_agent ? '' : currentCustomer.id_agent,
         // })
     
-    }, [loading, getDetailCustomer]);
+    }, [id, loading, getDetailCustomer]);
 
     // const {
     //     name,
@@ -85,7 +79,7 @@ const EditCustomer = ({
     };
 
     const onSubmit = e => {
-        editCustomer(formState, history, params.id)
+        editCustomer(formState, history, id)
     }
 
     function isEmpty(obj) {
@@ -161,10 +155,10 @@ const EditCustomer = ({
                                                     inputRef={register}
                                                     select
                                                 >
-                                                    <MenuItem key='aog' value="aog">
+                                                    <MenuItem key='aog' value="1">
                                                         AOG
                                                     </MenuItem>
-                                                    <MenuItem key='mog' value="mog">
+                                                    <MenuItem key='mog' value="2">
                                                         MOG
                                                     </MenuItem>
                                                 </TextField>
@@ -250,10 +244,10 @@ const EditCustomer = ({
                                                     inputRef={register}
                                                     select
                                                 >
-                                                    <MenuItem key="aktif" value="0">
+                                                    <MenuItem key="aktif" value="1">
                                                         Aktif
                                                     </MenuItem>
-                                                    <MenuItem key="tidak_aktif" value="1">
+                                                    <MenuItem key="tidak_aktif" value="2">
                                                         Tidak Aktif
                                                     </MenuItem>
                                                 </TextField>
