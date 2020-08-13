@@ -66,44 +66,6 @@ const useStyles = makeStyles(theme => ({
 const Product = ({ getProduct, product: { products, loading }}, props) => {
 	const classes = useStyles()
 	const { onAddToCart } = props
-	const produk = [
-		{
-			nama : '0.1 gram',
-			image: `${process.env.PUBLIC_URL + '/images/produk/0,1.jpg'}`,
-			harga: 1000000,
-			stok : 10
-		},
-		{
-			nama : '0.2 gram',
-			image: `${process.env.PUBLIC_URL + '/images/produk/0,2.jpg'}`,
-			harga: 1000000,
-			stok : 10
-		},
-		{
-			nama : '0.5 gram',
-			image: `${process.env.PUBLIC_URL + '/images/produk/0,5.jpg'}`,
-			harga: 1000000,
-			stok : 10
-		},
-		{
-			nama : '1 gram',
-			image: `${process.env.PUBLIC_URL + '/images/produk/1.jpg'}`,
-			harga: 1000000,
-			stok : 10
-		},
-		{
-			nama : '2 gram',
-			image: `${process.env.PUBLIC_URL + '/images/produk/2.jpg'}`,
-			harga: 1000000,
-			stok : 10
-		},
-		{
-			nama : '5 gram',
-			image: `${process.env.PUBLIC_URL + '/images/produk/5.jpg'}`,
-			harga: 1000000,
-			stok : 10
-		}
-	]
 
 	const [ modalOpen, setModalOpen ] = useState(false)
 	const [ item, setItem ] = useState()

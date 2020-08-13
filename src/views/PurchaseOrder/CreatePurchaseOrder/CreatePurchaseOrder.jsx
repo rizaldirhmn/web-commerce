@@ -23,7 +23,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Backdrop from '@material-ui/core/Backdrop'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import DeleteIcon from '@material-ui/icons/Delete'
-import DetailIcon from '@material-ui/icons/Search'
 
 // Component
 import InputOrder from './InputOrder'
