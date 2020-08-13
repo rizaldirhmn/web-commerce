@@ -190,7 +190,9 @@ const CreatePurchaseOrder = ({
                     />
                     </CardContent>
                 </Card>
-                <InputOrder />
+                {purchaseOrderDetails.status_po === '99' && (
+                    <InputOrder />
+                )}
                 <Card>
                     <CardContent>
                         <Box display="flex" flexDirection="row-reverse" p={1} m={1}>

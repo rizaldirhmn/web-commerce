@@ -80,9 +80,9 @@ const PaymentMethodOptions = (props) => {
                 >
                     <Grid
                         item
-                        lg={4}
-                        md={6}
-                        sm={6}
+                        lg={12}
+                        md={12}
+                        sm={12}
                         xs={12}
                     >
                         <Typography>Tunai</Typography>

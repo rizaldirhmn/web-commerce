@@ -87,10 +87,18 @@ const CounterSlice = (props) => {
     const { handleModalClose, product, searchCustomer, addToCart } = props
     const classes = useStyles()
     const history = useHistory()
-    const [count, setCount] = React.useState(1);
-    const more = () => setCount(count + 1);
+    const [count, setCount] = React.useState(0);
+    const more = () => {
+        if(count < product.product.stock){
+            setCount(count + 1)
+        }
+    };
     const less = () => setCount(count - 1);
-    const onChange = e => setCount(+e.target.value);
+    const onChange = e => {
+        if(count <= product.product.stock){
+            setCount(+e.target.value)
+        }
+    }
 
     const onSubmit = () => {
         handleModalClose()
@@ -128,9 +136,11 @@ const CounterSlice = (props) => {
                         </Button>
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" onClick={onSubmit} size="medium" color="primary">
-                            Simpan
-                        </Button>
+                        {count > 0 && (
+                            <Button variant="contained" onClick={onSubmit} size="medium" color="primary">
+                                Simpan
+                            </Button>
+                        )}
                     </Grid>
                 </Grid>
             </CardActions>

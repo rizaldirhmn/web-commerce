@@ -61,6 +61,9 @@ const useStyles = makeStyles(theme => ({
 		zIndex: theme.zIndex.drawer + 1,
 		color: '#fff',
 	},
+	cardDisabled: {
+		opacity: theme.spacing(2)
+	}
 }));
 
 const Product = ({ getProduct, product: { products, loading }, customer : { searchCustomer }}) => {
