@@ -1,5 +1,5 @@
 import { 
-    GET_CART, ADD_TO_CART 
+    GET_CART, ADD_TO_CART, DELETE_CART_ITEM, DELETE_CART_ALL_ITEM 
 } from '../actions/types'
 
 const initialState = {
@@ -25,6 +25,20 @@ export default function (state = initialState, action) {
                 cart: payload,
                 loading: false,
                 counting : initialState.counting += 1
+            }
+        case DELETE_CART_ITEM:
+            return {
+                ...state,
+                cart: payload,
+                loading: false,
+                counting : initialState.counting -= 1
+            }
+        case DELETE_CART_ALL_ITEM:
+            return {
+                ...state,
+                cart: payload,
+                loading: false,
+                counting : initialState.counting = 0
             }
         default:
             return state

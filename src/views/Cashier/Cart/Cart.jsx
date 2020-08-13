@@ -23,7 +23,7 @@ import PaymentMethodOptions from './PaymentMethodOptions'
 
 // Redux
 import { connect } from 'react-redux'
-import { getCart } from '../../../actions/cart'
+import { getCart, deleteCartItem, deleteCartAllItem } from '../../../actions/cart'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -56,7 +56,8 @@ const useStyles = makeStyles(theme => ({
             backgroundColor: "#2F96D3",
             color: '#FFFFFF'
          },
-        maxWidth: '150px',
+        // maxWidth: '150px',
+        width: '100%',
         fontSize: '12px',
         color: '#FFFFFF'
     },
@@ -65,7 +66,7 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const Cart = ({ getCart , cart : { carts, loading, counting } }) => {
+const Cart = ({ getCart , cart : { carts, loading, counting }, deleteCartItem, deleteCartAllItem }) => {
     const classes = useStyles()
 
     const [ modalPaymentOpen, setModalPaymentOpen ] = useState(false)
@@ -76,6 +77,14 @@ const Cart = ({ getCart , cart : { carts, loading, counting } }) => {
 
     const handleDrawerPaymentClose = () => {
         setModalPaymentOpen(false)
+    }
+
+    const onDeleteItem = (e) => {
+        deleteCartItem(e)
+    }
+
+    const onDeleteAllItem = () => {
+        deleteCartAllItem()
     }
 
     useEffect(() => {
@@ -109,7 +118,7 @@ const Cart = ({ getCart , cart : { carts, loading, counting } }) => {
                                 <Grid item>
                                     <Typography variant="subtitle2">
                                         <NumberFormat value={item.total_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                        <IconButton aria-label="delete" className={classes.margin}>
+                                        <IconButton aria-label="delete" className={classes.margin} onClick={() => onDeleteItem(item.id)}>
                                             <Delete fontSize="small" />
                                         </IconButton>
                                     </Typography>
@@ -140,7 +149,7 @@ const Cart = ({ getCart , cart : { carts, loading, counting } }) => {
                         container
                         spacing={2}
                     >
-                        <Grid item lg={12} md={12} sm={12} xs={12}>
+                        <Grid item xs={12}>
                             <Button fullWidth variant="contained" onClick={handleDrawerPaymentOpen} className={classes.btnPayment}>
                                 Pilih Pembayaran
                             </Button>
@@ -156,6 +165,7 @@ const Cart = ({ getCart , cart : { carts, loading, counting } }) => {
                                 variant="outlined"
                                 className={classes.btnDeleteAll}
                                 startIcon={<Delete />}
+                                onClick={onDeleteAllItem}
                             >
                                 Kosongkan
                             </Button>
@@ -186,4 +196,4 @@ const mapStateToProps = state => ({
 	cart: state.cart
 })
 
-export default connect(mapStateToProps, { getCart })(Cart)
+export default connect(mapStateToProps, { getCart, deleteCartItem, deleteCartAllItem })(Cart)
