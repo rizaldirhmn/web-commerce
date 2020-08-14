@@ -150,9 +150,15 @@ const Cart = ({ getCart , cart : { carts, loading, counting }, deleteCartItem, d
                         spacing={2}
                     >
                         <Grid item xs={12}>
-                            <Button fullWidth variant="contained" onClick={handleDrawerPaymentOpen} className={classes.btnPayment}>
-                                Pilih Pembayaran
-                            </Button>
+                            {carts.cart.length > 0 ? (
+                                <Button fullWidth variant="contained" onClick={handleDrawerPaymentOpen} className={classes.btnPayment}>
+                                    Lanjutkan Pembayaran
+                                </Button>
+                            ):(
+                                <Button disabled fullWidth variant="contained" onClick={handleDrawerPaymentOpen} className={classes.btnPayment}>
+                                    Lanjutkan Pembayaran
+                                </Button>
+                            )}
                         </Grid>
                     </Grid>
                     <Grid

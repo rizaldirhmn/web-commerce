@@ -6,6 +6,7 @@ import dashboard from './dashboard'
 import purchaseOrder from './purchaseOrder'
 import product from './product'
 import cart from './cart'
+import payment from './payment'
 
 export default combineReducers({
     alert,
@@ -15,4 +16,5 @@ export default combineReducers({
     purchaseOrder,
     product,
     cart,
+    payment,
 })

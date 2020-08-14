@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, Fragment } from 'react'
+import { useHistory } from 'react-router-dom'
 import {
     Grid,
     Typography,
@@ -13,6 +14,14 @@ import {
     Button
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
+import Backdrop from '@material-ui/core/Backdrop'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import NumberFormat from 'react-number-format'
+
+// Redux
+import { connect } from 'react-redux'
+import { addPayment } from '../../../../actions/payment'
+import { getSearchCustomerAndClear } from '../../../../actions/customer'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -60,20 +69,73 @@ const useStyles = makeStyles(theme => ({
         marginBottom: theme.spacing(2),
         height: 3,
         margin: 4
-    }
+    },
+    backdrop: {
+		zIndex: theme.zIndex.drawer + 1,
+		color: '#fff',
+	},
 }))
 
 const PaymentMethodOptions = (props) => {
     const classes = useStyles()
-    const { handleDrawerPaymentClose } = props
+    const history = useHistory()
+    const { handleDrawerPaymentClose, getSearchCustomerAndClear, customer : { searchCustomer, loading }, cart : { carts }, addPayment } = props
+
+    const [formState, setFormState] = useState({
+        input_price: '',
+        note : ''
+    });
+
+    const handleChange = event => {
+        event.persist();
     
-    return(
+        setFormState(formState => ({
+          ...formState,
+            [event.target.name]: event.target.value
+        }));
+    };
+
+    const [ formCustomer ] = useState({
+		params: '',
+		kata_kunci: ''
+	})
+
+    const onSubmitPayment = () => {
+        // console.log(searchCustomer.id, formState.input_price)
+        addPayment(searchCustomer.id, formState.input_price, formState.note, history)
+        handleDrawerPaymentClose()
+        getSearchCustomerAndClear(formCustomer.params, formCustomer.kata_kunci)
+    }
+
+    return loading || searchCustomer === null ? 
+	<Backdrop className={classes.backdrop} open>
+		<CircularProgress color="inherit" />
+    </Backdrop> 
+    :
+    <Fragment>
         <Card className={classes.root}>
             <hr className={classes.cardNotch} />
             <CardHeader
-                title="Pilih Metode Pembayaran"
+                title="Lanjutkan Pembayaran"
             />
             <CardContent>
+                <Grid
+                    container
+                    spacing={2}
+                >
+                    <Grid
+                        item
+                        lg={12}
+                        md={12}
+                        sm={12}
+                        xs={12}
+                    >
+                        <Typography>
+                            Total Harus Bayar : <NumberFormat value={carts.total_payment} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+                        </Typography>
+                        
+                    </Grid>
+                </Grid>
                 <Grid
                     container
                     spacing={2}
@@ -93,7 +155,9 @@ const PaymentMethodOptions = (props) => {
                             <Divider className={classes.divider} orientation="vertical" />
                             <InputBase
                                 className={classes.input}
-                                name="payment_cash"
+                                defaultValue={formState.input_price || ''}
+                                name="input_price"
+                                onChange={handleChange}
                                 placeholder="Masukan Nilai Tunai"
                                 inputProps={{ 'aria-label': 'Masukan Nilai Tunai' }}
                             />
@@ -101,7 +165,7 @@ const PaymentMethodOptions = (props) => {
                     </Grid>
                 </Grid>
 
-                <Divider className={classes.dividerHorizontal} orientation="horizontal" />
+                {/* <Divider className={classes.dividerHorizontal} orientation="horizontal" />
 
                 <Grid
                     container
@@ -152,7 +216,7 @@ const PaymentMethodOptions = (props) => {
                             Lainnya
                         </Button>
                     </Grid>
-                </Grid>
+                </Grid> */}
 
                 <Divider className={classes.dividerHorizontal} orientation="horizontal" />
 
@@ -160,7 +224,7 @@ const PaymentMethodOptions = (props) => {
                     container
                     spacing={2}
                 >
-                    <Grid
+                    {/* <Grid
                         item
                         lg={6}
                         md={6}
@@ -176,19 +240,21 @@ const PaymentMethodOptions = (props) => {
                                 inputProps={{ 'aria-label': 'Masukan Jenis Pembayaran' }}
                             />
                         </Paper>
-                    </Grid>
+                    </Grid> */}
                     <Grid
                         item
-                        lg={6}
-                        md={6}
-                        sm={6}
+                        lg={12}
+                        md={12}
+                        sm={12}
                         xs={12}
                     >
                         <Typography>Catatan</Typography>
                         <Paper component="form" className={classes.searchRoot}>
                             <InputBase
                                 className={classes.input}
-                                name="notes"
+                                name="note"
+                                defaultValue={formState.note || ''}
+                                onChange={handleChange}
                                 placeholder="Catatan"
                                 inputProps={{ 'aria-label': 'Catatan' }}
                             />
@@ -204,14 +270,22 @@ const PaymentMethodOptions = (props) => {
                         </Button>
                     </Grid>
                     <Grid item>
-                        <Button onClick={handleDrawerPaymentClose} variant="contained" size="medium" color="primary">
-                            Bayar
-                        </Button>
+                        {formState.input_price !== '' && (
+                            <Button onClick={onSubmitPayment} variant="contained" size="medium" color="primary">
+                                Bayar
+                            </Button>
+                        )}
                     </Grid>
                 </Grid>
             </CardActions>
         </Card>
-    )
+    </Fragment>
+    
 }
 
-export default PaymentMethodOptions
+const mapStateToProps = state => ({
+    customer: state.customer,
+    cart: state.cart
+})
+
+export default connect(mapStateToProps, { addPayment, getSearchCustomerAndClear })(PaymentMethodOptions)
