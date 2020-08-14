@@ -24,6 +24,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import SignOutIcon from '@material-ui/icons/Input';
+import ReportIcon from '@material-ui/icons/Assessment'
 
 import Hidden from '@material-ui/core/Hidden';
 
@@ -69,12 +70,6 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth,
     backgroundColor: drawerColorBlue
   },
-  // drawer: {
-  //   width: drawerWidth,
-  //   flexShrink: 0,
-  //   backgroundColor: drawerColorBlue
-  //   // whiteSpace: 'nowrap',
-  // },
   
   toolbar: {
     display: 'flex',
@@ -153,29 +148,6 @@ const Main = props => {
   const handlingSignout = event => {
     event.persist();
     setDialogOpen(true)
-    // Swal.fire({
-    //   title: 'Are you sure?',
-    //   text: 'You will not be able to access this Dashboard Page',
-    //   icon: 'warning',
-    //   showCancelButton: true,
-    //   confirmButtonText: 'Yes, Logout',
-    //   cancelButtonText: 'No, keep it'
-    // }).then((result) => {
-    //   if (result.value) {
-    //     // Swal.fire(
-    //     //   'Logged Out',
-    //     //   'You are Logged Out',
-    //     //   'success'
-    //     // )
-        // sessionStorage.removeItem('access_token');
-        // sessionStorage.removeItem('expires_in');
-        // sessionStorage.removeItem('role');
-        // sessionStorage.removeItem('data');
-        // sessionStorage.clear();
-        
-    //     setRedirect({values: true});
-    //   } 
-    // })
     
   };
 
@@ -269,6 +241,19 @@ const Main = props => {
                   <CartIcon style={{ color: textMenuWhite }} />
                 </ListItemIcon>
                 <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Purchase Order</Typography>} />
+            </ListItem>
+          </Button>
+          <Button
+            activeclassname={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            to='/report/selling'
+          >
+            <ListItem button key='report-selling'>
+                <ListItemIcon>
+                  <ReportIcon style={{ color: textMenuWhite }} />
+                </ListItemIcon>
+                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Transaksi Penjualan</Typography>} />
             </ListItem>
           </Button>
           <Button

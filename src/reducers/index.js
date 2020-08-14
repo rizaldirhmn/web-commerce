@@ -7,6 +7,7 @@ import purchaseOrder from './purchaseOrder'
 import product from './product'
 import cart from './cart'
 import payment from './payment'
+import transaction from './transaction'
 
 export default combineReducers({
     alert,
@@ -17,4 +18,5 @@ export default combineReducers({
     product,
     cart,
     payment,
+    transaction
 })

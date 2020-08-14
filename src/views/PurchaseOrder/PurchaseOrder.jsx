@@ -99,7 +99,7 @@ const PurchaseOrder = ({ addPurchaseOrder}) => {
                         </Grid>
                     </Hidden>
                     <Hidden only={['md','lg','xl']}>
-                        <Fab color="primary" aria-label="add" className={classes.fab}>
+                        <Fab color="primary" aria-label="add" className={classes.fab} onClick={onSubmit}>
                             <AddCircle/>
                         </Fab>
                     </Hidden>

@@ -35,15 +35,14 @@ export const getCart = () => async dispatch => {
     }
 }
 
-export const addToCart = (id_product, type, qty, history) => async dispatch => {
+export const addToCart = (id_product, type, qty) => async dispatch => {
     const endpoint = `${process.env.REACT_APP_BASE_URL}/user/cart`
     const token = sessionStorage.getItem('access_token')
 
-    const myData = {
-        id_product : id_product,
-        qty : qty,
-        type : type
-    }
+    const myData = new FormData()
+    myData.set('id_product', id_product)
+    myData.set('qty', qty)
+    myData.set('type', type)
 
     try {
         const res = await axios({
@@ -52,7 +51,7 @@ export const addToCart = (id_product, type, qty, history) => async dispatch => {
             data : myData,
             loading: true,
             headers: { 
-              'Content-Type': 'application/json', 
+              'Content-Type': 'multipart/form-data', 
               'Accept' : 'application/json', 
               'Authorization' : `bearer ${token}`
             }

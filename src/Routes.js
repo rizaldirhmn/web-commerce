@@ -11,7 +11,8 @@ import {
   CreateCustomer as CreateCustomerView,
   EditCustomer as EditCustomerView,
   PurchaseOrder as PurchaseOrderView,
-  CreatePurchaseOrder as CreatePurchaseOrderView
+  CreatePurchaseOrder as CreatePurchaseOrderView,
+  Transaction as TransactionView
 } from './views';
 
 const Routes = () => {
@@ -70,6 +71,13 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/purchase-order/create/:id"
+      />
+
+      <RouteWithLayout
+        component={TransactionView}
+        exact
+        layout={MainLayout}
+        path="/report/selling"
       />
 
       <Route
