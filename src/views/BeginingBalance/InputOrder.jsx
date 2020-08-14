@@ -18,8 +18,8 @@ import { useParams, useHistory } from 'react-router-dom'
 
 // Redux
 import { connect } from 'react-redux'
-import { getProductCabang } from '../../../actions/product'
-import { addPurchaseOrderDetail } from '../../../actions/purchaseOrder'
+import { getProductCabang } from '../../actions/product'
+import { addPurchaseOrderDetail } from '../../actions/purchaseOrder'
 
 const useStyles = makeStyles(theme => ({
     root: {

@@ -79,6 +79,7 @@ const CreatePurchaseOrder = ({
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(10)
     const history = useHistory()
+    var no = 1;
     
     const { id } = useParams()
 
@@ -146,7 +147,7 @@ const CreatePurchaseOrder = ({
                             {purchaseOrderDetails.data.map((product) => (
                                 <TableRow key={product.id}>
                                     <TableCell>
-                                        1
+                                        {no++}
                                     </TableCell>
                                     <TableCell>
                                         {product.product.name} {product.product.weight} {product.product.unit}
