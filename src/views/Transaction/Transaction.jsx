@@ -5,7 +5,6 @@ import {
     Typography,
     Grid,
     Paper,
-    Button
 } from '@material-ui/core'
 import DateFnsUtils from '@date-io/date-fns'; // choose your lib
 import {
@@ -107,10 +106,6 @@ const Transaction = ({ getTransaction, getTransactionSearch, transaction : { tra
             }
         }));
     };
-
-    const onSearchSubmit = e => {
-        console.log(startDate.submit.submit, endDate.submit.submit)
-    }
 
     useEffect(() => {
         // getTransaction()
