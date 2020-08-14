@@ -94,7 +94,7 @@ const InputOrder = ({ getProductCabang, addPurchaseOrderDetail, product: { produ
         addPurchaseOrderDetail(formState.values, params.id, history)
     }
 
-    return loading || products == null ? 
+    return loading || products === null ? 
     <Backdrop className={classes.backdrop} open>
         <CircularProgress color="inherit" />
     </Backdrop>  

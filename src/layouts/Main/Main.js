@@ -257,6 +257,19 @@ const Main = props => {
             </ListItem>
           </Button>
           <Button
+            activeclassname={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            to='/begining-balance'
+          >
+            <ListItem button key='begining-balance'>
+                <ListItemIcon>
+                  <ReportIcon style={{ color: textMenuWhite }} />
+                </ListItemIcon>
+                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Saldo Awal (Under Development)</Typography>} />
+            </ListItem>
+          </Button>
+          <Button
             className={classes.button}
             onClick={handlingSignout}
           >
