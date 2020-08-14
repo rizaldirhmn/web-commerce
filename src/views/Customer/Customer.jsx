@@ -105,7 +105,7 @@ const Customer = () => {
                         </Grid>
                     </Hidden>
                     <Hidden only={['md','lg','xl']}>
-                        <Fab color="primary" aria-label="add" className={classes.fab}>
+                        <Fab color="primary" aria-label="add" className={classes.fab} component={CustomRouterLink} to='/customer/create'>
                             <AddCircle/>
                         </Fab>
                     </Hidden>
