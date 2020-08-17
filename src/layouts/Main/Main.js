@@ -272,7 +272,7 @@ const Main = props => {
                 <ListItemIcon>
                   <ReportIcon style={{ color: textMenuWhite }} />
                 </ListItemIcon>
-                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Saldo Awal (Under Development)</Typography>} />
+                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Stock Awal</Typography>} />
             </ListItem>
           </Button>
           <Button
