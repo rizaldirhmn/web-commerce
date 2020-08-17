@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core'
 // Redux
 import { connect } from 'react-redux'
-import { getSearchCustomerAndClear, getCustomer } from '../../../actions/customer'
+import { getSearchCustomerAndClear, getCustomer } from '../../../../actions/customer'
 import { useEffect } from 'react'
 
 const useStyles = makeStyles(theme => ({
@@ -77,7 +77,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SearchCustomer = (props) => {
-	const { getSearchCustomerAndClear, getCustomer, customer : { searchCustomer, loading, customers } } = props
+	const { getSearchCustomerAndClear, getCustomer, customer : { searchCustomer, loading, customers }, handleSearchModalClose } = props
 	const classes = useStyles();
 
 	useEffect(() => {
@@ -96,6 +96,7 @@ const SearchCustomer = (props) => {
 	const handleSelectChange = event => {
 		if(event != null){
 			getSearchCustomerAndClear('id_agent', event.value)
+			handleSearchModalClose()
 		}else{
 			getSearchCustomerAndClear('id_agent', '')
 		}

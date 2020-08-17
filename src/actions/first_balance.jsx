@@ -2,13 +2,11 @@
 import axios from 'axios'
 import { setAlert } from './alert'
 import { 
-    GET_PRODUCT_PO,
-    GET_PRODUCT
+    GET_FIRST_BALANCE, ADD_FIRST_BALANCE, ADD_FIRST_BALANCE_ERROR
 } from './types'
 
-export const getProduct = (type) => async dispatch => {
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/product/filter?type=${type}`
-    console.log(endpoint)
+export const getFirstBalance = () => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/first_balance`
     const token = sessionStorage.getItem('access_token')
 
     try {
@@ -24,7 +22,7 @@ export const getProduct = (type) => async dispatch => {
         });
 
         dispatch({
-            type: GET_PRODUCT,
+            type: GET_FIRST_BALANCE,
             payload: res.data
         })
 
@@ -38,14 +36,18 @@ export const getProduct = (type) => async dispatch => {
     }
 }
 
-export const getProductCabang = () => async dispatch => {
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/product`
+export const addFirstBalance = (formData) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/first_balance`
     const token = sessionStorage.getItem('access_token')
-
+    const product = {
+        product : formData
+    }
+    console.log(product)
     try {
         const res = await axios({
             url: endpoint,
-            method: "GET",
+            method: "POST",
+            data: product,
             loading: true,
             headers: { 
               'Content-Type': 'application/json', 
@@ -55,16 +57,18 @@ export const getProductCabang = () => async dispatch => {
         });
 
         dispatch({
-            type: GET_PRODUCT_PO,
+            type: ADD_FIRST_BALANCE,
             payload: res.data
         })
 
+        dispatch(setAlert("New Stock Added", "success"))
+
     } catch (error) {
-        dispatch(setAlert("Something Went Wrong", "error"))
-        console.log(error)
-        // dispatch({
-        //     payload: { msg: error.response.statusText, status: error.response.status },
-        //     type: STAGE_ERROR
-        // })
+        dispatch(setAlert(error.response.message, "error"))
+        // console.log(error)
+        dispatch({
+            payload: { msg: error.response.message, status: error.response.status },
+            type: ADD_FIRST_BALANCE_ERROR
+        })
     }
 }

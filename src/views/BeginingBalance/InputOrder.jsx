@@ -7,19 +7,21 @@ import {
     Grid,
     TextField,
     MenuItem,
-    Button
+    Button,
+    // Fab,
 } from '@material-ui/core'
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers"
 import SchemaValidation from './validation'
 import Backdrop from '@material-ui/core/Backdrop'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import { useParams, useHistory } from 'react-router-dom'
+// import { useParams, useHistory } from 'react-router-dom'
+// import AddCircle from '@material-ui/icons/AddCircle'
 
 // Redux
 import { connect } from 'react-redux'
 import { getProductCabang } from '../../actions/product'
-import { addPurchaseOrderDetail } from '../../actions/purchaseOrder'
+import { addFirstBalance } from '../../actions/first_balance'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -32,55 +34,55 @@ const useStyles = makeStyles(theme => ({
     btn: {
         backgroundColor: '#FF9300',
         color : '#FFFFFF',
-        marginTop: theme.spacing(1)
+        marginTop: theme.spacing(1),
+        marginRight: theme.spacing(2)
     },
     backdrop: {
 		zIndex: theme.zIndex.drawer + 1,
 		color: '#fff',
-	},
+    },
 }))
 
-const InputOrder = ({ getProductCabang, addPurchaseOrderDetail, product: { products, loading} }) => {
+const InputOrder = ({ getProductCabang, addFirstBalance, product: { productPO, loading} }) => {
     const classes = useStyles()
-    const params = useParams()
-    const history = useHistory()
+    // const params = useParams()
+    // const history = useHistory()
     
     const { register, handleSubmit, errors } = useForm({
 		resolver: yupResolver(SchemaValidation)
     });
-    
-    const [formState, setFormState] = useState({
-        isValid: false,
-        values: {
-            id_product: '',
-            harga: ''
-        },
-        touched: {},
-        errors: {}
-    });
 
-    const handleChange = event => {
-        event.persist();
+    const [productOptions, setProductOptions] = useState(
+        [
+            {
+                id_product : '',
+                qty : ''
+            }
+        ]
+    )
+
+	const handleAddMore = () => {
+		setProductOptions([
+            ...productOptions,
+            {
+                id_product : '',
+                qty : ''
+            }
+        ])
+    }
     
-        setFormState(formState => ({
-          ...formState,
-          values: {
-            ...formState.values,
-            [event.target.name]: event.target.value
-          }
-        }));
+    const handleInputChange = (e, index) => {
+        const productItem = [...productOptions];
+        productItem[index][e.target.name] = e.target.value;
+
+        setProductOptions(productItem);
     };
 
-    const onSelectProduct = event => {
-        event.persist()
-        setFormState(formState => ({
-            ...formState,
-            values: {
-                id_product: event.target.value.id_product,
-                harga: event.target.value.buy_price
-            }
-        }))
-    }
+    const handleRemoveClick = index => {
+        const list = [...productOptions];
+        list.splice(index, 1);
+        setProductOptions(list);
+    };
 
     useEffect(() => {
         getProductCabang()
@@ -91,10 +93,10 @@ const InputOrder = ({ getProductCabang, addPurchaseOrderDetail, product: { produ
         // console.log(formState.values)
         // const slug = params.slug
         // console.log(formState, startDate.submit.submit)
-        addPurchaseOrderDetail(formState.values, params.id, history)
+        addFirstBalance(productOptions)
     }
 
-    return loading || products === null ? 
+    return loading || productPO === null ? 
     <Backdrop className={classes.backdrop} open>
         <CircularProgress color="inherit" />
     </Backdrop>  
@@ -109,89 +111,99 @@ const InputOrder = ({ getProductCabang, addPurchaseOrderDetail, product: { produ
                     <CardContent>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <Grid container spacing={2}>
+                                {productOptions.map((prod, index) => {
+                                    return (
+                                        <>
+                                        <Grid
+                                            item
+                                            lg={4}
+                                            md={4}
+                                            sm={12}
+                                            xs={12}
+                                            key={index}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                variant="outlined"
+                                                // defaultValue={formState.values.id_product || ''}
+                                                label="Product"
+                                                margin="dense"
+                                                data-id={index}
+                                                name="id_product"
+                                                onChange={e => handleInputChange(e, index)}
+                                                helperText={
+                                                    errors.id_product && errors.id_product.message
+                                                }
+                                                error={errors.id_product && true}
+                                                inputRef={register}
+                                                select
+                                            >
+                                                {productPO.map((item) => (
+                                                    <MenuItem key={item.product.id} value={item.product.id}>
+                                                        {item.product.name} {item.product.weight} {item.product.unit}
+                                                    </MenuItem>
+                                                ))}
+                                            </TextField>
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            lg={4}
+                                            md={4}
+                                            sm={12}
+                                            xs={12}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                variant="outlined"
+                                                // defaultValue={formState.values.qty || ''}
+                                                label="Qty"
+                                                margin="dense"
+                                                name="qty"
+                                                data-id={index}
+                                                onChange={e => handleInputChange(e, index)}
+                                                helperText={
+                                                    errors.qty && errors.qty.message
+                                                }
+                                                error={errors.qty && true}
+                                                inputRef={register}
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            lg={4}
+                                            md={4}
+                                            sm={12}
+                                            xs={12}
+                                        >
+                                            <Button onClick={() => handleRemoveClick(index)} className={classes.btn} variant="contained" color="secondary">
+                                                Remove
+                                            </Button>
+                                        </Grid>
+                                        </>
+                                    )
+                                })}
                                 <Grid
                                     item
-                                    lg={3}
-                                    md={3}
+                                    lg={12}
+                                    md={12}
                                     sm={12}
-                                    xs={12}
                                 >
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        // defaultValue={formState.values.id_product || ''}
-                                        label="Product"
-                                        margin="dense"
-                                        name="id_product"
-                                        onChange={onSelectProduct}
-                                        helperText={
-                                            errors.id_product && errors.id_product.message
-                                        }
-                                        error={errors.id_product && true}
-                                        inputRef={register}
-                                        select
-                                    >
-                                        {products.map((item) => (
-                                            <MenuItem key={item.product.id} value={item.latest_price}>
-                                                {item.product.name} {item.product.weight} {item.product.unit}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
-                                </Grid>
-                                <Grid
-                                    item
-                                    lg={3}
-                                    md={3}
-                                    sm={12}
-                                    xs={12}
-                                >
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        value={formState.values.harga || ''}
-                                        label="Harga"
-                                        margin="dense"
-                                        name="harga"
-                                        onChange={onSelectProduct}
-                                        helperText={
-                                            errors.harga && errors.harga.message
-                                        }
-                                        error={errors.harga && true}
-                                        inputRef={register}
-                                        disabled
-                                    />
-                                </Grid>
-                                <Grid
-                                    item
-                                    lg={3}
-                                    md={3}
-                                    sm={12}
-                                    xs={12}
-                                >
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        defaultValue={formState.values.qty || ''}
-                                        label="Qty"
-                                        margin="dense"
-                                        name="qty"
-                                        onChange={handleChange}
-                                        helperText={
-                                            errors.qty && errors.qty.message
-                                        }
-                                        error={errors.qty && true}
-                                        inputRef={register}
-                                    />
-                                </Grid>
-                                <Grid
-                                    item
-                                    lg={3}
-                                    md={3}
-                                    sm={12}
-                                    xs={12}
-                                >
-                                    <Button type="submit" variant="contained" className={classes.btn}>
-                                        Tambah
+                                    {/* {productOptions.length === 0 ? (
+                                        <Fab variant ="extended" className={classes.btn} onClick={handleAddMore} >
+                                            <AddCircle className={classes.extendedIcon} />
+                                                Tambah Produk
+                                        </Fab>
+                                    ):(
+                                        <Fab variant ="extended" className={classes.btn} onClick={handleAddMore} >
+                                            <AddCircle className={classes.extendedIcon} />
+                                                Tambah Produk Lain
+                                        </Fab>
+                                    )} */}
+                                    <Button onClick={handleAddMore} variant="contained" className={classes.btn} color="primary">
+                                        Tambah Form
+                                    </Button>
+                                    <Button variant="contained" className={classes.btn} type="submit">
+                                        Simpan
                                     </Button>
                                 </Grid>
                             </Grid>
@@ -208,4 +220,4 @@ const mapStateToProps = state => ({
     product: state.product
 })
 
-export default connect(mapStateToProps, { getProductCabang, addPurchaseOrderDetail })(InputOrder)
+export default connect(mapStateToProps, { getProductCabang, addFirstBalance })(InputOrder)

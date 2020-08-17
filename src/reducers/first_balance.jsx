@@ -1,36 +1,36 @@
 import {
-    GET_TRANSACTION,
-    GET_SEARCH_TRANSACTION,
-    GET_DETAIL_TRANSACTION
+    GET_FIRST_BALANCE, ADD_FIRST_BALANCE, ADD_FIRST_BALANCE_ERROR
 } from '../actions/types'
 
 const initialState = {
-    transactions: null,
-    transaction: null,
+    firstBalance: {},
+    firstBalances: null,
     loading: true,
-    error: {},
+    counting: 0,
+    error: {}
 }
 
 export default function (state = initialState, action) {
     const { type, payload } = action
     switch (type) {
-        case GET_TRANSACTION:
+        case GET_FIRST_BALANCE:
             return {
                 ...state,
-                transactions: payload,
+                firstBalances: payload,
                 loading: false
             }
-        case GET_SEARCH_TRANSACTION:
+        case ADD_FIRST_BALANCE:
             return {
                 ...state,
-                transactions: payload,
+                firstBalance: payload,
                 loading: false,
+                counting : initialState.counting += 1
             }
-        case GET_DETAIL_TRANSACTION:
+        case ADD_FIRST_BALANCE_ERROR: 
             return {
                 ...state,
-                transaction: payload,
-                loading: false
+                error: payload,
+                loading: false,
             }
         default:
             return state

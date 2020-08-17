@@ -110,26 +110,51 @@ const Product = ({ getProduct, product: { products, loading }, customer : { sear
 								xs={12}
 							>
 								<Card className={classes.cardContentRoot}>
-									<CardActionArea onClick={() => handleModalOpen(item)}>
-										<CardMedia
-											square
-											className={classes.media}
-											image={item.product.image}
-											title={item.product.name}
-										/>
-										<CardContent>
-											<Typography gutterBottom variant="body2" className={classes.title}>
-												{item.product.name} {item.product.weight} {item.product.unit}
-											</Typography>
-											<Typography variant="body2" color="textSecondary" className={classes.price}>
-												<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-											</Typography>
-										</CardContent>
-									</CardActionArea>
+									{item.product.stock > 0 ? (
+										<CardActionArea onClick={() => handleModalOpen(item)}>
+											<CardMedia
+												square
+												className={classes.media}
+												image={item.product.image}
+												title={item.product.name}
+											/>
+											<CardContent>
+												<Typography gutterBottom variant="body2" className={classes.title}>
+													{item.product.name} {item.product.weight} {item.product.unit}
+												</Typography>
+												<Typography variant="body2" color="textSecondary" className={classes.price}>
+													<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+												</Typography>
+											</CardContent>
+										</CardActionArea>
+									):(
+										<CardActionArea onClick={() => handleModalOpen(item)} disabled>
+											<CardMedia
+												square
+												className={classes.media}
+												image={item.product.image}
+												title={item.product.name}
+											/>
+											<CardContent>
+												<Typography gutterBottom variant="body2" className={classes.title}>
+													{item.product.name} {item.product.weight} {item.product.unit}
+												</Typography>
+												<Typography variant="body2" color="textSecondary" className={classes.price}>
+													<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+												</Typography>
+											</CardContent>
+										</CardActionArea>
+									)}
 									<CardActions>
-										<Typography variant="body2" color="textSecondary" component="p" className={classes.stock}>
-											Stok : <NumberFormat value={item.product.stock} displayType={'text'} thousandSeparator={true} />
-										</Typography>
+										{item.product.stock > 0 ? (
+											<Typography variant="body2" color="textSecondary" component="p" className={classes.stock}>
+												Stok : <NumberFormat value={item.product.stock} displayType={'text'} thousandSeparator={true} />
+											</Typography>
+										):(
+											<Typography variant="body2" color="textSecondary" component="p" className={classes.stock}>
+												Stok : Habis
+											</Typography>
+										)}
 									</CardActions>
 								</Card>
 							</Grid>

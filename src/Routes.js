@@ -13,7 +13,8 @@ import {
   PurchaseOrder as PurchaseOrderView,
   CreatePurchaseOrder as CreatePurchaseOrderView,
   Transaction as TransactionView,
-  BeginingBalance as BeginingBalanceView
+  BeginingBalance as BeginingBalanceView,
+  DetailTransaction as DetailTransactionView
 } from './views';
 
 const Routes = () => {
@@ -79,6 +80,13 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/report/selling"
+      />
+
+      <RouteWithLayout
+        component={DetailTransactionView}
+        exact
+        layout={MainLayout}
+        path="/report/selling/detail/:id"
       />
 
       <RouteWithLayout

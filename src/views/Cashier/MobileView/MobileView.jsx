@@ -15,11 +15,11 @@ import {
 } from '@material-ui/core'
 // import CartIcon from '@material-ui/icons/AddShoppingCart'
 import AddUserIcon from '@material-ui/icons/PersonAdd'
-import PerfectScrollbar from '@opuscapita/react-perfect-scrollbar'
+// import PerfectScrollbar from '@opuscapita/react-perfect-scrollbar'
 
 import ProductCard from './ProductCard'
 // import Cart from '../Cart'
-import SearchCustomer from '../SearchCustomer'
+import SearchCustomer from './SearchCustomer'
 import CounterSlice from '../Product/CounterSlice'
 // Redux
 import { connect } from 'react-redux'
@@ -35,6 +35,10 @@ const useStyles = makeStyles(theme => ({
 	contentProduct: {
 		width: 'auto',
 		height: '630px',
+		margin: theme.spacing(2)
+	},
+	contentSearchCustomer: {
+		height: '600px',
 		margin: theme.spacing(2)
 	},
     fixedComponents:{
@@ -137,9 +141,9 @@ const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomer, lo
 			{!loading && (
 				<>
 				{searchCustomer && (
-					<PerfectScrollbar>
+					// <PerfectScrollbar>
 						<ProductCard handleQtyModalOpen={handleQtyModalOpen} />
-					</PerfectScrollbar>
+					// </PerfectScrollbar>
 				)}
 				</>
 			)}
@@ -153,10 +157,10 @@ const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomer, lo
 				onOpen={handleSearchModalOpen}
 				disableSwipeToOpen
 			>
-				<Card>
+				<Card className={classes.contentSearchCustomer}>
 					<CardHeader title="Cari Customer" />
 					<CardContent>
-						<SearchCustomer />
+						<SearchCustomer handleSearchModalClose={handleSearchModalClose} />
 					</CardContent>
 					{/* <CardActions>
 						<Button fullWidth variant="contained" onClick={handleSearchModalClose} color="primary" size="small">

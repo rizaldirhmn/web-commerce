@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-const InputOrder = ({ getProductCabang, addPurchaseOrderDetail, product: { products, loading} }) => {
+const InputOrder = ({ getProductCabang, addPurchaseOrderDetail, product: { productPO, loading} }) => {
     const classes = useStyles()
     const params = useParams()
     const history = useHistory()
@@ -94,7 +94,7 @@ const InputOrder = ({ getProductCabang, addPurchaseOrderDetail, product: { produ
         addPurchaseOrderDetail(formState.values, params.id, history)
     }
 
-    return loading || products == null ? 
+    return loading || productPO == null ? 
     <Backdrop className={classes.backdrop} open>
         <CircularProgress color="inherit" />
     </Backdrop>  
@@ -131,7 +131,7 @@ const InputOrder = ({ getProductCabang, addPurchaseOrderDetail, product: { produ
                                         inputRef={register}
                                         select
                                     >
-                                        {products.map((item) => (
+                                        {productPO.map((item) => (
                                             <MenuItem key={item.product.id} value={item.latest_price}>
                                                 {item.product.name} {item.product.weight} {item.product.unit}
                                             </MenuItem>

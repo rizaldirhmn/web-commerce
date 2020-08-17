@@ -63,7 +63,7 @@ const columns = [
     { id: 'no', label: 'No', minWidth: 30 },
     { id: 'item', label: 'Item Produk', minWidth: 100 },
     { id: 'stok', label: 'Stok Tersedia', minWidth: 70 },
-    { id: 'qty', label: 'Qty Order', minWidth: 80 },
+    { id: 'qty', label: 'Jumlah Order', minWidth: 80 },
     { id: 'hpp', label: 'Harga', minWidth: 100 },
     { id: 'total', label: 'Harga Total', minWidth: 100 },
     { id: 'action', label: 'Aksi', minWidth: 100 },

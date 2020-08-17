@@ -195,6 +195,7 @@ const Main = props => {
             activeclassname={classes.active}
             className={classes.button}
             component={CustomRouterLink}
+            onClick={handleDrawerClose}
             to='/dashboard'
           >
             <ListItem button key='dashboard'>
@@ -208,32 +209,35 @@ const Main = props => {
             activeclassname={classes.active}
             className={classes.button}
             component={CustomRouterLink}
+            onClick={handleDrawerClose}
             to='/cashier'
           >
             <ListItem button key='cashier'>
               <ListItemIcon>
                 <CartIcon style={{ color: textMenuWhite }} />
               </ListItemIcon>
-              <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Cashier</Typography>} />
+              <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Transaksi</Typography>} />
             </ListItem>
           </Button>
           <Button
             activeclassname={classes.active}
             className={classes.button}
             component={CustomRouterLink}
+            onClick={handleDrawerClose}
             to='/customer'
           >
             <ListItem button key='customer'>
                 <ListItemIcon>
                   <UserIcon style={{ color: textMenuWhite }} />
                 </ListItemIcon>
-                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Customer</Typography>} />
+                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Pelanggan</Typography>} />
             </ListItem>
           </Button>
           <Button
             activeclassname={classes.active}
             className={classes.button}
             component={CustomRouterLink}
+            onClick={handleDrawerClose}
             to='/purchase-order'
           >
             <ListItem button key='purchase-order'>
@@ -247,19 +251,21 @@ const Main = props => {
             activeclassname={classes.active}
             className={classes.button}
             component={CustomRouterLink}
+            onClick={handleDrawerClose}
             to='/report/selling'
           >
             <ListItem button key='report-selling'>
                 <ListItemIcon>
                   <ReportIcon style={{ color: textMenuWhite }} />
                 </ListItemIcon>
-                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Transaksi Penjualan</Typography>} />
+                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Laporan Penjualan</Typography>} />
             </ListItem>
           </Button>
           <Button
             activeclassname={classes.active}
             className={classes.button}
             component={CustomRouterLink}
+            onClick={handleDrawerClose}
             to='/begining-balance'
           >
             <ListItem button key='begining-balance'>

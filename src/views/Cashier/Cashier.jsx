@@ -14,7 +14,7 @@ import CartIcon from '@material-ui/icons/AddShoppingCart'
 // Components
 import Product from './Product'
 import Cart from './Cart'
-import Category from './Category'
+// import Category from './Category'
 import MobileView from './MobileView'
 import SearchCustomer from './SearchCustomer'
 
@@ -120,7 +120,7 @@ const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomer, loadi
           justify="space-between"
         >
           <Grid item>  
-            <Typography variant="h4">Kasir</Typography>
+            <Typography variant="h4">Transaksi Penjualan</Typography>
           </Grid>
         </Grid>
 				
@@ -129,7 +129,7 @@ const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomer, loadi
 					<>
 					{searchCustomer && (
 						<>
-						<div className={classes.row}>
+						{/* <div className={classes.row}>
 							<Grid
 								container
 							>
@@ -142,7 +142,7 @@ const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomer, loadi
 									<Category />
 								</Grid>
 							</Grid>
-						</div>
+						</div> */}
 						<div className={classes.row}>
 							<Grid
 								container

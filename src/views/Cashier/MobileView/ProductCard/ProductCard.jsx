@@ -88,7 +88,7 @@ const ProductCard = (props) => {
 					<CardActionArea className={classes.card} onClick={() => handleQtyModalOpen(item)}>
 						<Grid
 							container
-							justify="space-between"
+							spacing={2}
 						>
 							<Grid
 								item
@@ -113,7 +113,7 @@ const ProductCard = (props) => {
 								xs={6}
 							>
 								<Typography variant='h5'>
-									{item.product.name}
+									{item.product.name} {item.product.weight} {item.product.unit}
 								</Typography>
 								<Typography className={classes.capDetail}>
 									<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />

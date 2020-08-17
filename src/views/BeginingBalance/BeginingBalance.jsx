@@ -10,8 +10,8 @@ import {
     Typography,
     // IconButton,
     // Tooltip,
-    Box,
-    Button
+    // Box,
+    // Button
 } from '@material-ui/core'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -20,16 +20,18 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-// import Backdrop from '@material-ui/core/Backdrop'
-// import CircularProgress from '@material-ui/core/CircularProgress'
+import Backdrop from '@material-ui/core/Backdrop'
+import CircularProgress from '@material-ui/core/CircularProgress'
 // import DeleteIcon from '@material-ui/icons/Delete'
 
 // Redux
-// import { connect } from 'react-redux'
-import NumberFormat from 'react-number-format'
+import { connect } from 'react-redux'
+import { getFirstBalance } from '../../actions/first_balance'
+// import NumberFormat from 'react-number-format'
 
 // Component
 import InputOrder from './InputOrder'
+import { useEffect } from 'react';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -58,16 +60,14 @@ const columns = [
     { id: 'no', label: 'No', minWidth: 30 },
     { id: 'product', label: 'Produk', minWidth: 100 },
     { id: 'jumlah', label: 'Jumlah', minWidth: 70 },
-    { id: 'hpp', label: 'HPP', minWidth: 80 },
-    { id: 'total', label: 'Harga Total', minWidth: 100 },
-    { id: 'action', label: 'Aksi', minWidth: 100 },
   ];
 
-const CreatePurchaseOrder = () => {
+const BeginingBalance = ({ getFirstBalance, first_balance : { firstBalances, loading, counting } }) => {
     const classes = useStyles()
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(10)
     // const history = useHistory()
+    var no = 1
 
 	const handleChangePage = newPage => {
 		setPage(newPage);
@@ -78,7 +78,15 @@ const CreatePurchaseOrder = () => {
 		setPage(0);
     };
 
-    return(
+    useEffect(() => {
+        getFirstBalance()
+    }, [loading, getFirstBalance, counting])
+
+    return loading || firstBalances === null ? 
+        <Backdrop className={classes.backdrop} open>
+            <CircularProgress color="inherit" />
+        </Backdrop>  
+    :
         <Fragment>
             <div className={classes.root}>
                 <div className={classes.row}>
@@ -87,14 +95,14 @@ const CreatePurchaseOrder = () => {
                         spacing={2}
                     >
                         <Grid item>  
-                            <Typography variant="h4">Saldo Awal</Typography>
+                            <Typography variant="h4">Stock Awal</Typography>
                         </Grid>
                     </Grid>
                 </div>
                 <div className={classes.row}>
                     <Card>
                         <CardHeader 
-                            title="List Order"
+                            title="List Stock Awal"
                         />
                         <CardContent>
                         <TableContainer className={classes.container}>
@@ -113,39 +121,19 @@ const CreatePurchaseOrder = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {/* {purchaseOrderDetails.data.map((product) => (
+                                {firstBalances.map((product) => (
                                     <TableRow key={product.id}>
                                         <TableCell>
-                                            1
+                                            {no++}
                                         </TableCell>
                                         <TableCell>
-                                            {product.product.name} {product.product.weight} {product.product.unit}
+                                            {product.branch_stock.product.name} {product.branch_stock.product.weight} {product.branch_stock.product.unit}
                                         </TableCell>
                                         <TableCell>
-                                            {product.in_stock}
-                                        </TableCell>
-                                        <TableCell>
-                                            {product.qty}
-                                        </TableCell>
-                                        <TableCell>
-                                            <NumberFormat value={product.buy_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                        </TableCell>
-                                        <TableCell>
-                                            <NumberFormat value={product.buy_price * product.qty} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                        </TableCell>
-                                        <TableCell>
-                                            {purchaseOrderDetails.status_po === '99' ? (
-                                                <Tooltip title="Hapus product">
-                                                    <IconButton aria-label="delete" onClick={() => onDeleteItem(product.id)}>
-                                                        <DeleteIcon />
-                                                    </IconButton>
-                                                </Tooltip>
-                                            ):(
-                                                <Typography>Tidak dapat dihapus</Typography>
-                                            )}
+                                            {product.branch_stock.product.stock}
                                         </TableCell>
                                     </TableRow>
-                                ))} */}
+                                ))}
                             </TableBody>
                             </Table>
                         </TableContainer>
@@ -161,38 +149,14 @@ const CreatePurchaseOrder = () => {
                         </CardContent>
                     </Card>
                     <InputOrder />
-                    <Card>
-                        <CardContent>
-                            <Box display="flex" flexDirection="row-reverse" p={1} m={1}>
-                                <Box p={1}>
-                                    <Typography className={classes.totalPrice}>
-                                        <NumberFormat value="7500000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    </Typography>
-                                </Box>
-                                <Box p={1}>
-                                    <Typography variant="h3">
-                                        Total :
-                                    </Typography>
-                                </Box>
-                            </Box>
-                                <Box display="flex" flexDirection="row-reverse" p={1} m={1}>
-                                    <Box p={1}>
-                                        <Button variant="contained" className={classes.btn}>
-                                            Kirim
-                                    </Button>
-                                </Box>
-                                <Box p={1}>
-                                    <Button variant="outlined">
-                                        Batal
-                                    </Button>
-                                </Box>
-                            </Box>
-                        </CardContent>
-                    </Card>
                 </div>
             </div>
         </Fragment>
-    )
+    
 }
 
-export default CreatePurchaseOrder
+const mapStateToProps = state => ({
+    first_balance : state.first_balance
+})
+
+export default connect(mapStateToProps, {getFirstBalance})(BeginingBalance)

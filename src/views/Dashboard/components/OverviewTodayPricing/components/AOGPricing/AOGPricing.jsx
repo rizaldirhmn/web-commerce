@@ -112,17 +112,17 @@ const AOGPricing = ({ getProduct, dashboard : { products, loading } }) => {
 									justify="space-between"
 								>
 									<Grid item>
-										<Typography className={classes.numbers} variant="h3">
-											<NumberFormat value={item.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-										</Typography>
+										<Typography
+											className={classes.caption}
+											variant="caption"
+										>
+											{item.weight} {item.unit}
+										</Typography>	
 									</Grid>
 								</Grid>
 								<div className={classes.difference}>
-									<Typography
-										className={classes.caption}
-										variant="caption"
-									>
-										{item.weight} {item.unit}
+									<Typography className={classes.numbers} variant="h3">
+										<NumberFormat value={item.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</div>
 							</CardContent>
@@ -166,17 +166,17 @@ const AOGPricing = ({ getProduct, dashboard : { products, loading } }) => {
 									justify="space-between"
 								>
 									<Grid item>
-										<Typography className={classes.numbers} variant="h3">
-											<NumberFormat value={item.buy_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-										</Typography>
+										<Typography
+											className={classes.caption}
+											variant="caption"
+										>
+											{item.weight} {item.unit}
+										</Typography>	
 									</Grid>
 								</Grid>
 								<div className={classes.difference}>
-									<Typography
-										className={classes.caption}
-										variant="caption"
-									>
-										{item.weight} {item.unit}
+									<Typography className={classes.numbers} variant="h3">
+										<NumberFormat value={item.buy_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</div>
 							</CardContent>
@@ -220,17 +220,17 @@ const AOGPricing = ({ getProduct, dashboard : { products, loading } }) => {
 									justify="space-between"
 								>
 									<Grid item>
-										<Typography className={classes.numbers} variant="h3">
-											<NumberFormat value={item.buyback_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-										</Typography>
+										<Typography
+											className={classes.caption}
+											variant="caption"
+										>
+											{item.weight} {item.unit}
+										</Typography>	
 									</Grid>
 								</Grid>
 								<div className={classes.difference}>
-									<Typography
-										className={classes.caption}
-										variant="caption"
-									>
-										{item.weight} {item.unit}
+									<Typography className={classes.numbers} variant="h3">
+										<NumberFormat value={item.buyback_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 								</div>
 							</CardContent>

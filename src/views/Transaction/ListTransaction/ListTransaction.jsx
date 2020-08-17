@@ -12,6 +12,7 @@ import DetailIcon from '@material-ui/icons/Search'
 import moment from 'moment';
 import Backdrop from '@material-ui/core/Backdrop'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import { Link as RouterLink } from 'react-router-dom'
 
 import { 
 	Tooltip,
@@ -96,11 +97,11 @@ const ListTransaction = (props) => {
 							</TableCell>
 							<TableCell>
 								<Tooltip title="Detail Invoice">
-									{/* <RouterLink to={`/purchase-order/create/${trx.id}`}> */}
+									<RouterLink to={`/report/selling/detail/${trx.id}`}>
 										<IconButton aria-label="detail" color="primary">
 											<DetailIcon />
 										</IconButton>
-									{/* </RouterLink> */}
+									</RouterLink>
 								</Tooltip>
 							</TableCell>
 						</TableRow>
