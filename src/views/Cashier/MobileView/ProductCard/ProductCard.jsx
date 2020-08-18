@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, Fragment} from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {
   Typography,
@@ -11,6 +11,8 @@ import {
 import NumberFormat from 'react-number-format'
 import Cart from '../../Cart'
 import CartIcon from '@material-ui/icons/AddShoppingCart'
+import Backdrop from '@material-ui/core/Backdrop'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 import { connect } from 'react-redux'
 import { getProduct } from '../../../../actions/product'
@@ -48,7 +50,11 @@ const useStyles = makeStyles(theme => ({
 	card: {
 		marginTop: theme.spacing(1),
 		marginBottom: theme.spacing(1),
-	}
+	},
+	backdrop: {
+		zIndex: theme.zIndex.drawer + 1,
+		color: '#fff',
+	},
 }));
 
 const ProductCard = (props) => {
@@ -79,52 +85,99 @@ const ProductCard = (props) => {
 		getCart()
 	}, [getProduct, searchCustomer, getCart, counting])
 
-  return (
+	return loading || products === null ? 
+	<Backdrop className={classes.backdrop} open>
+		<CircularProgress color="inherit" />
+	</Backdrop> 
+	:
+	<Fragment>
 		<div className={classes.root}>
 			{!loading && (
 				<>
 				{products.map((item) => (
 					<>
-					<CardActionArea className={classes.card} onClick={() => handleQtyModalOpen(item)}>
-						<Grid
-							container
-							spacing={2}
-						>
+					{item.product.stock > 0 ? (
+						<CardActionArea className={classes.card} onClick={() => handleQtyModalOpen(item)}>
 							<Grid
-								item
-								lg={3}
-								md={3}
-								sm={3}
-								xs={3}
+								container
+								spacing={2}
 							>
-									<div className={classes.imageContainer}>
-										<img
-											alt="Product"
-											className={classes.image}
-											src={item.product.image}
-										/>
-									</div>
+								<Grid
+									item
+									lg={3}
+									md={3}
+									sm={3}
+									xs={3}
+								>
+										<div className={classes.imageContainer}>
+											<img
+												alt="Product"
+												className={classes.image}
+												src={item.product.image}
+											/>
+										</div>
+								</Grid>
+								<Grid
+									item
+									lg={3}
+									md={3}
+									sm={3}
+									xs={6}
+								>
+									<Typography variant='h5'>
+										{item.product.name} {item.product.weight} {item.product.unit}
+									</Typography>
+									<Typography className={classes.capDetail}>
+										<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+									</Typography>
+									<Typography className={classes.capDetail}>
+										Stok : {item.product.stock}
+									</Typography>
+								</Grid>
 							</Grid>
+						</CardActionArea>
+					):(
+						<CardActionArea className={classes.card} disabled onClick={() => handleQtyModalOpen(item)}>
 							<Grid
-								item
-								lg={3}
-								md={3}
-								sm={3}
-								xs={6}
+								container
+								spacing={2}
 							>
-								<Typography variant='h5'>
-									{item.product.name} {item.product.weight} {item.product.unit}
-								</Typography>
-								<Typography className={classes.capDetail}>
-									<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-								</Typography>
-								<Typography className={classes.capDetail}>
-									Stok : {item.product.stock}
-								</Typography>
+								<Grid
+									item
+									lg={3}
+									md={3}
+									sm={3}
+									xs={3}
+								>
+										<div className={classes.imageContainer}>
+											<img
+												alt="Product"
+												className={classes.image}
+												src={item.product.image}
+											/>
+										</div>
+								</Grid>
+								<Grid
+									item
+									lg={3}
+									md={3}
+									sm={3}
+									xs={6}
+								>
+									<Typography variant='h5'>
+										{item.product.name} {item.product.weight} {item.product.unit}
+									</Typography>
+									<Typography className={classes.capDetail}>
+										<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+									</Typography>
+									<Typography className={classes.capDetail}>
+										Stok : {item.product.stock}
+									</Typography>
+								</Grid>
 							</Grid>
-						</Grid>
-					</CardActionArea>
-					<hr />
+						</CardActionArea>
+					)}
+					<hr/>
 					</>
 				))}
 				</>
@@ -150,7 +203,7 @@ const ProductCard = (props) => {
 				<Cart />
 			</SwipeableDrawer>
 		</div>
-  );
+	</Fragment>
 };
 
 const mapStateToProps = state => ({

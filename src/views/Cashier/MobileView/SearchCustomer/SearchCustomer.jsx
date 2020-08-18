@@ -117,7 +117,6 @@ const SearchCustomer = (props) => {
 						sm={6}
 						xs={12}
 					>
-						<Typography>Cari Customer</Typography>
 						{loading || customers === null ? (
 							<Select options={optionsLoading} />
 						):(
