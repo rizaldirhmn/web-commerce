@@ -148,7 +148,9 @@ const BeginingBalance = ({ getFirstBalance, first_balance : { firstBalances, loa
                         />
                         </CardContent>
                     </Card>
-                    <InputOrder />
+                    {firstBalances.length === 0 && (
+                        <InputOrder />
+                    )}
                 </div>
             </div>
         </Fragment>

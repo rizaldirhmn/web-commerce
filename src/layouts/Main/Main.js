@@ -13,6 +13,9 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import Collapse from '@material-ui/core/Collapse';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import CartIcon from '@material-ui/icons/AddShoppingCart';
@@ -25,6 +28,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import SignOutIcon from '@material-ui/icons/Input';
 import ReportIcon from '@material-ui/icons/Assessment'
+import SettingIcon from '@material-ui/icons/Settings'
 
 import Hidden from '@material-ui/core/Hidden';
 
@@ -102,7 +106,15 @@ const useStyles = makeStyles(theme => ({
   textMenu: {
     color: textMenuWhite,
     fontFamily: 'Roboto'
-  }
+  },
+  item: {
+    display: 'flex',
+    paddingTop: 0,
+    paddingBottom: 0
+  },
+  nested: {
+    paddingLeft: theme.spacing(4),
+  },
 }));
 
 const CustomRouterLink = forwardRef((props, ref) => (
@@ -127,6 +139,13 @@ const Main = props => {
 
   // Dialog Box
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [pengaturanOpen, setPengaturanOpen] = useState(false);
+
+  const handleClick = (event) => {
+    if (event === 'pengaturan') {
+      setPengaturanOpen(!pengaturanOpen);
+    }
+  };
 
   const handleDialogClose = () => {
     setDialogOpen(false);
@@ -264,17 +283,35 @@ const Main = props => {
           <Button
             activeclassname={classes.active}
             className={classes.button}
-            component={CustomRouterLink}
-            onClick={handleDrawerClose}
-            to='/begining-balance'
+            
           >
-            <ListItem button key='begining-balance'>
-                <ListItemIcon>
-                  <ReportIcon style={{ color: textMenuWhite }} />
-                </ListItemIcon>
-                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Stock Awal</Typography>} />
+            <ListItem
+              button 
+              key='pengaturan'
+              onClick={() => handleClick('pengaturan')}
+            >
+              <ListItemIcon>
+                <SettingIcon style={{ color: textMenuWhite }} />
+              </ListItemIcon>
+              <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Pengaturan</Typography>} />
             </ListItem>
+            {pengaturanOpen ? <ExpandLess style={{ color: textMenuWhite }} /> : <ExpandMore style={{ color: textMenuWhite }} />}
           </Button>
+          <Collapse in={pengaturanOpen} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <Button
+                activeclassname={classes.active}
+                className={classes.nested}
+                component={CustomRouterLink}
+                onClick={handleDrawerClose}
+                to='/begining-balance'
+              >
+                <ListItem button key='begining-balance'>
+                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Stock Awal</Typography>} />
+                </ListItem>
+              </Button>
+            </List>
+          </Collapse>
           <Button
             className={classes.button}
             onClick={handlingSignout}
@@ -286,13 +323,6 @@ const Main = props => {
                 <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Sign Out</Typography>} />
             </ListItem>
           </Button>
-          {/* <div className={classes.bottomPush}>
-            <ListItem button key='kecilin'>
-              <IconButton onClick={handleDrawerClose}>
-                {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-              </IconButton>
-            </ListItem>
-          </div> */}
         </List>
       </SwipeableDrawer>
       <main 
