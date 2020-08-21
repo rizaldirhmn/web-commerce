@@ -14,7 +14,8 @@ import {
   CreatePurchaseOrder as CreatePurchaseOrderView,
   Transaction as TransactionView,
   BeginingBalance as BeginingBalanceView,
-  DetailTransaction as DetailTransactionView
+  DetailTransaction as DetailTransactionView,
+  StockOpname as StockOpnameView
 } from './views';
 
 const Routes = () => {
@@ -94,6 +95,13 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/begining-balance"
+      />
+
+      <RouteWithLayout
+        component={StockOpnameView}
+        exact
+        layout={MainLayout}
+        path="/stock-opname"
       />
 
       <Route

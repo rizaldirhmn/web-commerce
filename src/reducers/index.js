@@ -9,6 +9,7 @@ import cart from './cart'
 import payment from './payment'
 import transaction from './transaction'
 import first_balance from './first_balance'
+import stock_opname from './stock_opname'
 
 export default combineReducers({
     alert,
@@ -20,5 +21,6 @@ export default combineReducers({
     cart,
     payment,
     transaction,
-    first_balance
+    first_balance,
+    stock_opname
 })

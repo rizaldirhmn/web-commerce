@@ -8,3 +8,4 @@ export { default as CreatePurchaseOrder } from './PurchaseOrder/CreatePurchaseOr
 export { default as Transaction } from './Transaction'
 export { default as DetailTransaction } from './Transaction/DetailTransaction'
 export { default as BeginingBalance } from './BeginingBalance'
+export { default as StockOpname } from './StockOpname'

@@ -50,3 +50,7 @@ export const ADD_FIRST_BALANCE_ERROR = "ADD_FIRST_BALANCE_ERROR"
 
 // Product
 export const GET_PRODUCT = "GET_PRODUCT"
+
+// Stock Opname
+export const GET_STOCK_OPNAME = "GET_STOCK_OPNAME"
+export const BALANCING_STOCK_OPNAME = "BALANCING_STOCK_OPNAME"

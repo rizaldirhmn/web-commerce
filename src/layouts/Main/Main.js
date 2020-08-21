@@ -310,6 +310,17 @@ const Main = props => {
                     <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Stock Awal</Typography>} />
                 </ListItem>
               </Button>
+              <Button
+                activeclassname={classes.active}
+                className={classes.nested}
+                component={CustomRouterLink}
+                onClick={handleDrawerClose}
+                to='/stock-opname'
+              >
+                <ListItem button key='stock-opname'>
+                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Stock Opname</Typography>} />
+                </ListItem>
+              </Button>
             </List>
           </Collapse>
           <Button
