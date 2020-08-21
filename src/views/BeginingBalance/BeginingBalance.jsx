@@ -140,7 +140,7 @@ const BeginingBalance = ({ getFirstBalance, first_balance : { firstBalances, loa
                         <TablePagination
                             rowsPerPageOptions={[10, 25, 100]}
                             component="div"
-                            // count={!loading && purchaseOrderDetails.data.length}
+                            count={!loading && firstBalances.length}
                             rowsPerPage={rowsPerPage}
                             page={page}
                             onChangePage={handleChangePage}

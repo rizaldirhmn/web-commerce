@@ -202,7 +202,7 @@ const StockOpname = ({ getStockOpname, balancingStock, stock_opname: { stockOpna
                     <TablePagination
                         rowsPerPageOptions={[10, 25, 100]}
                         component="div"
-                        // count={!loading && purchaseOrderDetails.data.length}
+                        count={!loading && stockOpnames.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onChangePage={handleChangePage}
