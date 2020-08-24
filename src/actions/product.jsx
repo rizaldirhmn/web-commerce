@@ -8,7 +8,6 @@ import {
 
 export const getProduct = (type) => async dispatch => {
     const endpoint = `${process.env.REACT_APP_BASE_URL}/user/product/filter?type=${type}`
-    console.log(endpoint)
     const token = sessionStorage.getItem('access_token')
 
     try {

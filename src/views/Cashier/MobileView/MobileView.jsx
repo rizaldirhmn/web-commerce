@@ -131,7 +131,11 @@ const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomer, lo
 						Cari Customer
 					</Button>
 				):(
-					<Typography>Customer : {searchCustomer.name}</Typography>
+					<div>
+						<Typography>Customer : {searchCustomer.name}</Typography>
+						<Typography>Tipe Anggota : {searchCustomer.name_status}</Typography>
+					</div>
+
 				)}
                 </Grid>
             </Grid>
