@@ -77,7 +77,7 @@ const InputOrder = ({ getProductCabang, addPurchaseOrderDetail, product: { produ
             ...formState,
             values: {
                 id_product: event.target.value.id_product,
-                harga: event.target.value.buy_price
+                harga: event.target.value.sell_price
             }
         }))
     }

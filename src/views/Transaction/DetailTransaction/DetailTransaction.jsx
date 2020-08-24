@@ -66,7 +66,7 @@ const CreatePurchaseOrder = ({ getDetailTransaction, transaction : { transaction
     const classes = useStyles()
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(10)
-    const params = useParams()
+    const { id } = useParams()
     var no = 1;
 
 	const handleChangePage = newPage => {
@@ -79,8 +79,8 @@ const CreatePurchaseOrder = ({ getDetailTransaction, transaction : { transaction
     };
 
     useEffect(() => {
-        getDetailTransaction(params.id)
-    }, [loading, getDetailTransaction, params])
+        getDetailTransaction(id)
+    }, [loading, getDetailTransaction, id])
 
     return loading || transaction == null ? 
     <Backdrop className={classes.backdrop} open>

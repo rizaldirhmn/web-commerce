@@ -11,12 +11,14 @@ import {
     SwipeableDrawer,
     Hidden
 } from '@material-ui/core'
+import Skeleton from '@material-ui/lab/Skeleton'
 import { makeStyles } from '@material-ui/styles'
 import NumberFormat from 'react-number-format'
 import {
     Delete
 } from '@material-ui/icons'
 import PerfectScrollbar from '@opuscapita/react-perfect-scrollbar'
+import RefreshIcon from '@material-ui/icons/RefreshRounded';
 
 // Components to Props
 import PaymentMethodOptions from './PaymentMethodOptions'
@@ -91,7 +93,10 @@ const Cart = ({ getCart , cart : { carts, loading, counting }, deleteCartItem, d
         getCart()
     }, [loading, getCart, counting])
 
-    return loading || carts === null ? '' 
+    return loading || carts === null ? 
+    <Skeleton>
+
+    </Skeleton> 
     :
     <Fragment>
         <Card className={classes.root}>
@@ -100,6 +105,13 @@ const Cart = ({ getCart , cart : { carts, loading, counting }, deleteCartItem, d
             </Hidden>
             <CardHeader
                 title="Rincian Pesanan"
+                action={
+                    <IconButton
+                        onClick={getCart}
+                    >
+                        <RefreshIcon />
+                    </IconButton>
+                  }
             />
             <CardContent>
                 <PerfectScrollbar>

@@ -78,7 +78,7 @@ const Dashboard = () => {
               component={CustomRouterLink}
               to='/cashier'
             >
-              KASIR
+              TRANSAKSI
             </Button>
           </Grid>
         </Grid>
