@@ -7,7 +7,8 @@ import {
     CardContent,
     Grid,
     Typography,
-    Button
+    Button,
+    CardActions
 } from '@material-ui/core'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -212,6 +213,13 @@ const DetailTransaction = ({ getDetailTransaction, transaction : { transaction, 
                         onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                     </CardContent>
+                    <CardActions>
+                        <Grid container justify="center">
+                            <Grid item>
+                                <Typography variant="h3">Terima Kasih</Typography>
+                            </Grid>
+                        </Grid>
+                    </CardActions>
                 </Card>
 
             </div>
