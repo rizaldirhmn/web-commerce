@@ -12,55 +12,51 @@ import { getProduct } from '../../../../../../actions/dashboard'
  
 const useStyles = makeStyles(theme => ({
 	gridRoot: {
-		padding: theme.spacing(4),
-	},
-	root: {
+    padding: theme.spacing(4),
+  },
+  root: {
 		height: '100%',
-		backgroundColor: '#011747',
+		backgroundColor: '#FFFFFF',
 		borderRadius: theme.spacing(2)
-	},
-	content: {
-		alignItems: 'center',
-		display: 'flex'
-	},
-	title: {
+  },
+  content: {
+    alignItems: 'center',
+    display: 'flex'
+  },
+  title: {
 		fontWeight: 700,
-		color: '#FF9300'
+		color: '#000000'
 	},
 	numbers: {
 		color: '#FF9300'
 	},
 	caption: {
-		fontWeight: 700,
+		fontWeight: 300,
 		fontSize: 18,
-		color: '#FF9300',
+		color: '#000000',
 		fontFamily: 'Arial',
 	},
-	avatar: {
-		backgroundColor: '#fff',
-		height: 56,
-		width: 56
-	},
-	icon: {
-		height: 32,
-		width: 32
-	},
-	difference: {
-		marginTop: theme.spacing(2),
-		display: 'flex',
-		alignItems: 'center'
-	},
-	differenceIcon: {
-		color: theme.palette.error.dark
-	},
-	differenceValue: {
-		color: theme.palette.error.dark,
-		marginRight: theme.spacing(1)
-	},
-  	backdrop: {
-		zIndex: theme.zIndex.drawer + 1,
-		color: '#fff',
-	},
+  avatar: {
+    backgroundColor: '#fff',
+    height: 56,
+    width: 56
+  },
+  icon: {
+    height: 32,
+    width: 32
+  },
+  difference: {
+    marginTop: theme.spacing(2),
+    display: 'flex',
+    alignItems: 'center'
+  },
+  differenceIcon: {
+    color: theme.palette.error.dark
+  },
+  differenceValue: {
+    color: theme.palette.error.dark,
+    marginRight: theme.spacing(1)
+  },
 }));
 
 const AOGPricing = ({ getProduct, dashboard : { products, loading } }) => {
@@ -78,168 +74,60 @@ const AOGPricing = ({ getProduct, dashboard : { products, loading } }) => {
 	</Backdrop> 
  	:
   	<Fragment>
-		<div className={classes.gridRoot}>
-			<Grid
-				container
-				spacing={3}
-			>
+			<div className={classes.gridRoot}>
 				<Grid
-					item
-					lg={12}
+					container
+					spacing={3}
 				>
-					<Typography variant="h4">Harga Jual</Typography>
-				</Grid>
-			</Grid>
-			<Grid
-			container
-			spacing={2}
-			>
-				{products.harga_jual.map((item) => (
 					<Grid
 						item
-						lg={4}
-						md={4}
-						sm={6}
-						xs={12}
+						lg={12}
 					>
-						<Card
-							// {...rest}
-							className={classes.root}
-						>
-							<CardContent>
-								<Grid
-									container
-									justify="space-between"
-								>
-									<Grid item>
-										<Typography
-											className={classes.caption}
-											variant="caption"
-										>
-											{item.weight} {item.unit}
-										</Typography>	
-									</Grid>
-								</Grid>
-								<div className={classes.difference}>
-									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value={item.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-									</Typography>
-								</div>
-							</CardContent>
-						</Card>
+						<Typography variant="h4">Harga</Typography>
 					</Grid>
-				))}
-			</Grid>
-		</div>
-
-		<div className={classes.gridRoot}>
-			<Grid
-				container
-				spacing={3}
-			>
-				<Grid
-					item
-					lg={12}
-				>
-					<Typography variant="h4">Harga Beli</Typography>
 				</Grid>
-			</Grid>
-			<Grid
+				<Grid
 				container
 				spacing={2}
-			>
-				{products.harga_beli.map((item) => (
-					<Grid
-						item
-						lg={4}
-						md={4}
-						sm={6}
-						xs={12}
-					>
-						<Card
-							// {...rest}
-							className={classes.root}
-						>
-							<CardContent>
-								<Grid
-									container
-									justify="space-between"
-								>
-									<Grid item>
-										<Typography
-											className={classes.caption}
-											variant="caption"
-										>
-											{item.weight} {item.unit}
-										</Typography>	
-									</Grid>
-								</Grid>
-								<div className={classes.difference}>
-									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value={item.buy_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-									</Typography>
-								</div>
-							</CardContent>
-						</Card>
-					</Grid>
-				))}
-			</Grid>
-		</div>
-
-		<div className={classes.gridRoot}>
-			<Grid
-				container
-				spacing={3}
-			>
-				<Grid
-					item
-					lg={12}
 				>
-					<Typography variant="h4">Harga Buyback</Typography>
-				</Grid>
-			</Grid>
-			<Grid
-				container
-				spacing={2}
-			>
-				{products.harga_buyback.map((item) => (
-					<Grid
-						item
-						lg={4}
-						md={4}
-						sm={6}
-						xs={12}
-					>
-						<Card
-							// {...rest}
-							className={classes.root}
+					{products.harga_jual.map((item) => (
+						<Grid
+							item
+							lg={4}
+							md={4}
+							sm={6}
+							xs={12}
 						>
-							<CardContent>
-								<Grid
-									container
-									justify="space-between"
-								>
-									<Grid item>
-										<Typography
-											className={classes.caption}
-											variant="caption"
-										>
-											{item.weight} {item.unit}
-										</Typography>	
+							<Card
+								// {...rest}
+								className={classes.root}
+							>
+								<CardContent>
+									<Grid
+										container
+										justify="space-between"
+									>
+										<Grid item>
+											<Typography
+												className={classes.caption}
+												variant="caption"
+											>
+												{item.weight} {item.unit}
+											</Typography>	
+										</Grid>
 									</Grid>
-								</Grid>
-								<div className={classes.difference}>
-									<Typography className={classes.numbers} variant="h3">
-										<NumberFormat value={item.buyback_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-									</Typography>
-								</div>
-							</CardContent>
-						</Card>
-					</Grid>
-				))}
-			</Grid>
-		</div>
-	</Fragment>
+									<div className={classes.difference}>
+										<Typography className={classes.numbers} variant="h3">
+											<NumberFormat value={item.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										</Typography>
+									</div>
+								</CardContent>
+							</Card>
+						</Grid>
+					))}
+				</Grid>
+			</div>
+		</Fragment>
   
 };
 

@@ -7,34 +7,42 @@ import {
   CardContent, 
   Grid, 
   Typography, 
+  Avatar
 } from '@material-ui/core';
 import NumberFormat from 'react-number-format';
+import TransactionIcon from '@material-ui/icons/RefreshRounded';
 
 const useStyles = makeStyles(theme => ({
   root: {
 		height: '100%',
-		backgroundColor: '#011747',
+		backgroundColor: '#FFFFFF',
   },
   content: {
     alignItems: 'center',
     display: 'flex'
   },
   title: {
-		fontWeight: 700,
-		color: '#FF9300'
+		fontWeight: 500,
+    color: '#000000',
+    fontSize: '18px'
 	},
 	numbers: {
 		color: '#FF9300'
 	},
 	caption: {
 		fontWeight: 700,
-		color: '#FF9300',
+		color: '#000000',
 		fontFamily: 'Arial',
 	},
   avatar: {
     backgroundColor: '#fff',
     height: 56,
     width: 56
+  },
+  icon: {
+    height: 32,
+    width: 32,
+    color: '#BFC1CB'
   },
   difference: {
     marginTop: theme.spacing(2),
@@ -51,7 +59,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TotalTransaction = props => {
-  const { className, ...rest } = props;
+  const { className, item, ...rest } = props;
 
   const classes = useStyles();
 
@@ -72,11 +80,16 @@ const TotalTransaction = props => {
               gutterBottom
               variant="body2"
             >
-              TOTAL TRANSACTION
+              TOTAL TRANSAKSI
             </Typography>
-						<Typography className={classes.numbers} variant="h3">
-							<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} />
-						</Typography>
+            <Typography className={classes.numbers} variant="h3">
+              <NumberFormat value={item} displayType={'text'} thousandSeparator={true} />
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Avatar className={classes.avatar}>
+              <TransactionIcon className={classes.icon} />
+            </Avatar>
           </Grid>
         </Grid>
       </CardContent>

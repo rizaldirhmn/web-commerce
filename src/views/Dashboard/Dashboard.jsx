@@ -1,12 +1,13 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { 
   Grid, 
   Typography,
   Button,
-  Hidden
 } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
+import { connect } from 'react-redux'
+import { getCardStats } from '../../actions/dashboard'
 
 import { 
   TotalTransaction,
@@ -14,10 +15,12 @@ import {
   TotalPurchasing,
   TotalCost,
   OverviewTodayPricing,
-  TotalProfit,
   TotalProfitClean,
   TotalCustomer
 } from './components'
+
+import CartIcon from '@material-ui/icons/AddShoppingCart'
+import Skeleton from '@material-ui/lab/Skeleton'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,9 +45,13 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(2)
   },
   btn: {
-    backgroundColor: '#011747',
-    color: '#FF9300'
-  }
+    backgroundColor: '#FF9300',
+    color: '#FFFFFF',
+    '&:hover': {
+      backgroundColor: '#FFA938',
+      opacity: 1,
+    },
+  },
 }));
 
 const CustomRouterLink = forwardRef((props, ref) => (
@@ -56,8 +63,12 @@ const CustomRouterLink = forwardRef((props, ref) => (
   </div>
 ));
 
-const Dashboard = () => {
+const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
   const classes = useStyles();
+
+  useEffect(() => {
+    getCardStats()
+  }, [loadingCard, getCardStats])
 
   return (
       <div className={classes.root}>
@@ -77,6 +88,7 @@ const Dashboard = () => {
               variant="contained"
               component={CustomRouterLink}
               to='/cashier'
+              startIcon={<CartIcon />}
             >
               TRANSAKSI
             </Button>
@@ -93,7 +105,11 @@ const Dashboard = () => {
             sm={6}
             xs={12}
           >
-            <TotalTransaction />
+            {!loadingCard ? (
+              <TotalTransaction loading={loadingCard} item={card.total_transaksi} />
+            ):(
+              <Skeleton variant="rect"></Skeleton>
+            )}
           </Grid>
           <Grid
             item
@@ -102,7 +118,11 @@ const Dashboard = () => {
             sm={6}
             xs={12}
           >
-            <TotalSelling />
+            {!loadingCard ? (
+              <TotalSelling loading={loadingCard} item={card.total_penjualan} />
+            ):(
+              <Skeleton variant="rect"></Skeleton>
+            )}
           </Grid>
           <Grid
             item
@@ -111,7 +131,11 @@ const Dashboard = () => {
             sm={6}
             xs={12}
           >
-            <TotalPurchasing />
+            {!loadingCard ? (
+              <TotalPurchasing loading={loadingCard} item={card.total_pembelian} />
+            ):(
+              <Skeleton variant="rect"></Skeleton>
+            )}
           </Grid>
           <Grid
             item
@@ -120,7 +144,11 @@ const Dashboard = () => {
             sm={6}
             xs={12}
           >
-            <TotalCost />
+            {!loadingCard ? (
+              <TotalCost loading={loadingCard} item={card.total_biaya} />
+            ):(
+              <Skeleton variant="rect"></Skeleton>
+            )}
           </Grid>
           <Grid
             item
@@ -129,7 +157,11 @@ const Dashboard = () => {
             sm={6}
             xs={12}
           >
-            <TotalProfitClean />
+            {!loadingCard ? (
+              <TotalProfitClean loading={loadingCard} item={card.total_penjualan_bersih} />
+            ):(
+              <Skeleton variant="rect"></Skeleton>
+            )}
           </Grid>
           <Grid
             item
@@ -138,61 +170,33 @@ const Dashboard = () => {
             sm={6}
             xs={12}
           >
-            <TotalCustomer />
+            {!loadingCard ? (
+              <TotalCustomer loading={loadingCard} item={card.total_customer} />
+            ):(
+              <Skeleton variant="rect"></Skeleton>
+            )}
           </Grid>
         </Grid>
-          <Hidden only={['sm','xs']}>
-              <Grid
-                container
-                spacing={2}
-              >
-                <Grid
-                  item
-                  lg={8}
-                  md={8}
-                  sm={12}
-                  xs={12}
-                >
-                  <OverviewTodayPricing />
-                </Grid>
-                <Grid
-                  item
-                  lg={4}
-                  md={4}
-                  sm={6}
-                  xs={12}
-                >
-                  <TotalProfit />
-                </Grid>
-              </Grid>
-          </Hidden>
-          <Hidden only={['md','lg','xl']}>
-              <Grid
-                container
-                spacing={2}
-              >
-                <Grid
-                  item
-                  lg={4}
-                  md={4}
-                  sm={6}
-                  xs={12}
-                >
-                  <TotalProfit />
-                </Grid>
-                <Grid
-                  item
-                  lg={8}
-                  md={8}
-                  sm={12}
-                  xs={12}
-                >
-                  <OverviewTodayPricing />
-                </Grid>
-              </Grid>
-          </Hidden>
+        <Grid
+          container
+          spacing={2}
+        >
+          <Grid
+            item
+            lg={12}
+            md={12}
+            sm={12}
+            xs={12}
+          >
+            <OverviewTodayPricing />
+          </Grid>
+        </Grid>
       </div>
   );
 };
 
-export default Dashboard;
+const mapStateToProps = state => ({
+  dashboard : state.dashboard
+})
+
+export default connect(mapStateToProps, { getCardStats })(Dashboard)

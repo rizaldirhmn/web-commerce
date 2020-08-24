@@ -3,7 +3,6 @@ import { setAlert } from './alert'
 import { 
     PURCHASE_ITEM_PAY
 } from './types'
-import Swal from 'sweetalert2'
 
 export const addPayment = (id_customer, input_price, note, history) => async dispatch => {
     const endpoint = `${process.env.REACT_APP_BASE_URL}/user/payment_cart`
@@ -33,14 +32,8 @@ export const addPayment = (id_customer, input_price, note, history) => async dis
             payload: res.data
         })
 
-        Swal.fire(
-            'Purchased',
-            `Your Changes ${res.data.kembalian}`,
-            'success',
-        )
-
         dispatch(setAlert("Purchased", "success"))
-        history.push(`/cashier`);
+        history.push(`/report/selling/detail/${res.data.id}`);
 
     } catch (error) {
         dispatch(setAlert("Something Went Wrong", "error"))

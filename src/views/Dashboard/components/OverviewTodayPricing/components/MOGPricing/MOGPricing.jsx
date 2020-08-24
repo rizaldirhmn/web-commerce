@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   },
   root: {
 		height: '100%',
-		backgroundColor: '#011747',
+		backgroundColor: '#FFFFFF',
 		borderRadius: theme.spacing(2)
   },
   content: {
@@ -25,15 +25,15 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
 		fontWeight: 700,
-		color: '#FF9300'
+		color: '#000000'
 	},
 	numbers: {
 		color: '#FF9300'
 	},
 	caption: {
-		fontWeight: 700,
+		fontWeight: 300,
 		fontSize: 18,
-		color: '#FF9300',
+		color: '#000000',
 		fontFamily: 'Arial',
 	},
   avatar: {
@@ -56,14 +56,14 @@ const useStyles = makeStyles(theme => ({
   differenceValue: {
     color: theme.palette.error.dark,
     marginRight: theme.spacing(1)
-  }
+  },
 }));
 
 const MOGPricing = ({ getProduct, dashboard: { products, loading }}) => {
 
   	const classes = useStyles();
 	useEffect(() => {
-		getProduct('aog')
+		getProduct('mog')
 	}, [getProduct])
 
   	return loading || products === null ? 
@@ -81,7 +81,7 @@ const MOGPricing = ({ getProduct, dashboard: { products, loading }}) => {
 						item
 						lg={12}
 					>
-						<Typography variant="h4">Harga Jual</Typography>
+						<Typography variant="h4">Harga</Typography>
 					</Grid>
 				</Grid>
 				<Grid
@@ -126,113 +126,6 @@ const MOGPricing = ({ getProduct, dashboard: { products, loading }}) => {
 				</Grid>
 			</div>
 
-			<div className={classes.gridRoot}>
-				<Grid
-					container
-					spacing={3}
-				>
-					<Grid
-						item
-						lg={12}
-					>
-						<Typography variant="h4">Harga Beli</Typography>
-					</Grid>
-				</Grid>
-				<Grid
-					container
-					spacing={2}
-				>
-					{products.harga_beli.map((item) => (
-						<Grid
-							item
-							lg={4}
-							md={4}
-							sm={6}
-							xs={12}
-						>
-							<Card
-								// {...rest}
-								className={classes.root}
-							>
-								<CardContent>
-									<Grid
-										container
-										justify="space-between"
-									>
-										<Grid item>
-											<Typography
-												className={classes.caption}
-												variant="caption"
-											>
-												{item.weight} {item.unit}
-											</Typography>	
-										</Grid>
-									</Grid>
-									<div className={classes.difference}>
-										<Typography className={classes.numbers} variant="h3">
-											<NumberFormat value={item.buy_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-										</Typography>
-									</div>
-								</CardContent>
-							</Card>
-						</Grid>
-					))}
-				</Grid>
-			</div>
-
-			<div className={classes.gridRoot}>
-				<Grid
-					container
-					spacing={3}
-				>
-					<Grid
-						item
-						lg={12}
-					>
-						<Typography variant="h4">Harga Buyback</Typography>
-					</Grid>
-				</Grid>
-				<Grid
-					container
-					spacing={2}
-				>
-					{products.harga_buyback.map((item) => (
-						<Grid
-							item
-							lg={4}
-							md={4}
-							sm={6}
-							xs={12}
-						>
-							<Card
-								// {...rest}
-								className={classes.root}
-							>
-								<CardContent>
-									<Grid
-										container
-										justify="space-between"
-									>
-										<Grid item>
-											<Typography
-												className={classes.caption}
-												variant="caption"
-											>
-												{item.weight} {item.unit}
-											</Typography>	
-										</Grid>
-									</Grid>
-									<div className={classes.difference}>
-										<Typography className={classes.numbers} variant="h3">
-											<NumberFormat value={item.buyback_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-										</Typography>
-									</div>
-								</CardContent>
-							</Card>
-						</Grid>
-					))}
-				</Grid>
-			</div>
 		</Fragment>
 };
 

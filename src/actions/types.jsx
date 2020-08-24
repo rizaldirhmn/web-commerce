@@ -16,6 +16,7 @@ export const GET_SEARCH_CUSTOMER = "GET_SEARCH_CUSTOMER"
 
 // Dashboard
 export const GET_PRODUCT_DASHBOARD = "GET_PRODUCT_DASHBOARD"
+export const GET_CARD_STATS = "GET_CARD_STATS"
 
 // Purchase Order
 export const GET_PURCHASE_ORDER = "GET_PURCHASE_ORDER"

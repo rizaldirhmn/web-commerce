@@ -67,14 +67,14 @@ const AntTab = withStyles((theme) => ({
       opacity: 1,
     },
     '&$selected': {
-      color: '#FFFFFF',
-      backgroundColor: '#011747',
+      color: '#000000',
+      // backgroundColor: '#011747',
       fontWeight: theme.typography.fontWeightMedium,
       borderRadius: theme.spacing(4),
       margin: 'auto'
     },
     '&:focus': {
-      color: '#FFFFFF',
+      color: '#000000',
     },
   },
   selected: {},
@@ -122,6 +122,7 @@ export default function ScrollableTabsButtonAuto() {
             <AntTab label="Agent of Gold" />
             <AntTab label="Member of Gold" />
             <AntTab label="Umum" />
+            <AntTab label="Buyback" />
           </AntTabs>
           <TabPanel value={value} index={0}>
             <BranchPricing />

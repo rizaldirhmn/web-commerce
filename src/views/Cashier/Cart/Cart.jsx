@@ -19,6 +19,7 @@ import {
 } from '@material-ui/icons'
 import PerfectScrollbar from '@opuscapita/react-perfect-scrollbar'
 import RefreshIcon from '@material-ui/icons/RefreshRounded';
+import CapitalizedText from '../../../components/layout/CapitalizedText'
 
 // Components to Props
 import PaymentMethodOptions from './PaymentMethodOptions'
@@ -65,6 +66,9 @@ const useStyles = makeStyles(theme => ({
     },
     btnDeleteAll: {
         fontSize: '12px'
+    },
+    itemName: {
+        padding: '11px'
     }
 }))
 
@@ -119,18 +123,18 @@ const Cart = ({ getCart , cart : { carts, loading, counting }, deleteCartItem, d
                         {carts.cart.map((item) => (
                             <Grid
                                 container
-                                spacing={2}
+                                // spacing={2}
                                 justify="space-between"
                             >
                                 <Grid item>
-                                    <Typography variant="h6">
-                                        {item.product.name} {item.product.weight} {item.product.unit} (x{item.qty})
+                                    <Typography variant="h5" className={classes.itemName}>
+                                        <CapitalizedText text={item.product.name} /> {item.product.weight} <CapitalizedText text={item.product.unit} /> (x{item.qty})
                                     </Typography>
                                 </Grid>
                                 <Grid item>
-                                    <Typography variant="subtitle2">
-                                        <NumberFormat value={item.total_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                        <IconButton aria-label="delete" className={classes.margin} onClick={() => onDeleteItem(item.id)}>
+                                    <Typography variant="h5">
+                                        <NumberFormat value={item.total_price} displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
+                                        <IconButton aria-label="delete" onClick={() => onDeleteItem(item.id)}>
                                             <Delete fontSize="small" />
                                         </IconButton>
                                     </Typography>
@@ -176,22 +180,16 @@ const Cart = ({ getCart , cart : { carts, loading, counting }, deleteCartItem, d
                     <Grid
                         container
                         spacing={2}
-                        justify="space-between"
                     >
-                        <Grid item>
+                        <Grid item xs={12}>
                             <Button
+                                fullWidth
                                 variant="outlined"
                                 className={classes.btnDeleteAll}
                                 startIcon={<Delete />}
                                 onClick={onDeleteAllItem}
                             >
                                 Kosongkan
-                            </Button>
-                        </Grid>
-                        
-                        <Grid item>
-                            <Button fullWidth variant="outlined">
-                                Invoice
                             </Button>
                         </Grid>
                     </Grid>

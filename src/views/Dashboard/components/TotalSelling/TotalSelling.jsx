@@ -2,34 +2,41 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { Card, CardContent, Grid, Typography } from '@material-ui/core';
+import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
 import NumberFormat from 'react-number-format';
+import SellingIcon from '@material-ui/icons/CardTravelOutlined'
 
 const useStyles = makeStyles(theme => ({
   root: {
 		height: '100%',
-		backgroundColor: '#011747',
+		backgroundColor: '#FFFFFF',
   },
   content: {
     alignItems: 'center',
     display: 'flex'
   },
   title: {
-		fontWeight: 700,
-		color: '#FF9300'
+		fontWeight: 500,
+    color: '#000000',
+    fontSize: '18px'
 	},
 	numbers: {
 		color: '#FF9300'
 	},
 	caption: {
 		fontWeight: 700,
-		color: '#FF9300',
+		color: '#000000',
 		fontFamily: 'Arial',
 	},
   avatar: {
     backgroundColor: '#fff',
     height: 56,
     width: 56
+  },
+  icon: {
+    height: 32,
+    width: 32,
+    color: '#BFC1CB'
   },
   difference: {
     marginTop: theme.spacing(2),
@@ -46,7 +53,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TotalSelling = props => {
-  const { className, ...rest } = props;
+  const { className, item, ...rest } = props;
 
   const classes = useStyles();
 
@@ -70,18 +77,15 @@ const TotalSelling = props => {
               TOTAL PENJUALAN
             </Typography>
 						<Typography className={classes.numbers} variant="h3">
-							<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+							<NumberFormat value={item} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 						</Typography>
           </Grid>
+          <Grid item>
+            <Avatar className={classes.avatar}>
+              <SellingIcon className={classes.icon} />
+            </Avatar>
+          </Grid>
         </Grid>
-        <div className={classes.difference}>
-          <Typography
-            className={classes.caption}
-            variant="caption"
-          >
-            See Details
-          </Typography>
-        </div>
       </CardContent>
     </Card>
   );

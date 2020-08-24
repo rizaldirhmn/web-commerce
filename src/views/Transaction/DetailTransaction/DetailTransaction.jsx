@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect, forwardRef } from 'react'
 import { makeStyles } from '@material-ui/styles'
 // import PropTypes from 'prop-types'
 import { useParams } from 'react-router-dom'
@@ -7,8 +7,7 @@ import {
     CardContent,
     Grid,
     Typography,
-    // IconButton,
-    // Tooltip,
+    Button
 } from '@material-ui/core'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -17,17 +16,18 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs'
 import Backdrop from '@material-ui/core/Backdrop'
 import CircularProgress from '@material-ui/core/CircularProgress'
 // import DeleteIcon from '@material-ui/icons/Delete'
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import moment from 'moment'
+import CapitalizedText from '../../../components/layout/CapitalizedText'
 
 // Redux
 import { connect } from 'react-redux'
 import { getDetailTransaction } from '../../../actions/transaction'
 import NumberFormat from 'react-number-format'
+import CartIcon from '@material-ui/icons/AddShoppingCart'
 
 
 const useStyles = makeStyles(theme => ({
@@ -38,11 +38,6 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(2)
     },
-    btn: {
-        backgroundColor: '#FF9300',
-        color : '#FFFFFF',
-        // marginTop: theme.spacing(1)
-    },
     backdrop: {
 		zIndex: theme.zIndex.drawer + 1,
 		color: '#fff',
@@ -50,7 +45,15 @@ const useStyles = makeStyles(theme => ({
     totalPrice: {
         color: '#FF9300',
         fontSize: 30
-    }
+    },
+    btn: {
+        backgroundColor: '#FF9300',
+        color: '#FFFFFF',
+        '&:hover': {
+          backgroundColor: '#FFA938',
+          opacity: 1,
+        },
+    },
 }))
 
 const columns = [
@@ -62,12 +65,22 @@ const columns = [
     { id: 'total', label: 'Harga Total', minWidth: 100 },
   ];
 
-const CreatePurchaseOrder = ({ getDetailTransaction, transaction : { transaction, loading } }) => {
+const CustomRouterLink = forwardRef((props, ref) => (
+    <div
+        ref={ref}
+        style={{ flexGrow: 1 }}
+    >
+        <RouterLink {...props} />
+    </div>
+));
+
+const DetailTransaction = ({ getDetailTransaction, transaction : { transaction, loading } }) => {
     const classes = useStyles()
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(10)
     const { id } = useParams()
     var no = 1;
+    const cashier = JSON.parse(sessionStorage.getItem('data'))
 
 	const handleChangePage = newPage => {
 		setPage(newPage);
@@ -96,37 +109,45 @@ const CreatePurchaseOrder = ({ getDetailTransaction, transaction : { transaction
                     justify="space-between"
                 >
                     <Grid item>  
-                        <Typography variant="h4">Laporan Detail Penjualan</Typography>
+                        <Typography variant="h4">Invoice</Typography>
                     </Grid>
                     <Grid item>
-                        <Breadcrumbs aria-label="breadcrumb">
-                            <Link color="inherit" to="/dashboard">
-                                Dashboard
-                            </Link>
-                            <Link color="inherit" to="/report/selling">
-                                Laporan
-                            </Link>
-                            <Typography color="textPrimary">Detail Laporan</Typography>
-                        </Breadcrumbs>
+                        <Button
+                            fullWidth
+                            className={classes.btn}
+                            variant="contained"
+                            component={CustomRouterLink}
+                            to='/cashier'
+                            startIcon={<CartIcon />}
+                        >
+                            TRANSAKSI
+                        </Button>
                     </Grid>
                 </Grid>
             </div>
             <div className={classes.row}>
                 <Card>
                     <CardContent>
+                        <Grid container justify="center">
+                            <Grid item>
+                                <img alt='logo' width='100' height='100' src={`${process.env.PUBLIC_URL}/images/logo/logo_eoa.png`} />
+                            </Grid>
+                        </Grid>
+                    </CardContent>
+                    <CardContent>
                         <Grid container spacing={2} justify="space-between">
                             <Grid
                                 item
                             >
-                                <Typography variant="h4">Customer</Typography>
+                                <Typography variant="h4">Invoice</Typography>
                                 <Typography variant="body1">{transaction.customer.name}</Typography>
                                 <Typography variant="body1">{transaction.customer.address}</Typography>
                             </Grid>
                             <Grid
                                 item
                             >
-                                <Typography variant="body1">Tanggal : {moment(transaction.created_at).format('DD MMMM yyyy')}</Typography>
-                                <Typography variant="body1">Status : {transaction.status_name}</Typography>
+                                <Typography variant="body1">Tanggal : {moment(transaction.created_at).format('DD MMMM yyyy HH:mm')}</Typography>
+                                <Typography variant="body1">Nama Kasir : {cashier.name}</Typography>
                                 <Typography variant="body1">No Invoice : {transaction.inv_name}</Typography>
                             </Grid>
                         </Grid>
@@ -154,10 +175,10 @@ const CreatePurchaseOrder = ({ getDetailTransaction, transaction : { transaction
                                         {no++}
                                     </TableCell>
                                     <TableCell>
-                                        {product.product.name} {product.product.weight} {product.product.unit}
+                                        <CapitalizedText text={product.product.name} /> {product.product.weight} <CapitalizedText text={product.product.unit} />
                                     </TableCell>
                                     <TableCell>
-                                        {product.product.unit}
+                                        <CapitalizedText text={product.product.unit} />
                                     </TableCell>
                                     <TableCell>
                                         {product.qty}
@@ -170,6 +191,14 @@ const CreatePurchaseOrder = ({ getDetailTransaction, transaction : { transaction
                                     </TableCell>
                                 </TableRow>
                             ))}
+                            <TableRow>
+                                <TableCell colSpan={5} align="right">
+                                    <Typography variant="h6">Total</Typography>
+                                </TableCell>
+                                <TableCell>
+                                    <NumberFormat value={transaction.total} displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
+                                </TableCell>
+                            </TableRow>
                         </TableBody>
                         </Table>
                     </TableContainer>
@@ -184,6 +213,7 @@ const CreatePurchaseOrder = ({ getDetailTransaction, transaction : { transaction
                     />
                     </CardContent>
                 </Card>
+
             </div>
         </div>
     </Fragment>
@@ -193,4 +223,4 @@ const mapStateToProps = state => ({
     transaction : state.transaction
 })
 
-export default connect(mapStateToProps, { getDetailTransaction })(CreatePurchaseOrder)
+export default connect(mapStateToProps, { getDetailTransaction })(DetailTransaction)

@@ -8,7 +8,6 @@ import {
     CardHeader,
     CardActions,
     Paper,
-    InputBase,
     IconButton,
     Divider,
     Button
@@ -17,11 +16,11 @@ import { makeStyles } from '@material-ui/styles'
 import Backdrop from '@material-ui/core/Backdrop'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import NumberFormat from 'react-number-format'
+import TextField from '@material-ui/core/TextField'
 
 // Redux
 import { connect } from 'react-redux'
 import { addPayment } from '../../../../actions/payment'
-import { getSearchCustomerAndClear } from '../../../../actions/customer'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -79,33 +78,31 @@ const useStyles = makeStyles(theme => ({
 const PaymentMethodOptions = (props) => {
     const classes = useStyles()
     const history = useHistory()
-    const { handleDrawerPaymentClose, getSearchCustomerAndClear, customer : { searchCustomer, loading }, cart : { carts }, addPayment } = props
+    const { handleDrawerPaymentClose, customer : { searchCustomer, loading }, cart : { carts }, addPayment } = props
 
     const [formState, setFormState] = useState({
         input_price: '',
-        note : ''
     });
 
+    const [ changes, setChanges ] = useState(0)
+
     const handleChange = event => {
-        event.persist();
-    
+        // event.presist()
         setFormState(formState => ({
           ...formState,
             [event.target.name]: event.target.value
         }));
-    };
 
-    const [ formCustomer ] = useState({
-		params: '',
-		kata_kunci: ''
-	})
+        setChanges(event.target.value - carts.total_payment)
+    };
 
     const onSubmitPayment = () => {
         // console.log(searchCustomer.id, formState.input_price)
         addPayment(searchCustomer.id, formState.input_price, formState.note, history)
         handleDrawerPaymentClose()
-        getSearchCustomerAndClear(formCustomer.params, formCustomer.kata_kunci)
     }
+
+    console.log(changes)
 
     return loading || searchCustomer === null ? 
 	<Backdrop className={classes.backdrop} open>
@@ -153,13 +150,14 @@ const PaymentMethodOptions = (props) => {
                                 <Typography variant="subtitle2">Rp</Typography>
                             </IconButton>
                             <Divider className={classes.divider} orientation="vertical" />
-                            <InputBase
-                                className={classes.input}
+                            <NumberFormat
+                                {...props}
                                 defaultValue={formState.input_price || ''}
                                 name="input_price"
-                                onChange={handleChange}
-                                placeholder="Masukan Nilai Tunai"
-                                inputProps={{ 'aria-label': 'Masukan Nilai Tunai' }}
+                                customInput={TextField}
+                                type="text"
+                                thousandSeparator
+                                onValueChange={({ value: v }) => handleChange({ target : { name : 'input_price', value: v} })}
                             />
                         </Paper>
                     </Grid>
@@ -248,16 +246,19 @@ const PaymentMethodOptions = (props) => {
                         sm={12}
                         xs={12}
                     >
-                        <Typography>Catatan</Typography>
+                        <Typography>Kembalian</Typography>
                         <Paper component="form" className={classes.searchRoot}>
-                            <InputBase
+                            {/* <InputBase
                                 className={classes.input}
-                                name="note"
-                                defaultValue={formState.note || ''}
-                                onChange={handleChange}
+                                value={}
                                 placeholder="Catatan"
                                 inputProps={{ 'aria-label': 'Catatan' }}
-                            />
+                            /> */}
+                                {changes <= 0 ? (
+                                    <NumberFormat value='0' displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+                                ):(
+                                    <NumberFormat value={changes} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+                                )}
                         </Paper>
                     </Grid>
                 </Grid>                
@@ -288,4 +289,4 @@ const mapStateToProps = state => ({
     cart: state.cart
 })
 
-export default connect(mapStateToProps, { addPayment, getSearchCustomerAndClear })(PaymentMethodOptions)
+export default connect(mapStateToProps, { addPayment })(PaymentMethodOptions)
