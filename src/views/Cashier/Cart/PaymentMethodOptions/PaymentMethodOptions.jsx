@@ -102,8 +102,6 @@ const PaymentMethodOptions = (props) => {
         handleDrawerPaymentClose()
     }
 
-    console.log(changes)
-
     return loading || searchCustomer === null ? 
 	<Backdrop className={classes.backdrop} open>
 		<CircularProgress color="inherit" />

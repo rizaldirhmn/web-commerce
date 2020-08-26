@@ -15,7 +15,8 @@ import {
   Transaction as TransactionView,
   BeginingBalance as BeginingBalanceView,
   DetailTransaction as DetailTransactionView,
-  StockOpname as StockOpnameView
+  StockOpname as StockOpnameView,
+  Profile as ProfileView
 } from './views';
 
 const Routes = () => {
@@ -32,6 +33,13 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/dashboard"
+      />
+
+      <RouteWithLayout
+        component={ProfileView}
+        exact
+        layout={MainLayout}
+        path="/profile"
       />
 
       <RouteWithLayout

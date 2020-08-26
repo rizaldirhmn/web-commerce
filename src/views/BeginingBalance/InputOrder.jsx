@@ -156,7 +156,7 @@ const InputOrder = ({ getProductCabang, addFirstBalance, product: { productPO, l
                                                 fullWidth
                                                 variant="outlined"
                                                 // defaultValue={formState.values.qty || ''}
-                                                label="Qty"
+                                                label="Quantity"
                                                 margin="dense"
                                                 name="qty"
                                                 data-id={index}
@@ -176,7 +176,7 @@ const InputOrder = ({ getProductCabang, addFirstBalance, product: { productPO, l
                                             xs={12}
                                         >
                                             <Button onClick={() => handleRemoveClick(index)} className={classes.btn} variant="contained" color="secondary">
-                                                Remove
+                                                Hapus
                                             </Button>
                                         </Grid>
                                         </>
@@ -188,19 +188,8 @@ const InputOrder = ({ getProductCabang, addFirstBalance, product: { productPO, l
                                     md={12}
                                     sm={12}
                                 >
-                                    {/* {productOptions.length === 0 ? (
-                                        <Fab variant ="extended" className={classes.btn} onClick={handleAddMore} >
-                                            <AddCircle className={classes.extendedIcon} />
-                                                Tambah Produk
-                                        </Fab>
-                                    ):(
-                                        <Fab variant ="extended" className={classes.btn} onClick={handleAddMore} >
-                                            <AddCircle className={classes.extendedIcon} />
-                                                Tambah Produk Lain
-                                        </Fab>
-                                    )} */}
                                     <Button onClick={handleAddMore} variant="contained" className={classes.btn} color="primary">
-                                        Tambah Form
+                                        Tambah Produk
                                     </Button>
                                     <Button variant="contained" className={classes.btn} type="submit">
                                         Simpan

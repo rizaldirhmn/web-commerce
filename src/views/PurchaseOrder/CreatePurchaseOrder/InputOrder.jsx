@@ -7,7 +7,11 @@ import {
     Grid,
     TextField,
     MenuItem,
-    Button
+    Button,
+    Paper,
+    IconButton,
+    Typography,
+    Divider
 } from '@material-ui/core'
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers"
@@ -15,6 +19,7 @@ import SchemaValidation from './validation'
 import Backdrop from '@material-ui/core/Backdrop'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { useParams, useHistory } from 'react-router-dom'
+import NumberFormat from 'react-number-format'
 
 // Redux
 import { connect } from 'react-redux'
@@ -37,10 +42,29 @@ const useStyles = makeStyles(theme => ({
     backdrop: {
 		zIndex: theme.zIndex.drawer + 1,
 		color: '#fff',
-	},
+    },
+    searchRoot: {
+		// padding: '2px 4px',
+        display: 'flex',
+        alignItems: 'center',
+		width: 'auto',
+		marginTop: theme.spacing(1)
+    },
+    input: {
+        marginLeft: theme.spacing(1),
+        flex: 1,
+    },
+    iconButton: {
+        padding: 10,
+    },
+    divider: {
+        height: 25,
+        margin: 4,
+    },
 }))
 
-const InputOrder = ({ getProductCabang, addPurchaseOrderDetail, product: { productPO, loading} }) => {
+const InputOrder = (props) => {
+    const { getProductCabang, addPurchaseOrderDetail, product: { productPO, loading} } = props
     const classes = useStyles()
     const params = useParams()
     const history = useHistory()
@@ -70,6 +94,16 @@ const InputOrder = ({ getProductCabang, addPurchaseOrderDetail, product: { produ
           }
         }));
     };
+
+    const handlePriceChange = event => {
+        setFormState(formState => ({
+            ...formState,
+            values: {
+              ...formState.values,
+              [event.target.name]: event.target.value
+            }
+        }));
+    }
 
     const onSelectProduct = event => {
         event.persist()
@@ -145,7 +179,7 @@ const InputOrder = ({ getProductCabang, addPurchaseOrderDetail, product: { produ
                                     sm={12}
                                     xs={12}
                                 >
-                                    <TextField
+                                    {/* <TextField
                                         fullWidth
                                         variant="outlined"
                                         value={formState.values.harga || ''}
@@ -159,7 +193,24 @@ const InputOrder = ({ getProductCabang, addPurchaseOrderDetail, product: { produ
                                         error={errors.harga && true}
                                         inputRef={register}
                                         disabled
-                                    />
+                                    /> */}
+                                    <Paper component="form" className={classes.searchRoot}>
+                                        <IconButton type="submit" className={classes.iconButton} aria-label="search">
+                                            <Typography variant="subtitle2">Rp</Typography>
+                                        </IconButton>
+                                        <Divider className={classes.divider} orientation="vertical" />
+                                        <NumberFormat
+                                            {...props}
+                                            disabled
+                                            value={formState.values.harga || ''}
+                                            name="harga"
+                                            customInput={TextField}
+                                            type="text"
+                                            thousandSeparator
+                                            onValueChange={({ value: v }) => handlePriceChange({ target : { name : 'harga', value: v} })}
+                                        />
+                                    </Paper>
+                                    
                                 </Grid>
                                 <Grid
                                     item
@@ -172,7 +223,7 @@ const InputOrder = ({ getProductCabang, addPurchaseOrderDetail, product: { produ
                                         fullWidth
                                         variant="outlined"
                                         defaultValue={formState.values.qty || ''}
-                                        label="Qty"
+                                        label="Quantity"
                                         margin="dense"
                                         name="qty"
                                         onChange={handleChange}

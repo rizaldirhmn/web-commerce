@@ -4,7 +4,9 @@ import {
     Card,
     CardContent,
     CardHeader,
-    Grid
+    Grid,
+    TextField,
+    MenuItem,
 } from '@material-ui/core'
 import DateFnsUtils from '@date-io/date-fns'; // choose your lib
 import {
@@ -15,13 +17,26 @@ import moment from 'moment';
 
 // Redux
 import { connect } from 'react-redux'
-import { getGrafikNetIncome } from '../../../../actions/dashboard'
+import { getGrafikGoldPrice } from '../../../../actions/dashboard'
 import Skeleton from '@material-ui/lab/Skeleton';
 
-const GrafikNetIncome = (props) => {
-    const { getGrafikNetIncome, dashboard : { loadingGrafik, grafikNetIncome} } = props
+const GrafikGoldPrice = (props) => {
+    const { getGrafikGoldPrice, dashboard : { loadingGoldPrice, grafikGoldPrice} } = props
 
     const [selectedDate ] = useState(new Date());
+
+    const [ formState, setFormState ] = useState({
+        id_product : 4,
+        tipe_customer : 'aog'
+    })
+
+    const handleChange = (event) => {
+        const name = event.target.name;
+        setFormState({
+            ...formState,
+            [name]: event.target.value
+        })
+    }
 
     const submitDefault = moment({}).format('YYYY-MM-DD');
     const [ startDate, setStartDate ] = useState({
@@ -63,24 +78,24 @@ const GrafikNetIncome = (props) => {
     };
 
     useEffect(() => {
-        getGrafikNetIncome(startDate.submit.submit, endDate.submit.submit)
-    }, [loadingGrafik, getGrafikNetIncome, startDate, endDate])
+        getGrafikGoldPrice(formState.id_product, formState.tipe_customer, startDate.submit.submit, endDate.submit.submit)
+    }, [loadingGoldPrice, getGrafikGoldPrice, startDate, endDate, formState])
 
     var data = {}
     var jumlah=[];
     var bulan=[];
 
-    if(!loadingGrafik || grafikNetIncome !== null){
-        for (var i = 0; i < grafikNetIncome.data.length; i++) {
-            bulan.push(grafikNetIncome.data[i].date);
-            jumlah.push(grafikNetIncome.data[i].value);
+    if(!loadingGoldPrice || grafikGoldPrice !== null){
+        for (var i = 0; i < grafikGoldPrice.data.length; i++) {
+            bulan.push(grafikGoldPrice.data[i].date);
+            jumlah.push(grafikGoldPrice.data[i].value);
         }
     
         data = {
             labels: bulan,
             datasets: [
               {
-                label : 'Grafik Net Income',
+                label : 'Grafik Harga Emas',
                 data: jumlah,
                 backgroundColor: 'rgba(75,192,192,0.4)',
                 borderColor: 'rgba(75,192,192,1)',
@@ -129,14 +144,65 @@ const GrafikNetIncome = (props) => {
     
     return(
         <div>
-            {!loadingGrafik ? (
+            {!loadingGoldPrice ? (
                 <Card>
                     <CardHeader 
-                        title="Grafik Net Income"
+                        title={`Grafik Harga Emas`}
                     />
                     <CardContent>
-                        <Grid container justify="space-between">
-                            <Grid item>
+                        <Grid container spacing={2}>
+                            <Grid 
+                                item
+                                lg={3}
+                                md={3}
+                                sm={12}
+                                xs={12}
+                            >
+                                {/* <InputLabel></InputLabel> */}
+                                <TextField 
+                                    select
+                                    fullWidth
+                                    name="id_product"
+                                    label="Produk"
+                                    defaultValue={formState.id_product}
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value="1">Emas 0,1 Gram</MenuItem>
+                                    <MenuItem value="2">Emas 0,2 Gram</MenuItem>
+                                    <MenuItem value="3">Emas 0,5 Gram</MenuItem>
+                                    <MenuItem value="4">Emas 1 Gram</MenuItem>
+                                    <MenuItem value="5">Emas 2 Gram</MenuItem>
+                                    <MenuItem value="6">Emas 5 Gram</MenuItem>
+                                </TextField>
+                            </Grid>
+                            <Grid 
+                                item
+                                lg={3}
+                                md={3}
+                                sm={12}
+                                xs={12}
+                            >
+                                <TextField 
+                                    select
+                                    fullWidth
+                                    label="Tipe Customer"
+                                    name="type_customer"
+                                    defaultValue={formState.tipe_customer}
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value="cabang">Cabang</MenuItem>
+                                    <MenuItem value="aog">AOG</MenuItem>
+                                    <MenuItem value="mog">MOG</MenuItem>
+                                    <MenuItem value="customer">Umum</MenuItem>
+                                </TextField>
+                            </Grid>
+                            <Grid 
+                                item
+                                lg={3}
+                                md={3}
+                                sm={12}
+                                xs={12}
+                            >
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                     <DatePicker 
                                         fullWidth
@@ -149,7 +215,13 @@ const GrafikNetIncome = (props) => {
                                     />
                                 </MuiPickersUtilsProvider>
                             </Grid>
-                            <Grid item>
+                            <Grid 
+                                item
+                                lg={3}
+                                md={3}
+                                sm={12}
+                                xs={12}
+                            >
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                     <DatePicker 
                                         fullWidth
@@ -184,4 +256,4 @@ const mapStateToProps = state => ({
     dashboard: state.dashboard
 })
 
-export default connect(mapStateToProps, {getGrafikNetIncome})(GrafikNetIncome)
+export default connect(mapStateToProps, {getGrafikGoldPrice})(GrafikGoldPrice)

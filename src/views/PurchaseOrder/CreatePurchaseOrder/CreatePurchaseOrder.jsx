@@ -159,10 +159,10 @@ const CreatePurchaseOrder = ({
                                         {product.qty}
                                     </TableCell>
                                     <TableCell>
-                                        <NumberFormat value={product.buy_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+                                        <NumberFormat value={product.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
                                     </TableCell>
                                     <TableCell>
-                                        <NumberFormat value={product.buy_price * product.qty} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+                                        <NumberFormat value={product.sell_price * product.qty} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
                                     </TableCell>
                                     <TableCell>
                                         {purchaseOrderDetails.status_po === '99' ? (

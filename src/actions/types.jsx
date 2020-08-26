@@ -6,6 +6,10 @@ export const REMOVE_ALERT = "REMOVE_ALERT"
 export const ADD_LOGIN = "ADD_LOGIN"
 export const LOGIN_ERROR = "LOGIN_ERROR"
 
+// Profile
+export const GET_PROFILE = "GET_PROFILE"
+export const EDIT_PROFILE = "EDIT_PROFILE"
+
 // Customer
 export const ADD_CUSTOMER = "ADD_CUSTOMER"
 export const ADD_CUSTOMER_ERROR = "ADD_CUSTOMER_ERROR"
@@ -17,6 +21,8 @@ export const GET_SEARCH_CUSTOMER = "GET_SEARCH_CUSTOMER"
 // Dashboard
 export const GET_PRODUCT_DASHBOARD = "GET_PRODUCT_DASHBOARD"
 export const GET_CARD_STATS = "GET_CARD_STATS"
+export const GET_NET_INCOME = "GET_NET_INCOME"
+export const GET_GOLD_PRICE = "GET_GOLD_PRICE"
 
 // Purchase Order
 export const GET_PURCHASE_ORDER = "GET_PURCHASE_ORDER"
