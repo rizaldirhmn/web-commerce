@@ -14,8 +14,8 @@ const useStyles = makeStyles(theme => ({
 const Profile = () => {
     const classes = useStyles()
 
-    const [banner, setBanner] = useState([]);
-    const [base64, setB64] = useState();
+    const [ setBanner] = useState([]);
+    const [ setB64] = useState();
     const handleChangeBanner = event => {
         setBanner(event[0]);
             let reader = new FileReader();
