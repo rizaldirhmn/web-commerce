@@ -243,6 +243,20 @@ const Main = props => {
             className={classes.button}
             component={CustomRouterLink}
             onClick={handleDrawerClose}
+            to='/cashier-buyback'
+          >
+            <ListItem button key='cashier-buyback'>
+              <ListItemIcon>
+                <CartIcon style={{ color: textMenuWhite }} />
+              </ListItemIcon>
+              <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Transaksi Buyback</Typography>} />
+            </ListItem>
+          </Button>
+          <Button
+            activeclassname={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            onClick={handleDrawerClose}
             to='/customer'
           >
             <ListItem button key='customer'>

@@ -26,6 +26,20 @@ const Profile = () => {
         }
     };
 
+    const [ formState, setFormState ] = useState({
+        values: {}
+    })
+
+    const handleChange = event => {
+        setFormState(formState => ({
+            ...formState,
+            values: {
+                ...formState.values,
+                [event.target.name]: event.target.value
+            }
+        }))
+    }
+
     return (
         <div className={classes.root}>
             <Grid container spacing={2}>
@@ -52,7 +66,8 @@ const Profile = () => {
                                 name="nama"
                                 label="Nama Akun"
                                 variant="outlined"
-                                defaultValue="Rizaldi Rahman"
+                                defaultValue={formState.values.nama || ''}
+                                onChange={handleChange}
                             />
                         </CardContent>
                     </Card>

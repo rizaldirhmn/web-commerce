@@ -1,36 +1,35 @@
 import {
-    PURCHASE_ITEM_PAY,
-    PURCHASE_ITEM_PAY_ERROR,
-    PURCHASE_ITEM_PAY_BUYBACK
+    GET_TRANSACTION_BUYBACK,
+    GET_SEARCH_TRANSACTION_BUYBACK,
+    GET_DETAIL_TRANSACTION_BUYBACK
 } from '../actions/types'
 
 const initialState = {
-    payment: {},
-    paymentBuyback: {},
+    transactions: null,
+    transaction: null,
     loading: true,
     error: {},
-    counting : 0
 }
 
 export default function (state = initialState, action) {
     const { type, payload } = action
     switch (type) {
-        case PURCHASE_ITEM_PAY_ERROR:
+        case GET_TRANSACTION_BUYBACK:
             return {
                 ...state,
-                error: payload,
+                transactions: payload,
                 loading: false
             }
-        case PURCHASE_ITEM_PAY:
+        case GET_SEARCH_TRANSACTION_BUYBACK:
             return {
                 ...state,
-                payment: payload,
-                loading: false
+                transactions: payload,
+                loading: false,
             }
-        case PURCHASE_ITEM_PAY_BUYBACK:
+        case GET_DETAIL_TRANSACTION_BUYBACK:
             return {
                 ...state,
-                paymentBuyback: payload,
+                transaction: payload,
                 loading: false
             }
         default:

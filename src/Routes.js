@@ -7,6 +7,7 @@ import { Main as MainLayout, Login } from './layouts';
 import {
   Dashboard as DashboardView,
   Cashier as CashierView,
+  CashierBuyback as CashierBuybackView,
   Customer as CustomerView,
   CreateCustomer as CreateCustomerView,
   EditCustomer as EditCustomerView,
@@ -16,7 +17,9 @@ import {
   BeginingBalance as BeginingBalanceView,
   DetailTransaction as DetailTransactionView,
   StockOpname as StockOpnameView,
-  Profile as ProfileView
+  Profile as ProfileView,
+  TransactionBuyback as TransactionBuybackView,
+  DetailTransactionBuyback as DetailTransactionBuybackView,
 } from './views';
 
 const Routes = () => {
@@ -47,6 +50,13 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/cashier"
+      />
+
+      <RouteWithLayout
+        component={CashierBuybackView}
+        exact
+        layout={MainLayout}
+        path="/cashier-buyback"
       />
 
       <RouteWithLayout
@@ -96,6 +106,20 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/report/selling/detail/:id"
+      />
+
+      <RouteWithLayout
+        component={TransactionBuybackView}
+        exact
+        layout={MainLayout}
+        path="/report/buyback"
+      />
+
+      <RouteWithLayout
+        component={DetailTransactionBuybackView}
+        exact
+        layout={MainLayout}
+        path="/report/buyback/detail/:id"
       />
 
       <RouteWithLayout
