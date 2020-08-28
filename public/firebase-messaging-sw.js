@@ -11,6 +11,7 @@ firebase.initializeApp({
   messagingSenderId: "616686349035",
   appId: "1:616686349035:web:c42573857374111b596cae"
 });
+
 const messaging = firebase.messaging();
 messaging.setBackgroundMessageHandler(function(payload) {
   const promiseChain = clients
@@ -28,7 +29,6 @@ messaging.setBackgroundMessageHandler(function(payload) {
       const title = payload.data.title;
       const options = {
           body: payload.data.message,
-          link: payload.data.link,
       };
       // console.log(options);
       return registration.showNotification(title, options);

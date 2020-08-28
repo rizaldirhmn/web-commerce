@@ -1,31 +1,37 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
-import axios from 'axios';
+import { 
+  Card, 
+  CardContent, 
+  Grid, 
+  Typography, 
+  Avatar
+} from '@material-ui/core';
 import NumberFormat from 'react-number-format';
-import Skeleton from '@material-ui/lab/Skeleton';
+import TransactionIcon from '@material-ui/icons/RefreshRounded';
 
 const useStyles = makeStyles(theme => ({
   root: {
 		height: '100%',
-		backgroundColor: '#0195FF',
+		backgroundColor: '#FFFFFF',
   },
   content: {
     alignItems: 'center',
     display: 'flex'
   },
   title: {
-		fontWeight: 700,
-		color: '#fff'
+		fontWeight: 500,
+    color: '#000000',
+    fontSize: '18px'
 	},
 	numbers: {
-		color: '#fff'
+		color: '#FF9300'
 	},
 	caption: {
 		fontWeight: 700,
-		color: '#fff',
+		color: '#000000',
 		fontFamily: 'Arial',
 	},
   avatar: {
@@ -35,7 +41,8 @@ const useStyles = makeStyles(theme => ({
   },
   icon: {
     height: 32,
-    width: 32
+    width: 32,
+    color: '#BFC1CB'
   },
   difference: {
     marginTop: theme.spacing(2),
@@ -52,7 +59,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TotalTransaction = props => {
-  const { className, ...rest } = props;
+  const { className, item, ...rest } = props;
 
   const classes = useStyles();
 
@@ -73,21 +80,18 @@ const TotalTransaction = props => {
               gutterBottom
               variant="body2"
             >
-              TOTAL TRANSACTION
+              TOTAL TRANSAKSI
             </Typography>
-						<Typography className={classes.numbers} variant="h3">
-							<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} />
-						</Typography>
+            <Typography className={classes.numbers} variant="h3">
+              <NumberFormat value={item} displayType={'text'} thousandSeparator={true} />
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Avatar className={classes.avatar}>
+              <TransactionIcon className={classes.icon} />
+            </Avatar>
           </Grid>
         </Grid>
-        <div className={classes.difference}>
-          <Typography
-            className={classes.caption}
-            variant="caption"
-          >
-            See Details
-          </Typography>
-        </div>
       </CardContent>
     </Card>
   );

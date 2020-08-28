@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, Fragment } from 'react'
+import { useHistory } from 'react-router-dom'
 import {
     Grid,
     Typography,
@@ -7,17 +8,24 @@ import {
     CardHeader,
     CardActions,
     Paper,
-    InputBase,
     IconButton,
     Divider,
     Button
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
+import Backdrop from '@material-ui/core/Backdrop'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import NumberFormat from 'react-number-format'
+import TextField from '@material-ui/core/TextField'
+
+// Redux
+import { connect } from 'react-redux'
+import { addPayment } from '../../../../actions/payment'
 
 const useStyles = makeStyles(theme => ({
     root: {
         padding: theme.spacing(1),
-        width: '50%',
+        width: '30%',
         margin: 'auto',
         [theme.breakpoints.down('sm')]: {
             borderRadius: theme.spacing(4),
@@ -60,17 +68,50 @@ const useStyles = makeStyles(theme => ({
         marginBottom: theme.spacing(2),
         height: 3,
         margin: 4
-    }
+    },
+    backdrop: {
+		zIndex: theme.zIndex.drawer + 1,
+		color: '#fff',
+	},
 }))
 
-const PaymentMethodOptions = () => {
+const PaymentMethodOptions = (props) => {
     const classes = useStyles()
-    
-    return(
+    const history = useHistory()
+    const { handleDrawerPaymentClose, customer : { searchCustomer, loading }, cart : { carts }, addPayment } = props
+
+    const [formState, setFormState] = useState({
+        input_price: '',
+    });
+
+    const [ changes, setChanges ] = useState(0)
+
+    const handleChange = event => {
+        // event.presist()
+        setFormState(formState => ({
+          ...formState,
+            [event.target.name]: event.target.value
+        }));
+
+        setChanges(event.target.value - carts.total_payment)
+    };
+
+    const onSubmitPayment = () => {
+        // console.log(searchCustomer.id, formState.input_price)
+        addPayment(searchCustomer.id, formState.input_price, formState.note, history)
+        handleDrawerPaymentClose()
+    }
+
+    return loading || searchCustomer === null ? 
+	<Backdrop className={classes.backdrop} open>
+		<CircularProgress color="inherit" />
+    </Backdrop> 
+    :
+    <Fragment>
         <Card className={classes.root}>
             <hr className={classes.cardNotch} />
             <CardHeader
-                title="Pilih Metode Pembayaran"
+                title="Lanjutkan Pembayaran"
             />
             <CardContent>
                 <Grid
@@ -79,9 +120,26 @@ const PaymentMethodOptions = () => {
                 >
                     <Grid
                         item
-                        lg={4}
-                        md={6}
-                        sm={6}
+                        lg={12}
+                        md={12}
+                        sm={12}
+                        xs={12}
+                    >
+                        <Typography>
+                            Total Harus Bayar : <NumberFormat value={carts.total_payment} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+                        </Typography>
+                        
+                    </Grid>
+                </Grid>
+                <Grid
+                    container
+                    spacing={2}
+                >
+                    <Grid
+                        item
+                        lg={12}
+                        md={12}
+                        sm={12}
                         xs={12}
                     >
                         <Typography>Tunai</Typography>
@@ -90,17 +148,20 @@ const PaymentMethodOptions = () => {
                                 <Typography variant="subtitle2">Rp</Typography>
                             </IconButton>
                             <Divider className={classes.divider} orientation="vertical" />
-                            <InputBase
-                                className={classes.input}
-                                name="payment_cash"
-                                placeholder="Masukan Nilai Tunai"
-                                inputProps={{ 'aria-label': 'Masukan Nilai Tunai' }}
+                            <NumberFormat
+                                {...props}
+                                defaultValue={formState.input_price || ''}
+                                name="input_price"
+                                customInput={TextField}
+                                type="text"
+                                thousandSeparator
+                                onValueChange={({ value: v }) => handleChange({ target : { name : 'input_price', value: v} })}
                             />
                         </Paper>
                     </Grid>
                 </Grid>
 
-                <Divider className={classes.dividerHorizontal} orientation="horizontal" />
+                {/* <Divider className={classes.dividerHorizontal} orientation="horizontal" />
 
                 <Grid
                     container
@@ -151,7 +212,7 @@ const PaymentMethodOptions = () => {
                             Lainnya
                         </Button>
                     </Grid>
-                </Grid>
+                </Grid> */}
 
                 <Divider className={classes.dividerHorizontal} orientation="horizontal" />
 
@@ -159,9 +220,9 @@ const PaymentMethodOptions = () => {
                     container
                     spacing={2}
                 >
-                    <Grid
+                    {/* <Grid
                         item
-                        lg={4}
+                        lg={6}
                         md={6}
                         sm={6}
                         xs={12}
@@ -175,22 +236,27 @@ const PaymentMethodOptions = () => {
                                 inputProps={{ 'aria-label': 'Masukan Jenis Pembayaran' }}
                             />
                         </Paper>
-                    </Grid>
+                    </Grid> */}
                     <Grid
                         item
-                        lg={4}
-                        md={6}
-                        sm={6}
+                        lg={12}
+                        md={12}
+                        sm={12}
                         xs={12}
                     >
-                        <Typography>Catatan</Typography>
+                        <Typography>Kembalian</Typography>
                         <Paper component="form" className={classes.searchRoot}>
-                            <InputBase
+                            {/* <InputBase
                                 className={classes.input}
-                                name="notes"
+                                value={}
                                 placeholder="Catatan"
                                 inputProps={{ 'aria-label': 'Catatan' }}
-                            />
+                            /> */}
+                                {changes <= 0 ? (
+                                    <NumberFormat value='0' displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+                                ):(
+                                    <NumberFormat value={changes} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+                                )}
                         </Paper>
                     </Grid>
                 </Grid>                
@@ -198,19 +264,27 @@ const PaymentMethodOptions = () => {
             <CardActions>
                 <Grid container spacing={2} justify="space-between">
                     <Grid item>
-                        <Button variant="outlined" size="medium" color="primary">
+                        <Button onClick={handleDrawerPaymentClose} variant="outlined" size="medium" color="primary">
                             Batal
                         </Button>
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" size="medium" color="primary">
-                            Bayar
-                        </Button>
+                        {formState.input_price !== '' && (
+                            <Button onClick={onSubmitPayment} variant="contained" size="medium" color="primary">
+                                Bayar
+                            </Button>
+                        )}
                     </Grid>
                 </Grid>
             </CardActions>
         </Card>
-    )
+    </Fragment>
+    
 }
 
-export default PaymentMethodOptions
+const mapStateToProps = state => ({
+    customer: state.customer,
+    cart: state.cart
+})
+
+export default connect(mapStateToProps, { addPayment })(PaymentMethodOptions)

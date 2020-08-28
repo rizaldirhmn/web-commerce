@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Avatar, Typography } from '@material-ui/core';
 
 const nameColorWhite = '#FFFFFF';
-const nameColorBlack = '#000000';
+// const nameColorBlack = '#000000';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,11 +32,12 @@ const Profile = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
+  const data = JSON.parse(sessionStorage.getItem('data'))
 
   const user = {
-    name: 'Rizaldi Rahman',
-    avatar: '/images/avatars/avatar.png',
-    position: 'Operantor'
+    name: data.name,
+    avatar: data.image,
+    position: data.role
   };
 
   return (

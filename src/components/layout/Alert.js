@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Alert as Alerts, AlertTitle} from '@material-ui/lab';
+import { Alert as Alerts } from '@material-ui/lab';
 import Snackbar from '@material-ui/core/Snackbar';
 
 const Alert = ({ alerts }) =>

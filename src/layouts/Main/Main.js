@@ -1,22 +1,25 @@
-import React, { forwardRef, useState, useEffect } from 'react';
+import React, { forwardRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/styles';
-import { useMediaQuery, Button, Typography, Tooltip } from '@material-ui/core';
+import { useMediaQuery, Button, Typography } from '@material-ui/core';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 
-import Drawer from '@material-ui/core/Drawer';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import Collapse from '@material-ui/core/Collapse';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import CartIcon from '@material-ui/icons/AddShoppingCart';
+import UserIcon from '@material-ui/icons/People';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -24,18 +27,17 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import SignOutIcon from '@material-ui/icons/Input';
-import Icon from '@material-ui/core/Icon';
+import ReportIcon from '@material-ui/icons/Assessment'
+import SettingIcon from '@material-ui/icons/Settings'
 
 import Hidden from '@material-ui/core/Hidden';
 
 import { Footer, AppBar, AccountName } from './components';
 
 const drawerWidth = 240;
-const drawerColorBlue = '#0277BD';
-const drawerColorDefault = '#FFFFFF';
+const drawerColorBlue = '#011747';
 
 const textMenuWhite = '#FFFFFF';
-const textMenuBlack = '#000000';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,13 +49,14 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
     paddingTop: 56,
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: -drawerWidth,
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up("sm")]: {
+      padding: theme.spacing(3),
+      paddingTop: 56,
+      width: `calc(100% - ${drawerWidth}px)`
+    }
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
@@ -63,19 +66,14 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 0,
   },
   drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
+    [theme.breakpoints.up("sm")]: {
+      flexShrink: 0
+    }
   },
   drawerPaper: {
     width: drawerWidth,
     backgroundColor: drawerColorBlue
   },
-  // drawer: {
-  //   width: drawerWidth,
-  //   flexShrink: 0,
-  //   backgroundColor: drawerColorBlue
-  //   // whiteSpace: 'nowrap',
-  // },
   
   toolbar: {
     display: 'flex',
@@ -108,7 +106,15 @@ const useStyles = makeStyles(theme => ({
   textMenu: {
     color: textMenuWhite,
     fontFamily: 'Roboto'
-  }
+  },
+  item: {
+    display: 'flex',
+    paddingTop: 0,
+    paddingBottom: 0
+  },
+  nested: {
+    paddingLeft: theme.spacing(4),
+  },
 }));
 
 const CustomRouterLink = forwardRef((props, ref) => (
@@ -120,36 +126,8 @@ const CustomRouterLink = forwardRef((props, ref) => (
   </div>
 ));
 
-function useWindowSize() {
-  const isClient = typeof window === 'object';
-
-  function getSize() {
-    return {
-      width: isClient ? window.innerWidth : 0,
-      height: isClient ? window.innerHeight : 0
-    };
-  }
-
-  const [windowSize, setWindowSize] = useState(getSize);
-
-  useEffect(() => {
-    if (!isClient) {
-      return false;
-    }
-    
-    function handleResize() {
-      setWindowSize(getSize());
-    }
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []); // Empty array ensures that effect is only run on mount and unmount
-
-  return windowSize;
-}
-
 const Main = props => {
-  const { children, className } = props;
+  const { children } = props;
 
   const classes = useStyles();
   const theme = useTheme();
@@ -157,13 +135,23 @@ const Main = props => {
     defaultMatches: true
   });
 
-  const size = useWindowSize();
-  console.log(size)
-
   const [open, setOpen] = useState(false);
 
   // Dialog Box
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [pengaturanOpen, setPengaturanOpen] = useState(false);
+  const [ reportOpen, setReportOpen ] = useState(false)
+  const [ transactionOpen, setTransactionOpen ] = useState(false)
+
+  const handleClick = (event) => {
+    if (event === 'pengaturan') {
+      setPengaturanOpen(!pengaturanOpen);
+    }else if(event === 'laporan'){
+      setReportOpen(!reportOpen)
+    }else if(event === 'transaksi'){
+      setTransactionOpen(!transactionOpen)
+    }
+  };
 
   const handleDialogClose = () => {
     setDialogOpen(false);
@@ -185,29 +173,6 @@ const Main = props => {
   const handlingSignout = event => {
     event.persist();
     setDialogOpen(true)
-    // Swal.fire({
-    //   title: 'Are you sure?',
-    //   text: 'You will not be able to access this Dashboard Page',
-    //   icon: 'warning',
-    //   showCancelButton: true,
-    //   confirmButtonText: 'Yes, Logout',
-    //   cancelButtonText: 'No, keep it'
-    // }).then((result) => {
-    //   if (result.value) {
-    //     // Swal.fire(
-    //     //   'Logged Out',
-    //     //   'You are Logged Out',
-    //     //   'success'
-    //     // )
-        // sessionStorage.removeItem('access_token');
-        // sessionStorage.removeItem('expires_in');
-        // sessionStorage.removeItem('role');
-        // sessionStorage.removeItem('data');
-        // sessionStorage.clear();
-        
-    //     setRedirect({values: true});
-    //   } 
-    // })
     
   };
 
@@ -231,11 +196,12 @@ const Main = props => {
       })}
     >
       <AppBar handleDrawerOpen={handleDrawerOpen} open={open} setOpen={setOpen} />
-      <Drawer
+      <SwipeableDrawer
         className={classes.drawer}
-        variant="persistent"
         anchor="left"
         open={open}
+        onClose={handleDrawerClose}
+        onOpen={handleDrawerOpen}
         classes={{
           paper: classes.drawerPaper,
         }}
@@ -254,25 +220,179 @@ const Main = props => {
             activeclassname={classes.active}
             className={classes.button}
             component={CustomRouterLink}
+            onClick={handleDrawerClose}
             to='/dashboard'
           >
             <ListItem button key='dashboard'>
-              {!open ? (
-                <Tooltip title="Dashboard" arrow placement="right">
-                  <ListItemIcon>
-                    <DashboardIcon style={{ color: textMenuWhite }} />
-                  </ListItemIcon>
-                </Tooltip>
-              ):(
-                <>
-                  <ListItemIcon>
-                    <DashboardIcon style={{ color: textMenuWhite }} />
-                  </ListItemIcon>
-                  <ListItemText primary={<Typography type="subtitle1" className={classes.textMenu}>Dashboard</Typography>} />
-                </>
-              )}
+              <ListItemIcon>
+                <DashboardIcon style={{ color: textMenuWhite }} />
+              </ListItemIcon>
+              <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Dashboard</Typography>} />
             </ListItem>
           </Button>
+          <Button
+            activeclassname={classes.active}
+            className={classes.button}
+            
+          >
+            <ListItem
+              button 
+              key='transaksi'
+              onClick={() => handleClick('transaksi')}
+            >
+              <ListItemIcon>
+                <CartIcon style={{ color: textMenuWhite }} />
+              </ListItemIcon>
+              <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Transaksi</Typography>} />
+            </ListItem>
+            {transactionOpen ? <ExpandLess style={{ color: textMenuWhite }} /> : <ExpandMore style={{ color: textMenuWhite }} />}
+          </Button>
+          <Collapse in={transactionOpen} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <Button
+                fullWidth
+                activeclassname={classes.active}
+                className={classes.nested}
+                component={CustomRouterLink}
+                onClick={handleDrawerClose}
+                to='/cashier'
+              >
+                <ListItem button key='cashier'>
+                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Transaksi Penjualan</Typography>} />
+                </ListItem>
+              </Button>
+              <Button
+                fullWidth
+                activeclassname={classes.active}
+                className={classes.nested}
+                component={CustomRouterLink}
+                onClick={handleDrawerClose}
+                to='/cashier-buyback'
+              >
+                <ListItem button key='cashier-buyback'>
+                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Transaksi Buyback</Typography>} />
+                </ListItem>
+              </Button>
+            </List>
+          </Collapse>
+          <Button
+            activeclassname={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            onClick={handleDrawerClose}
+            to='/customer'
+          >
+            <ListItem button key='customer'>
+                <ListItemIcon>
+                  <UserIcon style={{ color: textMenuWhite }} />
+                </ListItemIcon>
+                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Pelanggan</Typography>} />
+            </ListItem>
+          </Button>
+          <Button
+            activeclassname={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            onClick={handleDrawerClose}
+            to='/purchase-order'
+          >
+            <ListItem button key='purchase-order'>
+                <ListItemIcon>
+                  <CartIcon style={{ color: textMenuWhite }} />
+                </ListItemIcon>
+                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Purchase Order</Typography>} />
+            </ListItem>
+          </Button>
+          <Button
+            activeclassname={classes.active}
+            className={classes.button}
+            
+          >
+            <ListItem
+              button 
+              key='laporan'
+              onClick={() => handleClick('laporan')}
+            >
+              <ListItemIcon>
+                <ReportIcon style={{ color: textMenuWhite }} />
+              </ListItemIcon>
+              <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Laporan</Typography>} />
+            </ListItem>
+            {reportOpen ? <ExpandLess style={{ color: textMenuWhite }} /> : <ExpandMore style={{ color: textMenuWhite }} />}
+          </Button>
+          <Collapse in={reportOpen} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <Button
+                fullWidth
+                activeclassname={classes.active}
+                className={classes.nested}
+                component={CustomRouterLink}
+                onClick={handleDrawerClose}
+                to='/report/selling'
+              >
+                <ListItem button key='report-selling'>
+                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Laporan Penjualan</Typography>} />
+                </ListItem>
+              </Button>
+              <Button
+                fullWidth
+                activeclassname={classes.active}
+                className={classes.nested}
+                component={CustomRouterLink}
+                onClick={handleDrawerClose}
+                to='/report/buyback'
+              >
+                <ListItem button key='report-buyback'>
+                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Laporan Buyback</Typography>} />
+                </ListItem>
+              </Button>
+            </List>
+          </Collapse>
+          <Button
+            activeclassname={classes.active}
+            className={classes.button}
+            
+          >
+            <ListItem
+              button 
+              key='pengaturan'
+              onClick={() => handleClick('pengaturan')}
+            >
+              <ListItemIcon>
+                <SettingIcon style={{ color: textMenuWhite }} />
+              </ListItemIcon>
+              <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Pengaturan</Typography>} />
+            </ListItem>
+            {pengaturanOpen ? <ExpandLess style={{ color: textMenuWhite }} /> : <ExpandMore style={{ color: textMenuWhite }} />}
+          </Button>
+          <Collapse in={pengaturanOpen} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <Button
+                fullWidth
+                activeclassname={classes.active}
+                className={classes.nested}
+                component={CustomRouterLink}
+                onClick={handleDrawerClose}
+                to='/begining-balance'
+              >
+                <ListItem button key='begining-balance'>
+                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Stock Awal</Typography>} />
+                </ListItem>
+              </Button>
+              <Button
+                fullWidth
+                activeclassname={classes.active}
+                className={classes.nested}
+                component={CustomRouterLink}
+                onClick={handleDrawerClose}
+                to='/stock-opname'
+              >
+                <ListItem button key='stock-opname'>
+                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Stock Opname</Typography>} />
+                </ListItem>
+              </Button>
+            </List>
+          </Collapse>
           <Button
             className={classes.button}
             onClick={handlingSignout}
@@ -281,22 +401,13 @@ const Main = props => {
                 <ListItemIcon>
                   <SignOutIcon style={{ color: textMenuWhite }} />
                 </ListItemIcon>
-                <ListItemText primary={<Typography type="subtitle1" className={classes.textMenu}>Signout</Typography>} />
+                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Sign Out</Typography>} />
             </ListItem>
           </Button>
-          {/* <div className={classes.bottomPush}>
-            <ListItem button key='kecilin'>
-              <IconButton onClick={handleDrawerClose}>
-                {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-              </IconButton>
-            </ListItem>
-          </div> */}
         </List>
-      </Drawer>
+      </SwipeableDrawer>
       <main 
-        className={clsx(classes.content, {
-          [classes.contentShift]: open,
-        })}
+        className={classes.content}
       >
         {children}
         <Hidden only={['xs','sm']}>

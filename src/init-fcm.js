@@ -10,9 +10,13 @@ const initializedFirebaseApp = firebase.initializeApp({
   messagingSenderId: "616686349035",
   appId: "1:616686349035:web:c42573857374111b596cae"
 });
-const messaging = initializedFirebaseApp.messaging();
-messaging.usePublicVapidKey(
-	// Project Settings => Cloud Messaging => Web Push certificates
-  "BOmKlWMiJ4i-_HcKr6gxEKRi1w3VGoOzWjy9ZZ_mNys13aupdQafonK1hQIunSGDo7dP79n7duPfiDrgQI_HCO8"
-);
+
+let messaging;
+if (firebase.messaging.isSupported()) {
+  messaging = initializedFirebaseApp.messaging();
+  messaging.usePublicVapidKey(
+    "BOmKlWMiJ4i-_HcKr6gxEKRi1w3VGoOzWjy9ZZ_mNys13aupdQafonK1hQIunSGDo7dP79n7duPfiDrgQI_HCO8"
+  );
+}
+
 export { messaging };

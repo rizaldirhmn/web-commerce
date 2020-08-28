@@ -7,7 +7,7 @@ import {
 
 export const addLogin = (data, history) => async dispatch => {
 
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/partner/auth/login`
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/auth/login`
 
     const myData = new FormData();
     myData.set('email', data.email);
@@ -27,8 +27,7 @@ export const addLogin = (data, history) => async dispatch => {
 
         sessionStorage.setItem("access_token", res.data.access_token);
         sessionStorage.setItem("role", res.data.role);
-        sessionStorage.setItem("expires_in", '120');
-        sessionStorage.setItem("data", JSON.stringify(res.data.partner));
+        sessionStorage.setItem("data", JSON.stringify(res.data.admin));
 
         dispatch({
             type: ADD_LOGIN,

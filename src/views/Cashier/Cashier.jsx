@@ -1,28 +1,27 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/styles'
+import PropTypes from 'prop-types'
 import { 
   Grid, 
   Typography,
-	Button,
-	Paper,
-	TextField,
-	MenuItem,
-	IconButton,
-	InputBase,
-	Divider,
 	Hidden,
 	Badge,
 	SwipeableDrawer
 } from '@material-ui/core'
-import SearchIcon from '@material-ui/icons/Search'
-import AddUserIcon from '@material-ui/icons/People'
 import Fab from '@material-ui/core/Fab'
 import CartIcon from '@material-ui/icons/AddShoppingCart'
 
 // Components
 import Product from './Product'
 import Cart from './Cart'
-import Category from './Category'
+// import Category from './Category'
+import MobileView from './MobileView'
+import SearchCustomer from './SearchCustomer'
+
+// Redux
+import { connect } from 'react-redux'
+import { getSearchCustomerAndClear } from '../../actions/customer'
+import { useEffect } from 'react'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -83,12 +82,12 @@ const useStyles = makeStyles(theme => ({
 	},
 	fab: {
     position: 'fixed',
-    bottom: theme.spacing(2),
+    bottom: theme.spacing(4),
     right: theme.spacing(2),
 	},
 }));
 
-const Cashier = () => {
+const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomer, loading } }) => {
 	const classes = useStyles();
 	
 	const [ modalOpen, setModalOpen ] = useState(false)
@@ -101,7 +100,18 @@ const Cashier = () => {
 		setModalOpen(false)
 	}
 
+	const [ formState ] = useState({
+		params: '',
+		kata_kunci: ''
+	})
+
+	useEffect(() => {
+		getSearchCustomerAndClear(formState.params, formState.kata_kunci)
+	}, [loading, getSearchCustomerAndClear, formState])
+
   return (
+		<>
+		<Hidden only={['sm','xs']}>
       <div className={classes.root}>
         <div className={classes.bgColor}></div>
         <Grid
@@ -110,186 +120,76 @@ const Cashier = () => {
           justify="space-between"
         >
           <Grid item>  
-            <Typography variant="h4">Kasir</Typography>
+            <Typography variant="h4">Transaksi Penjualan</Typography>
           </Grid>
         </Grid>
-				<div className={classes.row}>
-					<Grid
-						container
-						spacing={2}
-					>
-						<Grid
-							item
-							lg={4}
-							md={6}
-							sm={6}
-							xs={12}
-						>
-							<Typography>Cari Customer Berdasarkan</Typography>
-							<Paper 
-                className={classes.catSearch}
-							>
-								<TextField
-									select
-									value='nama'
-									name="params"
-									// onChange={event => setCatQuery(event.target.value)}
-									className={classes.catSelectSearch}
-								>
-									<MenuItem value='nama'>Nama</MenuItem>
-									<MenuItem value='telepon'>No Telepon</MenuItem>
-									<MenuItem value='no_buku_anggota'>No Buku Anggota</MenuItem>
-								</TextField>
-							</Paper>
-						</Grid>
-						<Grid
-							item
-							lg={4}
-							md={6}
-							sm={6}
-							xs={12}
-						>
-							<Typography>Tambah Customer Baru</Typography>
-							<Paper 
-                className={classes.catSearch}
-							>
-								<Button variant="outlined" startIcon={<AddUserIcon />}>
-									Tambah Customer
-								</Button>
-							</Paper>
-						</Grid>
-					</Grid>
-				</div>
-				<div className={classes.row}>
-					<Grid
-						container
-						spacing={2}
-					>
-						<Grid
-							item
-							lg={4}
-							md={6}
-							sm={6}
-							xs={12}
-						>
-							<Typography>Cari Customer</Typography>
-							<Paper component="form" className={classes.searchRoot}>
-								<InputBase
-									className={classes.input}
-									name="pesan"
-									placeholder="Cari Customer"
-									inputProps={{ 'aria-label': 'Cari Customer' }}
-								/>
-								<Divider className={classes.divider} orientation="vertical" />
-								<IconButton type="submit" className={classes.iconButton} aria-label="search">
-									<SearchIcon />
-								</IconButton>
-							</Paper>
-						</Grid>
-						<Grid
-							item
-							lg={4}
-							md={6}
-							sm={6}
-							xs={12}
-						>
-							<Typography>Tipe Customer</Typography>
-							<Paper 
-                className={classes.catSearch}
-							>
-								<InputBase
-									className={classes.catSelectSearch}
-									placeholder="Tipe Customer"
-									InputProps={{
-										readOnly: true,
-									}}
-								/>
-							</Paper>
-						</Grid>
-						<Grid
-							item
-							lg={4}
-							md={6}
-							sm={6}
-							xs={12}
-						>
-							<Typography>No ID</Typography>
-							<Paper 
-                className={classes.catSearch}
-							>
-								<InputBase
-									className={classes.catSelectSearch}
-									placeholder="No ID"
-									InputProps={{
-										readOnly: true,
-									}}
-								/>
-							</Paper>
-						</Grid>
-					</Grid>
-				</div>
-
-				<div className={classes.row}>
-					<Grid
-						container
-						spacing={2}
-					>
-						<Grid
-							item
-							lg={12}
-							md={12}
-							sm={12}
-						>
-							<Category />
-						</Grid>
-					</Grid>
-				</div>
-				<div className={classes.row}>
-					<Grid
-						container
-						spacing={2}
-					>
-						<Grid
-							item
-							lg={7}
-							md={7}
-							sm={12}
-							xs={12}
-						>
-							<Product />
-						</Grid>
-						<Hidden only={['xs', 'sm']}>
+				
+				{!loading && (
+					<>
+					<SearchCustomer />
+					{searchCustomer && (
+						<div className={classes.row}>
 							<Grid
-								item
-								lg={5}
-								md={5}
-								sm={12}
-								xs={12}
+								container
+								spacing={2}
 							>
-								<Cart />
+								<Grid
+									item
+									lg={7}
+									md={7}
+									sm={12}
+									xs={12}
+								>
+									<Product searchCustomer={searchCustomer}/>
+								</Grid>
+								<Hidden only={['xs', 'sm']}>
+									<Grid
+										item
+										lg={5}
+										md={5}
+										sm={12}
+										xs={12}
+									>
+										<Cart />
+									</Grid>
+								</Hidden>
 							</Grid>
-						</Hidden>
-					</Grid>
-					<Hidden only={['md','lg','xl']}>
-						<Fab color="primary" aria-label="add" className={classes.fab} onClick={handleModalOpen}>
-							<Badge badgeContent={17} color="secondary">
-								<CartIcon />
-						</Badge>
-						</Fab>
-						<SwipeableDrawer
-							anchor='bottom'
-							open={modalOpen}
-							onClose={handleModalClose}
-							onOpen={handleModalOpen}
-							disableSwipeToOpen
-						>
-							<Cart />
-						</SwipeableDrawer>
-					</Hidden>
-				</div>
+							<Hidden only={['md','lg','xl']}>
+								<Fab color="primary" aria-label="add" className={classes.fab} onClick={handleModalOpen}>
+									<Badge badgeContent={17} color="secondary">
+											<CartIcon />
+									</Badge>
+								</Fab>
+								<SwipeableDrawer
+									anchor='bottom'
+									open={modalOpen}
+									onClose={handleModalClose}
+									onOpen={handleModalOpen}
+									disableSwipeToOpen
+								>
+									<Cart />
+								</SwipeableDrawer>
+							</Hidden>
+						</div>
+					)}
+					</>
+				)}
       </div>
-    
+		</Hidden>
+
+		<Hidden only={['md','lg','xl']}>
+			<MobileView />
+		</Hidden>
+    </>
   );
 };
 
-export default Cashier;
+Cashier.propTypes = {
+	getSearchCustomerAndClear: PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+customer: state.customer
+})
+
+export default connect(mapStateToProps, { getSearchCustomerAndClear })(Cashier);
