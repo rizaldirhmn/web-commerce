@@ -29,7 +29,6 @@ messaging.setBackgroundMessageHandler(function(payload) {
       const title = payload.data.title;
       const options = {
           body: payload.data.message,
-          link: payload.data.link,
       };
       // console.log(options);
       return registration.showNotification(title, options);

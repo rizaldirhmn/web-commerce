@@ -41,7 +41,7 @@ export default function App() {
       .catch(function(err) {
         console.log("Unable to get permission to notify.", err);
       });
-      navigator.serviceWorker.addEventListener("message", (message) => console.log(message.data.data.link));
+      navigator.serviceWorker.addEventListener("message", (message) => console.log(message.data));
   }
 
   useEffect(() => {
