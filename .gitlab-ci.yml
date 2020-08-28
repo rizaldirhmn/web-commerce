@@ -26,7 +26,7 @@ deploy_dev:
     - rsync -rav --delete build/* deploy@$SSH_SERVER_DEV:/var/www/$DEV_SITE/current/public/
   stage: deploy
 
-  deploy_prd:
+deploy_prd:
   image: alpine:3.10
   only:
     - master
