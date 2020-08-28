@@ -23,7 +23,7 @@ import SearchCustomer from './SearchCustomer'
 import CounterSlice from '../Product/CounterSlice'
 // Redux
 import { connect } from 'react-redux'
-import { getSearchCustomerAndClear } from '../../../actions/customer'
+import { getSearchCustomerAndClearBuyback } from '../../../actions/customer'
 import { useEffect } from 'react'
 
 const useStyles = makeStyles(theme => ({
@@ -66,7 +66,7 @@ const useStyles = makeStyles(theme => ({
 
 }))
 
-const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomer, loading } }) => {
+const MobileView = ({ getSearchCustomerAndClearBuyback, customer : { searchCustomerBuyback, loadingSearchCustomerBuyback } }) => {
 	const classes = useStyles()
 	
 	// Modal Search
@@ -100,8 +100,8 @@ const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomer, lo
 	})
 
 	useEffect(() => {
-		getSearchCustomerAndClear(formState.params, formState.kata_kunci)
-	}, [loading, getSearchCustomerAndClear, formState])
+		getSearchCustomerAndClearBuyback(formState.params, formState.kata_kunci)
+	}, [loadingSearchCustomerBuyback, getSearchCustomerAndClearBuyback, formState])
 
     return(
     <>
@@ -121,7 +121,7 @@ const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomer, lo
 				justify="space-between"
             >
 				<Grid item>  
-				{!searchCustomer ? (
+				{!searchCustomerBuyback ? (
 					<Button
 						variant="outlined"
 						color="secondary"
@@ -132,8 +132,8 @@ const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomer, lo
 					</Button>
 				):(
 					<div>
-						<Typography>Customer : {searchCustomer.name}</Typography>
-						<Typography>Tipe Anggota : {searchCustomer.name_status}</Typography>
+						<Typography>Customer : {searchCustomerBuyback.name}</Typography>
+						<Typography>Tipe Anggota : {searchCustomerBuyback.name_status}</Typography>
 					</div>
 
 				)}
@@ -142,9 +142,9 @@ const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomer, lo
 		</div>
 		<hr className={classes.dividerHorizontal} />
 		<div className={classes.contentProduct}>
-			{!loading && (
+			{!loadingSearchCustomerBuyback && (
 				<>
-				{searchCustomer && (
+				{searchCustomerBuyback && (
 					// <PerfectScrollbar>
 						<ProductCard handleQtyModalOpen={handleQtyModalOpen} />
 					// </PerfectScrollbar>
@@ -180,7 +180,7 @@ const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomer, lo
 				onOpen={handleQtyModalOpen}
 				disableSwipeToOpen
 			>
-				<CounterSlice handleModalClose={handleQtyModalClose} product={item} searchCustomer={searchCustomer} />
+				<CounterSlice handleModalClose={handleQtyModalClose} product={item} searchCustomerBuyback={searchCustomerBuyback} />
 			</SwipeableDrawer>
         </div>
     </>
@@ -191,4 +191,4 @@ const mapStateToProps = state => ({
 	customer: state.customer,
 })
 
-export default connect(mapStateToProps, { getSearchCustomerAndClear })(MobileView)
+export default connect(mapStateToProps, { getSearchCustomerAndClearBuyback })(MobileView)

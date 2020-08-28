@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core'
 // Redux
 import { connect } from 'react-redux'
-import { getSearchCustomerAndClear, getCustomer } from '../../../../actions/customer'
+import { getSearchCustomerAndClearBuyback, getCustomer } from '../../../../actions/customer'
 import { useEffect } from 'react'
 
 const useStyles = makeStyles(theme => ({
@@ -77,12 +77,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SearchCustomer = (props) => {
-	const { getSearchCustomerAndClear, getCustomer, customer : { searchCustomer, loading, customers }, handleSearchModalClose } = props
+	const { getSearchCustomerAndClearBuyback, getCustomer, customer : { searchCustomerBuyback, loadingSearchCustomerBuyback, customers }, handleSearchModalClose } = props
 	const classes = useStyles();
 
 	useEffect(() => {
 		getCustomer()
-	}, [loading, getCustomer])
+	}, [loadingSearchCustomerBuyback, getCustomer])
 
 	let optionsCustomer = []
 	if(customers != null){
@@ -95,10 +95,10 @@ const SearchCustomer = (props) => {
 
 	const handleSelectChange = event => {
 		if(event != null){
-			getSearchCustomerAndClear('id_agent', event.value)
+			getSearchCustomerAndClearBuyback('id_agent', event.value)
 			handleSearchModalClose()
 		}else{
-			getSearchCustomerAndClear('id_agent', '')
+			getSearchCustomerAndClearBuyback('id_agent', '')
 		}
 	};
 
@@ -117,7 +117,7 @@ const SearchCustomer = (props) => {
 						sm={6}
 						xs={12}
 					>
-						{loading || customers === null ? (
+						{loadingSearchCustomerBuyback || customers === null ? (
 							<Select options={optionsLoading} />
 						):(
 							<Select 
@@ -131,9 +131,9 @@ const SearchCustomer = (props) => {
 					</Grid>
 				</Grid>
 			</div>
-			{!loading && (
+			{!loadingSearchCustomerBuyback && (
 				<>
-				{searchCustomer && (
+				{searchCustomerBuyback && (
 					<div className={classes.row}>
 						<Grid
 							container
@@ -152,7 +152,7 @@ const SearchCustomer = (props) => {
 								>
 									<InputBase
 										disabled
-										value={searchCustomer.name}
+										value={searchCustomerBuyback.name}
 										name="nama_customer"
 										className={classes.catSelectSearch}
 										placeholder="Nama Customer"
@@ -175,7 +175,7 @@ const SearchCustomer = (props) => {
 								>
 									<InputBase
 										disabled
-										value={searchCustomer.name_status}
+										value={searchCustomerBuyback.name_status}
 										className={classes.catSelectSearch}
 										placeholder="Tipe Customer"
 										InputProps={{
@@ -197,7 +197,7 @@ const SearchCustomer = (props) => {
 								>
 									<InputBase
 										disabled
-										value={searchCustomer.id_agent}
+										value={searchCustomerBuyback.id_agent}
 										className={classes.catSelectSearch}
 										placeholder="No ID"
 										InputProps={{
@@ -216,11 +216,11 @@ const SearchCustomer = (props) => {
 };
 
 SearchCustomer.propTypes = {
-    getSearchCustomerAndClear: PropTypes.func.isRequired
+    getSearchCustomerAndClearBuyback: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   customer: state.customer
 })
 
-export default connect(mapStateToProps, { getSearchCustomerAndClear, getCustomer })(SearchCustomer);
+export default connect(mapStateToProps, { getSearchCustomerAndClearBuyback, getCustomer })(SearchCustomer);

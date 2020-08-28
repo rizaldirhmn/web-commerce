@@ -16,7 +16,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 
 import { connect } from 'react-redux'
 import { getProduct } from '../../../../actions/product'
-import { getCart } from '../../../../actions/cart'
+import { getCartBuyback } from '../../../../actions/cartBuyback'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -61,10 +61,10 @@ const ProductCard = (props) => {
 	const { 
 		getProduct , 
 		product : { products, loading }, 
-		customer : { searchCustomer }, 
+		customer : { searchCustomerBuyback }, 
 		handleQtyModalOpen,
-		getCart,
-		cart : { carts, counting } 
+		getCartBuyback,
+		cartBuyback : { carts, counting } 
 	} = props;
 	const classes = useStyles()
 
@@ -81,9 +81,9 @@ const ProductCard = (props) => {
 	// End Cart
 
 	useEffect(() => {
-		getProduct(searchCustomer.name_status)
-		getCart()
-	}, [getProduct, searchCustomer, getCart, counting])
+		getProduct(searchCustomerBuyback.name_status)
+		getCartBuyback()
+	}, [getProduct, searchCustomerBuyback, getCartBuyback, counting])
 
 	return loading || products === null ? 
 	<Backdrop className={classes.backdrop} open>
@@ -128,7 +128,7 @@ const ProductCard = (props) => {
 										{item.product.name} {item.product.weight} {item.product.unit}
 									</Typography>
 									<Typography className={classes.capDetail}>
-										<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										<NumberFormat value={item.product.product_price_buyback[0].buyback_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 									</Typography>
 									<Typography className={classes.capDetail}>
 										Stok : {item.product.stock}
@@ -209,7 +209,7 @@ const ProductCard = (props) => {
 const mapStateToProps = state => ({
 	product: state.product,
 	customer: state.customer,
-	cart: state.cart
+	cartBuyback: state.cartBuyback
 })
 
-export default connect(mapStateToProps, {getProduct, getCart})(ProductCard);
+export default connect(mapStateToProps, {getProduct, getCartBuyback})(ProductCard);
