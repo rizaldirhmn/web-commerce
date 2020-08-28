@@ -140,10 +140,16 @@ const Main = props => {
   // Dialog Box
   const [dialogOpen, setDialogOpen] = useState(false);
   const [pengaturanOpen, setPengaturanOpen] = useState(false);
+  const [ reportOpen, setReportOpen ] = useState(false)
+  const [ transactionOpen, setTransactionOpen ] = useState(false)
 
   const handleClick = (event) => {
     if (event === 'pengaturan') {
       setPengaturanOpen(!pengaturanOpen);
+    }else if(event === 'laporan'){
+      setReportOpen(!reportOpen)
+    }else if(event === 'transaksi'){
+      setTransactionOpen(!transactionOpen)
     }
   };
 
@@ -227,31 +233,48 @@ const Main = props => {
           <Button
             activeclassname={classes.active}
             className={classes.button}
-            component={CustomRouterLink}
-            onClick={handleDrawerClose}
-            to='/cashier'
+            
           >
-            <ListItem button key='cashier'>
+            <ListItem
+              button 
+              key='transaksi'
+              onClick={() => handleClick('transaksi')}
+            >
               <ListItemIcon>
                 <CartIcon style={{ color: textMenuWhite }} />
               </ListItemIcon>
               <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Transaksi</Typography>} />
             </ListItem>
+            {transactionOpen ? <ExpandLess style={{ color: textMenuWhite }} /> : <ExpandMore style={{ color: textMenuWhite }} />}
           </Button>
-          <Button
-            activeclassname={classes.active}
-            className={classes.button}
-            component={CustomRouterLink}
-            onClick={handleDrawerClose}
-            to='/cashier-buyback'
-          >
-            <ListItem button key='cashier-buyback'>
-              <ListItemIcon>
-                <CartIcon style={{ color: textMenuWhite }} />
-              </ListItemIcon>
-              <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Transaksi Buyback</Typography>} />
-            </ListItem>
-          </Button>
+          <Collapse in={transactionOpen} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <Button
+                fullWidth
+                activeclassname={classes.active}
+                className={classes.nested}
+                component={CustomRouterLink}
+                onClick={handleDrawerClose}
+                to='/cashier'
+              >
+                <ListItem button key='cashier'>
+                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Penjualan</Typography>} />
+                </ListItem>
+              </Button>
+              <Button
+                fullWidth
+                activeclassname={classes.active}
+                className={classes.nested}
+                component={CustomRouterLink}
+                onClick={handleDrawerClose}
+                to='/cashier-buyback'
+              >
+                <ListItem button key='cashier-buyback'>
+                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Cashier Buyback</Typography>} />
+                </ListItem>
+              </Button>
+            </List>
+          </Collapse>
           <Button
             activeclassname={classes.active}
             className={classes.button}
@@ -283,17 +306,48 @@ const Main = props => {
           <Button
             activeclassname={classes.active}
             className={classes.button}
-            component={CustomRouterLink}
-            onClick={handleDrawerClose}
-            to='/report/selling'
+            
           >
-            <ListItem button key='report-selling'>
-                <ListItemIcon>
-                  <ReportIcon style={{ color: textMenuWhite }} />
-                </ListItemIcon>
-                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Laporan Penjualan</Typography>} />
+            <ListItem
+              button 
+              key='laporan'
+              onClick={() => handleClick('laporan')}
+            >
+              <ListItemIcon>
+                <ReportIcon style={{ color: textMenuWhite }} />
+              </ListItemIcon>
+              <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Laporan</Typography>} />
             </ListItem>
+            {reportOpen ? <ExpandLess style={{ color: textMenuWhite }} /> : <ExpandMore style={{ color: textMenuWhite }} />}
           </Button>
+          <Collapse in={reportOpen} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <Button
+                fullWidth
+                activeclassname={classes.active}
+                className={classes.nested}
+                component={CustomRouterLink}
+                onClick={handleDrawerClose}
+                to='/report/selling'
+              >
+                <ListItem button key='report-selling'>
+                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Laporan Penjualan</Typography>} />
+                </ListItem>
+              </Button>
+              <Button
+                fullWidth
+                activeclassname={classes.active}
+                className={classes.nested}
+                component={CustomRouterLink}
+                onClick={handleDrawerClose}
+                to='/report/buyback'
+              >
+                <ListItem button key='report-buyback'>
+                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Laporan Buyback</Typography>} />
+                </ListItem>
+              </Button>
+            </List>
+          </Collapse>
           <Button
             activeclassname={classes.active}
             className={classes.button}
@@ -314,6 +368,7 @@ const Main = props => {
           <Collapse in={pengaturanOpen} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <Button
+                fullWidth
                 activeclassname={classes.active}
                 className={classes.nested}
                 component={CustomRouterLink}
@@ -325,6 +380,7 @@ const Main = props => {
                 </ListItem>
               </Button>
               <Button
+                fullWidth
                 activeclassname={classes.active}
                 className={classes.nested}
                 component={CustomRouterLink}
