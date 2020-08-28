@@ -123,7 +123,9 @@ const Product = ({ getProduct, product: { products, loading }, customer : { sear
 													{item.product.name} {item.product.weight} {item.product.unit}
 												</Typography>
 												<Typography variant="body2" color="textSecondary" className={classes.price}>
-													<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+													{item.product.latest_price && (
+														<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+													)}
 												</Typography>
 											</CardContent>
 										</CardActionArea>

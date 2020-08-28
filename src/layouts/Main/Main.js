@@ -258,7 +258,7 @@ const Main = props => {
                 to='/cashier'
               >
                 <ListItem button key='cashier'>
-                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Penjualan</Typography>} />
+                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Transaksi Penjualan</Typography>} />
                 </ListItem>
               </Button>
               <Button
@@ -270,7 +270,7 @@ const Main = props => {
                 to='/cashier-buyback'
               >
                 <ListItem button key='cashier-buyback'>
-                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Cashier Buyback</Typography>} />
+                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Transaksi Buyback</Typography>} />
                 </ListItem>
               </Button>
             </List>

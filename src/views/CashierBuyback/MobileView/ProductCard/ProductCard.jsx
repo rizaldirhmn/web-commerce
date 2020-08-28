@@ -128,7 +128,9 @@ const ProductCard = (props) => {
 										{item.product.name} {item.product.weight} {item.product.unit}
 									</Typography>
 									<Typography className={classes.capDetail}>
-										<NumberFormat value={item.product.product_price_buyback[0].buyback_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										{item.product.latest_price_buyback && (
+											<NumberFormat value={item.product.latest_price_buyback.buyback_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										)}
 									</Typography>
 									<Typography className={classes.capDetail}>
 										Stok : {item.product.stock}
