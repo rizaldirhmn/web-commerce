@@ -141,8 +141,8 @@ export const editCustomer = (formData, history, id) => async dispatch => {
     }
 }
 
-export const getSearchCustomer = (params, kata_kunci) => async dispatch => {
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/customer/search?type=${params}&kata_kunci=${kata_kunci}`
+export const getSearchCustomer = (kata_kunci) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/customer/search?type=&kata_kunci=${kata_kunci}`
     const token = sessionStorage.getItem('access_token')
 
     try {

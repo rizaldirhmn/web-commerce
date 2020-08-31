@@ -156,10 +156,13 @@ const EditCustomer = ({
                                                     select
                                                 >
                                                     <MenuItem key='aog' value="1">
-                                                        AOG
+                                                        Agent of Gold
                                                     </MenuItem>
                                                     <MenuItem key='mog' value="2">
-                                                        MOG
+                                                        Member of Gold
+                                                    </MenuItem>
+                                                    <MenuItem key='customer' value="3">
+                                                        Umum
                                                     </MenuItem>
                                                 </TextField>
                                             ):(
@@ -288,9 +291,6 @@ const EditCustomer = ({
                                     </Grid>
                                 </CardContent>
                                 <CardActions>
-                                    <Button size="medium" variant="outlined">
-                                        Batal
-                                    </Button>
                                     <Button type="submit" size="medium" variant="contained" className={classes.btn}>
                                         Simpan
                                     </Button>

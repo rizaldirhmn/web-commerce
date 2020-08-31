@@ -1,4 +1,4 @@
-import React, { useEffect, forwardRef, Fragment } from 'react';
+import React, { forwardRef, Fragment } from 'react';
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -13,8 +13,6 @@ import EditIcon from '@material-ui/icons/Edit'
 // import DeleteIcon from '@material-ui/icons/Delete'
 // import DetailIcon from '@material-ui/icons/Search'
 import { Link as RouterLink } from 'react-router-dom'
-import Backdrop from '@material-ui/core/Backdrop'
-import CircularProgress from '@material-ui/core/CircularProgress'
 
 import { connect } from 'react-redux';
 import { getCustomer } from '../../../actions/customer'
@@ -57,10 +55,8 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const ListCustomer = ({ 
-	getCustomer, 
-	customer : { customers, loading } 
-}) => {
+const ListCustomer = (props) => {
+	const { searchCustomer } = props
 	const classes = useStyles();
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -74,15 +70,7 @@ const ListCustomer = ({
 		setPage(0);
 	};
 
-	useEffect(() => {
-		getCustomer()
-	}, [loading, getCustomer]);
-
-	return loading || customers == null ? 
-		<Backdrop className={classes.backdrop} open>
-			<CircularProgress color="inherit" />
-		</Backdrop> 
-		: 
+	return (
 		<Fragment>
 			<Paper className={classes.root}>
 			<TableContainer className={classes.container}>
@@ -101,7 +89,7 @@ const ListCustomer = ({
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{customers.data.map((customer) => (
+					{searchCustomer.data.map((customer) => (
 						<TableRow key={customer.id}>
 							<TableCell>
 								{customer.id_agent}
@@ -151,7 +139,7 @@ const ListCustomer = ({
 			<TablePagination
 				rowsPerPageOptions={[10, 25, 100]}
 				component="div"
-				// count={!loading && customers.data.length}
+				count={searchCustomer.data.length}
 				rowsPerPage={rowsPerPage}
 				page={page}
 				onChangePage={handleChangePage}
@@ -159,6 +147,7 @@ const ListCustomer = ({
 			/>
 			</Paper>
 		</Fragment>
+	)
 	
 }
 

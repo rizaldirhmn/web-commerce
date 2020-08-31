@@ -102,7 +102,7 @@ export const getGrafikNetIncome = (start_date, end_date) => async dispatch => {
 }
 
 export const getGrafikGoldPrice = (id_product, type_customer, start_date, end_date) => async dispatch => {
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/dashboard_grafik/gold_price?id_product=${id_product}&type_customer=${type_customer}&start_date=${start_date}&end_date=${end_date}`
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/dashboard_grafik/gold_price_time?id_product=${id_product}&type_customer=${type_customer}&start_date=${start_date}&end_date=${end_date}`
     const token = sessionStorage.getItem('access_token')
 
     try {

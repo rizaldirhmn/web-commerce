@@ -199,8 +199,8 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
         >
           <Grid
             item
-            lg={12}
-            md={12}
+            lg={8}
+            md={8}
             sm={12}
             xs={12}
           >
@@ -213,8 +213,8 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
         >
           <Grid
             item
-            lg={12}
-            md={12}
+            lg={8}
+            md={8}
             sm={12}
             xs={12}
           >

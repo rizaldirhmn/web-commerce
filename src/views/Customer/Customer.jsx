@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useEffect } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import {
     Typography,
@@ -14,9 +14,14 @@ import {
 import AddCircle from '@material-ui/icons/AddCircle'
 import SearchIcon from '@material-ui/icons/Search'
 import { Link as RouterLink } from 'react-router-dom';
+import Skeleton from '@material-ui/lab/Skeleton'
 
 // Components
 import ListCustomer from './ListCustomer'
+
+import { connect } from 'react-redux'
+import { getSearchCustomer } from '../../actions/customer'
+import { useState } from 'react'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -70,8 +75,19 @@ const CustomRouterLink = forwardRef((props, ref) => (
     </div>
 ));
 
-const Customer = () => {
+const Customer = ({ getSearchCustomer, customer : { searchCustomer, loading }}) => {
     const classes = useStyles()
+
+    const [ keyword, setKeyword ] = useState('')
+
+    const handleChangeSearch = event => {
+        setKeyword(event.target.value)
+    }
+
+    useEffect(() => {
+        getSearchCustomer(keyword)
+    }, [loading, getSearchCustomer, keyword])
+
     return(
         <div className={classes.root}>
             <div className={classes.row}>
@@ -111,16 +127,17 @@ const Customer = () => {
                     </Hidden>
                     <Grid item lg={6} md={6} sm={6} xs={12}>
                         <Paper component="form" className={classes.searchRoot}>
+                            <IconButton type="button" className={classes.iconButton} aria-label="search">
+                                <SearchIcon />
+                            </IconButton>
+                            <Divider className={classes.divider} orientation="vertical" />
                             <InputBase
                                 className={classes.input}
                                 name="pesan"
+                                onChange={handleChangeSearch}
                                 placeholder="Cari Customer"
                                 inputProps={{ 'aria-label': 'Cari Customer' }}
                             />
-                            <Divider className={classes.divider} orientation="vertical" />
-                            <IconButton type="submit" className={classes.iconButton} aria-label="search">
-                                <SearchIcon />
-                            </IconButton>
                         </Paper>
                     </Grid>
                 </Grid>
@@ -137,7 +154,11 @@ const Customer = () => {
                         sm={12}
                         xs={12}
                     >
-                        <ListCustomer />
+                        {!loading ? (
+                            <ListCustomer searchCustomer={searchCustomer} />
+                        ):(
+                            <Skeleton variant="rect"></Skeleton>
+                        )}
                     </Grid>
                 </Grid>
             </div>
@@ -145,4 +166,8 @@ const Customer = () => {
     )
 }
 
-export default Customer
+const mapStateToProps = state => ({
+    customer : state.customer
+})
+
+export default connect(mapStateToProps, {getSearchCustomer})(Customer)

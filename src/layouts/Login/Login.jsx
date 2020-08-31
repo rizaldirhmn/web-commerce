@@ -59,7 +59,7 @@ const Login = ({ addLogin }) => {
 						<Card className={classes.card}>
 							<CardHeader
 								// ={< src={Logo} className={classes.} />}
-								title="Access"
+								title="Login Access EOA POS Cabang"
 							/>
 							<form onSubmit={handleSubmit(onSubmit)}>
 								<CardContent>
