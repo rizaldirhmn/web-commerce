@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography } from '@material-ui/core';
 import NumberFormat from 'react-number-format';
-import Backdrop from '@material-ui/core/Backdrop'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import Skeleton from '@material-ui/lab/Skeleton'
 
 // redux
 import { connect } from 'react-redux'
@@ -68,66 +67,69 @@ const AOGPricing = ({ getProduct, dashboard : { products, loading } }) => {
 	  getProduct('customer')
   }, [getProduct])
 
-  return loading || products === null ? 
-	<Backdrop className={classes.backdrop} open>
-		<CircularProgress color="inherit" />
-	</Backdrop> 
- 	:
-  	<Fragment>
+  return (
+  		<Fragment>
 			<div className={classes.gridRoot}>
-				<Grid
-					container
-					spacing={3}
-				>
+				{loading || products === null ? (
+					<Skeleton variant="rect" height={400}></Skeleton>
+				):(
+					<>
 					<Grid
-						item
-						lg={12}
+						container
+						spacing={3}
 					>
-						<Typography variant="h4">Harga</Typography>
-					</Grid>
-				</Grid>
-				<Grid
-				container
-				spacing={2}
-				>
-					{products.harga_jual.map((item) => (
 						<Grid
 							item
-							lg={4}
-							md={4}
-							sm={6}
-							xs={12}
+							lg={12}
 						>
-							<Card
-								// {...rest}
-								className={classes.root}
-							>
-								<CardContent>
-									<Grid
-										container
-										justify="space-between"
-									>
-										<Grid item>
-											<Typography
-												className={classes.caption}
-												variant="caption"
-											>
-												{item.weight} {item.unit}
-											</Typography>	
-										</Grid>
-									</Grid>
-									<div className={classes.difference}>
-										<Typography className={classes.numbers} variant="h3">
-											<NumberFormat value={item.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-										</Typography>
-									</div>
-								</CardContent>
-							</Card>
+							<Typography variant="h4">Harga</Typography>
 						</Grid>
-					))}
-				</Grid>
+					</Grid>
+					<Grid
+					container
+					spacing={2}
+					>
+						{products.harga_jual.map((item) => (
+							<Grid
+								item
+								lg={4}
+								md={4}
+								sm={6}
+								xs={12}
+							>
+								<Card
+									// {...rest}
+									className={classes.root}
+								>
+									<CardContent>
+										<Grid
+											container
+											justify="space-between"
+										>
+											<Grid item>
+												<Typography
+													className={classes.caption}
+													variant="caption"
+												>
+													{item.weight} {item.unit}
+												</Typography>	
+											</Grid>
+										</Grid>
+										<div className={classes.difference}>
+											<Typography className={classes.numbers} variant="h3">
+												<NumberFormat value={item.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+											</Typography>
+										</div>
+									</CardContent>
+								</Card>
+							</Grid>
+						))}
+					</Grid>
+					</>
+				)}
 			</div>
 		</Fragment>
+  	)
   
 };
 
