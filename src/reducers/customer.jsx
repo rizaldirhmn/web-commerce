@@ -16,6 +16,7 @@ const initialState = {
     searchCustomerBuyback: {},
     loadingSearchCustomerBuyback: true,
     loading: true,
+    loadingSearchCustomer: true,
     error: {},
     counting : 0
 }
@@ -57,7 +58,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 searchCustomer: payload,
-                loading: false,
+                loadingSearchCustomer: false,
                 counting : initialState.counting +=1
             }
         case GET_SEARCH_CUSTOMER_BUYBACK:

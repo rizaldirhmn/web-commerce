@@ -75,18 +75,32 @@ const CustomRouterLink = forwardRef((props, ref) => (
     </div>
 ));
 
-const Customer = ({ getSearchCustomer, customer : { searchCustomer, loading }}) => {
+const Customer = ({ getSearchCustomer, customer : { searchCustomer, loadingSearchCustomer }}) => {
     const classes = useStyles()
 
     const [ keyword, setKeyword ] = useState('')
 
     const handleChangeSearch = event => {
         setKeyword(event.target.value)
+        setPage(0)
     }
 
+    const [page, setPage] = useState(0);
+	const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+	const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+        getSearchCustomer(keyword, page+1)
+	};
+
+	const handleChangeRowsPerPage = (event) => {
+		setRowsPerPage(+event.target.value);
+		setPage(0);
+	};
+
     useEffect(() => {
-        getSearchCustomer(keyword)
-    }, [loading, getSearchCustomer, keyword])
+        getSearchCustomer(keyword, page+1)
+    }, [loadingSearchCustomer, getSearchCustomer, keyword, page])
 
     return(
         <div className={classes.root}>
@@ -154,8 +168,14 @@ const Customer = ({ getSearchCustomer, customer : { searchCustomer, loading }}) 
                         sm={12}
                         xs={12}
                     >
-                        {!loading ? (
-                            <ListCustomer searchCustomer={searchCustomer} />
+                        {!loadingSearchCustomer ? (
+                            <ListCustomer 
+                                searchCustomer={searchCustomer} 
+                                rowsPerPage={rowsPerPage}
+                                handleChangePage={handleChangePage}
+                                handleChangeRowsPerPage={handleChangeRowsPerPage}
+                                page={page}
+                            />
                         ):(
                             <Skeleton variant="rect"></Skeleton>
                         )}

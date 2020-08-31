@@ -56,19 +56,19 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ListCustomer = (props) => {
-	const { searchCustomer } = props
+	const { searchCustomer, page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = props
 	const classes = useStyles();
-	const [page, setPage] = React.useState(0);
-	const [rowsPerPage, setRowsPerPage] = React.useState(10);
+	// const [page, setPage] = React.useState(0);
+	// const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-	const handleChangePage = (event, newPage) => {
-		setPage(newPage);
-	};
+	// const handleChangePage = (event, newPage) => {
+	// 	setPage(newPage);
+	// };
 
-	const handleChangeRowsPerPage = (event) => {
-		setRowsPerPage(+event.target.value);
-		setPage(0);
-	};
+	// const handleChangeRowsPerPage = (event) => {
+	// 	setRowsPerPage(+event.target.value);
+	// 	setPage(0);
+	// };
 
 	return (
 		<Fragment>
@@ -115,21 +115,11 @@ const ListCustomer = (props) => {
 								)}
 							</TableCell>
 							<TableCell>
-								{/* <Tooltip title="Detail Customer">
-									<IconButton aria-label="detail">
-										<DetailIcon />
-									</IconButton>
-								</Tooltip> */}
 								<Tooltip title="Edit Customer">
 									<IconButton aria-label="edit" component={CustomRouterLink} to={`/customer/edit/${customer.id}`}>
 										<EditIcon />
 									</IconButton>
 								</Tooltip>
-								{/* <Tooltip title="Hapus Customer">
-									<IconButton aria-label="delete">
-										<DeleteIcon />
-									</IconButton>
-								</Tooltip> */}
 							</TableCell>
 						</TableRow>
 					))}
@@ -139,7 +129,7 @@ const ListCustomer = (props) => {
 			<TablePagination
 				rowsPerPageOptions={[10, 25, 100]}
 				component="div"
-				count={searchCustomer.data.length}
+				count={searchCustomer.total}
 				rowsPerPage={rowsPerPage}
 				page={page}
 				onChangePage={handleChangePage}

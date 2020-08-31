@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react'
+import axios from 'axios'
 import { makeStyles } from '@material-ui/styles'
 import PropTypes from 'prop-types'
 import { 
@@ -10,7 +11,7 @@ import SchemaValidation from './validation'
 import { useHistory, useParams, Link } from 'react-router-dom'
 
 import { connect } from 'react-redux'
-import { editCustomer, getDetailCustomer } from '../../../actions/customer'
+import { editCustomer } from '../../../actions/customer'
 import Skeleton from '@material-ui/lab/Skeleton'
 import Backdrop from '@material-ui/core/Backdrop'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -34,11 +35,8 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-const EditCustomer = ({ 
-    customer : { currentCustomer, loading },
-    editCustomer, 
-    getDetailCustomer, 
-}) => {
+const EditCustomer = (props) => {
+    const { editCustomer } = props
     const classes = useStyles()
     const history = useHistory()
     const { id } = useParams()
@@ -46,30 +44,35 @@ const EditCustomer = ({
 		resolver: yupResolver(SchemaValidation)
     });
     const [formState, setFormState] = useState({});
+    const [ detailCustomer, setDetailCustomer ] = useState({})
+    const [ isLoading, setIsLoading ] = useState(false)
+    const [ url ] = useState(`${process.env.REACT_APP_BASE_URL}/user/customer/${id}`)
 
     useEffect(() => {
-        getDetailCustomer(id)
-
-        // setFormState({
-        //     name : loading || !currentCustomer.name ? '' : currentCustomer.name,
-        //     status : loading || !currentCustomer.status ? '' : currentCustomer.status,
-        //     is_active : loading || !currentCustomer.is_active ? '' : currentCustomer.is_active,
-        //     address : loading || !currentCustomer.address ? '' : currentCustomer.address,
-        //     id_agent : loading || !currentCustomer.id_agent ? '' : currentCustomer.id_agent,
-        // })
-    
-    }, [id, loading, getDetailCustomer]);
-
-    // const {
-    //     name,
-    //     status,
-    //     is_active,
-    //     address,
-    //     id_agent
-    // } = formState
+        const fetchData = async () => {
+            setIsLoading(true);
+            try {
+                const token = sessionStorage.getItem('access_token');
+                // console.log(`token = ${token}`);
+                const result = await axios({
+                    url: url,
+                    method: "GET",
+                    headers: { 
+                        'Content-Type': 'application/json', 
+                        'Accept' : 'application/json', 
+                        'Authorization' : `bearer ${token}` 
+                    }
+                });
+                setDetailCustomer(result.data)
+            } catch (error) {
+              console.log(error)
+            }
+            setIsLoading(false);
+        };
+        fetchData()
+    },[ url ]);
 
     const handleChange = event => {
-        console.log(event.target.value)
         event.persist();
     
         setFormState(formState => ({
@@ -80,19 +83,10 @@ const EditCustomer = ({
 
     const onSubmit = e => {
         editCustomer(formState, history, id)
+        // console.log(formState)
     }
 
-    function isEmpty(obj) {
-        for(var key in obj) {
-            if(obj.hasOwnProperty(key))
-                return false;
-        }
-        return true;
-    }
-
-    // console.log(isEmpty(currentCustomer))
-
-    return loading || isEmpty(currentCustomer) ? 
+    return isLoading ? 
     <Backdrop className={classes.backdrop} open>
         <CircularProgress color="inherit" />
     </Backdrop> 
@@ -139,11 +133,11 @@ const EditCustomer = ({
                                             sm={12}
                                             xs={12}
                                         >
-                                            {!loading ? (
+                                            {!isLoading ? (
                                                 <TextField
                                                     fullWidth
                                                     variant="outlined"
-                                                    defaultValue={currentCustomer.status}
+                                                    defaultValue={detailCustomer.status || ''}
                                                     label="Tipe Customer"
                                                     margin="dense"
                                                     name="status"
@@ -176,11 +170,11 @@ const EditCustomer = ({
                                             sm={12}
                                             xs={12}
                                         >
-                                            {!loading ? (
+                                            {!isLoading ? (
                                                 <TextField
                                                     fullWidth
                                                     variant="outlined"
-                                                    defaultValue={currentCustomer.name}
+                                                    defaultValue={detailCustomer.name || ''}
                                                     label="Nama Customer"
                                                     margin="dense"
                                                     name="name"
@@ -205,11 +199,11 @@ const EditCustomer = ({
                                             sm={12}
                                             xs={12}
                                         >
-                                            {!loading ? (
+                                            {!isLoading ? (
                                                 <TextField
                                                     fullWidth
                                                     variant="outlined"
-                                                    defaultValue={currentCustomer.id_agent}
+                                                    defaultValue={detailCustomer.id_agent || ''}
                                                     label="Nomor ID Anggota"
                                                     margin="dense"
                                                     name="id_agent"
@@ -231,11 +225,11 @@ const EditCustomer = ({
                                             sm={12}
                                             xs={12}
                                         >
-                                            {!loading ? (
+                                            {!isLoading ? (
                                                 <TextField
                                                     fullWidth
                                                     variant="outlined"
-                                                    defaultValue={currentCustomer.is_active}
+                                                    defaultValue={detailCustomer.is_active || ''}
                                                     label="Status Aktif"
                                                     margin="dense"
                                                     name="is_active"
@@ -250,7 +244,7 @@ const EditCustomer = ({
                                                     <MenuItem key="aktif" value="1">
                                                         Aktif
                                                     </MenuItem>
-                                                    <MenuItem key="tidak_aktif" value="2">
+                                                    <MenuItem key="tidak_aktif" value="0">
                                                         Tidak Aktif
                                                     </MenuItem>
                                                 </TextField>
@@ -267,13 +261,13 @@ const EditCustomer = ({
                                             sm={12}
                                             xs={12}
                                         >
-                                            {!loading ? (
+                                            {!isLoading ? (
                                                 <TextField
                                                     fullWidth
                                                     variant="outlined"
                                                     rows={4}
                                                     multiline={true}
-                                                    defaultValue={currentCustomer.address}
+                                                    defaultValue={detailCustomer.address || ''}
                                                     label="Alamat Lengkap"
                                                     margin="dense"
                                                     name="address"
@@ -306,11 +300,10 @@ const EditCustomer = ({
 }
 EditCustomer.propTypes = {
     editCustomer: PropTypes.func.isRequired,
-    getDetailCustomer: PropTypes.func.isRequired,
     currentCustomer: PropTypes.object.isRequired,
 }
 const mapStateToProps = state => ({
     customer: state.customer
   })
 
-export default connect(mapStateToProps, { editCustomer, getDetailCustomer })(EditCustomer)
+export default connect(mapStateToProps, { editCustomer })(EditCustomer)
