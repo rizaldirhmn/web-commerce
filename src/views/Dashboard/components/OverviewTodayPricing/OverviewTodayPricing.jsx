@@ -13,7 +13,8 @@ import {
 	BranchPricing,
 	AOGPricing,
   MOGPricing,
-  CustomerPricing
+  CustomerPricing,
+  BuybackPrice
 } from './components'
 
 function TabPanel(props) {
@@ -135,6 +136,9 @@ export default function ScrollableTabsButtonAuto() {
           </TabPanel>
           <TabPanel value={value} index={3}>
             <CustomerPricing />
+          </TabPanel>
+          <TabPanel value={value} index={4}>
+            <BuybackPrice />
           </TabPanel>
         </Paper>
     </div>
