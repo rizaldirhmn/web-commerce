@@ -92,8 +92,6 @@ const SearchCustomer = (props) => {
 		}
 	}
 
-	const optionsLoading = [{ 'value' : 'loading', 'label' : 'Loading'}];
-
 	const handleSelectChange = event => {
 		if(event != null){
 			getSearchCustomerAndClear('id_agent', event.value)
