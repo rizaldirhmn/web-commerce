@@ -8,6 +8,7 @@ import {
 	Paper,
 	InputBase,
 } from '@material-ui/core'
+import Skeleton from '@material-ui/lab/Skeleton'
 // Redux
 import { connect } from 'react-redux'
 import { getSearchCustomerAndClear, getCustomer } from '../../../actions/customer'
@@ -118,10 +119,11 @@ const SearchCustomer = (props) => {
 					>
 						<Typography>Cari Customer</Typography>
 						{loading || customers === null ? (
-							<Select options={optionsLoading} />
+							// <Select options={optionsLoading} />
+							<Skeleton className={classes.searchRoot} variant="rect"></Skeleton>
 						):(
 							<Select 
-								className={classes.searchRoot} 
+								
 								isClearable 
 								options={optionsCustomer} 
 								onChange={handleSelectChange} 
