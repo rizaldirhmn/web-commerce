@@ -1,5 +1,10 @@
 import {
-    GET_PRODUCT_DASHBOARD, GET_CARD_STATS, GET_NET_INCOME, GET_GOLD_PRICE, GET_PRODUCT_BUYBACK_DASHBOARD
+    GET_PRODUCT_DASHBOARD, 
+    GET_CARD_STATS, 
+    GET_NET_INCOME, 
+    GET_GOLD_PRICE, 
+    GET_PRODUCT_BUYBACK_DASHBOARD, 
+    GET_TRANSACTION_SALES
 } from '../actions/types'
 
 const initialState = {
@@ -8,11 +13,13 @@ const initialState = {
     card: null,
     grafikNetIncome : null,
     grafikGoldPrice: null,
+    grafikTransactionSales: null,
     loading: true,
     loadingBuyback: true,
     loadingCard: true,
     loadingGrafik: true,
     loadingGoldPrice: true,
+    loadingTransactionSales: true,
     error: {}
 }
 
@@ -48,6 +55,12 @@ export default function (state = initialState, action) {
                 ...state,
                 grafikGoldPrice: payload,
                 loadingGoldPrice: false
+            }
+        case GET_TRANSACTION_SALES:
+            return {
+                ...state,
+                grafikTransactionSales: payload,
+                loadingTransactionSales: false
             }
         default:
             return state

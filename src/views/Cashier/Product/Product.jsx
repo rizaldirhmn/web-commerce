@@ -123,7 +123,7 @@ const Product = ({ getProduct, product: { products, loading }, customer : { sear
 													{item.product.name} {item.product.weight} {item.product.unit}
 												</Typography>
 												<Typography variant="body2" color="textSecondary" className={classes.price}>
-													{item.product.latest_price && (
+													{item.product.latest_price !== null && (
 														<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 													)}
 												</Typography>
@@ -142,7 +142,9 @@ const Product = ({ getProduct, product: { products, loading }, customer : { sear
 													{item.product.name} {item.product.weight} {item.product.unit}
 												</Typography>
 												<Typography variant="body2" color="textSecondary" className={classes.price}>
-													<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+													{item.product.latest_price !== null && (
+														<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+													)}
 												</Typography>
 											</CardContent>
 										</CardActionArea>
@@ -170,7 +172,7 @@ const Product = ({ getProduct, product: { products, loading }, customer : { sear
 					onOpen={handleModalOpen}
 					disableSwipeToOpen
 				>
-					<CounterSlice handleModalClose={handleModalClose} product={item} searchCustomer={searchCustomer} />
+					<CounterSlice handleModalClose={handleModalClose} product={item} searchCustomer={searchCustomer[0]} />
 				</SwipeableDrawer>
 			</CardContent>
 		</Card>

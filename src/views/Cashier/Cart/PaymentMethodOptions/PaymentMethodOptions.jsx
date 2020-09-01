@@ -78,7 +78,7 @@ const useStyles = makeStyles(theme => ({
 const PaymentMethodOptions = (props) => {
     const classes = useStyles()
     const history = useHistory()
-    const { handleDrawerPaymentClose, customer : { searchCustomer, loading }, cart : { carts }, addPayment } = props
+    const { handleDrawerPaymentClose, customer : { searchCustomer, loadingSearchCustomer }, cart : { carts }, addPayment } = props
 
     const [formState, setFormState] = useState({
         input_price: '',
@@ -98,11 +98,11 @@ const PaymentMethodOptions = (props) => {
 
     const onSubmitPayment = () => {
         // console.log(searchCustomer.id, formState.input_price)
-        addPayment(searchCustomer.id, formState.input_price, formState.note, history)
+        addPayment(searchCustomer[0].id, formState.input_price, formState.note, history)
         handleDrawerPaymentClose()
     }
 
-    return loading || searchCustomer === null ? 
+    return loadingSearchCustomer || searchCustomer === null ? 
 	<Backdrop className={classes.backdrop} open>
 		<CircularProgress color="inherit" />
     </Backdrop> 

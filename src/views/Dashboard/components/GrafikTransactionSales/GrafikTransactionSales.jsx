@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Line } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import {
     Card,
     CardContent,
     CardHeader,
-    Grid
+    Grid,
 } from '@material-ui/core'
 import DateFnsUtils from '@date-io/date-fns'; // choose your lib
 import {
@@ -12,15 +12,16 @@ import {
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 import moment from 'moment';
-import { options } from './chart'
+import moment_tz from 'moment-timezone'
+import {options} from './chart'
 
 // Redux
 import { connect } from 'react-redux'
-import { getGrafikNetIncome } from '../../../../actions/dashboard'
+import { getGrafikTransactionSales } from '../../../../actions/dashboard'
 import Skeleton from '@material-ui/lab/Skeleton';
 
-const GrafikNetIncome = (props) => {
-    const { getGrafikNetIncome, dashboard : { loadingGrafik, grafikNetIncome} } = props
+const GrafikTransactionSales = (props) => {
+    const { getGrafikTransactionSales, dashboard : { loadingTransactionSales, grafikTransactionSales} } = props
 
     const [selectedDate ] = useState(new Date());
 
@@ -64,51 +65,49 @@ const GrafikNetIncome = (props) => {
     };
 
     useEffect(() => {
-        getGrafikNetIncome(startDate.submit.submit, endDate.submit.submit)
-    }, [loadingGrafik, getGrafikNetIncome, startDate, endDate])
+        getGrafikTransactionSales(startDate.submit.submit, endDate.submit.submit)
+    }, [loadingTransactionSales, getGrafikTransactionSales, startDate, endDate])
 
     var data = {}
-    var jumlah=[];
+    var jumlah_trx=[]
+    var jumlah_uang=[]
     var bulan=[];
 
-    if(!loadingGrafik || grafikNetIncome !== null){
-        for (var i = 0; i < grafikNetIncome.data.length; i++) {
-            bulan.push(moment(grafikNetIncome.data[i].date).format('DD/MM'));
-            jumlah.push(grafikNetIncome.data[i].value);
+    if(!loadingTransactionSales || grafikTransactionSales !== null){
+        for (var i = 0; i < grafikTransactionSales.data.length; i++) {
+            // bulan.push(grafikTransactionSales.data[i].date);
+            var date = new Date(grafikTransactionSales.data[i].date)
+            bulan.push(moment_tz(date, "Europe/London").tz("Asia/Jakarta").format('DD/MM'));
+            jumlah_trx.push(grafikTransactionSales.data[i].total_trx);
+            jumlah_uang.push(grafikTransactionSales.data[i].jumlah_uang);
         }
     
         data = {
             labels: bulan,
             datasets: [
               {
-                label : 'Grafik Net Income',
-                data: jumlah,
-                backgroundColor: 'rgba(75,192,192,0.4)',
-              }
-            ]
-        };
-    }else{
-        data = {
-            labels: ["loading"],
-            datasets: [
+                label : 'Jumlah Transaksi',
+                type: 'line',
+                data: jumlah_trx,
+                fill: false,
+                borderColor: '#EC932F',
+                backgroundColor: '#EC932F',
+                pointBorderColor: '#EC932F',
+                pointBackgroundColor: '#EC932F',
+                pointHoverBackgroundColor: '#EC932F',
+                pointHoverBorderColor: '#EC932F',
+                yAxisID: 'y-axis-2'
+              },
               {
-                label : 'Grafik Net Income',
-                data: ["loading"],
-                backgroundColor: 'rgba(75,192,192,0.4)',
-                borderColor: 'rgba(75,192,192,1)',
-                borderCapStyle: 'butt',
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                pointBorderColor: 'rgba(75,192,192,1)',
-                pointBackgroundColor: '#fff',
-                pointBorderWidth: 1,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-                pointHoverBorderColor: 'rgba(220,220,220,1)',
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
+                type: 'bar',
+                label: 'Jumlah Uang',
+                data: jumlah_uang,
+                fill: false,
+                backgroundColor: '#71B37C',
+                borderColor: '#71B37C',
+                hoverBackgroundColor: '#71B37C',
+                hoverBorderColor: '#71B37C',
+                yAxisID: 'y-axis-1'
               }
             ]
         };
@@ -116,14 +115,20 @@ const GrafikNetIncome = (props) => {
     
     return(
         <div>
-            {!loadingGrafik ? (
+            {!loadingTransactionSales ? (
                 <Card>
                     <CardHeader 
-                        title="Grafik Net Income"
+                        title={`Grafik Harga Emas`}
                     />
                     <CardContent>
-                        <Grid container justify="space-between">
-                            <Grid item>
+                        <Grid container spacing={2} justify="space-between">
+                            <Grid 
+                                item
+                                lg={6}
+                                md={6}
+                                sm={12}
+                                xs={12}
+                            >
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                     <DatePicker 
                                         fullWidth
@@ -136,7 +141,13 @@ const GrafikNetIncome = (props) => {
                                     />
                                 </MuiPickersUtilsProvider>
                             </Grid>
-                            <Grid item>
+                            <Grid 
+                                item
+                                lg={6}
+                                md={6}
+                                sm={12}
+                                xs={12}
+                            >
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                     <DatePicker 
                                         fullWidth
@@ -152,9 +163,9 @@ const GrafikNetIncome = (props) => {
                         </Grid>
                     </CardContent>
                     <CardContent>
-                        <Line
-                            width={100}
-                            height={50}
+                        <Bar
+                            // width={100}
+                            height={400}
                             data={data}
                             options={options}
                         />
@@ -172,4 +183,4 @@ const mapStateToProps = state => ({
     dashboard: state.dashboard
 })
 
-export default connect(mapStateToProps, {getGrafikNetIncome})(GrafikNetIncome)
+export default connect(mapStateToProps, {getGrafikTransactionSales})(GrafikTransactionSales)

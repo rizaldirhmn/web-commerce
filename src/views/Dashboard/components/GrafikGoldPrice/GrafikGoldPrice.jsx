@@ -14,6 +14,8 @@ import {
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 import moment from 'moment';
+import moment_tz from 'moment-timezone'
+import {options} from './chart'
 
 // Redux
 import { connect } from 'react-redux'
@@ -87,7 +89,9 @@ const GrafikGoldPrice = (props) => {
 
     if(!loadingGoldPrice || grafikGoldPrice !== null){
         for (var i = 0; i < grafikGoldPrice.data.length; i++) {
-            bulan.push(grafikGoldPrice.data[i].date);
+            // bulan.push(grafikGoldPrice.data[i].date);
+            var date = new Date(grafikGoldPrice.data[i].date)
+            bulan.push(moment_tz(date, "Europe/London").tz("Asia/Jakarta").format('DD/MM HH:mm'));
             jumlah.push(grafikGoldPrice.data[i].harga);
         }
     
@@ -98,20 +102,6 @@ const GrafikGoldPrice = (props) => {
                 label : 'Grafik Harga Emas',
                 data: jumlah,
                 backgroundColor: 'rgba(75,192,192,0.4)',
-                borderColor: 'rgba(75,192,192,1)',
-                borderCapStyle: 'butt',
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                pointBorderColor: 'rgba(75,192,192,1)',
-                pointBackgroundColor: '#fff',
-                pointBorderWidth: 1,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-                pointHoverBorderColor: 'rgba(220,220,220,1)',
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
               }
             ]
         };
@@ -238,9 +228,10 @@ const GrafikGoldPrice = (props) => {
                     </CardContent>
                     <CardContent>
                         <Line
-                            width={100}
-                            height={50}
+                            // width={100}
+                            // height={50}
                             data={data}
+                            options={options}
                         />
                     </CardContent>
                 </Card>

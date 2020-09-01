@@ -18,7 +18,8 @@ import {
   TotalProfitClean,
   TotalCustomer,
   GrafikNetIncome,
-  GrafikGoldPrice
+  GrafikGoldPrice,
+  GrafikTransactionSales
 } from './components'
 
 import CartIcon from '@material-ui/icons/AddShoppingCart'
@@ -205,6 +206,15 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
             xs={12}
           >
             <GrafikNetIncome />
+          </Grid>
+          <Grid
+            item
+            lg={4}
+            md={4}
+            sm={12}
+            xs={12}
+          >
+            <GrafikTransactionSales />
           </Grid>
         </Grid>
         <Grid

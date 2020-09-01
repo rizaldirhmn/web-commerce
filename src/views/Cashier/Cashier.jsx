@@ -87,7 +87,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomer, loading } }) => {
+const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomer, loadingSearchCustomer } }) => {
 	const classes = useStyles();
 	
 	const [ modalOpen, setModalOpen ] = useState(false)
@@ -107,7 +107,7 @@ const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomer, loadi
 
 	useEffect(() => {
 		getSearchCustomerAndClear(formState.params, formState.kata_kunci)
-	}, [loading, getSearchCustomerAndClear, formState])
+	}, [loadingSearchCustomer, getSearchCustomerAndClear, formState])
 
   return (
 		<>
@@ -124,52 +124,56 @@ const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomer, loadi
           </Grid>
         </Grid>
 				
-				{!loading && (
+				<SearchCustomer />
+				{!loadingSearchCustomer && (
 					<>
-					<SearchCustomer />
-					{searchCustomer && (
+					{searchCustomer.length > 0 && (
 						<div className={classes.row}>
-							<Grid
-								container
-								spacing={2}
-							>
-								<Grid
-									item
-									lg={7}
-									md={7}
-									sm={12}
-									xs={12}
-								>
-									<Product searchCustomer={searchCustomer}/>
-								</Grid>
-								<Hidden only={['xs', 'sm']}>
+							{/* {searchCustomer.map((product) => ( */}
+								<div>
 									<Grid
-										item
-										lg={5}
-										md={5}
-										sm={12}
-										xs={12}
+										container
+										spacing={2}
 									>
-										<Cart />
+										<Grid
+											item
+											lg={7}
+											md={7}
+											sm={12}
+											xs={12}
+										>
+											<Product searchCustomer={searchCustomer[0]}/>
+										</Grid>
+										<Hidden only={['xs', 'sm']}>
+											<Grid
+												item
+												lg={5}
+												md={5}
+												sm={12}
+												xs={12}
+											>
+												<Cart />
+											</Grid>
+										</Hidden>
 									</Grid>
-								</Hidden>
-							</Grid>
-							<Hidden only={['md','lg','xl']}>
-								<Fab color="primary" aria-label="add" className={classes.fab} onClick={handleModalOpen}>
-									<Badge badgeContent={17} color="secondary">
-											<CartIcon />
-									</Badge>
-								</Fab>
-								<SwipeableDrawer
-									anchor='bottom'
-									open={modalOpen}
-									onClose={handleModalClose}
-									onOpen={handleModalOpen}
-									disableSwipeToOpen
-								>
-									<Cart />
-								</SwipeableDrawer>
-							</Hidden>
+									<Hidden only={['md','lg','xl']}>
+										<Fab color="primary" aria-label="add" className={classes.fab} onClick={handleModalOpen}>
+											<Badge badgeContent={17} color="secondary">
+													<CartIcon />
+											</Badge>
+										</Fab>
+										<SwipeableDrawer
+											anchor='bottom'
+											open={modalOpen}
+											onClose={handleModalClose}
+											onOpen={handleModalOpen}
+											disableSwipeToOpen
+										>
+											<Cart />
+										</SwipeableDrawer>
+									</Hidden>
+								</div>
+							{/* ))} */}
 						</div>
 					)}
 					</>

@@ -7,7 +7,8 @@ import {
     EDIT_CUSTOMER,
     GET_DETAIL_CUSTOMER,
     GET_SEARCH_CUSTOMER,
-    GET_SEARCH_CUSTOMER_BUYBACK
+    GET_SEARCH_CUSTOMER_BUYBACK,
+    GET_CUSTOMER_V2
 } from './types'
 
 export const getCustomer = () => async dispatch => {
@@ -28,6 +29,37 @@ export const getCustomer = () => async dispatch => {
 
         dispatch({
             type: GET_CUSTOMER,
+            payload: res.data
+        })
+
+    } catch (error) {
+        dispatch(setAlert("Something Went Wrong", "error"))
+        console.log(error)
+        // dispatch({
+        //     payload: { msg: error.response.statusText, status: error.response.status },
+        //     type: STAGE_ERROR
+        // })
+    }
+}
+
+export const getCustomerCashier = (kata_kunci) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/customer/search_v2?type=name&kata_kunci=${kata_kunci}`
+    const token = sessionStorage.getItem('access_token')
+
+    try {
+        const res = await axios({
+            url: endpoint,
+            method: "GET",
+            loading: true,
+            headers: { 
+              'Content-Type': 'application/json', 
+              'Accept' : 'application/json', 
+              'Authorization' : `bearer ${token}`
+            }
+        });
+
+        dispatch({
+            type: GET_CUSTOMER_V2,
             payload: res.data
         })
 
@@ -190,7 +222,7 @@ export const getSearchCustomerAndClear = (params, kata_kunci) => async dispatch 
 
         dispatch({
             type: GET_SEARCH_CUSTOMER,
-            payload: res.data.data[0]
+            payload: res.data.data
         })
 
     } catch (error) {

@@ -66,7 +66,7 @@ const useStyles = makeStyles(theme => ({
 
 }))
 
-const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomer, loading } }) => {
+const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomer, loadingSearchCustomer } }) => {
 	const classes = useStyles()
 	
 	// Modal Search
@@ -101,7 +101,7 @@ const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomer, lo
 
 	useEffect(() => {
 		getSearchCustomerAndClear(formState.params, formState.kata_kunci)
-	}, [loading, getSearchCustomerAndClear, formState])
+	}, [loadingSearchCustomer, getSearchCustomerAndClear, formState])
 
     return(
     <>
@@ -121,30 +121,46 @@ const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomer, lo
 				justify="space-between"
             >
 				<Grid item>  
-				{!searchCustomer ? (
-					<Button
-						variant="outlined"
-						color="secondary"
-						startIcon={<AddUserIcon />}
-						onClick={handleSearchModalOpen}
-					>
-						Cari Customer
-					</Button>
-				):(
+				{!loadingSearchCustomer && (
 					<div>
-						<Typography>Customer : {searchCustomer.name}</Typography>
-						<Typography>Tipe Anggota : {searchCustomer.name_status}</Typography>
+						{searchCustomer.length === 0 ? (
+							<Button
+								variant="outlined"
+								color="secondary"
+								startIcon={<AddUserIcon />}
+								onClick={handleSearchModalOpen}
+							>
+								Cari Customer
+							</Button>
+						):(
+							<div>
+								<Button
+									variant="outlined"
+									color="secondary"
+									startIcon={<AddUserIcon />}
+									onClick={handleSearchModalOpen}
+								>
+									Cari Customer
+								</Button>
+								{searchCustomer.map((item) => (
+									<div>
+										<Typography>Customer : {item.name}</Typography>
+										<Typography>Tipe Anggota : {item.name_status}</Typography>
+									</div>
+								))}
+							</div>
+		
+						)}
 					</div>
-
 				)}
                 </Grid>
             </Grid>
 		</div>
 		<hr className={classes.dividerHorizontal} />
 		<div className={classes.contentProduct}>
-			{!loading && (
+			{!loadingSearchCustomer && (
 				<>
-				{searchCustomer && (
+				{searchCustomer.length > 0 && (
 					// <PerfectScrollbar>
 						<ProductCard handleQtyModalOpen={handleQtyModalOpen} />
 					// </PerfectScrollbar>
@@ -180,7 +196,9 @@ const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomer, lo
 				onOpen={handleQtyModalOpen}
 				disableSwipeToOpen
 			>
-				<CounterSlice handleModalClose={handleQtyModalClose} product={item} searchCustomer={searchCustomer} />
+				{!loadingSearchCustomer && (
+					<CounterSlice handleModalClose={handleQtyModalClose} product={item} searchCustomer={searchCustomer[0]} />
+				)}
 			</SwipeableDrawer>
         </div>
     </>

@@ -124,9 +124,9 @@ const Cashier = ({ getSearchCustomerAndClearBuyback, customer : { searchCustomer
           </Grid>
         </Grid>
 				
+				<SearchCustomer />
 				{!loadingSearchCustomerBuyback && (
 					<>
-					<SearchCustomer />
 					{searchCustomerBuyback && (
 						<div className={classes.row}>
 							<Grid

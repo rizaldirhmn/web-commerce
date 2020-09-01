@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
 import Select from 'react-select'
@@ -7,10 +7,21 @@ import {
   Typography,
 	Paper,
 	InputBase,
+	TableContainer,
+	Table,
+	TableHead,
+	TableBody,
+	TableRow,
+	TableCell,
+	TablePagination,
+	IconButton,
+	Divider
 } from '@material-ui/core'
+import Skeleton from '@material-ui/lab/Skeleton'
+import SearchIcon from '@material-ui/icons/Search'
 // Redux
 import { connect } from 'react-redux'
-import { getSearchCustomerAndClear, getCustomer } from '../../../../actions/customer'
+import { getSearchCustomerAndClear, getCustomerCashier } from '../../../../actions/customer'
 import { useEffect } from 'react'
 
 const useStyles = makeStyles(theme => ({
@@ -31,11 +42,12 @@ const useStyles = makeStyles(theme => ({
 	extendedIcon: {
 		marginRight: theme.spacing(1),
 		},
-		row: {
+	row: {
 		height: 'auto',
-		display: 'flex',
+		// display: 'flex',
 		alignItems: 'center',
-		marginTop: theme.spacing(1)
+		marginTop: theme.spacing(1),
+		width: '100%'
 	},
   	catSearch: {
 		borderRadius: '4px',
@@ -53,53 +65,69 @@ const useStyles = makeStyles(theme => ({
 	},
 	searchRoot: {
 		padding: '2px 4px',
-		// display: 'flex',
+		display: 'flex',
 		alignItems: 'center',
-		minWidth: 150,
-		marginTop: theme.spacing(2)
+		width: 'auto',
+		// marginTop: theme.spacing(2)
 	},
 	input: {
 		marginLeft: theme.spacing(1),
-			flex: 1,
-		},
-		iconButton: {
-		padding: 10,
+		flex: 1,
+	},
+	iconButton: {
+			padding: 10,
 	},
 	divider: {
-		height: 28,
-		margin: 4,
+			height: 28,
+			margin: 4,
 	},
 	fab: {
 		position: 'fixed',
 		bottom: theme.spacing(4),
 		right: theme.spacing(2),
-	},
+	}
 }));
 
+const columns = [
+	{ id: 'no_id', label: 'No ID', minWidth: 100 },
+	{ id: 'nama', label: 'Nama', minWidth: 150 },
+	{ id: 'kategori', label: 'Kategori', minWidth: 100 },	
+  ];
+
 const SearchCustomer = (props) => {
-	const { getSearchCustomerAndClear, getCustomer, customer : { searchCustomer, loading, customers }, handleSearchModalClose } = props
+	const { getSearchCustomerAndClear, getCustomerCashier, customer : { searchCustomer, loading, customers_v2, loadingCustomerV2 }, handleSearchModalClose } = props
 	const classes = useStyles();
 
-	useEffect(() => {
-		getCustomer()
-	}, [loading, getCustomer])
+	const [page, setPage] = React.useState(0);
+	const [rowsPerPage, setRowsPerPage] = React.useState(10);
+	const [ keyword, setKeyword ] = useState('')
 
-	let optionsCustomer = []
-	if(customers != null){
-		for (let i = 0; i < customers.data.length; i++) {
-			optionsCustomer.push({'value' : customers.data[i].id_agent, 'label' : customers.data[i].name});
-		}
+	const handleChangeSearch = event => {
+		setKeyword(event.target.value)
+		setPage(0)
 	}
 
-	const optionsLoading = [{ 'value' : 'loading', 'label' : 'Loading'}];
+	const handleChangePage = (event, newPage) => {
+		setPage(newPage);
+	};
+
+	const handleChangeRowsPerPage = (event) => {
+		setRowsPerPage(+event.target.value);
+		setPage(0);
+	};
+
+	useEffect(() => {
+		getCustomerCashier(keyword)
+	}, [loading, getCustomerCashier, keyword])
 
 	const handleSelectChange = event => {
-		if(event != null){
-			getSearchCustomerAndClear('id_agent', event.value)
-			handleSearchModalClose()
-		}else{
-			getSearchCustomerAndClear('id_agent', '')
-		}
+		console.log(event)
+		getSearchCustomerAndClear('id_agent', event.id_agent)
+		handleSearchModalClose()
+		// if(event != null){
+		// }else{
+		// 	getSearchCustomerAndClear('id_agent', '')
+		// }
 	};
 
   	return (
@@ -117,23 +145,90 @@ const SearchCustomer = (props) => {
 						sm={6}
 						xs={12}
 					>
-						{loading || customers === null ? (
-							<Select options={optionsLoading} />
-						):(
-							<Select 
-								className={classes.searchRoot} 
-								isClearable 
-								options={optionsCustomer} 
-								onChange={handleSelectChange} 
-								placeholder="Cari Customer"
-							/>
+						<Typography>Cari Customer</Typography>
+						<div className={classes.row}>
+							<Paper component="form" className={classes.searchRoot}>
+									<IconButton type="button" className={classes.iconButton} aria-label="search">
+											<SearchIcon />
+									</IconButton>
+									<Divider className={classes.divider} orientation="vertical" />
+									<InputBase
+											className={classes.input}
+											name="pesan"
+											onChange={handleChangeSearch}
+											placeholder="Cari Customer"
+											inputProps={{ 'aria-label': 'Cari Customer' }}
+									/>
+							</Paper>
+						</div>
+					</Grid>
+					<Grid
+						item
+						lg={9}
+						md={6}
+						sm={6}
+						xs={12}
+					>
+						<Typography>Hasil Pencarian</Typography>
+						{!loadingCustomerV2 && (
+							<div className={classes.row}>
+								{customers_v2 !== null && (
+									<Paper className={classes.root}>
+										<TableContainer className={classes.container}>
+											<Table stickyHeader aria-label="sticky table" style={{ minWidth: "340px" }}>
+											<TableHead>
+												<TableRow>
+												{columns.map((column) => (
+													<TableCell
+													key={column.id}
+													align={column.align}
+													style={{ minWidth: column.minWidth }}
+													>
+													{column.label}
+													</TableCell>
+												))}
+												</TableRow>
+											</TableHead>
+											<TableBody>
+												{customers_v2.data.map((customer) => (
+													<TableRow key={customer.id} hover onClick={e => handleSelectChange(customer)}>
+														<TableCell>
+															{customer.id_agent}
+														</TableCell>
+														<TableCell>
+															{customer.name}
+														</TableCell>
+														<TableCell>
+															{customer.status === '1' ? (
+																<Typography>AOG</Typography>
+															): (
+																<Typography>MOG</Typography>
+															)}
+														</TableCell>
+													</TableRow>
+												))}
+											</TableBody>
+											</Table>
+										</TableContainer>
+										<TablePagination
+											rowsPerPageOptions={[10, 25, 100]}
+											component="div"
+											count={customers_v2.data.length}
+											rowsPerPage={rowsPerPage}
+											page={page}
+											onChangePage={handleChangePage}
+											onChangeRowsPerPage={handleChangeRowsPerPage}
+										/>
+									</Paper>
+								)}
+							</div>
 						)}
 					</Grid>
 				</Grid>
 			</div>
-			{!loading && (
+			{searchCustomer !== null && (
 				<>
-				{searchCustomer && (
+				{searchCustomer.map((item) => (
 					<div className={classes.row}>
 						<Grid
 							container
@@ -152,7 +247,7 @@ const SearchCustomer = (props) => {
 								>
 									<InputBase
 										disabled
-										value={searchCustomer.name}
+										value={item.name}
 										name="nama_customer"
 										className={classes.catSelectSearch}
 										placeholder="Nama Customer"
@@ -175,7 +270,7 @@ const SearchCustomer = (props) => {
 								>
 									<InputBase
 										disabled
-										value={searchCustomer.name_status}
+										value={item.name_status}
 										className={classes.catSelectSearch}
 										placeholder="Tipe Customer"
 										InputProps={{
@@ -197,7 +292,7 @@ const SearchCustomer = (props) => {
 								>
 									<InputBase
 										disabled
-										value={searchCustomer.id_agent}
+										value={item.id_agent}
 										className={classes.catSelectSearch}
 										placeholder="No ID"
 										InputProps={{
@@ -208,7 +303,8 @@ const SearchCustomer = (props) => {
 							</Grid>
 						</Grid>
 					</div>
-				)}
+
+				))}
 				</>
 			)}
 		</div>
@@ -223,4 +319,4 @@ const mapStateToProps = state => ({
   customer: state.customer
 })
 
-export default connect(mapStateToProps, { getSearchCustomerAndClear, getCustomer })(SearchCustomer);
+export default connect(mapStateToProps, { getSearchCustomerAndClear, getCustomerCashier })(SearchCustomer);
