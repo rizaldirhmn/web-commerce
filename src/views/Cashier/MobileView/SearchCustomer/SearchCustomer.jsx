@@ -115,7 +115,11 @@ const SearchCustomer = (props) => {
 	};
 
 	useEffect(() => {
-		getCustomerCashier(keyword)
+		const timer = setTimeout(() => {
+			getCustomerCashier(keyword)
+		}, 2000)
+
+		return () => clearTimeout(timer)
 	}, [loading, getCustomerCashier, keyword])
 
 	const handleSelectChange = event => {
