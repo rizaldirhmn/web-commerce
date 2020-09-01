@@ -104,7 +104,7 @@ const Product = ({ getProduct, product: { products, loading }, customer : { sear
 						{products.map(item => (
 							<Grid
 								item
-								lg={4}
+								lg={3}
 								md={4}
 								sm={6}
 								xs={12}

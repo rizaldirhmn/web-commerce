@@ -44,7 +44,8 @@ const useStyles = makeStyles(theme => ({
 	},
 	row: {
     height: 'auto',
-    display: 'flex',
+		// display: 'flex',
+		width: '100%',
     alignItems: 'center',
     marginTop: theme.spacing(1)
   },
@@ -137,8 +138,8 @@ const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomer, loadi
 									>
 										<Grid
 											item
-											lg={7}
-											md={7}
+											lg={8}
+											md={8}
 											sm={12}
 											xs={12}
 										>
@@ -147,8 +148,8 @@ const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomer, loadi
 										<Hidden only={['xs', 'sm']}>
 											<Grid
 												item
-												lg={5}
-												md={5}
+												lg={4}
+												md={4}
 												sm={12}
 												xs={12}
 											>

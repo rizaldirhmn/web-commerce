@@ -34,6 +34,7 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.down('sm')]: {
             borderRadius: theme.spacing(4)
         },
+        width: '100%'
     },
     cardNotch: {
         marginTop: theme.spacing(2),
