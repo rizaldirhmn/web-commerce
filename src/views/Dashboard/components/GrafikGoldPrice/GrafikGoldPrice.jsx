@@ -28,19 +28,26 @@ const GrafikGoldPrice = (props) => {
     const [selectedDate ] = useState(new Date());
 
     const [ formState, setFormState ] = useState({
-        id_product : 4,
-        tipe_customer : 'aog'
+        values : {
+            id_product : '4',
+            tipe_customer : 'aog'
+        }
     })
 
     const handleChange = (event) => {
-        const name = event.target.name;
-        setFormState({
+        setFormState(formState => ({
             ...formState,
-            [name]: event.target.value
-        })
+            values: {
+                ...formState.values,
+				[event.target.name]:
+				event.target.type === 'checkbox'
+					? event.target.checked
+					: event.target.value
+            }
+        }))
     }
 
-    const submitDefault = moment({}).format('YYYY-MM-DD');
+    const submitDefault = moment().format('YYYY-MM-DD');
     const [ startDate, setStartDate ] = useState({
         submit: {
             submit: submitDefault
@@ -48,16 +55,16 @@ const GrafikGoldPrice = (props) => {
         view: {selectedDate}
     });
     const handleStartDate = (date) => {
-    const changeDate = moment(date).format('YYYY-MM-DD');
-        setStartDate(startDate => ({
-            ...startDate,
-                submit: {
-                    submit: changeDate
-            },
-                view: {
-                    view: date
-            }
-        }));
+		const changeDate = moment(date).format('YYYY-MM-DD');
+			setStartDate(startDate => ({
+				...startDate,
+				submit: {
+					submit: changeDate
+				},
+					view: {
+						view: date
+				}
+		}));
     };
 
     const [ endDate, setEndDate ] = useState({
@@ -79,8 +86,10 @@ const GrafikGoldPrice = (props) => {
         }));
     };
 
+    console.log(formState.values.id_product, formState.values.tipe_customer, startDate.submit.submit, endDate.submit.submit)
+
     useEffect(() => {
-        getGrafikGoldPrice(formState.id_product, formState.tipe_customer, startDate.submit.submit, endDate.submit.submit)
+        getGrafikGoldPrice(formState.values.id_product, formState.values.tipe_customer, startDate.submit.submit, endDate.submit.submit)
     }, [loadingGoldPrice, getGrafikGoldPrice, startDate, endDate, formState])
 
     var data = {}
@@ -154,7 +163,7 @@ const GrafikGoldPrice = (props) => {
                                     fullWidth
                                     name="id_product"
                                     label="Produk"
-                                    defaultValue={formState.id_product}
+                                    value={formState.values.id_product}
                                     onChange={handleChange}
                                 >
                                     <MenuItem value="1">Emas 0,1 Gram</MenuItem>
@@ -176,8 +185,8 @@ const GrafikGoldPrice = (props) => {
                                     select
                                     fullWidth
                                     label="Tipe Customer"
-                                    name="type_customer"
-                                    defaultValue={formState.tipe_customer}
+                                    name="tipe_customer"
+                                    value={formState.values.tipe_customer}
                                     onChange={handleChange}
                                 >
                                     <MenuItem value="cabang">Cabang</MenuItem>
