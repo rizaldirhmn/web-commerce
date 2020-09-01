@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
-import Select from 'react-select'
 import { 
   Grid, 
   Typography,
@@ -17,7 +16,6 @@ import {
 	IconButton,
 	Divider
 } from '@material-ui/core'
-import Skeleton from '@material-ui/lab/Skeleton'
 import SearchIcon from '@material-ui/icons/Search'
 // Redux
 import { connect } from 'react-redux'
