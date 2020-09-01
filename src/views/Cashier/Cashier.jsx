@@ -88,7 +88,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomer, loadingSearchCustomer } }) => {
+const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomerClear, loadingCustomerClear } }) => {
 	const classes = useStyles();
 	
 	const [ modalOpen, setModalOpen ] = useState(false)
@@ -108,7 +108,7 @@ const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomer, loadi
 
 	useEffect(() => {
 		getSearchCustomerAndClear(formState.params, formState.kata_kunci)
-	}, [loadingSearchCustomer, getSearchCustomerAndClear, formState])
+	}, [loadingCustomerClear, getSearchCustomerAndClear, formState])
 
   return (
 		<>
@@ -126,9 +126,9 @@ const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomer, loadi
         </Grid>
 				
 				<SearchCustomer />
-				{!loadingSearchCustomer && (
+				{!loadingCustomerClear && (
 					<>
-					{searchCustomer.length > 0 && (
+					{searchCustomerClear.length > 0 && (
 						<div className={classes.row}>
 							{/* {searchCustomer.map((product) => ( */}
 								<div>
@@ -143,7 +143,7 @@ const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomer, loadi
 											sm={12}
 											xs={12}
 										>
-											<Product searchCustomer={searchCustomer[0]}/>
+											<Product searchCustomerClear={searchCustomerClear[0]}/>
 										</Grid>
 										<Hidden only={['xs', 'sm']}>
 											<Grid

@@ -6,7 +6,8 @@ import {
     GET_DETAIL_CUSTOMER,
     GET_SEARCH_CUSTOMER,
     GET_SEARCH_CUSTOMER_BUYBACK,
-    GET_CUSTOMER_V2
+    GET_CUSTOMER_V2,
+    GET_SEARCH_CUSTOMER_CLEAR
 } from '../actions/types'
 
 const initialState = {
@@ -15,11 +16,13 @@ const initialState = {
     customers_v2 : null,
     currentCustomer: {},
     searchCustomer: null,
+    searchCustomerClear: null,
     searchCustomerBuyback: {},
     loadingSearchCustomerBuyback: true,
     loading: true,
     loadingSearchCustomer: true,
     loadingCustomerV2: true,
+    loadingCustomerClear: true,
     error: {},
     counting : 0
 }
@@ -76,6 +79,12 @@ export default function (state = initialState, action) {
                 ...state,
                 customers_v2: payload,
                 loadingCustomerV2: false,
+            }
+        case GET_SEARCH_CUSTOMER_CLEAR:
+            return {
+                ...state,
+                searchCustomerClear: payload,
+                loadingCustomerClear: false,
             }
         default:
             return state

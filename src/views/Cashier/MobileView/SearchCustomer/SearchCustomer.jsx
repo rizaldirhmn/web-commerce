@@ -93,7 +93,7 @@ const columns = [
   ];
 
 const SearchCustomer = (props) => {
-	const { getSearchCustomerAndClear, getCustomerCashier, customer : { searchCustomer, loading, customers_v2, loadingCustomerV2 }, handleSearchModalClose } = props
+	const { getSearchCustomerAndClear, getCustomerCashier, customer : { searchCustomerClear, loadingCustomerClear, customers_v2, loadingCustomerV2 }, handleSearchModalClose } = props
 	const classes = useStyles();
 
 	const [page, setPage] = React.useState(0);
@@ -120,11 +120,10 @@ const SearchCustomer = (props) => {
 		}, 2000)
 
 		return () => clearTimeout(timer)
-	}, [loading, getCustomerCashier, keyword])
+	}, [loadingCustomerClear, getCustomerCashier, keyword])
 
 	const handleSelectChange = event => {
-		console.log(event)
-		getSearchCustomerAndClear('id_agent', event.id_agent)
+		getSearchCustomerAndClear('id', event.id)
 		handleSearchModalClose()
 		// if(event != null){
 		// }else{
@@ -228,9 +227,9 @@ const SearchCustomer = (props) => {
 					</Grid>
 				</Grid>
 			</div>
-			{searchCustomer !== null && (
+			{searchCustomerClear !== null && (
 				<>
-				{searchCustomer.map((item) => (
+				{searchCustomerClear.map((item) => (
 					<div className={classes.row}>
 						<Grid
 							container

@@ -8,7 +8,8 @@ import {
     GET_DETAIL_CUSTOMER,
     GET_SEARCH_CUSTOMER,
     GET_SEARCH_CUSTOMER_BUYBACK,
-    GET_CUSTOMER_V2
+    GET_CUSTOMER_V2,
+    GET_SEARCH_CUSTOMER_CLEAR
 } from './types'
 
 export const getCustomer = () => async dispatch => {
@@ -221,7 +222,7 @@ export const getSearchCustomerAndClear = (params, kata_kunci) => async dispatch 
         });
 
         dispatch({
-            type: GET_SEARCH_CUSTOMER,
+            type: GET_SEARCH_CUSTOMER_CLEAR,
             payload: res.data.data
         })
 

@@ -66,7 +66,7 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-const Product = ({ getProduct, product: { products, loading }, customer : { searchCustomer }}) => {
+const Product = ({ getProduct, product: { products, loading }, customer : { searchCustomerClear }}) => {
 	const classes = useStyles()
 	const [ modalOpen, setModalOpen ] = useState(false)
 	const [ item, setItem ] = useState()
@@ -81,8 +81,8 @@ const Product = ({ getProduct, product: { products, loading }, customer : { sear
 	}
 
 	useEffect(() => {
-		getProduct(searchCustomer.name_status)
-	}, [getProduct, searchCustomer])
+		getProduct(searchCustomerClear.name_status)
+	}, [getProduct, searchCustomerClear])
 
 	return loading || products === null ? 
 	<Backdrop className={classes.backdrop} open>
@@ -172,7 +172,7 @@ const Product = ({ getProduct, product: { products, loading }, customer : { sear
 					onOpen={handleModalOpen}
 					disableSwipeToOpen
 				>
-					<CounterSlice handleModalClose={handleModalClose} product={item} searchCustomer={searchCustomer[0]} />
+					<CounterSlice handleModalClose={handleModalClose} product={item} searchCustomerClear={searchCustomerClear[0]} />
 				</SwipeableDrawer>
 			</CardContent>
 		</Card>

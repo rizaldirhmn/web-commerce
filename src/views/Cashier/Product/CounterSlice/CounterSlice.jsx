@@ -84,7 +84,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const CounterSlice = (props) => {
-    const { handleModalClose, product, searchCustomer, addToCart } = props
+    const { handleModalClose, product, searchCustomerClear, addToCart } = props
     const classes = useStyles()
     const history = useHistory()
     const [count, setCount] = React.useState(0);
@@ -102,7 +102,7 @@ const CounterSlice = (props) => {
 
     const onSubmit = () => {
         handleModalClose()
-        addToCart(product.product.id, searchCustomer.status, count, history)
+        addToCart(product.product.id, searchCustomerClear.status, count, history)
     }
 
     return (
