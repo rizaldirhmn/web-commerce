@@ -47,12 +47,14 @@ const GrafikGoldPrice = (props) => {
         }))
     }
 
-    const submitDefault = moment().format('YYYY-MM-DD');
+    const submitDefault = moment().subtract(7,'d').format('YYYY-MM-DD');
     const [ startDate, setStartDate ] = useState({
         submit: {
             submit: submitDefault
         },
-        view: {selectedDate}
+        view: {
+            view: moment().subtract(7,'d').format('DD MMMM yyyy')
+        }
     });
     const handleStartDate = (date) => {
 		const changeDate = moment(date).format('YYYY-MM-DD');
@@ -85,8 +87,6 @@ const GrafikGoldPrice = (props) => {
             }
         }));
     };
-
-    console.log(formState.values.id_product, formState.values.tipe_customer, startDate.submit.submit, endDate.submit.submit)
 
     useEffect(() => {
         getGrafikGoldPrice(formState.values.id_product, formState.values.tipe_customer, startDate.submit.submit, endDate.submit.submit)

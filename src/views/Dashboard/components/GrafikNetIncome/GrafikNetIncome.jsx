@@ -22,17 +22,20 @@ import Skeleton from '@material-ui/lab/Skeleton';
 const GrafikNetIncome = (props) => {
     const { getGrafikNetIncome, dashboard : { loadingGrafik, grafikNetIncome} } = props
 
-    const [selectedDate ] = useState(new Date());
+    // const week_ago = new Date()
+    const selectedDate  = useState(new Date());
 
-    const submitDefault = moment({}).format('YYYY-MM-DD');
+    const submitDefault = moment().subtract(7,'d').format('YYYY-MM-DD');
     const [ startDate, setStartDate ] = useState({
         submit: {
             submit: submitDefault
         },
-        view: {selectedDate}
+        view: {
+            view: moment().subtract(7,'d').format('DD MMMM yyyy')
+        }
     });
     const handleStartDate = (date) => {
-    const changeDate = moment(date).format('YYYY-MM-DD');
+        const changeDate = moment().format('YYYY-MM-DD');
         setStartDate(startDate => ({
             ...startDate,
                 submit: {

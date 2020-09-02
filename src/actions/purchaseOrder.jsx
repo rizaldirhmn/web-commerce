@@ -10,8 +10,8 @@ import {
     UPDATE_PURCHASE_ORDER_DONE
 } from './types'
 
-export const getPurchaseOrder = () => async dispatch => {
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/purchase_order/search`
+export const getPurchaseOrder = (keyword, status, type) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/purchase_order/filter?kata_kunci=${keyword}&status=${status}&type=${type}`
     const token = sessionStorage.getItem('access_token')
 
     try {

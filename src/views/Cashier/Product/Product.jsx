@@ -80,8 +80,10 @@ const Product = ({ getProduct, product: { products, loading }, customer : { sear
 		setModalOpen(false)
 	}
 
+	// console.log(searchCustomerClear)
+
 	useEffect(() => {
-		getProduct(searchCustomerClear.name_status)
+		getProduct(searchCustomerClear[0].status)
 	}, [getProduct, searchCustomerClear])
 
 	return loading || products === null ? 
@@ -123,8 +125,10 @@ const Product = ({ getProduct, product: { products, loading }, customer : { sear
 													{item.product.name} {item.product.weight} {item.product.unit}
 												</Typography>
 												<Typography variant="body2" color="textSecondary" className={classes.price}>
-													{item.product.latest_price !== null && (
+													{item.product.latest_price !== null ? (
 														<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+													):(
+														<NumberFormat value='0' displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 													)}
 												</Typography>
 											</CardContent>
@@ -142,8 +146,10 @@ const Product = ({ getProduct, product: { products, loading }, customer : { sear
 													{item.product.name} {item.product.weight} {item.product.unit}
 												</Typography>
 												<Typography variant="body2" color="textSecondary" className={classes.price}>
-													{item.product.latest_price !== null && (
+													{item.product.latest_price !== null ? (
 														<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+													):(
+														<NumberFormat value='0' displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 													)}
 												</Typography>
 											</CardContent>

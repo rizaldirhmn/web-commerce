@@ -109,7 +109,7 @@ const PurchaseOrder = ({
                     spacing={2}
                 >
                     <Grid item>  
-                        <Typography variant="h4">Purchase Order Emas</Typography>
+                        <Typography variant="h4">Pencatatan Pengeluaran</Typography>
                     </Grid>
                 </Grid>
             </div>
@@ -123,7 +123,7 @@ const PurchaseOrder = ({
                         <Grid item lg={6} md={6} sm={6} xs={12}>
                             <Fab variant="extended" className={classes.btnAddCustomer} onClick={onSubmit}>
                                 <AddCircle className={classes.extendedIcon} />
-                                Buat Pembelian Baru
+                                Catat Pengeluaran Baru
                             </Fab>
                         </Grid>
                     </Hidden>

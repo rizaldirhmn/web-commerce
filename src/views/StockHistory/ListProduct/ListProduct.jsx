@@ -100,7 +100,7 @@ const ListProduct = (props) => {
 							</TableCell>
 							<TableCell>
 								<Tooltip title="Detail">
-									<RouterLink to={`/product/edit/${product.id}`}>
+									<RouterLink to={`/stock-history/detail/${product.id}`}>
 										<IconButton aria-label="edit">
 											<SearchIcon />
 										</IconButton>

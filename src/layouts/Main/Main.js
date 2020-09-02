@@ -300,7 +300,21 @@ const Main = props => {
                 <ListItemIcon>
                   <CartIcon style={{ color: textMenuWhite }} />
                 </ListItemIcon>
-                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Purchase Order</Typography>} />
+                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Purchase Order Emas</Typography>} />
+            </ListItem>
+          </Button>
+          <Button
+            activeclassname={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            onClick={handleDrawerClose}
+            to='/other-purchase-order'
+          >
+            <ListItem button key='other-purchase-order'>
+                <ListItemIcon>
+                  <CartIcon style={{ color: textMenuWhite }} />
+                </ListItemIcon>
+                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Catat Pengeluaran</Typography>} />
             </ListItem>
           </Button>
           <Button

@@ -20,7 +20,9 @@ import {
   Profile as ProfileView,
   TransactionBuyback as TransactionBuybackView,
   DetailTransactionBuyback as DetailTransactionBuybackView,
-  StockHistory as StockHistoryView
+  StockHistory as StockHistoryView,
+  OtherPurchaseOrder as OtherPurchaseOrderView,
+  DetailStock as DetailStockView
 } from './views';
 
 const Routes = () => {
@@ -142,6 +144,20 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/stock-history"
+      />
+
+      <RouteWithLayout
+        component={DetailStockView}
+        exact
+        layout={MainLayout}
+        path="/stock-history/detail/:id"
+      />
+
+      <RouteWithLayout
+        component={OtherPurchaseOrderView}
+        exact
+        layout={MainLayout}
+        path="/other-purchase-order"
       />
 
       <Route
