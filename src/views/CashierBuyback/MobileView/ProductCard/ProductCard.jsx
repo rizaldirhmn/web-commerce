@@ -16,7 +16,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 
 import { connect } from 'react-redux'
 import { getProduct } from '../../../../actions/product'
-import { getCartBuyback } from '../../../../actions/cartBuyback'
+import { getCart } from '../../../../actions/cart'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -63,8 +63,8 @@ const ProductCard = (props) => {
 		product : { products, loading }, 
 		customer : { searchCustomerBuyback }, 
 		handleQtyModalOpen,
-		getCartBuyback,
-		cartBuyback : { carts, counting } 
+		getCart,
+		cart : { carts, counting } 
 	} = props;
 	const classes = useStyles()
 
@@ -81,9 +81,9 @@ const ProductCard = (props) => {
 	// End Cart
 
 	useEffect(() => {
-		getProduct(searchCustomerBuyback.name_status)
-		getCartBuyback()
-	}, [getProduct, searchCustomerBuyback, getCartBuyback, counting])
+		getProduct(searchCustomerBuyback[0].name_status)
+		getCart()
+	}, [getProduct, searchCustomerBuyback, getCart, counting])
 
 	return loading || products === null ? 
 	<Backdrop className={classes.backdrop} open>
@@ -128,8 +128,8 @@ const ProductCard = (props) => {
 										{item.product.name} {item.product.weight} {item.product.unit}
 									</Typography>
 									<Typography className={classes.capDetail}>
-										{item.product.latest_price_buyback && (
-											<NumberFormat value={item.product.latest_price_buyback.buyback_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										{item.product.latest_price !== null && (
+											<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 										)}
 									</Typography>
 									<Typography className={classes.capDetail}>
@@ -170,7 +170,9 @@ const ProductCard = (props) => {
 										{item.product.name} {item.product.weight} {item.product.unit}
 									</Typography>
 									<Typography className={classes.capDetail}>
-										<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										{item.product.latest_price !== null && (
+											<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										)}
 									</Typography>
 									<Typography className={classes.capDetail}>
 										Stok : {item.product.stock}
@@ -211,7 +213,7 @@ const ProductCard = (props) => {
 const mapStateToProps = state => ({
 	product: state.product,
 	customer: state.customer,
-	cartBuyback: state.cartBuyback
+	cart: state.cart
 })
 
-export default connect(mapStateToProps, {getProduct, getCartBuyback})(ProductCard);
+export default connect(mapStateToProps, {getProduct, getCart})(ProductCard);

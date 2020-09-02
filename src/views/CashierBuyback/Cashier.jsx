@@ -44,7 +44,8 @@ const useStyles = makeStyles(theme => ({
 	},
 	row: {
     height: 'auto',
-    display: 'flex',
+		// display: 'flex',
+		width: '100%',
     alignItems: 'center',
     marginTop: theme.spacing(1)
   },
@@ -127,49 +128,53 @@ const Cashier = ({ getSearchCustomerAndClearBuyback, customer : { searchCustomer
 				<SearchCustomer />
 				{!loadingSearchCustomerBuyback && (
 					<>
-					{searchCustomerBuyback && (
+					{searchCustomerBuyback.length > 0 && (
 						<div className={classes.row}>
-							<Grid
-								container
-								spacing={2}
-							>
-								<Grid
-									item
-									lg={7}
-									md={7}
-									sm={12}
-									xs={12}
-								>
-									<Product searchCustomerBuyback={searchCustomerBuyback}/>
-								</Grid>
-								<Hidden only={['xs', 'sm']}>
+							{/* {searchCustomer.map((product) => ( */}
+								<div>
 									<Grid
-										item
-										lg={5}
-										md={5}
-										sm={12}
-										xs={12}
+										container
+										spacing={2}
 									>
-										<Cart />
+										<Grid
+											item
+											lg={8}
+											md={8}
+											sm={12}
+											xs={12}
+										>
+											<Product searchCustomerBuyback={searchCustomerBuyback[0]}/>
+										</Grid>
+										<Hidden only={['xs', 'sm']}>
+											<Grid
+												item
+												lg={4}
+												md={4}
+												sm={12}
+												xs={12}
+											>
+												<Cart />
+											</Grid>
+										</Hidden>
 									</Grid>
-								</Hidden>
-							</Grid>
-							<Hidden only={['md','lg','xl']}>
-								<Fab color="primary" aria-label="add" className={classes.fab} onClick={handleModalOpen}>
-									<Badge badgeContent={17} color="secondary">
-											<CartIcon />
-									</Badge>
-								</Fab>
-								<SwipeableDrawer
-									anchor='bottom'
-									open={modalOpen}
-									onClose={handleModalClose}
-									onOpen={handleModalOpen}
-									disableSwipeToOpen
-								>
-									<Cart />
-								</SwipeableDrawer>
-							</Hidden>
+									<Hidden only={['md','lg','xl']}>
+										<Fab color="primary" aria-label="add" className={classes.fab} onClick={handleModalOpen}>
+											<Badge badgeContent={17} color="secondary">
+													<CartIcon />
+											</Badge>
+										</Fab>
+										<SwipeableDrawer
+											anchor='bottom'
+											open={modalOpen}
+											onClose={handleModalClose}
+											onOpen={handleModalOpen}
+											disableSwipeToOpen
+										>
+											<Cart />
+										</SwipeableDrawer>
+									</Hidden>
+								</div>
+							{/* ))} */}
 						</div>
 					)}
 					</>

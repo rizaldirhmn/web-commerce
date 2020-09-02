@@ -80,7 +80,7 @@ const MOGPricing = ({ getProduct, dashboard: { products, loading }}) => {
 							item
 							lg={12}
 						>
-							<Typography variant="h4">Harga</Typography>
+							<Typography variant="h4">Harga Pokok Penjualan</Typography>
 						</Grid>
 					</Grid>
 					<Grid

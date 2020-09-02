@@ -17,7 +17,7 @@ const initialState = {
     currentCustomer: {},
     searchCustomer: null,
     searchCustomerClear: null,
-    searchCustomerBuyback: {},
+    searchCustomerBuyback: null,
     loadingSearchCustomerBuyback: true,
     loading: true,
     loadingSearchCustomer: true,

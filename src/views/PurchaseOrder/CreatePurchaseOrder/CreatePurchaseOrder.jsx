@@ -32,6 +32,7 @@ import { connect } from 'react-redux'
 import { 
     getPurchaseOrderDetail, 
     updatePurchaseOrderStatus,
+    updatePurchaseOrderStatusDone,
     deletePurchaseOrderDetail
 } from '../../../actions/purchaseOrder'
 import NumberFormat from 'react-number-format'
@@ -71,6 +72,7 @@ const columns = [
 
 const CreatePurchaseOrder = ({ 
     updatePurchaseOrderStatus,
+    updatePurchaseOrderStatusDone,
     getPurchaseOrderDetail, 
     purchaseOrder: { purchaseOrderDetails, loading, counting },
     deletePurchaseOrderDetail
@@ -98,6 +100,11 @@ const CreatePurchaseOrder = ({
 
     const onUpdate = e => {
         updatePurchaseOrderStatus(id, history)
+    }
+
+    const onUpdateDone = e => {
+        // console.log('masuk ini')
+        updatePurchaseOrderStatusDone(id, history)
     }
 
     const onDeleteItem = id_po_detail => {
@@ -215,9 +222,13 @@ const CreatePurchaseOrder = ({
                                         Kirim
                                     </Button>
                                 </Box>
+                            </Box>
+                        )}
+                        {purchaseOrderDetails.status_po === '3' && (
+                            <Box display="flex" flexDirection="row-reverse" p={1} m={1}>
                                 <Box p={1}>
-                                    <Button variant="outlined">
-                                        Batal
+                                    <Button variant="contained" className={classes.btn} onClick={onUpdateDone}>
+                                        Pesanan Selesai
                                     </Button>
                                 </Box>
                             </Box>
@@ -238,4 +249,4 @@ const mapStateToProps = state => ({
     purchaseOrder: state.purchaseOrder
 })
 
-export default connect(mapStateToProps, { getPurchaseOrderDetail, updatePurchaseOrderStatus, deletePurchaseOrderDetail })(CreatePurchaseOrder)
+export default connect(mapStateToProps, { getPurchaseOrderDetail, updatePurchaseOrderStatus, updatePurchaseOrderStatusDone, deletePurchaseOrderDetail })(CreatePurchaseOrder)

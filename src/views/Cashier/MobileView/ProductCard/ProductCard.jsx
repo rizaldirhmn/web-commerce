@@ -61,7 +61,7 @@ const ProductCard = (props) => {
 	const { 
 		getProduct , 
 		product : { products, loading }, 
-		customer : { searchCustomer }, 
+		customer : { searchCustomerClear }, 
 		handleQtyModalOpen,
 		getCart,
 		cart : { carts, counting } 
@@ -81,9 +81,9 @@ const ProductCard = (props) => {
 	// End Cart
 
 	useEffect(() => {
-		getProduct(searchCustomer.name_status)
+		getProduct(searchCustomerClear.name_status)
 		getCart()
-	}, [getProduct, searchCustomer, getCart, counting])
+	}, [getProduct, searchCustomerClear, getCart, counting])
 
 	return loading || products === null ? 
 	<Backdrop className={classes.backdrop} open>

@@ -66,7 +66,7 @@ const useStyles = makeStyles(theme => ({
 
 }))
 
-const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomer, loadingSearchCustomer } }) => {
+const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomerClear, loadingCustomerClear } }) => {
 	const classes = useStyles()
 	
 	// Modal Search
@@ -101,7 +101,7 @@ const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomer, lo
 
 	useEffect(() => {
 		getSearchCustomerAndClear(formState.params, formState.kata_kunci)
-	}, [loadingSearchCustomer, getSearchCustomerAndClear, formState])
+	}, [loadingCustomerClear, getSearchCustomerAndClear, formState])
 
     return(
     <>
@@ -121,9 +121,9 @@ const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomer, lo
 				justify="space-between"
             >
 				<Grid item>  
-				{!loadingSearchCustomer && (
+				{!loadingCustomerClear && (
 					<div>
-						{searchCustomer.length === 0 ? (
+						{searchCustomerClear.length === 0 ? (
 							<Button
 								variant="outlined"
 								color="secondary"
@@ -142,7 +142,7 @@ const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomer, lo
 								>
 									Cari Customer
 								</Button>
-								{searchCustomer.map((item) => (
+								{searchCustomerClear.map((item) => (
 									<div>
 										<Typography>Customer : {item.name}</Typography>
 										<Typography>Tipe Anggota : {item.name_status}</Typography>
@@ -158,9 +158,9 @@ const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomer, lo
 		</div>
 		<hr className={classes.dividerHorizontal} />
 		<div className={classes.contentProduct}>
-			{!loadingSearchCustomer && (
+			{!loadingCustomerClear && (
 				<>
-				{searchCustomer.length > 0 && (
+				{searchCustomerClear.length > 0 && (
 					// <PerfectScrollbar>
 						<ProductCard handleQtyModalOpen={handleQtyModalOpen} />
 					// </PerfectScrollbar>
@@ -196,8 +196,8 @@ const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomer, lo
 				onOpen={handleQtyModalOpen}
 				disableSwipeToOpen
 			>
-				{!loadingSearchCustomer && (
-					<CounterSlice handleModalClose={handleQtyModalClose} product={item} searchCustomer={searchCustomer[0]} />
+				{!loadingCustomerClear && (
+					<CounterSlice handleModalClose={handleQtyModalClose} product={item} searchCustomerClear={searchCustomerClear[0]} />
 				)}
 			</SwipeableDrawer>
         </div>

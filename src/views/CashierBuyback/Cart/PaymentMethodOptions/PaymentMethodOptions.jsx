@@ -29,7 +29,8 @@ const useStyles = makeStyles(theme => ({
         margin: 'auto',
         [theme.breakpoints.down('sm')]: {
             borderRadius: theme.spacing(4),
-            width: 'auto'
+            width: '100%',
+            margin: 'auto',
         },
     },
     cardNotch: {
@@ -98,7 +99,7 @@ const PaymentMethodOptions = (props) => {
 
     const onSubmitPayment = () => {
         // console.log(searchCustomer.id, formState.input_price)
-        addPaymentBuyback(searchCustomerBuyback.id, formState.input_price, formState.note, history)
+        addPaymentBuyback(searchCustomerBuyback[0].id, formState.input_price, formState.note, history)
         handleDrawerPaymentClose()
     }
 

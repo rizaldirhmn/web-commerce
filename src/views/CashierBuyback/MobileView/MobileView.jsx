@@ -121,21 +121,37 @@ const MobileView = ({ getSearchCustomerAndClearBuyback, customer : { searchCusto
 				justify="space-between"
             >
 				<Grid item>  
-				{!searchCustomerBuyback ? (
-					<Button
-						variant="outlined"
-						color="secondary"
-						startIcon={<AddUserIcon />}
-						onClick={handleSearchModalOpen}
-					>
-						Cari Customer
-					</Button>
-				):(
+				{!loadingSearchCustomerBuyback && (
 					<div>
-						<Typography>Customer : {searchCustomerBuyback.name}</Typography>
-						<Typography>Tipe Anggota : {searchCustomerBuyback.name_status}</Typography>
+						{searchCustomerBuyback.length === 0 ? (
+							<Button
+								variant="outlined"
+								color="secondary"
+								startIcon={<AddUserIcon />}
+								onClick={handleSearchModalOpen}
+							>
+								Cari Customer
+							</Button>
+						):(
+							<div>
+								<Button
+									variant="outlined"
+									color="secondary"
+									startIcon={<AddUserIcon />}
+									onClick={handleSearchModalOpen}
+								>
+									Cari Customer
+								</Button>
+								{searchCustomerBuyback.map((item) => (
+									<div>
+										<Typography>Customer : {item.name}</Typography>
+										<Typography>Tipe Anggota : {item.name_status}</Typography>
+									</div>
+								))}
+							</div>
+		
+						)}
 					</div>
-
 				)}
                 </Grid>
             </Grid>
@@ -144,7 +160,7 @@ const MobileView = ({ getSearchCustomerAndClearBuyback, customer : { searchCusto
 		<div className={classes.contentProduct}>
 			{!loadingSearchCustomerBuyback && (
 				<>
-				{searchCustomerBuyback && (
+				{searchCustomerBuyback.length > 0 && (
 					// <PerfectScrollbar>
 						<ProductCard handleQtyModalOpen={handleQtyModalOpen} />
 					// </PerfectScrollbar>
@@ -180,7 +196,9 @@ const MobileView = ({ getSearchCustomerAndClearBuyback, customer : { searchCusto
 				onOpen={handleQtyModalOpen}
 				disableSwipeToOpen
 			>
-				<CounterSlice handleModalClose={handleQtyModalClose} product={item} searchCustomerBuyback={searchCustomerBuyback} />
+				{!loadingSearchCustomerBuyback && (
+					<CounterSlice handleModalClose={handleQtyModalClose} product={item} searchCustomerBuyback={searchCustomerBuyback[0]} />
+				)}
 			</SwipeableDrawer>
         </div>
     </>

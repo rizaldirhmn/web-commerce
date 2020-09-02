@@ -80,7 +80,7 @@ const Product = ({ getProduct, product: { products, loading }, customer : { sear
 	}
 
 	useEffect(() => {
-		getProduct(searchCustomerBuyback.name_status)
+		getProduct(searchCustomerBuyback[0].name_status)
 	}, [getProduct, searchCustomerBuyback])
 
 	return loading || products === null ? 

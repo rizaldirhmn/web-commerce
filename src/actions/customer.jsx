@@ -254,7 +254,7 @@ export const getSearchCustomerAndClearBuyback = (params, kata_kunci) => async di
 
         dispatch({
             type: GET_SEARCH_CUSTOMER_BUYBACK,
-            payload: res.data.data[0]
+            payload: res.data.data
         })
 
     } catch (error) {

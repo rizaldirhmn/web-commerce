@@ -22,10 +22,18 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import Skeleton from '@material-ui/lab/Skeleton'
 import SearchIcon from '@material-ui/icons/Search'
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 // Redux
 import { connect } from 'react-redux'
 import { getSearchCustomerAndClear, getCustomerCashier } from '../../../actions/customer'
 import { useEffect } from 'react'
+
+import {useForm} from "react-hook-form";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -165,15 +173,15 @@ TablePaginationActions.propTypes = {
 const SearchCustomer = (props) => {
 	const { getSearchCustomerAndClear, getCustomerCashier, customer : { searchCustomerClear, loadingCustomerClear, customers_v2, loadingCustomerV2 } } = props
 	const classes = useStyles();
+	const { register, handleSubmit } = useForm();
 
-	const [page, setPage] = React.useState(0);
-	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+	const [page, setPage] = useState(0);
+	const [rowsPerPage, setRowsPerPage] = useState(5);
 	const [ keyword, setKeyword ] = useState('')
 	
 	const handleChangeSearch = event => {
 		setKeyword(event.target.value)
 		setPage(0)
-		
 	}
 
 	const handleChangePage = (event, newPage) => {
@@ -185,17 +193,38 @@ const SearchCustomer = (props) => {
 		setPage(0)
 	};
 
-	useEffect(() => {
-		const timer = setTimeout(() => {
-			getCustomerCashier(keyword)
-		}, 2000)
+	// Dialog
+	const [open, setOpen] = useState(false);
+  	const theme = useTheme();
+	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-		return () => clearTimeout(timer)
-	}, [loadingCustomerClear, getCustomerCashier, keyword])
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+	// End Dialog
+
+	const [ valueSearch, setValueSearch ] = useState('')
+	const onSubmit = data => {
+		// e.preventDefault()
+        setValueSearch(data.nama)
+    }
+
+	useEffect(() => {
+		// const timer = setTimeout(() => {
+			getCustomerCashier(valueSearch)
+		// }, 2000)
+
+		// return () => clearTimeout(timer)
+	}, [loadingCustomerClear, getCustomerCashier, valueSearch])
 
 	const handleSelectChange = event => {
 		// console.log(event)
 		getSearchCustomerAndClear('id', event.id)
+		setOpen(false)
 		// if(event != null){
 		// }else{
 		// 	getSearchCustomerAndClear('id_agent', '')
@@ -220,85 +249,22 @@ const SearchCustomer = (props) => {
 						<Typography>Cari Customer</Typography>
 						<div className={classes.row}>
 							<Paper component="form" className={classes.searchRoot}>
-									<IconButton type="button" className={classes.iconButton} aria-label="search">
-											<SearchIcon />
-									</IconButton>
-									<Divider className={classes.divider} orientation="vertical" />
-									<InputBase
-											className={classes.input}
-											name="pesan"
-											onChange={handleChangeSearch}
-											placeholder="Cari Customer"
-											inputProps={{ 'aria-label': 'Cari Customer' }}
-									/>
+								<IconButton type="button" className={classes.iconButton} aria-label="search">
+									<SearchIcon />
+								</IconButton>
+								<Divider className={classes.divider} orientation="vertical" />
+								<InputBase
+									className={classes.input}
+									name="pesan"
+									value={keyword || ''}
+									onClick={handleClickOpen}
+									placeholder="Cari Customer"
+									inputProps={{ 'aria-label': 'Cari Customer' }}
+								/>
 							</Paper>
 						</div>
 					</Grid>
-					<Grid
-						item
-						lg={8}
-						md={6}
-						sm={6}
-						xs={12}
-					>
-						<Typography>Hasil Pencarian</Typography>
-						{!loadingCustomerV2 ? (
-							<div className={classes.row}>
-								{customers_v2 !== null && (
-									<Paper className={classes.root}>
-										<TableContainer className={classes.container}>
-											<Table stickyHeader aria-label="sticky table" style={{ minWidth: "340px" }}>
-											<TableHead>
-												<TableRow>
-												{columns.map((column) => (
-													<TableCell
-													key={column.id}
-													align={column.align}
-													style={{ minWidth: column.minWidth }}
-													>
-													{column.label}
-													</TableCell>
-												))}
-												</TableRow>
-											</TableHead>
-											<TableBody>
-												{customers_v2.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((customer) => (
-													<TableRow key={customer.id} hover onClick={e => handleSelectChange(customer)}>
-														<TableCell>
-															{customer.id_agent}
-														</TableCell>
-														<TableCell>
-															{customer.name}
-														</TableCell>
-														<TableCell>
-															{customer.status === '1' ? (
-																<Typography>AOG</Typography>
-															): (
-																<Typography>MOG</Typography>
-															)}
-														</TableCell>
-													</TableRow>
-												))}
-											</TableBody>
-											</Table>
-										</TableContainer>
-										<TablePagination
-											rowsPerPageOptions={[5]}
-											component="div"
-											count={customers_v2.data.length}
-											rowsPerPage={rowsPerPage}
-											page={page}
-											onChangePage={handleChangePage}
-											onChangeRowsPerPage={handleChangeRowsPerPage}
-											ActionsComponent={TablePaginationActions}
-										/>
-									</Paper>
-								)}
-							</div>
-						):(
-							<Skeleton variant="rect" height={100}></Skeleton>
-						)}
-					</Grid>
+					
 				</Grid>
 			</div>
 			{searchCustomerClear !== null && (
@@ -378,10 +344,134 @@ const SearchCustomer = (props) => {
 							</Grid>
 						</Grid>
 					</div>
-
 				))}
 				</>
 			)}
+			<Dialog
+				fullScreen={fullScreen}
+				open={open}
+				onClose={handleClose}
+				aria-labelledby="responsive-dialog-title"
+			>
+				<DialogTitle id="responsive-dialog-title">{"Pencarian Customer"}</DialogTitle>
+				<DialogContent>
+				<DialogContentText>
+					<Grid
+						container
+						spacing={2}
+					>
+						<Grid
+							item
+							lg={12}
+							md={12}
+							sm={12}
+							xs={12}
+						>
+							<Typography>Cari Customer</Typography>
+							<form onSubmit={handleSubmit(onSubmit)}>
+								<div className={classes.row}>
+									<Paper component="form" className={classes.searchRoot}>
+										<IconButton type="submit" className={classes.iconButton} aria-label="search">
+											<SearchIcon />
+										</IconButton>
+										<Divider className={classes.divider} orientation="vertical" />
+										<InputBase
+											autoFocus
+											className={classes.input}
+											name="nama"
+											value={keyword || ''}
+											onChange={handleChangeSearch}
+											placeholder="Cari Customer"
+											inputRef={register}
+											inputProps={{ 'aria-label': 'Cari Customer' }}
+										/>
+									</Paper>
+								</div>
+							</form>
+						</Grid>
+						<Grid
+							item
+							lg={12}
+							md={12}
+							sm={12}
+							xs={12}
+						>
+							<Typography>Hasil Pencarian</Typography>
+							<div className={classes.row}>
+								{/* {customers_v2 !== null && ( */}
+									<Paper className={classes.root}>
+										<TableContainer className={classes.container}>
+											<Table stickyHeader aria-label="sticky table" style={{ minWidth: "340px" }}>
+											<TableHead>
+												<TableRow>
+												{columns.map((column) => (
+													<TableCell
+													key={column.id}
+													align={column.align}
+													style={{ minWidth: column.minWidth }}
+													>
+													{column.label}
+													</TableCell>
+												))}
+												</TableRow>
+											</TableHead>
+											<TableBody>
+												{!loadingCustomerV2 ? (
+													<>
+														{customers_v2.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((customer) => (
+															<TableRow key={customer.id} hover onClick={e => handleSelectChange(customer)}>
+																<TableCell>
+																	{customer.id_agent}
+																</TableCell>
+																<TableCell>
+																	{customer.name}
+																</TableCell>
+																<TableCell>
+																	{customer.status === '1' ? (
+																		<Typography>AOG</Typography>
+																	): (
+																		<Typography>MOG</Typography>
+																	)}
+																</TableCell>
+															</TableRow>
+														))}
+													</>
+												):(
+													<TableRow>
+														<TableCell colSpan={3}>
+															<Skeleton variant="rect" height={50}></Skeleton>
+														</TableCell>
+													</TableRow>
+												)}
+											</TableBody>
+											</Table>
+										</TableContainer>
+										<TablePagination
+											rowsPerPageOptions={[5]}
+											component="div"
+											count={!loadingCustomerV2 && customers_v2.data.length}
+											rowsPerPage={rowsPerPage}
+											page={page}
+											onChangePage={handleChangePage}
+											onChangeRowsPerPage={handleChangeRowsPerPage}
+											ActionsComponent={TablePaginationActions}
+										/>
+									</Paper>
+								{/* )} */}
+							</div>
+						</Grid>
+					</Grid>
+				</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+				{/* <Button autoFocus onClick={handleClose} color="primary">
+					Disagree
+				</Button>
+				<Button onClick={handleClose} color="primary" autoFocus>
+					Agree
+				</Button> */}
+				</DialogActions>
+			</Dialog>
 		</div>
   	);
 };

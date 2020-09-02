@@ -25,7 +25,8 @@ const useStyles = makeStyles(theme => ({
         margin: 'auto',
         [theme.breakpoints.down('sm')]: {
             borderRadius: theme.spacing(4),
-            width: 'auto'
+            width: '100%',
+            margin: 'auto',
         },
     },
     cardNotch: {
@@ -69,6 +70,7 @@ const useStyles = makeStyles(theme => ({
 		padding: '2px 4px',
         display: 'flex',
         alignItems: 'center',
+        margin: 'auto',
     },
 	input: {
         marginLeft: theme.spacing(1),

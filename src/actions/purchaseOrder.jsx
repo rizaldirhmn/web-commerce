@@ -6,11 +6,12 @@ import {
     ADD_PURCHASE_ORDER, 
     GET_PURCHASE_ORDER_DETAIL, 
     ADD_PURCHASE_ORDER_DETAIL,
-    DELETE_PURCHASE_ORDER_DETAIL
+    DELETE_PURCHASE_ORDER_DETAIL,
+    UPDATE_PURCHASE_ORDER_DONE
 } from './types'
 
 export const getPurchaseOrder = () => async dispatch => {
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/purchase_order`
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/purchase_order/search`
     const token = sessionStorage.getItem('access_token')
 
     try {
@@ -214,7 +215,7 @@ export const updatePurchaseOrderStatus = (id, history) => async dispatch => {
     const token = sessionStorage.getItem('access_token')
 
     const myData = {
-        status: '0'
+        status: '3'
     }
 
     try {
@@ -232,6 +233,45 @@ export const updatePurchaseOrderStatus = (id, history) => async dispatch => {
 
         dispatch({
             type: ADD_PURCHASE_ORDER,
+            payload: res.data
+        })
+
+        dispatch(setAlert("Invoice send", "success"))
+        history.push(`/purchase-order`);
+
+    } catch (error) {
+        dispatch(setAlert("Something Went Wrong", "error"))
+        console.log(error)
+        // dispatch({
+        //     payload: { msg: error.response.statusText, status: error.response.status },
+        //     type: STAGE_ERROR
+        // })
+    }
+}
+
+export const updatePurchaseOrderStatusDone = (id, history) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/purchase_order/${id}`
+    const token = sessionStorage.getItem('access_token')
+
+    const myData = {
+        status: '1'
+    }
+
+    try {
+        const res = await axios({
+            url: endpoint,
+            method: "PATCH",
+            data: myData,
+            loading: true,
+            headers: { 
+              'Content-Type': 'application/json', 
+              'Accept' : 'application/json', 
+              'Authorization' : `bearer ${token}`
+            }
+        });
+
+        dispatch({
+            type: UPDATE_PURCHASE_ORDER_DONE,
             payload: res.data
         })
 
