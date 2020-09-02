@@ -346,6 +346,18 @@ const Main = props => {
                     <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Laporan Buyback</Typography>} />
                 </ListItem>
               </Button>
+              <Button
+                fullWidth
+                activeclassname={classes.active}
+                className={classes.nested}
+                component={CustomRouterLink}
+                onClick={handleDrawerClose}
+                to='/stock-history'
+              >
+                <ListItem button key='stock-history'>
+                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Laporan Stock</Typography>} />
+                </ListItem>
+              </Button>
             </List>
           </Collapse>
           <Button

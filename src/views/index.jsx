@@ -13,3 +13,4 @@ export { default as DetailTransactionBuyback } from './TransactionBuyback/Detail
 export { default as BeginingBalance } from './BeginingBalance'
 export { default as StockOpname } from './StockOpname'
 export { default as Profile } from './Profile'
+export { default as StockHistory } from './StockHistory'
