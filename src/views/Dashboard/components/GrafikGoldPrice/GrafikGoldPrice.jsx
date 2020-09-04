@@ -69,9 +69,10 @@ const GrafikGoldPrice = (props) => {
 		}));
     };
 
+    const submitDefaultEndDate = moment().format('YYYY-MM-DD');
     const [ endDate, setEndDate ] = useState({
         submit: {
-            submit: submitDefault
+            submit: submitDefaultEndDate
         },
         view: {selectedDate}
     });

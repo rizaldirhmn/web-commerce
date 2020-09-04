@@ -9,22 +9,27 @@ import {
     InputBase,
     Divider,
     Hidden,
-    CardHeader,
     CardContent,
     Card,
-    TextField,
-    MenuItem
+    IconButton
 } from '@material-ui/core'
 import AddCircle from '@material-ui/icons/AddCircle'
+import SearchIcon from '@material-ui/icons/Search'
 import { useHistory } from 'react-router-dom'
 import Skeleton from '@material-ui/lab/Skeleton'
+import moment from 'moment'
+import DateFnsUtils from '@date-io/date-fns'; // choose your lib
+import {
+  DatePicker,
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
 
 // Components
 import ListPurchaseOrder from './ListPurchaseOrder'
 
 // Redux
 import { connect } from 'react-redux'
-import { addPurchaseOrder, getPurchaseOrder } from '../../actions/purchaseOrder'
+import { addPurchaseOrder, getPurchaseOrder } from '../../actions/otherPurchaseOrder'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -72,7 +77,7 @@ const useStyles = makeStyles(theme => ({
 const PurchaseOrder = ({ 
     addPurchaseOrder,
     getPurchaseOrder, 
-	purchaseOrder : { purchaseOrders, loading } 
+	otherPurchaseOrder : { otherPurchaseOrders, loading } 
 }) => {
     const classes = useStyles()
     const history = useHistory()
@@ -81,25 +86,60 @@ const PurchaseOrder = ({
         addPurchaseOrder(history)
     }
 
-    const [ status, setStatus ] = useState(3)
-    const [ type, setType ] = useState('id_invoice')
     const [ keyword, setKeyword ] = useState('')
-
-    const handleChangeStatusPrice = event => {
-        setStatus(event.target.value)
-    }    
-
-    const handleChangeType = event => {
-        setType(event.target.value)
-    }    
 
     const handleChangeKeyword = event => {
         setKeyword(event.target.value)
     }
 
+    const selectedDate  = useState(new Date());
+
+    const submitDefault = moment().subtract(7, 'd').format('YYYY-MM-DD');
+    const submitDefaultEndDate = moment().format('YYYY-MM-DD');
+    const [ startDate, setStartDate ] = useState({
+        submit: {
+            submit: submitDefault
+        },
+        view: {
+            view: moment().subtract(7,'d').format('DD MMMM yyyy')
+        }
+        
+    });
+    const handleStartDate = (date) => {
+        const changeDate = moment(date).format('YYYY-MM-DD');
+        setStartDate(startDate => ({
+            ...startDate,
+                submit: {
+                    submit: changeDate
+            },
+                view: {
+                    view: date
+            }
+        }));
+    };
+
+    const [ endDate, setEndDate ] = useState({
+        submit: {
+            submit: submitDefaultEndDate
+        },
+        view: {selectedDate}
+    });
+    const handleEndDate = (date) => {
+    const all = moment(date).format('YYYY-MM-DD');
+        setEndDate(endDate => ({
+            ...endDate,
+            submit: {
+                submit: all
+            },
+            view: {
+                view: date
+            }
+        }));
+    };
+
     useEffect(() => {
-		getPurchaseOrder(keyword, status, type)
-	}, [loading, getPurchaseOrder, keyword, status, type]);
+		getPurchaseOrder(startDate.submit.submit, endDate.submit.submit, keyword)
+	}, [loading, getPurchaseOrder, startDate, endDate, keyword]);
 
     return(
         <div className={classes.root}>
@@ -143,17 +183,9 @@ const PurchaseOrder = ({
                                 inputProps={{ 'aria-label': 'Cari Invoice' }}
                             />
                             <Divider className={classes.divider} orientation="vertical" />
-                            <TextField 
-                                select
-                                className={classes.statusPO}
-                                variant="outlined"
-                                name="type"
-                                defaultValue={type}
-                                label="Tipe Pencarian"
-                                onChange={handleChangeType}
-                            >
-                                <MenuItem value="id_invoice">No Invoice</MenuItem>
-                            </TextField>
+                            <IconButton type="button" className={classes.iconButton} aria-label="search">
+                                <SearchIcon />
+                            </IconButton>
                         </Paper>
                     </Grid>
                 </Grid>
@@ -171,28 +203,39 @@ const PurchaseOrder = ({
                         xs={12}
                     >
                         <Card>
-                            <CardHeader 
-                                title="List Purchase Order"
-                                action={
-                                    <TextField 
-                                        select
-                                        fullWidth
-                                        className={classes.statusPO}
-                                        variant="outlined"
-                                        name="status"
-                                        defaultValue={status}
-                                        label="Status Harga"
-                                        onChange={handleChangeStatusPrice}
-                                    >
-                                        <MenuItem value="3">On Process</MenuItem>
-                                        <MenuItem value="1">Complete</MenuItem>
-                                        <MenuItem value="2">Ditolak</MenuItem>
-                                    </TextField>
-                                }
-                            />
+                            <CardContent>
+                                <Grid container justify="space-between">
+                                    <Grid item>
+                                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                            <DatePicker 
+                                                fullWidth
+                                                label="Tanggal Awal"
+                                                variant="outlined"
+                                                name="start_date"
+                                                format="dd MMMM yyyy"
+                                                value={startDate.view.view} 
+                                                onChange={handleStartDate} 
+                                            />
+                                        </MuiPickersUtilsProvider>
+                                    </Grid>
+                                    <Grid item>
+                                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                            <DatePicker 
+                                                fullWidth
+                                                label="Tanggal Akhir"
+                                                variant="outlined"
+                                                name="end_date"
+                                                format="dd MMMM yyyy"
+                                                value={endDate.view.view} 
+                                                onChange={handleEndDate} 
+                                            />
+                                        </MuiPickersUtilsProvider>
+                                    </Grid>
+                                </Grid>
+                            </CardContent>
                             <CardContent>
                                 {!loading ? (
-                                    <ListPurchaseOrder purchaseOrders={purchaseOrders} />
+                                    <ListPurchaseOrder otherPurchaseOrders={otherPurchaseOrders} />
                                 ):(
                                     <Skeleton variant="rect" height={200}></Skeleton>
                                 )}
@@ -210,7 +253,7 @@ PurchaseOrder.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  purchaseOrder: state.purchaseOrder
+  otherPurchaseOrder: state.otherPurchaseOrder
 })
 
 export default connect(mapStateToProps, { addPurchaseOrder, getPurchaseOrder })(PurchaseOrder)

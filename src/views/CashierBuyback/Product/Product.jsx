@@ -65,8 +65,9 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-const Product = ({ getProduct, product: { products, loading }, customer : { searchCustomerBuyback }}) => {
+const Product = (props) => {
 	const classes = useStyles()
+	const { getProduct, product: { products, loading }, customer : { searchCustomerBuyback }, date } = props
 	const [ modalOpen, setModalOpen ] = useState(false)
 	const [ item, setItem ] = useState()
 
@@ -80,8 +81,8 @@ const Product = ({ getProduct, product: { products, loading }, customer : { sear
 	}
 
 	useEffect(() => {
-		getProduct(searchCustomerBuyback[0].status)
-	}, [getProduct, searchCustomerBuyback])
+		getProduct(searchCustomerBuyback[0].status, date)
+	}, [getProduct, searchCustomerBuyback, date])
 
 	return loading || products === null ? 
 	<Backdrop className={classes.backdrop} open>

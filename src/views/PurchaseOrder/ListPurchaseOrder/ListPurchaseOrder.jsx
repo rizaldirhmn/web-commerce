@@ -72,7 +72,7 @@ const ListPurchaseOrder = (props) => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{purchaseOrders.data.map((po) => (
+					{purchaseOrders.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((po) => (
 						<TableRow key={po.id}>
 							<TableCell>
 								{po.inv_name}

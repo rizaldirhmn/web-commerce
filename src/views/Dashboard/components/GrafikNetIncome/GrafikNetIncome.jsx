@@ -35,7 +35,7 @@ const GrafikNetIncome = (props) => {
         }
     });
     const handleStartDate = (date) => {
-        const changeDate = moment().format('YYYY-MM-DD');
+        const changeDate = moment(date).format('YYYY-MM-DD');
         setStartDate(startDate => ({
             ...startDate,
                 submit: {

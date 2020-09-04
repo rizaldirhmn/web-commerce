@@ -79,7 +79,13 @@ const useStyles = makeStyles(theme => ({
 const PaymentMethodOptions = (props) => {
     const classes = useStyles()
     const history = useHistory()
-    const { handleDrawerPaymentClose, customer : { searchCustomerBuyback, loadingSearchCustomerBuyback }, cartBuyback : { carts }, addPaymentBuyback } = props
+    const { 
+        handleDrawerPaymentClose, 
+        customer : { searchCustomerBuyback, loadingSearchCustomerBuyback }, 
+        cartBuyback : { carts }, 
+        addPaymentBuyback,
+        date
+    } = props
 
     const [formState, setFormState] = useState({
         input_price: '',
@@ -99,7 +105,7 @@ const PaymentMethodOptions = (props) => {
 
     const onSubmitPayment = () => {
         // console.log(searchCustomer.id, formState.input_price)
-        addPaymentBuyback(searchCustomerBuyback[0].id, formState.input_price, formState.note, history)
+        addPaymentBuyback(searchCustomerBuyback[0].id, formState.input_price, formState.note, history, date)
         handleDrawerPaymentClose()
     }
 

@@ -112,7 +112,7 @@ const MobileView = ({ getSearchCustomerAndClearBuyback, customer : { searchCusto
 				justify="space-between"
             >
                 <Grid item>  
-                    <Typography variant="h4">Kasir</Typography>
+                    <Typography variant="h4">Transaksi Buyback</Typography>
                 </Grid>
             </Grid>
 			<Grid

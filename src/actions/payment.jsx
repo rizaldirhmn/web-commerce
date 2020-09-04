@@ -4,13 +4,14 @@ import {
     PURCHASE_ITEM_PAY, PURCHASE_ITEM_PAY_BUYBACK
 } from './types'
 
-export const addPayment = (id_customer, input_price, note, history) => async dispatch => {
+export const addPayment = (id_customer, input_price, note, history, date) => async dispatch => {
     const endpoint = `${process.env.REACT_APP_BASE_URL}/user/payment_cart`
     const token = sessionStorage.getItem('access_token')
 
     const myData = {
         id_customer : id_customer,
         input_price : input_price,
+        date_time : date,
         note : note
     }
 
@@ -45,13 +46,14 @@ export const addPayment = (id_customer, input_price, note, history) => async dis
     }
 }
 
-export const addPaymentBuyback = (id_customer, input_price, note, history) => async dispatch => {
+export const addPaymentBuyback = (id_customer, input_price, note, history, date) => async dispatch => {
     const endpoint = `${process.env.REACT_APP_BASE_URL}/user/payment_cart_buyback`
     const token = sessionStorage.getItem('access_token')
 
     const myData = {
         id_customer : id_customer,
         input_price : input_price,
+        date_time : date,
         note : note
     }
 

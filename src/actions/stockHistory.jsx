@@ -36,8 +36,8 @@ export const getStock = () => async dispatch => {
     }
 }
 
-export const getStockDetail = id => async dispatch => {
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/stock_branch/${id}`
+export const getStockDetail = (id, startDate, endDate) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/stock_branch/${id}/filter?start_date=${startDate}&end_date=${endDate}`
     const token = sessionStorage.getItem('access_token')
 
     try {

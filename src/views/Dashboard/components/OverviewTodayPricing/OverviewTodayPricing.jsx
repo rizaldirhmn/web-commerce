@@ -119,12 +119,15 @@ export default function ScrollableTabsButtonAuto() {
             scrollButtons="auto"
             classes={{ indicator: classes.bigIndicator}}
           >
+            <AntTab label="Umum" />
             <AntTab label="Cabang" />
             <AntTab label="Agent of Gold" />
             <AntTab label="Member of Gold" />
-            <AntTab label="Umum" />
             <AntTab label="Buyback" />
           </AntTabs>
+          <TabPanel value={value} index={3}>
+            <CustomerPricing />
+          </TabPanel>
           <TabPanel value={value} index={0}>
             <BranchPricing />
           </TabPanel>
@@ -133,9 +136,6 @@ export default function ScrollableTabsButtonAuto() {
           </TabPanel>
           <TabPanel value={value} index={2}>
             <MOGPricing />
-          </TabPanel>
-          <TabPanel value={value} index={3}>
-            <CustomerPricing />
           </TabPanel>
           <TabPanel value={value} index={4}>
             <BuybackPrice />

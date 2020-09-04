@@ -112,7 +112,7 @@ const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomerClea
 				justify="space-between"
             >
                 <Grid item>  
-                    <Typography variant="h4">Kasir</Typography>
+                    <Typography variant="h4">Transaksi Penjualan</Typography>
                 </Grid>
             </Grid>
 			<Grid

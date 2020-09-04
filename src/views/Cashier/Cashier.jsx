@@ -22,70 +22,47 @@ import SearchCustomer from './SearchCustomer'
 import { connect } from 'react-redux'
 import { getSearchCustomerAndClear } from '../../actions/customer'
 import { useEffect } from 'react'
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    padding: theme.spacing(4),
-  },
-  bgColor: {
-    backgroundColor: '#BCE0FD',
-    height: '312px',
-    position: 'absolute',
-    // zIndex: 0
-  },
-  cardMobile: {
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-    paddingTop: theme.spacing(2),
-    width: '100%'
-  },
-  extendedIcon: {
-    marginRight: theme.spacing(1),
+	root: {
+		padding: theme.spacing(4),
+	},
+	bgColor: {
+		backgroundColor: '#BCE0FD',
+		height: '312px',
+		position: 'absolute',
+		// zIndex: 0
+	},
+	cardMobile: {
+		paddingLeft: theme.spacing(1),
+		paddingRight: theme.spacing(1),
+		paddingTop: theme.spacing(2),
+		width: '100%'
+	},
+	extendedIcon: {
+		marginRight: theme.spacing(1),
 	},
 	row: {
-    height: 'auto',
+		height: 'auto',
 		// display: 'flex',
 		width: '100%',
-    alignItems: 'center',
-    marginTop: theme.spacing(1)
-  },
-  catSearch: {
-    borderRadius: '4px',
-    alignItems: 'center',
-    padding: theme.spacing(1),
-    display: 'flex',
-    flexBasis: 420,
+		alignItems: 'center',
+		marginTop: theme.spacing(1)
+	},
+	catSearch: {
+		borderRadius: '4px',
+		alignItems: 'center',
+		padding: theme.spacing(1),
+		display: 'flex',
+		flexBasis: 420,
 		marginRight: theme.spacing(1),
 		marginTop: theme.spacing(2),
 		width: '100%'
-  },
-  catSelectSearch: {
-    width: '100%',
-    minWidth: 150
 	},
-	searchRoot: {
-		padding: '2px 4px',
-    display: 'flex',
-    alignItems: 'center',
-		width: 'auto',
-		marginTop: theme.spacing(2)
-	},
-	input: {
-    marginLeft: theme.spacing(1),
-		flex: 1,
-	},
-	iconButton: {
-    padding: 10,
-  },
-  divider: {
-    height: 28,
-    margin: 4,
-	},
-	fab: {
-    position: 'fixed',
-    bottom: theme.spacing(4),
-    right: theme.spacing(2),
-	},
+	date_trx: {
+		width: '200px'
+	}
 }));
 
 const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomerClear, loadingCustomerClear } }) => {
@@ -105,10 +82,32 @@ const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomerClear, 
 		params: '',
 		kata_kunci: ''
 	})
-
+	const submitDefault = moment().format('YYYY-MM-DD HH:mm:ss');
+	const [ startDate, setStartDate ] = useState({
+        submit: {
+            submit: submitDefault
+        },
+        view: {
+            view: moment().format('YYYY-MM-DD HH:mm')
+        }
+        
+    });
+    const handleStartDate = (date) => {
+        const changeDate = moment(date).format('YYYY-MM-DD HH:mm:ss');
+        setStartDate(startDate => ({
+            ...startDate,
+                submit: {
+                    submit: changeDate
+            },
+                view: {
+                    view: date
+            }
+        }));
+	};
+	
 	useEffect(() => {
 		getSearchCustomerAndClear(formState.params, formState.kata_kunci)
-	}, [loadingCustomerClear, getSearchCustomerAndClear, formState])
+	}, [loadingCustomerClear, getSearchCustomerAndClear, formState, startDate])
 
   return (
 		<>
@@ -117,68 +116,69 @@ const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomerClear, 
         <div className={classes.bgColor}></div>
         <Grid
           container
-          spacing={3}
+          spacing={2}
           justify="space-between"
         >
-          <Grid item>  
-            <Typography variant="h4">Transaksi Penjualan</Typography>
-          </Grid>
+          	<Grid item>  
+            	<Typography variant="h4">Transaksi Penjualan</Typography>
+			</Grid>
         </Grid>
-				
-				<SearchCustomer />
-				{!loadingCustomerClear && (
-					<>
-					{searchCustomerClear.length > 0 && (
-						<div className={classes.row}>
-							{/* {searchCustomer.map((product) => ( */}
-								<div>
+
+		<SearchCustomer startDate={startDate} handleStartDate={handleStartDate} />
+			
+		{!loadingCustomerClear && (
+			<>
+			{searchCustomerClear.length > 0 && (
+				<div className={classes.row}>
+					{/* {searchCustomer.map((product) => ( */}
+						<div>
+							<Grid
+								container
+								spacing={2}
+							>
+								<Grid
+									item
+									lg={8}
+									md={8}
+									sm={12}
+									xs={12}
+								>
+									<Product searchCustomerClear={searchCustomerClear[0]} date={startDate.submit.submit} />
+								</Grid>
+								<Hidden only={['xs', 'sm']}>
 									<Grid
-										container
-										spacing={2}
+										item
+										lg={4}
+										md={4}
+										sm={12}
+										xs={12}
 									>
-										<Grid
-											item
-											lg={8}
-											md={8}
-											sm={12}
-											xs={12}
-										>
-											<Product searchCustomerClear={searchCustomerClear[0]}/>
-										</Grid>
-										<Hidden only={['xs', 'sm']}>
-											<Grid
-												item
-												lg={4}
-												md={4}
-												sm={12}
-												xs={12}
-											>
-												<Cart />
-											</Grid>
-										</Hidden>
+										<Cart date={startDate.submit.submit} />
 									</Grid>
-									<Hidden only={['md','lg','xl']}>
-										<Fab color="primary" aria-label="add" className={classes.fab} onClick={handleModalOpen}>
-											<Badge badgeContent={17} color="secondary">
-													<CartIcon />
-											</Badge>
-										</Fab>
-										<SwipeableDrawer
-											anchor='bottom'
-											open={modalOpen}
-											onClose={handleModalClose}
-											onOpen={handleModalOpen}
-											disableSwipeToOpen
-										>
-											<Cart />
-										</SwipeableDrawer>
-									</Hidden>
-								</div>
-							{/* ))} */}
+								</Hidden>
+							</Grid>
+							<Hidden only={['md','lg','xl']}>
+								<Fab color="primary" aria-label="add" className={classes.fab} onClick={handleModalOpen}>
+									<Badge badgeContent={17} color="secondary">
+											<CartIcon />
+									</Badge>
+								</Fab>
+								<SwipeableDrawer
+									anchor='bottom'
+									open={modalOpen}
+									onClose={handleModalClose}
+									onOpen={handleModalOpen}
+									disableSwipeToOpen
+								>
+									<Cart date={startDate.submit.submit} />
+								</SwipeableDrawer>
+							</Hidden>
 						</div>
-					)}
-					</>
-				)}
+					{/* ))} */}
+				</div>
+			)}
+			</>
+		)}
       </div>
 		</Hidden>
 

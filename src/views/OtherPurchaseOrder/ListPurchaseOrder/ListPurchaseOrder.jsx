@@ -8,19 +8,23 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import DeleteIcon from '@material-ui/icons/Delete'
+import NumberFormat from 'react-number-format'
+import moment from 'moment'
 import DetailIcon from '@material-ui/icons/Search'
 import { Link as RouterLink } from 'react-router-dom'
 import { 
 	Tooltip,
 	IconButton,
+	Collapse,
+	Box,
+	Typography
 } from '@material-ui/core';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 const columns = [
-  { id: 'no_invoice', label: 'No Invoice', minWidth: 100 },
-  { id: 'nama', label: 'Nama Pembeli', minWidth: 200 },
-  { id: 'cabang', label: 'Cabang', minWidth: 200 },
-  { id: 'status', label: 'Status', minWidth: 200 },
+  { id: 'tanggal', label: 'Tanggal', minWidth: 100 },
+  { id: 'total', label: 'Total Pengeluaran', minWidth: 100 },
   { id: 'action', label: 'Aksi', minWidth: 100 },
   
 ];
@@ -38,8 +42,78 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
+function Row(props) {
+	const { po } = props
+	const [open, setOpen] = React.useState(false)
+	var no = 1
+
+	return(
+		<Fragment>
+			<TableRow key={po.id}>
+				<TableCell>
+					<IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+						{open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+					</IconButton>
+				</TableCell>
+				<TableCell>
+					{moment(po.created_at).format('DD MMMM YYYY')}
+				</TableCell>
+				<TableCell>
+					<NumberFormat value={po.total_price_invoice} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+				</TableCell>
+				<TableCell>
+					<Tooltip title="Detail Invoice">
+						<RouterLink to={`/other-purchase-order/create/${po.id}`}>
+							<IconButton aria-label="detail" color="primary">
+								<DetailIcon />
+							</IconButton>
+						</RouterLink>
+					</Tooltip>
+				</TableCell>
+			</TableRow>
+			<TableRow>
+				<TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+					<Collapse in={open} timeout="auto" unmountOnExit>
+						<Box margin={1}>
+						<Typography variant="h6" gutterBottom component="div">
+							Detail
+						</Typography>
+						<Table size="small" aria-label="purchases">
+							<TableHead>
+							<TableRow>
+								<TableCell>No</TableCell>
+								<TableCell>Nama Produk</TableCell>
+								<TableCell align="center">Harga</TableCell>
+								<TableCell align="right">Tanggal</TableCell>
+							</TableRow>
+							</TableHead>
+							<TableBody>
+								{po.cost_detail.map((item) => (
+									<TableRow key={item.id}>
+										<TableCell>
+											{no++}
+										</TableCell>
+										<TableCell component="th" scope="row">
+											{item.description}
+										</TableCell>
+										<TableCell align="center">
+											<NumberFormat value={item.value} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										</TableCell>
+										<TableCell align="right">{moment(item.created_at).format('DD MMMM YYYY')}</TableCell>
+									</TableRow>
+								))}
+							</TableBody>
+						</Table>
+						</Box>
+					</Collapse>
+				</TableCell>
+			</TableRow>
+		</Fragment>
+	)
+}
+
 const ListPurchaseOrder = (props) => {
-	const { purchaseOrders } = props
+	const { otherPurchaseOrders } = props
 	const classes = useStyles();
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -60,6 +134,7 @@ const ListPurchaseOrder = (props) => {
 				<Table stickyHeader aria-label="sticky table" style={{ minWidth: "340px" }}>
 				<TableHead>
 					<TableRow>
+						<TableCell />
 					{columns.map((column) => (
 						<TableCell
 						key={column.id}
@@ -72,35 +147,8 @@ const ListPurchaseOrder = (props) => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{purchaseOrders.data.map((po) => (
-						<TableRow key={po.id}>
-							<TableCell>
-								{po.inv_name}
-							</TableCell>
-							<TableCell>
-								{po.user.name}
-							</TableCell>
-							<TableCell>
-								{po.branch.name}
-							</TableCell>
-							<TableCell>
-								{po.status_name}
-							</TableCell>
-							<TableCell>
-								<Tooltip title="Detail Invoice">
-									<RouterLink to={`/purchase-order/create/${po.id}`}>
-										<IconButton aria-label="detail" color="primary">
-											<DetailIcon />
-										</IconButton>
-									</RouterLink>
-								</Tooltip>
-								<Tooltip title="Hapus Invoice">
-									<IconButton aria-label="delete" color="primary">
-										<DeleteIcon />
-									</IconButton>
-								</Tooltip>
-							</TableCell>
-						</TableRow>
+					{otherPurchaseOrders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((po) => (
+						<Row key={po.id} po={po} />
 					))}
 				</TableBody>
 				</Table>
@@ -108,7 +156,7 @@ const ListPurchaseOrder = (props) => {
 			<TablePagination
 				rowsPerPageOptions={[10, 25, 100]}
 				component="div"
-				count={purchaseOrders.data.length}
+				count={otherPurchaseOrders.length}
 				rowsPerPage={rowsPerPage}
 				page={page}
 				onChangePage={handleChangePage}

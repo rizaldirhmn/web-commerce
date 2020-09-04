@@ -22,6 +22,7 @@ import {
   DetailTransactionBuyback as DetailTransactionBuybackView,
   StockHistory as StockHistoryView,
   OtherPurchaseOrder as OtherPurchaseOrderView,
+  CreateOtherPurchaseOrder as CreateOtherPurchaseOrderView,
   DetailStock as DetailStockView
 } from './views';
 
@@ -158,6 +159,13 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/other-purchase-order"
+      />
+
+      <RouteWithLayout
+        component={CreateOtherPurchaseOrderView}
+        exact
+        layout={MainLayout}
+        path="/other-purchase-order/create/:id"
       />
 
       <Route

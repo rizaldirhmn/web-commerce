@@ -68,11 +68,11 @@ const GrafikTransactionSales = (props) => {
     };
 
     useEffect(() => {
-        getGrafikTransactionSales(startDate.submit.submit, endDate.submit.submit, 'total_trx')
+        getGrafikTransactionSales(startDate.submit.submit, endDate.submit.submit, 'jumlah_uang')
     }, [loadingTransactionSales, getGrafikTransactionSales, startDate, endDate])
 
     var data = {}
-    var jumlah_trx=[]
+    var jumlah_uang=[]
     var bulan=[];
 
     if(!loadingTransactionSales || grafikTransactionSales !== null){
@@ -80,15 +80,15 @@ const GrafikTransactionSales = (props) => {
             // bulan.push(grafikTransactionSales.data[i].date);
             var date = new Date(grafikTransactionSales.data[i].date)
             bulan.push(moment_tz(date, "Europe/London").tz("Asia/Jakarta").format('DD/MM'));
-            jumlah_trx.push(grafikTransactionSales.data[i].total_trx);
+            jumlah_uang.push(grafikTransactionSales.data[i].jumlah_uang);
         }
     
         data = {
             labels: bulan,
             datasets: [
               {
-                label : 'Jumlah Transaksi',
-                data: jumlah_trx,
+                label : 'Jumlah Transaksi Uang',
+                data: jumlah_uang,
                 backgroundColor: 'rgba(75,192,192,0.4)',
               }
             ]
@@ -100,7 +100,7 @@ const GrafikTransactionSales = (props) => {
             {!loadingTransactionSales ? (
                 <Card>
                     <CardHeader 
-                        title={`Grafik Transaksi Penjualan (Jumlah Transaksi)`}
+                        title={`Grafik Transaksi Penjualan (Jumlah Uang)`}
                     />
                     <CardContent>
                         <Grid container spacing={2} justify="space-between">

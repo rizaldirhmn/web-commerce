@@ -22,12 +22,18 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import Skeleton from '@material-ui/lab/Skeleton'
 import SearchIcon from '@material-ui/icons/Search'
+import CalendarIcon from '@material-ui/icons/CalendarToday'
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import DateFnsUtils from '@date-io/date-fns'; // choose your lib
+import {
+  DateTimePicker,
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
 // Redux
 import { connect } from 'react-redux'
 import { getSearchCustomerAndClearBuyback, getCustomerCashier } from '../../../actions/customer'
@@ -171,7 +177,13 @@ TablePaginationActions.propTypes = {
 };
 
 const SearchCustomer = (props) => {
-	const { getSearchCustomerAndClearBuyback, getCustomerCashier, customer : { searchCustomerBuyback, loadingSearchCustomerBuyback, customers_v2, loadingCustomerV2 } } = props
+	const { 
+		getSearchCustomerAndClearBuyback, 
+		getCustomerCashier, 
+		customer : { searchCustomerBuyback, loadingSearchCustomerBuyback, customers_v2, loadingCustomerV2 },
+		startDate,
+		handleStartDate
+	} = props
 	const classes = useStyles();
 	const { register, handleSubmit } = useForm();
 
@@ -264,7 +276,35 @@ const SearchCustomer = (props) => {
 							</Paper>
 						</div>
 					</Grid>
-					
+					<Grid 
+						item
+						lg={4}
+						md={6}
+						sm={6}
+						xs={12}
+					>
+						<Typography>Tanggal</Typography>
+						<div className={classes.row}>
+							<Paper component="form" className={classes.searchRoot}>
+								<IconButton type="button" className={classes.iconButton} aria-label="search">
+									<CalendarIcon />
+								</IconButton>
+								<Divider className={classes.divider} orientation="vertical" />
+								<MuiPickersUtilsProvider utils={DateFnsUtils}>
+									<DateTimePicker
+										fullWidth
+										disableFuture
+										ampm={false}
+										variant="outlined"
+										name="start_date"
+										format="dd MMMM yyyy HH:mm"
+										value={startDate.view.view} 
+										onChange={handleStartDate} 
+									/>
+								</MuiPickersUtilsProvider>
+							</Paper>
+						</div>
+					</Grid>
 				</Grid>
 			</div>
 			{searchCustomerBuyback !== null && (
@@ -376,6 +416,7 @@ const SearchCustomer = (props) => {
 										</IconButton>
 										<Divider className={classes.divider} orientation="vertical" />
 										<InputBase
+											autoFocus
 											className={classes.input}
 											name="nama"
 											value={keyword || ''}

@@ -17,6 +17,7 @@ import Cart from './Cart'
 // import Category from './Category'
 import MobileView from './MobileView'
 import SearchCustomer from './SearchCustomer'
+import moment from 'moment';
 
 // Redux
 import { connect } from 'react-redux'
@@ -106,9 +107,32 @@ const Cashier = ({ getSearchCustomerAndClearBuyback, customer : { searchCustomer
 		kata_kunci: ''
 	})
 
+	const submitDefault = moment().format('YYYY-MM-DD HH:mm:ss');
+	const [ startDate, setStartDate ] = useState({
+        submit: {
+            submit: submitDefault
+        },
+        view: {
+            view: moment().format('YYYY-MM-DD HH:mm')
+        }
+        
+    });
+    const handleStartDate = (date) => {
+        const changeDate = moment(date).format('YYYY-MM-DD HH:mm:ss');
+        setStartDate(startDate => ({
+            ...startDate,
+                submit: {
+                    submit: changeDate
+            },
+                view: {
+                    view: date
+            }
+        }));
+	};
+
 	useEffect(() => {
 		getSearchCustomerAndClearBuyback(formState.params, formState.kata_kunci)
-	}, [loadingSearchCustomerBuyback, getSearchCustomerAndClearBuyback, formState])
+	}, [loadingSearchCustomerBuyback, getSearchCustomerAndClearBuyback, formState, startDate])
 
   return (
 		<>
@@ -120,12 +144,12 @@ const Cashier = ({ getSearchCustomerAndClearBuyback, customer : { searchCustomer
           spacing={3}
           justify="space-between"
         >
-          <Grid item>  
-            <Typography variant="h4">Transaksi Buyback</Typography>
-          </Grid>
+			<Grid item>  
+				<Typography variant="h4">Transaksi Buyback</Typography>
+			</Grid>
         </Grid>
 				
-				<SearchCustomer />
+				<SearchCustomer startDate={startDate} handleStartDate={handleStartDate} />
 				{!loadingSearchCustomerBuyback && (
 					<>
 					{searchCustomerBuyback.length > 0 && (
@@ -143,7 +167,7 @@ const Cashier = ({ getSearchCustomerAndClearBuyback, customer : { searchCustomer
 											sm={12}
 											xs={12}
 										>
-											<Product searchCustomerBuyback={searchCustomerBuyback[0]}/>
+											<Product searchCustomerBuyback={searchCustomerBuyback[0]} date={startDate.submit.submit} />
 										</Grid>
 										<Hidden only={['xs', 'sm']}>
 											<Grid
@@ -153,7 +177,7 @@ const Cashier = ({ getSearchCustomerAndClearBuyback, customer : { searchCustomer
 												sm={12}
 												xs={12}
 											>
-												<Cart />
+												<Cart date={startDate.submit.submit} />
 											</Grid>
 										</Hidden>
 									</Grid>

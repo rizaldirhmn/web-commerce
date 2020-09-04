@@ -2,17 +2,16 @@
 import axios from 'axios'
 import { setAlert } from './alert'
 import { 
-    GET_PRODUCT_DASHBOARD,
-    GET_CARD_STATS,
-    GET_NET_INCOME,
-    GET_GOLD_PRICE,
-    GET_PRODUCT_BUYBACK_DASHBOARD,
-    GET_TRANSACTION_SALES,
-    GET_GRAFIK_STOCK
+    GET_OTHER_PURCHASE_ORDER, 
+    ADD_OTHER_PURCHASE_ORDER, 
+    GET_OTHER_PURCHASE_ORDER_DETAIL, 
+    ADD_OTHER_PURCHASE_ORDER_DETAIL,
+    DELETE_OTHER_PURCHASE_ORDER_DETAIL,
+    UPDATE_OTHER_PURCHASE_ORDER_DETAIL
 } from './types'
 
-export const getProduct = (type) => async dispatch => {
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/product_price?type=${type}`
+export const getPurchaseOrder = (startDate, endDate, keyword) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/cost/filter?start_date=${startDate}&end_date=${endDate}&kata_kunci=${keyword}`
     const token = sessionStorage.getItem('access_token')
 
     try {
@@ -28,7 +27,7 @@ export const getProduct = (type) => async dispatch => {
         });
 
         dispatch({
-            type: GET_PRODUCT_DASHBOARD,
+            type: GET_OTHER_PURCHASE_ORDER,
             payload: res.data
         })
 
@@ -42,8 +41,42 @@ export const getProduct = (type) => async dispatch => {
     }
 }
 
-export const getProductBuyback = (type) => async dispatch => {
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/product_price_buyback?type=${type}`
+export const addPurchaseOrder = (history) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/cost`
+    const token = sessionStorage.getItem('access_token')
+
+    try {
+        const res = await axios({
+            url: endpoint,
+            method: "POST",
+            loading: true,
+            headers: { 
+              'Content-Type': 'application/json', 
+              'Accept' : 'application/json', 
+              'Authorization' : `bearer ${token}`
+            }
+        });
+
+        dispatch({
+            type: ADD_OTHER_PURCHASE_ORDER,
+            payload: res.data
+        })
+
+        dispatch(setAlert("New Invoice Added", "success"))
+        history.push(`/other-purchase-order/create/${res.data.cost.id}`);
+
+    } catch (error) {
+        dispatch(setAlert("Something Went Wrong", "error"))
+        console.log(error)
+        // dispatch({
+        //     payload: { msg: error.response.statusText, status: error.response.status },
+        //     type: STAGE_ERROR
+        // })
+    }
+}
+
+export const getProductPO = () => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/purchase_order`
     const token = sessionStorage.getItem('access_token')
 
     try {
@@ -59,7 +92,7 @@ export const getProductBuyback = (type) => async dispatch => {
         });
 
         dispatch({
-            type: GET_PRODUCT_BUYBACK_DASHBOARD,
+            type: GET_OTHER_PURCHASE_ORDER,
             payload: res.data
         })
 
@@ -73,8 +106,8 @@ export const getProductBuyback = (type) => async dispatch => {
     }
 }
 
-export const getCardStats = () => async dispatch => {
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/dashboard_grafik/card`
+export const getPurchaseOrderDetail = (id) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/cost/${id}/cost_detail`
     const token = sessionStorage.getItem('access_token')
 
     try {
@@ -90,7 +123,7 @@ export const getCardStats = () => async dispatch => {
         });
 
         dispatch({
-            type: GET_CARD_STATS,
+            type: GET_OTHER_PURCHASE_ORDER_DETAIL,
             payload: res.data
         })
 
@@ -104,26 +137,34 @@ export const getCardStats = () => async dispatch => {
     }
 }
 
-export const getGrafikNetIncome = (start_date, end_date) => async dispatch => {
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/dashboard_grafik/pendapatan?start_date=${start_date}&end_date=${end_date}`
+export const addPurchaseOrderDetail = (formData, id, history) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/cost/${id}/cost_detail`
     const token = sessionStorage.getItem('access_token')
+
+    const myData = new FormData()
+    myData.set('description', formData.description)
+    myData.set('value', formData.value)
 
     try {
         const res = await axios({
             url: endpoint,
-            method: "GET",
+            method: "POST",
+            data: myData,
             loading: true,
             headers: { 
-              'Content-Type': 'application/json', 
+              'Content-Type': 'multipart/form-data', 
               'Accept' : 'application/json', 
               'Authorization' : `bearer ${token}`
             }
         });
 
         dispatch({
-            type: GET_NET_INCOME,
+            type: ADD_OTHER_PURCHASE_ORDER_DETAIL,
             payload: res.data
         })
+
+        dispatch(setAlert("New Invoice Added", "success"))
+        history.push(`/other-purchase-order/create/${id}`);
 
     } catch (error) {
         dispatch(setAlert("Something Went Wrong", "error"))
@@ -135,14 +176,14 @@ export const getGrafikNetIncome = (start_date, end_date) => async dispatch => {
     }
 }
 
-export const getGrafikGoldPrice = (id_product, type_customer, start_date, end_date) => async dispatch => {
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/dashboard_grafik/gold_price_time?id_product=${id_product}&type_customer=${type_customer}&start_date=${start_date}&end_date=${end_date}`
+export const deletePurchaseOrderDetail = (id_cost, id_detail_cost, history) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/cost/${id_cost}/cost_detail/${id_detail_cost}`
     const token = sessionStorage.getItem('access_token')
 
     try {
         const res = await axios({
             url: endpoint,
-            method: "GET",
+            method: "DELETE",
             loading: true,
             headers: { 
               'Content-Type': 'application/json', 
@@ -152,9 +193,12 @@ export const getGrafikGoldPrice = (id_product, type_customer, start_date, end_da
         });
 
         dispatch({
-            type: GET_GOLD_PRICE,
+            type: DELETE_OTHER_PURCHASE_ORDER_DETAIL,
             payload: res.data
         })
+
+        dispatch(setAlert("Item Deleted", "success"))
+        history.push(`/other-purchase-order/create/${id_cost}`);
 
     } catch (error) {
         dispatch(setAlert("Something Went Wrong", "error"))
@@ -166,45 +210,19 @@ export const getGrafikGoldPrice = (id_product, type_customer, start_date, end_da
     }
 }
 
-export const getGrafikTransactionSales = (start_date, end_date, type) => async dispatch => {
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/dashboard_grafik/trx_day?start_date=${start_date}&end_date=${end_date}&type=${type}`
+export const updatePurchaseOrderStatus = (id, history) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/cost/${id}`
     const token = sessionStorage.getItem('access_token')
 
-    try {
-        const res = await axios({
-            url: endpoint,
-            method: "GET",
-            loading: true,
-            headers: { 
-              'Content-Type': 'application/json', 
-              'Accept' : 'application/json', 
-              'Authorization' : `bearer ${token}`
-            }
-        });
-
-        dispatch({
-            type: GET_TRANSACTION_SALES,
-            payload: res.data
-        })
-
-    } catch (error) {
-        dispatch(setAlert("Something Went Wrong", "error"))
-        console.log(error)
-        // dispatch({
-        //     payload: { msg: error.response.statusText, status: error.response.status },
-        //     type: STAGE_ERROR
-        // })
+    const myData = {
+        status: '1'
     }
-}
-
-export const getGrafikStock = () => async dispatch => {
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/dashboard_grafik/on_hands_on_process`
-    const token = sessionStorage.getItem('access_token')
 
     try {
         const res = await axios({
             url: endpoint,
-            method: "GET",
+            method: "PATCH",
+            data: myData,
             loading: true,
             headers: { 
               'Content-Type': 'application/json', 
@@ -214,9 +232,12 @@ export const getGrafikStock = () => async dispatch => {
         });
 
         dispatch({
-            type: GET_GRAFIK_STOCK,
+            type: UPDATE_OTHER_PURCHASE_ORDER_DETAIL,
             payload: res.data
         })
+
+        dispatch(setAlert("Invoice send", "success"))
+        history.push(`/other-purchase-order`);
 
     } catch (error) {
         dispatch(setAlert("Something Went Wrong", "error"))

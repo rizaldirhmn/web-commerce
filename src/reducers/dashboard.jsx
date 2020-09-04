@@ -4,7 +4,8 @@ import {
     GET_NET_INCOME, 
     GET_GOLD_PRICE, 
     GET_PRODUCT_BUYBACK_DASHBOARD, 
-    GET_TRANSACTION_SALES
+    GET_TRANSACTION_SALES,
+    GET_GRAFIK_STOCK
 } from '../actions/types'
 
 const initialState = {
@@ -14,12 +15,14 @@ const initialState = {
     grafikNetIncome : null,
     grafikGoldPrice: null,
     grafikTransactionSales: null,
+    grafikStock: null,
     loading: true,
     loadingBuyback: true,
     loadingCard: true,
     loadingGrafik: true,
     loadingGoldPrice: true,
     loadingTransactionSales: true,
+    loadingGrafikStock: true,
     error: {}
 }
 
@@ -61,6 +64,12 @@ export default function (state = initialState, action) {
                 ...state,
                 grafikTransactionSales: payload,
                 loadingTransactionSales: false
+            }
+        case GET_GRAFIK_STOCK:
+            return {
+                ...state,
+                grafikStock: payload,
+                loadingGrafikStock: false
             }
         default:
             return state

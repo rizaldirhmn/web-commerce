@@ -31,10 +31,9 @@ import InputOrder from './InputOrder'
 import { connect } from 'react-redux'
 import { 
     getPurchaseOrderDetail, 
-    updatePurchaseOrderStatus,
-    updatePurchaseOrderStatusDone,
-    deletePurchaseOrderDetail
-} from '../../../actions/purchaseOrder'
+    deletePurchaseOrderDetail,
+    updatePurchaseOrderStatus
+} from '../../../actions/otherPurchaseOrder'
 import NumberFormat from 'react-number-format'
 
 const useStyles = makeStyles(theme => ({
@@ -62,20 +61,16 @@ const useStyles = makeStyles(theme => ({
 
 const columns = [
     { id: 'no', label: 'No', minWidth: 30 },
-    { id: 'item', label: 'Item Produk', minWidth: 100 },
-    { id: 'stok', label: 'Stok Tersedia', minWidth: 70 },
-    { id: 'qty', label: 'Jumlah Order', minWidth: 80 },
-    { id: 'hpp', label: 'Harga', minWidth: 100 },
-    { id: 'total', label: 'Harga Total', minWidth: 100 },
+    { id: 'nama', label: 'Nama Produk', minWidth: 100 },
+    { id: 'harga', label: 'Harga', minWidth: 100 },
     { id: 'action', label: 'Aksi', minWidth: 100 },
   ];
 
-const CreatePurchaseOrder = ({ 
-    updatePurchaseOrderStatus,
-    updatePurchaseOrderStatusDone,
+const CreateOtherPurchaseOrder = ({ 
     getPurchaseOrderDetail, 
-    purchaseOrder: { purchaseOrderDetails, loading, counting },
-    deletePurchaseOrderDetail
+    deletePurchaseOrderDetail,
+    updatePurchaseOrderStatus,
+    otherPurchaseOrder: { otherPurchaseOrderDetails, loadingDetail, counting },
 }) => {
     const classes = useStyles()
     const [page, setPage] = useState(0)
@@ -87,7 +82,7 @@ const CreatePurchaseOrder = ({
 
     useEffect(() => {
         getPurchaseOrderDetail(id)
-    }, [id, loading, getPurchaseOrderDetail, counting]);
+    }, [id, loadingDetail, getPurchaseOrderDetail, counting]);
 
 	const handleChangePage = newPage => {
 		setPage(newPage);
@@ -98,21 +93,16 @@ const CreatePurchaseOrder = ({
 		setPage(0);
     };
 
+    const onDeleteItem = id_cost_detail => {
+        // console.log(id_cost_detail)
+        deletePurchaseOrderDetail(id, id_cost_detail, history)
+    }
+
     const onUpdate = e => {
         updatePurchaseOrderStatus(id, history)
     }
 
-    const onUpdateDone = e => {
-        // console.log('masuk ini')
-        updatePurchaseOrderStatusDone(id, history)
-    }
-
-    const onDeleteItem = id_po_detail => {
-        // console.log(id_po_detail)
-        deletePurchaseOrderDetail(id, id_po_detail, history)
-    }
-
-    return loading || purchaseOrderDetails == null ? 
+    return loadingDetail || otherPurchaseOrderDetails == null ? 
     <Backdrop className={classes.backdrop} open>
         <CircularProgress color="inherit" />
     </Backdrop>  
@@ -125,7 +115,7 @@ const CreatePurchaseOrder = ({
                     spacing={2}
                 >
                     <Grid item>  
-                        <Typography variant="h4">Purchase Order</Typography>
+                        <Typography variant="h4">Catatan Pengeluaran</Typography>
                     </Grid>
                 </Grid>
             </div>
@@ -151,30 +141,21 @@ const CreatePurchaseOrder = ({
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {purchaseOrderDetails.data.map((product) => (
-                                <TableRow key={product.id}>
+                            {otherPurchaseOrderDetails.data.map((item) => (
+                                <TableRow key={item.id}>
                                     <TableCell>
                                         {no++}
                                     </TableCell>
                                     <TableCell>
-                                        {product.product.name} {product.product.weight} {product.product.unit}
+                                        {item.description}
                                     </TableCell>
                                     <TableCell>
-                                        {product.in_stock}
+                                        <NumberFormat value={item.value} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
                                     </TableCell>
                                     <TableCell>
-                                        {product.qty}
-                                    </TableCell>
-                                    <TableCell>
-                                        <NumberFormat value={product.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    </TableCell>
-                                    <TableCell>
-                                        <NumberFormat value={product.sell_price * product.qty} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                    </TableCell>
-                                    <TableCell>
-                                        {purchaseOrderDetails.status_po === '99' ? (
+                                        {otherPurchaseOrderDetails.cost.status === '0' ? (
                                             <Tooltip title="Hapus product">
-                                                <IconButton aria-label="delete" onClick={() => onDeleteItem(product.id)}>
+                                                <IconButton aria-label="delete" onClick={() => onDeleteItem(item.id)}>
                                                     <DeleteIcon />
                                                 </IconButton>
                                             </Tooltip>
@@ -190,7 +171,7 @@ const CreatePurchaseOrder = ({
                     <TablePagination
                         rowsPerPageOptions={[10, 25, 100]}
                         component="div"
-                        count={!loading && purchaseOrderDetails.data.length}
+                        count={!loadingDetail && otherPurchaseOrderDetails.data.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onChangePage={handleChangePage}
@@ -198,15 +179,13 @@ const CreatePurchaseOrder = ({
                     />
                     </CardContent>
                 </Card>
-                {purchaseOrderDetails.status_po === '99' && (
-                    <InputOrder />
-                )}
+                <InputOrder />
                 <Card>
                     <CardContent>
                         <Box display="flex" flexDirection="row-reverse" p={1} m={1}>
                             <Box p={1}>
                                 <Typography className={classes.totalPrice}>
-                                    <NumberFormat value={purchaseOrderDetails.total_price_invoice} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+                                    <NumberFormat value={otherPurchaseOrderDetails.cost.total_price_invoice} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
                                 </Typography>
                             </Box>
                             <Box p={1}>
@@ -215,20 +194,11 @@ const CreatePurchaseOrder = ({
                                 </Typography>
                             </Box>
                         </Box>
-                        {purchaseOrderDetails.status_po === '99' && (
+                        {otherPurchaseOrderDetails.cost.status === '0' && (
                             <Box display="flex" flexDirection="row-reverse" p={1} m={1}>
                                 <Box p={1}>
                                     <Button variant="contained" className={classes.btn} onClick={onUpdate}>
                                         Kirim
-                                    </Button>
-                                </Box>
-                            </Box>
-                        )}
-                        {purchaseOrderDetails.status_po === '3' && (
-                            <Box display="flex" flexDirection="row-reverse" p={1} m={1}>
-                                <Box p={1}>
-                                    <Button variant="contained" className={classes.btn} onClick={onUpdateDone}>
-                                        Pesanan Selesai
                                     </Button>
                                 </Box>
                             </Box>
@@ -241,12 +211,12 @@ const CreatePurchaseOrder = ({
     
 }
 
-CreatePurchaseOrder.propTypes = {
+CreateOtherPurchaseOrder.propTypes = {
     getPurchaseOrderDetail: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-    purchaseOrder: state.purchaseOrder
+    otherPurchaseOrder: state.otherPurchaseOrder
 })
 
-export default connect(mapStateToProps, { getPurchaseOrderDetail, updatePurchaseOrderStatus, updatePurchaseOrderStatusDone, deletePurchaseOrderDetail })(CreatePurchaseOrder)
+export default connect(mapStateToProps, { getPurchaseOrderDetail, deletePurchaseOrderDetail, updatePurchaseOrderStatus })(CreateOtherPurchaseOrder)

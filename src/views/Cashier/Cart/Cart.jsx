@@ -73,9 +73,9 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const Cart = ({ getCart , cart : { carts, loading, counting }, deleteCartItem, deleteCartAllItem }) => {
+const Cart = (props) => {
     const classes = useStyles()
-
+    const { getCart , cart : { carts, loading, counting }, deleteCartItem, deleteCartAllItem, date } = props
     const [ modalPaymentOpen, setModalPaymentOpen ] = useState(false)
     
     const handleDrawerPaymentOpen = () => {
@@ -97,7 +97,7 @@ const Cart = ({ getCart , cart : { carts, loading, counting }, deleteCartItem, d
     useEffect(() => {
         getCart()
     }, [loading, getCart, counting])
-
+    
     return loading || carts === null ? 
     <Skeleton>
 
@@ -203,7 +203,7 @@ const Cart = ({ getCart , cart : { carts, loading, counting }, deleteCartItem, d
                 onOpen={handleDrawerPaymentOpen}
                 disableSwipeToOpen
             >
-                <PaymentMethodOptions handleDrawerPaymentClose={handleDrawerPaymentClose} />
+                <PaymentMethodOptions handleDrawerPaymentClose={handleDrawerPaymentClose} date={date} />
             </SwipeableDrawer>
         </Card>
     </Fragment>

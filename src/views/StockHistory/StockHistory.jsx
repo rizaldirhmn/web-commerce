@@ -1,18 +1,14 @@
-import React, { forwardRef } from 'react'
+import React from 'react'
 import { makeStyles } from '@material-ui/styles'
 import {
     Typography,
     Grid,
-    Fab,
     Paper,
     IconButton,
     InputBase,
     Divider,
-    Hidden
 } from '@material-ui/core'
-import AddCircle from '@material-ui/icons/AddCircle'
 import SearchIcon from '@material-ui/icons/Search'
-import { Link as RouterLink } from 'react-router-dom';
 
 // Components
 import ListProduct from './ListProduct'
@@ -65,15 +61,6 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-const CustomRouterLink = forwardRef((props, ref) => (
-    <div
-      ref={ref}
-      style={{ flexGrow: 1 }}
-    >
-      <RouterLink {...props} />
-    </div>
-));
-
 const StockHistory = ({
     getStock,
     stockHistory : { stockHistory, loading }
@@ -92,7 +79,7 @@ const StockHistory = ({
                     spacing={2}
                 >
                     <Grid item>  
-                        <Typography variant="h4">History Stock Product</Typography>
+                        <Typography variant="h4">List Product</Typography>
                     </Grid>
                 </Grid>
             </div>
@@ -102,19 +89,6 @@ const StockHistory = ({
                     spacing={2}
                     justify='space-between'
                 >
-                    <Hidden only={['xs','sm']}>
-                        <Grid item lg={6} md={6} sm={6} xs={12}>
-                            <Fab variant="extended" className={classes.btnAddCustomer} component={CustomRouterLink} to='/product/create'>
-                                <AddCircle className={classes.extendedIcon} />
-                                Tambah Produk
-                            </Fab>
-                        </Grid>
-                    </Hidden>
-                    <Hidden only={['md','lg','xl']}>
-                        <Fab color="primary" aria-label="add" className={classes.fab} component={CustomRouterLink} to='/product/create'>
-                            <AddCircle/>
-                        </Fab>
-                    </Hidden>
                     <Grid item lg={6} md={6} sm={6} xs={12}>
                         <Paper component="form" className={classes.searchRoot}>
                             <InputBase
@@ -124,7 +98,7 @@ const StockHistory = ({
                                 inputProps={{ 'aria-label': 'Cari Product' }}
                             />
                             <Divider className={classes.divider} orientation="vertical" />
-                            <IconButton type="submit" className={classes.iconButton} aria-label="search">
+                            <IconButton type="button" className={classes.iconButton} aria-label="search">
                                 <SearchIcon />
                             </IconButton>
                         </Paper>

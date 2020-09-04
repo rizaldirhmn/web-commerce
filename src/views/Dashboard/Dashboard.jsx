@@ -19,7 +19,9 @@ import {
   TotalCustomer,
   GrafikNetIncome,
   GrafikGoldPrice,
-  GrafikTransactionSales
+  GrafikTransactionSales,
+  GrafikTransactionSalesMoney,
+  // GrafikStock
 } from './components'
 
 import CartIcon from '@material-ui/icons/AddShoppingCart'
@@ -200,17 +202,36 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
         >
           <Grid
             item
-            lg={8}
-            md={8}
+            lg={12}
+            md={12}
             sm={12}
             xs={12}
           >
             <GrafikNetIncome />
           </Grid>
+        </Grid>
+        <Grid
+          container
+          spacing={2}
+        >
           <Grid
             item
-            lg={4}
-            md={4}
+            lg={12}
+            md={12}
+            sm={12}
+            xs={12}
+          >
+            <GrafikGoldPrice />
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          spacing={2}
+        >
+          <Grid
+            item
+            lg={12}
+            md={12}
             sm={12}
             xs={12}
           >
@@ -223,12 +244,26 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
         >
           <Grid
             item
-            lg={8}
-            md={8}
+            lg={12}
+            md={12}
             sm={12}
             xs={12}
           >
-            <GrafikGoldPrice />
+            <GrafikTransactionSalesMoney />
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          spacing={2}
+        >
+          <Grid
+            item
+            lg={12}
+            md={12}
+            sm={12}
+            xs={12}
+          >
+            {/* <GrafikStock /> */}
           </Grid>
         </Grid>
       </div>
