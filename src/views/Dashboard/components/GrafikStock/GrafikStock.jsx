@@ -1,111 +1,104 @@
-import React, { useEffect, useState } from 'react'
-import { Pie } from 'react-chartjs-2';
+import React from 'react'
+// import { Pie } from 'react-chartjs-2';
 import {
     Card,
     CardContent,
+    // Typography,
+    Grid,
     CardHeader,
-    Grid
 } from '@material-ui/core'
-import moment from 'moment';
-import { options } from './chart'
 
 // Redux
-import { connect } from 'react-redux'
-import { getGrafikStock } from '../../../../actions/dashboard'
-import Skeleton from '@material-ui/lab/Skeleton';
+// import { connect } from 'react-redux'
+// import { getGrafikStock } from '../../../../actions/dashboard'
+// import Skeleton from '@material-ui/lab/Skeleton';
+import {
+    StockProduct1,
+    StockProduct2,
+    StockProduct3,
+    StockProduct4,
+    StockProduct5,
+    StockProduct6,
+} from './components'
 
 const GrafikNetIncome = (props) => {
-    const { getGrafikStock, dashboard : { loadingGrafikStock, grafikStock} } = props
-
-    useEffect(() => {
-        getGrafikStock()
-    }, [loadingGrafikStock, getGrafikStock])
-    console.log(grafikStock)
-
-    // var data = []
-    // var jumlah=[];
-    // var bulan=[];
-
-    // if(!loadingGrafikStock || grafikStock !== null){
-    //     for (var i = 0; i < grafikStock.data.length; i++) {
-    //         bulan.push(moment(grafikStock.data[i].date).format('DD/MM'));
-    //         jumlah.push(grafikStock.data[i].value);
-    //         data = {
-    //             labels: bulan,
-    //             datasets: [
-    //               {
-    //                 label : 'Grafik Stock',
-    //                 data: jumlah,
-    //                 backgroundColor: 'rgba(75,192,192,0.4)',
-    //               }
-    //             ]
-    //         };
-    //     }
-    
-    // }else{
-    //     data = {
-    //         labels: ["loading"],
-    //         datasets: [
-    //           {
-    //             label : 'Grafik Net Income',
-    //             data: ["loading"],
-    //             backgroundColor: 'rgba(75,192,192,0.4)',
-    //             borderColor: 'rgba(75,192,192,1)',
-    //             borderCapStyle: 'butt',
-    //             borderDash: [],
-    //             borderDashOffset: 0.0,
-    //             borderJoinStyle: 'miter',
-    //             pointBorderColor: 'rgba(75,192,192,1)',
-    //             pointBackgroundColor: '#fff',
-    //             pointBorderWidth: 1,
-    //             pointHoverRadius: 5,
-    //             pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-    //             pointHoverBorderColor: 'rgba(220,220,220,1)',
-    //             pointHoverBorderWidth: 2,
-    //             pointRadius: 1,
-    //             pointHitRadius: 10,
-    //           }
-    //         ]
-    //     };
-    // }
-    // var data = {}
+    // const { getGrafikStock, dashboard : { loadingGrafikStock, grafikStock} } = props
     
     return(
-        <div>
-            {/* {!loadingGrafikStock ? (
-                <Card>
-                    <CardHeader 
-                        title="Grafik Net Income"
-                    />
-                    <CardContent>
-                        <Grid container spacing={2}>
-                            {grafikStock.map((item) => (
-                                <Grid 
-                                    item
-                                    lg={4}
-                                    md={4}
-                                    sm={6}
-                                    xs={12}
-                                >
-                                    <Pie
-                                        data={data}
-                                        options={options}
-                                    />
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </CardContent>
-                </Card>
-            ):(
-                <Skeleton variant="rect" height={100}></Skeleton>
-            )} */}
-
-        </div>
+        <Card>
+            <CardHeader title="Grafik Stok" />
+            <CardContent>
+                <Grid
+                    container
+                    spacing={2}
+                >
+                    <Grid 
+                        item
+                        lg={4}
+                        md={4}
+                        sm={6}
+                        xs={12}
+                    >
+                        <StockProduct1 />
+                    </Grid>
+                    <Grid 
+                        item
+                        lg={4}
+                        md={4}
+                        sm={6}
+                        xs={12}
+                    >
+                        <StockProduct2 />
+                    </Grid>
+                    <Grid 
+                        item
+                        lg={4}
+                        md={4}
+                        sm={6}
+                        xs={12}
+                    >
+                        <StockProduct3 />
+                    </Grid>
+                </Grid>
+                <Grid
+                    container
+                    spacing={2}
+                >
+                    <Grid 
+                        item
+                        lg={4}
+                        md={4}
+                        sm={6}
+                        xs={12}
+                    >
+                        <StockProduct4 />
+                    </Grid>
+                    <Grid 
+                        item
+                        lg={4}
+                        md={4}
+                        sm={6}
+                        xs={12}
+                    >
+                        <StockProduct5 />
+                    </Grid>
+                    <Grid 
+                        item
+                        lg={4}
+                        md={4}
+                        sm={6}
+                        xs={12}
+                    >
+                        <StockProduct6 />
+                    </Grid>
+                </Grid>
+            </CardContent>
+        </Card>
     )
 }
 
-const mapStateToProps = state => ({
-    dashboard: state.dashboard
-})
+// const mapStateToProps = state => ({
+//     dashboard: state.dashboard
+// })
 
-export default connect(mapStateToProps, {getGrafikStock})(GrafikNetIncome)
+export default GrafikNetIncome
