@@ -104,7 +104,7 @@ const PaymentMethodOptions = (props) => {
     };
 
     const onSubmitPayment = () => {
-        // console.log(searchCustomer.id, formState.input_price)
+        // console.log(searchCustomerBuyback[0].id, formState.input_price, date)
         addPaymentBuyback(searchCustomerBuyback[0].id, formState.input_price, formState.note, history, date)
         handleDrawerPaymentClose()
     }

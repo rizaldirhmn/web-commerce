@@ -11,11 +11,19 @@ import {
 	CardContent,
 	Card,
 	// CardActions,
-	CardHeader
+	CardHeader,
+	IconButton,
+	Divider,
+	Paper
 } from '@material-ui/core'
-// import CartIcon from '@material-ui/icons/AddShoppingCart'
+import CalendarIcon from '@material-ui/icons/CalendarToday'
 import AddUserIcon from '@material-ui/icons/PersonAdd'
-// import PerfectScrollbar from '@opuscapita/react-perfect-scrollbar'
+import DateFnsUtils from '@date-io/date-fns'; // choose your lib
+import {
+  DateTimePicker,
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
+import moment from 'moment'
 
 import ProductCard from './ProductCard'
 // import Cart from '../Cart'
@@ -49,16 +57,23 @@ const useStyles = makeStyles(theme => ({
         bottom: theme.spacing(4),
         right: theme.spacing(2),
 	},
+	searchRoot: {
+		padding: '2px 4px',
+		display: 'flex',
+		alignItems: 'center',
+		width: 'auto',
+		// marginTop: theme.spacing(2)
+	},
 	input: {
-        marginLeft: theme.spacing(1),
+		marginLeft: theme.spacing(1),
 		flex: 1,
 	},
 	iconButton: {
-        padding: 10,
-    },
-    divider: {
-        height: 28,
-        margin: 4,
+			padding: 10,
+	},
+	divider: {
+			height: 28,
+			margin: 4,
 	},
 	dividerHorizontal: {
 		marginTop: 10,
@@ -99,6 +114,29 @@ const MobileView = ({ getSearchCustomerAndClearBuyback, customer : { searchCusto
 		kata_kunci: ''
 	})
 
+	const submitDefault = moment().format('YYYY-MM-DD HH:mm:ss');
+	const [ startDate, setStartDate ] = useState({
+        submit: {
+            submit: submitDefault
+        },
+        view: {
+            view: moment().format('YYYY-MM-DD HH:mm')
+        }
+        
+    });
+    const handleStartDate = (date) => {
+        const changeDate = moment(date).format('YYYY-MM-DD HH:mm:ss');
+        setStartDate(startDate => ({
+            ...startDate,
+                submit: {
+                    submit: changeDate
+            },
+                view: {
+                    view: date
+            }
+        }));
+	};
+
 	useEffect(() => {
 		getSearchCustomerAndClearBuyback(formState.params, formState.kata_kunci)
 	}, [loadingSearchCustomerBuyback, getSearchCustomerAndClearBuyback, formState])
@@ -115,6 +153,37 @@ const MobileView = ({ getSearchCustomerAndClearBuyback, customer : { searchCusto
                     <Typography variant="h4">Transaksi Buyback</Typography>
                 </Grid>
             </Grid>
+			<Grid container spacing={2}>
+				<Grid 
+					item
+					lg={4}
+					md={6}
+					sm={6}
+					xs={12}
+				>
+					<Typography>Tanggal</Typography>
+					<div className={classes.row}>
+						<Paper component="form" className={classes.searchRoot}>
+							<IconButton type="button" className={classes.iconButton} aria-label="search">
+								<CalendarIcon />
+							</IconButton>
+							<Divider className={classes.divider} orientation="vertical" />
+							<MuiPickersUtilsProvider utils={DateFnsUtils}>
+								<DateTimePicker
+									fullWidth
+									disableFuture
+									ampm={false}
+									variant="outlined"
+									name="start_date"
+									format="dd MMMM yyyy HH:mm"
+									value={startDate.view.view} 
+									onChange={handleStartDate} 
+								/>
+							</MuiPickersUtilsProvider>
+						</Paper>
+					</div>
+				</Grid>
+			</Grid>
 			<Grid
 				container
 				spacing={3}
@@ -162,7 +231,7 @@ const MobileView = ({ getSearchCustomerAndClearBuyback, customer : { searchCusto
 				<>
 				{searchCustomerBuyback.length > 0 && (
 					// <PerfectScrollbar>
-						<ProductCard handleQtyModalOpen={handleQtyModalOpen} />
+						<ProductCard handleQtyModalOpen={handleQtyModalOpen} date={startDate.submit.submit} />
 					// </PerfectScrollbar>
 				)}
 				</>

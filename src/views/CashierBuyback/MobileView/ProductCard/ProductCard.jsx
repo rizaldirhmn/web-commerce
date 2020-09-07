@@ -16,7 +16,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 
 import { connect } from 'react-redux'
 import { getProduct } from '../../../../actions/product'
-import { getCart } from '../../../../actions/cart'
+import { getCartBuyback } from '../../../../actions/cartBuyback'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -63,8 +63,9 @@ const ProductCard = (props) => {
 		product : { products, loading }, 
 		customer : { searchCustomerBuyback }, 
 		handleQtyModalOpen,
-		getCart,
-		cart : { carts, counting } 
+		getCartBuyback,
+		cartBuyback : { carts, counting },
+		date
 	} = props;
 	const classes = useStyles()
 
@@ -81,9 +82,9 @@ const ProductCard = (props) => {
 	// End Cart
 
 	useEffect(() => {
-		getProduct(searchCustomerBuyback[0].name_status)
-		getCart()
-	}, [getProduct, searchCustomerBuyback, getCart, counting])
+		getProduct(searchCustomerBuyback[0].status, date)
+		getCartBuyback()
+	}, [getProduct, searchCustomerBuyback, getCartBuyback, counting, date])
 
 	return loading || products === null ? 
 	<Backdrop className={classes.backdrop} open>
@@ -204,7 +205,7 @@ const ProductCard = (props) => {
 				onOpen={handleModalOpen}
 				disableSwipeToOpen
 			>
-				<Cart />
+				<Cart date={date} />
 			</SwipeableDrawer>
 		</div>
 	</Fragment>
@@ -213,7 +214,7 @@ const ProductCard = (props) => {
 const mapStateToProps = state => ({
 	product: state.product,
 	customer: state.customer,
-	cart: state.cart
+	cartBuyback: state.cartBuyback
 })
 
-export default connect(mapStateToProps, {getProduct, getCart})(ProductCard);
+export default connect(mapStateToProps, {getProduct, getCartBuyback})(ProductCard);

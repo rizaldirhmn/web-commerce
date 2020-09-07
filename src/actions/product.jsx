@@ -9,7 +9,6 @@ import {
 export const getProduct = (type, date) => async dispatch => {
     const endpoint = `${process.env.REACT_APP_BASE_URL}/user/product/filter?type=${type}&date_time=${date}`
     const token = sessionStorage.getItem('access_token')
-
     try {
         const res = await axios({
             url: endpoint,

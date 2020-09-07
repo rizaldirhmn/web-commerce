@@ -64,7 +64,8 @@ const ProductCard = (props) => {
 		customer : { searchCustomerClear }, 
 		handleQtyModalOpen,
 		getCart,
-		cart : { carts, counting } 
+		cart : { carts, counting },
+		date
 	} = props;
 	const classes = useStyles()
 
@@ -81,9 +82,9 @@ const ProductCard = (props) => {
 	// End Cart
 
 	useEffect(() => {
-		getProduct(searchCustomerClear.name_status)
+		getProduct(searchCustomerClear[0].status, date)
 		getCart()
-	}, [getProduct, searchCustomerClear, getCart, counting])
+	}, [getProduct, searchCustomerClear, getCart, counting, date])
 
 	return loading || products === null ? 
 	<Backdrop className={classes.backdrop} open>
@@ -204,7 +205,7 @@ const ProductCard = (props) => {
 				onOpen={handleModalOpen}
 				disableSwipeToOpen
 			>
-				<Cart />
+				<Cart date={date} />
 			</SwipeableDrawer>
 		</div>
 	</Fragment>
