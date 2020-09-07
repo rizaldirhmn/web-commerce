@@ -1,5 +1,7 @@
 import {
     ADD_CUSTOMER,
+    ADD_CUSTOMER_SUCCESS,
+    ADD_CUSTOMER_FAILED,
     ADD_CUSTOMER_ERROR,
     GET_CUSTOMER,
     EDIT_CUSTOMER,
@@ -7,7 +9,9 @@ import {
     GET_SEARCH_CUSTOMER,
     GET_SEARCH_CUSTOMER_BUYBACK,
     GET_CUSTOMER_V2,
-    GET_SEARCH_CUSTOMER_CLEAR
+    GET_SEARCH_CUSTOMER_CLEAR,
+    EDIT_CUSTOMER_SUCCESS,
+    EDIT_CUSTOMER_FAILED
 } from '../actions/types'
 
 const initialState = {
@@ -23,6 +27,8 @@ const initialState = {
     loadingSearchCustomer: true,
     loadingCustomerV2: true,
     loadingCustomerClear: true,
+    loadingAddCustomer: false,
+    loadingEditCustomer: false,
     error: {},
     counting : 0
 }
@@ -39,14 +45,36 @@ export default function (state = initialState, action) {
         case ADD_CUSTOMER:
             return {
                 ...state,
+                loadingAddCustomer: true
+            }
+        case ADD_CUSTOMER_SUCCESS:
+            return {
+                ...state,
                 customer: payload,
-                loading: false
+                loadingAddCustomer: false
+            }
+        case ADD_CUSTOMER_FAILED:
+            return {
+                ...state,
+                customer: payload,
+                loadingAddCustomer: false
             }
         case EDIT_CUSTOMER:
             return {
                 ...state,
+                loadingEditCustomer: true
+            }
+        case EDIT_CUSTOMER_SUCCESS:
+            return {
+                ...state,
                 customer: payload,
-                loading: false
+                loadingEditCustomer: false
+            }
+        case EDIT_CUSTOMER_FAILED:
+            return {
+                ...state,
+                customer: payload,
+                loadingEditCustomer: false
             }
         case GET_CUSTOMER:
             return {

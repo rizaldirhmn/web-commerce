@@ -64,7 +64,7 @@ const AOGPricing = ({ getProduct, dashboard : { products, loading } }) => {
   const classes = useStyles();
 
   useEffect(() => {
-	  getProduct('customer')
+	  getProduct('3')
   }, [getProduct])
 
   return (

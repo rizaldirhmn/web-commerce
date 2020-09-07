@@ -24,6 +24,7 @@ import {
 } from '@material-ui/core';
 
 const columns = [
+  { id: 'no', label: 'No', minWidth: 30 },
   { id: 'no_id', label: 'No ID', minWidth: 100 },
   { id: 'nama', label: 'Nama', minWidth: 150 },
   { id: 'alamat', label: 'Alamat', minWidth: 200 },
@@ -56,19 +57,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ListCustomer = (props) => {
-	const { searchCustomer, page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = props
+	const { searchCustomer, page, handleChangePage, rowsPerPage, handleChangeRowsPerPage } = props
 	const classes = useStyles();
-	// const [page, setPage] = React.useState(0);
-	// const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-	// const handleChangePage = (event, newPage) => {
-	// 	setPage(newPage);
-	// };
-
-	// const handleChangeRowsPerPage = (event) => {
-	// 	setRowsPerPage(+event.target.value);
-	// 	setPage(0);
-	// };
+	var no = searchCustomer.from 
 
 	return (
 		<Fragment>
@@ -89,8 +80,11 @@ const ListCustomer = (props) => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{searchCustomer.data.map((customer) => (
+					{searchCustomer.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((customer) => (
 						<TableRow key={customer.id}>
+							<TableCell>
+								{no++}
+							</TableCell>
 							<TableCell>
 								{customer.id_agent}
 							</TableCell>
@@ -127,13 +121,14 @@ const ListCustomer = (props) => {
 				</Table>
 			</TableContainer>
 			<TablePagination
-				rowsPerPageOptions={[10, 25, 100]}
 				component="div"
-				count={searchCustomer.total}
+				rowsPerPageOptions={[ 5, 10, 15]}
 				rowsPerPage={rowsPerPage}
+				onChangeRowsPerPage={handleChangeRowsPerPage}
+				handleChangeRowsPerPage={handleChangeRowsPerPage}
+				count={searchCustomer.total}
 				page={page}
 				onChangePage={handleChangePage}
-				onChangeRowsPerPage={handleChangeRowsPerPage}
 			/>
 			</Paper>
 		</Fragment>

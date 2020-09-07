@@ -90,7 +90,6 @@ const Customer = ({ getSearchCustomer, customer : { searchCustomer, loadingSearc
 
 	const handleChangePage = (event, newPage) => {
         setPage(newPage);
-        getSearchCustomer(keyword, page+1)
 	};
 
 	const handleChangeRowsPerPage = (event) => {

@@ -62,7 +62,7 @@ const MOGPricing = ({ getProduct, dashboard: { products, loading }}) => {
 
   	const classes = useStyles();
 	useEffect(() => {
-		getProduct('mog')
+		getProduct('2')
 	}, [getProduct])
 
   	return (

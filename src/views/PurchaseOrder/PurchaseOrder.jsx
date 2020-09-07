@@ -191,7 +191,7 @@ const PurchaseOrder = ({
                                 }
                             />
                             <CardContent>
-                                {!loading ? (
+                                {!loading && purchaseOrders !== null ? (
                                     <ListPurchaseOrder purchaseOrders={purchaseOrders} />
                                 ):(
                                     <Skeleton variant="rect" height={200}></Skeleton>

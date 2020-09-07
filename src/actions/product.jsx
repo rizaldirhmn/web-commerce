@@ -37,8 +37,8 @@ export const getProduct = (type, date) => async dispatch => {
     }
 }
 
-export const getProductCabang = () => async dispatch => {
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/product`
+export const getProductCabang = (type) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/product/filter?type=${type}`
     const token = sessionStorage.getItem('access_token')
 
     try {

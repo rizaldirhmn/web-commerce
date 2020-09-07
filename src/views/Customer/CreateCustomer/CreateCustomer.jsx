@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, Fragment } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import { 
-    Grid, Typography, Card, CardContent, TextField, MenuItem, CardActions, Button
+    Grid, Typography, Card, CardContent, TextField, MenuItem, CardActions, Button, Backdrop, CircularProgress
 } from '@material-ui/core'
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers"
@@ -22,10 +22,17 @@ const useStyles = makeStyles(theme => ({
     btn: {
         backgroundColor: '#011747',
         color: '#FFF'
-    }
+    },
+    backdrop: {
+		zIndex: theme.zIndex.drawer + 1,
+		color: '#fff',
+    },
 }))
 
-const CreateCustomer = ({ addCustomer }) => {
+const CreateCustomer = ({ 
+    addCustomer,
+    customer : { loadingAddCustomer }
+}) => {
     const classes = useStyles()
     const history = useHistory()
     const { register, handleSubmit, errors } = useForm({
@@ -60,7 +67,12 @@ const CreateCustomer = ({ addCustomer }) => {
         addCustomer(formState.values, history)
     }
 
-    return(
+    return loadingAddCustomer ? 
+    <Backdrop className={classes.backdrop} open>
+        <CircularProgress color="inherit" />
+    </Backdrop>
+    :
+    <Fragment>
         <div className={classes.root}>
             <div className={classes.row}>
                 <Grid container spacing={2}>
@@ -162,36 +174,6 @@ const CreateCustomer = ({ addCustomer }) => {
                                                 inputRef={register}
                                             />
                                         </Grid>
-                                        <Grid
-                                            item
-                                            lg={6}
-                                            md={6}
-                                            sm={12}
-                                            xs={12}
-                                        >
-                                            <TextField
-                                                fullWidth
-                                                variant="outlined"
-                                                defaultValue={formState.values.is_active || ''}
-                                                label="Status Aktif"
-                                                margin="dense"
-                                                name="is_active"
-                                                onChange={handleChange}
-                                                helperText={
-                                                    errors.is_active && errors.is_active.message
-                                                }
-                                                error={errors.is_active && true}
-                                                inputRef={register}
-                                                select
-                                            >
-                                                <MenuItem key="aktif" value="1">
-                                                    Aktif
-                                                </MenuItem>
-                                                <MenuItem key="tidak_aktif" value="2">
-                                                    Tidak Aktif
-                                                </MenuItem>
-                                            </TextField>
-                                        </Grid>
                                     </Grid>
                                     <Grid container spacing={2}>
                                         <Grid
@@ -228,10 +210,25 @@ const CreateCustomer = ({ addCustomer }) => {
                             </form>
                         </Card>
                     </Grid>
+                    <Grid
+                        item
+                        lg={4}
+                        md={4}
+                        sm={12}
+                        xs={12}
+                    >
+                        <Card>
+                            
+                        </Card>
+                    </Grid>
                 </Grid>
             </div>
         </div>
-    )
+    </Fragment>
 }
 
-export default connect(null, { addCustomer })(CreateCustomer)
+const mapStateToProps = state => ({
+    customer : state.customer
+})
+
+export default connect(mapStateToProps, { addCustomer })(CreateCustomer)

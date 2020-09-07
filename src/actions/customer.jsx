@@ -3,17 +3,21 @@ import axios from 'axios'
 import { setAlert } from './alert'
 import { 
     ADD_CUSTOMER,
+    ADD_CUSTOMER_SUCCESS,
+    ADD_CUSTOMER_FAILED,
     GET_CUSTOMER,
     EDIT_CUSTOMER,
+    EDIT_CUSTOMER_SUCCESS,
+    EDIT_CUSTOMER_FAILED,
     GET_DETAIL_CUSTOMER,
     GET_SEARCH_CUSTOMER,
     GET_SEARCH_CUSTOMER_BUYBACK,
     GET_CUSTOMER_V2,
-    GET_SEARCH_CUSTOMER_CLEAR
+    GET_SEARCH_CUSTOMER_CLEAR,
 } from './types'
 
-export const getCustomer = () => async dispatch => {
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/customer`
+export const getCustomer = (page) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/customer/paginate?page=${page}`
     const token = sessionStorage.getItem('access_token')
 
     try {
@@ -82,8 +86,10 @@ export const addCustomer = (formData, history) => async dispatch => {
     myData.set('name', formData.name);
     myData.set('address', formData.address);
     myData.set('status', formData.status);
-    myData.set('is_active', formData.is_active);
 
+    dispatch({
+        type: ADD_CUSTOMER,
+    })
     try {
         const res = await axios({
             url: endpoint,
@@ -97,7 +103,7 @@ export const addCustomer = (formData, history) => async dispatch => {
             }
         });
         dispatch({
-            type: ADD_CUSTOMER,
+            type: ADD_CUSTOMER_SUCCESS,
             payload: res.data
         })
 
@@ -105,6 +111,10 @@ export const addCustomer = (formData, history) => async dispatch => {
         history.push(`/customer`);
     } catch (error) {
         dispatch(setAlert("Something Went Wrong", "error"))
+        dispatch({
+            type: ADD_CUSTOMER_FAILED,
+            payload: error
+        })
         console.log(error)
         // dispatch({
         //     payload: { msg: error.response.statusText, status: error.response.status },
@@ -145,6 +155,9 @@ export const getDetailCustomer = (id) => async dispatch => {
 
 export const editCustomer = (formData, history, id) => async dispatch => {
     const endpoint = `${process.env.REACT_APP_BASE_URL}/user/customer/${id}`
+    dispatch({
+        type: EDIT_CUSTOMER,
+    })
     try {
         const res = await axios({
             url: endpoint,
@@ -158,7 +171,7 @@ export const editCustomer = (formData, history, id) => async dispatch => {
             }
         });
         dispatch({
-            type: EDIT_CUSTOMER,
+            type: EDIT_CUSTOMER_SUCCESS,
             payload: res.data
         })
 
@@ -167,6 +180,10 @@ export const editCustomer = (formData, history, id) => async dispatch => {
     } catch (error) {
         dispatch(setAlert("Something went wrong", "error"))
         console.log(error)
+        dispatch({
+            type: EDIT_CUSTOMER_FAILED,
+            payload: error
+        })
         // dispatch({
         //     payload: { msg: error.response.statusText, status: error.response.status },
         //     type: STAGE_ERROR

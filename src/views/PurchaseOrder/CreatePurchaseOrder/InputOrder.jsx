@@ -108,6 +108,7 @@ const InputOrder = (props) => {
 
     const onSelectProduct = event => {
         event.persist()
+
         setFormState(formState => ({
             ...formState,
             values: {
@@ -119,10 +120,11 @@ const InputOrder = (props) => {
     }
 
     useEffect(() => {
-        getProductCabang()
+        getProductCabang(0)
     }, [loading, getProductCabang])
 
     const onSubmit = (e) => {
+        // console.log(formState.values)
         addPurchaseOrderDetail(formState.values, params.id, history)
     }
 
@@ -164,7 +166,7 @@ const InputOrder = (props) => {
                                         select
                                     >
                                         {productPO.map((item) => (
-                                            <MenuItem key={item.product.id} value={item.latest_price}>
+                                            <MenuItem key={item.product.id} value={item.product.latest_price}>
                                                 {item.product.name} {item.product.weight} {item.product.unit}
                                             </MenuItem>
                                         ))}

@@ -63,7 +63,7 @@ const BranchPricing = ({ getProduct, dashboard: {products, loading}}) => {
   const classes = useStyles();
 
 	useEffect(() => {
-		getProduct('cabang')
+		getProduct('0')
 	}, [getProduct])
 
 	return (
