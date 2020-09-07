@@ -174,6 +174,28 @@ const CreateCustomer = ({
                                                 inputRef={register}
                                             />
                                         </Grid>
+                                        <Grid
+                                            item
+                                            lg={6}
+                                            md={6}
+                                            sm={12}
+                                            xs={12}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                variant="outlined"
+                                                defaultValue={formState.values.number_phone || ''}
+                                                label="Nomor Telepon"
+                                                margin="dense"
+                                                name="number_phone"
+                                                onChange={handleChange}
+                                                helperText={
+                                                    errors.number_phone && errors.number_phone.message
+                                                }
+                                                error={errors.number_phone && true}
+                                                inputRef={register}
+                                            />
+                                        </Grid>
                                     </Grid>
                                     <Grid container spacing={2}>
                                         <Grid
@@ -208,17 +230,6 @@ const CreateCustomer = ({
                                     </Button>
                                 </CardActions>
                             </form>
-                        </Card>
-                    </Grid>
-                    <Grid
-                        item
-                        lg={4}
-                        md={4}
-                        sm={12}
-                        xs={12}
-                    >
-                        <Card>
-                            
                         </Card>
                     </Grid>
                 </Grid>

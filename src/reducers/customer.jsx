@@ -11,7 +11,7 @@ import {
     GET_CUSTOMER_V2,
     GET_SEARCH_CUSTOMER_CLEAR,
     EDIT_CUSTOMER_SUCCESS,
-    EDIT_CUSTOMER_FAILED
+    EDIT_CUSTOMER_FAILED,
 } from '../actions/types'
 
 const initialState = {
@@ -93,14 +93,12 @@ export default function (state = initialState, action) {
                 ...state,
                 searchCustomer: payload,
                 loadingSearchCustomer: false,
-                counting : initialState.counting +=1
             }
         case GET_SEARCH_CUSTOMER_BUYBACK:
             return {
                 ...state,
                 searchCustomerBuyback: payload,
                 loadingSearchCustomerBuyback: false,
-                counting : initialState.counting +=1
             }
         case GET_CUSTOMER_V2:
             return {

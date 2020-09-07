@@ -80,7 +80,7 @@ const ListCustomer = (props) => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{searchCustomer.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((customer) => (
+					{searchCustomer.data.map((customer) => (
 						<TableRow key={customer.id}>
 							<TableCell>
 								{no++}
@@ -95,10 +95,14 @@ const ListCustomer = (props) => {
 								{customer.address}
 							</TableCell>
 							<TableCell>
-								{customer.status === '1' ? (
+								{customer.status === '1' && (
 									<Typography>AOG</Typography>
-								): (
+								)}
+								{customer.status === '2' && (
 									<Typography>MOG</Typography>
+								)}
+								{customer.status === '3' && (
+									<Typography>Umum</Typography>
 								)}
 							</TableCell>
 							<TableCell>
@@ -122,7 +126,7 @@ const ListCustomer = (props) => {
 			</TableContainer>
 			<TablePagination
 				component="div"
-				rowsPerPageOptions={[ 5, 10, 15]}
+				rowsPerPageOptions={[15]}
 				rowsPerPage={rowsPerPage}
 				onChangeRowsPerPage={handleChangeRowsPerPage}
 				handleChangeRowsPerPage={handleChangeRowsPerPage}

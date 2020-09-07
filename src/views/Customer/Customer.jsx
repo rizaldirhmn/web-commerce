@@ -86,7 +86,7 @@ const Customer = ({ getSearchCustomer, customer : { searchCustomer, loadingSearc
     }
 
     const [page, setPage] = useState(0);
-	const [rowsPerPage, setRowsPerPage] = React.useState(10);
+	const [rowsPerPage, setRowsPerPage] = React.useState(15);
 
 	const handleChangePage = (event, newPage) => {
         setPage(newPage);

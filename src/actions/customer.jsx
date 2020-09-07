@@ -86,6 +86,7 @@ export const addCustomer = (formData, history) => async dispatch => {
     myData.set('name', formData.name);
     myData.set('address', formData.address);
     myData.set('status', formData.status);
+    myData.set('number_phone', formData.number_phone);
 
     dispatch({
         type: ADD_CUSTOMER,
@@ -195,6 +196,9 @@ export const getSearchCustomer = (kata_kunci, page) => async dispatch => {
     const endpoint = `${process.env.REACT_APP_BASE_URL}/user/customer/search?type=name&kata_kunci=${kata_kunci}&page=${page}`
     const token = sessionStorage.getItem('access_token')
 
+    // dispatch({
+    //     type: GET_SEARCH_CUSTOMER_LOAD
+    // })
     try {
         const res = await axios({
             url: endpoint,
