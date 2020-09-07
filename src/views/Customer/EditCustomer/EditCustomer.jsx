@@ -98,7 +98,6 @@ const EditCustomer = (props) => {
                 <Grid container spacing={2} justify="space-between">
                     <Grid item>
                         <Typography variant="h4">Customer</Typography>
-                        <p>{formState.id_agent}</p>
                     </Grid>
                     <Grid item>
                         <Breadcrumbs aria-label="breadcrumb">
