@@ -30,7 +30,7 @@ const GrafikGoldPrice = (props) => {
     const [ formState, setFormState ] = useState({
         values : {
             id_product : '4',
-            tipe_customer : 'aog'
+            tipe_customer : '3'
         }
     })
 
@@ -190,10 +190,10 @@ const GrafikGoldPrice = (props) => {
                                     value={formState.values.tipe_customer}
                                     onChange={handleChange}
                                 >
-                                    <MenuItem value="cabang">Cabang</MenuItem>
-                                    <MenuItem value="aog">AOG</MenuItem>
-                                    <MenuItem value="mog">MOG</MenuItem>
-                                    <MenuItem value="customer">Umum</MenuItem>
+                                    <MenuItem value="0">Cabang</MenuItem>
+                                    <MenuItem value="1">AOG</MenuItem>
+                                    <MenuItem value="2">MOG</MenuItem>
+                                    <MenuItem value="3">Umum</MenuItem>
                                 </TextField>
                             </Grid>
                             <Grid 

@@ -125,16 +125,16 @@ export default function ScrollableTabsButtonAuto() {
             <AntTab label="Member of Gold" />
             <AntTab label="Buyback" />
           </AntTabs>
-          <TabPanel value={value} index={3}>
+          <TabPanel value={value} index={0}>
             <CustomerPricing />
           </TabPanel>
-          <TabPanel value={value} index={0}>
+          <TabPanel value={value} index={1}>
             <BranchPricing />
           </TabPanel>
-          <TabPanel value={value} index={1}>
+          <TabPanel value={value} index={2}>
             <AOGPricing />
           </TabPanel>
-          <TabPanel value={value} index={2}>
+          <TabPanel value={value} index={3}>
             <MOGPricing />
           </TabPanel>
           <TabPanel value={value} index={4}>
