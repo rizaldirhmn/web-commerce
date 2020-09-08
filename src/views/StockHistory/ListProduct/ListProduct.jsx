@@ -25,13 +25,18 @@ import CapitalizedText from '../../../components/layout/CapitalizedText'
 import { 
 	Tooltip,
 	IconButton,
+	Typography,
 } from '@material-ui/core';
 
 const columns = [
   { id: 'no', label: 'No', minWidth: 100 },
   { id: 'nama', label: 'Nama Item', minWidth: 150 },
-  { id: 'berat', label: 'Berat / Banyak', minWidth: 200 },
   { id: 'satuan', label: 'Satuan', minWidth: 100 },
+  { id: 'stock_awal', label: 'Stock Awal', minWidth: 100 },
+  { id: 'perubahan_stock', label: 'Perubahan Stock', minWidth: 100 },
+  { id: 'stock_akhir', label: 'Stock Akhir', minWidth: 100 },
+  { id: 'hpp', label: 'HPP', minWidth: 100 },
+  { id: 'total', label: 'Total HPP', minWidth: 100 },
   { id: 'action', label: 'Action', minWidth: 140 },
   
 ];
@@ -90,13 +95,25 @@ const ListProduct = (props) => {
 								{no++}
 							</TableCell>
 							<TableCell>
-								<CapitalizedText text={product.name} />
-							</TableCell>
-							<TableCell>
-								{product.weight}
+								<CapitalizedText text={product.name} /> {product.weight}
 							</TableCell>
 							<TableCell>
 								<CapitalizedText text={product.unit} />
+							</TableCell>
+							<TableCell>
+
+							</TableCell>
+							<TableCell>
+								
+							</TableCell>
+							<TableCell>
+								
+							</TableCell>
+							<TableCell>
+								
+							</TableCell>
+							<TableCell>
+								
 							</TableCell>
 							<TableCell>
 								<Tooltip title="Detail">
@@ -109,6 +126,29 @@ const ListProduct = (props) => {
 							</TableCell>
 						</TableRow>
 					))}
+					{/* <TableRow>
+						<Divider/>
+					</TableRow> */}
+					<TableRow>
+						<TableCell colSpan={3}>
+							<Typography variant="body">Total</Typography>
+						</TableCell>
+						<TableCell>
+
+						</TableCell>
+						<TableCell>
+							
+						</TableCell>
+						<TableCell>
+							
+						</TableCell>
+						<TableCell>
+							
+						</TableCell>
+						<TableCell colSpan={2}>
+							
+						</TableCell>
+					</TableRow>
 				</TableBody>
 				</Table>
 			</TableContainer>

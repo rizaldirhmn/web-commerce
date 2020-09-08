@@ -107,10 +107,22 @@ const Transaction = ({ getTransaction, getTransactionSearch, transaction : { tra
         }));
     };
 
+    const [page, setPage] = React.useState(0);
+	const [rowsPerPage, setRowsPerPage] = React.useState(15);
+
+	const handleChangePage = (event, newPage) => {
+		setPage(newPage);
+	};
+
+	const handleChangeRowsPerPage = (event) => {
+		setRowsPerPage(+event.target.value);
+		setPage(0);
+	};
+
     useEffect(() => {
         // getTransaction()
-        getTransactionSearch(startDate.submit.submit, endDate.submit.submit)
-    }, [loading, getTransactionSearch, startDate, endDate]);
+        getTransactionSearch(startDate.submit.submit, endDate.submit.submit, page+1)
+    }, [loading, getTransactionSearch, startDate, endDate, page]);
 
     return(
         <div className={classes.root}>
@@ -173,7 +185,14 @@ const Transaction = ({ getTransaction, getTransactionSearch, transaction : { tra
                         sm={12}
                         xs={12}
                     >
-                        <ListTransaction transactions={transactions} loading={loading} />
+                        <ListTransaction 
+                            rowsPerPage={rowsPerPage}
+                            handleChangePage={handleChangePage}
+                            handleChangeRowsPerPage={handleChangeRowsPerPage}
+                            page={page}
+                            transactions={transactions} 
+                            loading={loading} 
+                        />
                     </Grid>
                 </Grid>
             </div>

@@ -82,7 +82,7 @@ function Row(props) {
 							<TableHead>
 							<TableRow>
 								<TableCell>No</TableCell>
-								<TableCell>Nama Produk</TableCell>
+								<TableCell>Deskripsi Pengeluaran</TableCell>
 								<TableCell align="center">Harga</TableCell>
 								<TableCell align="right">Tanggal</TableCell>
 							</TableRow>

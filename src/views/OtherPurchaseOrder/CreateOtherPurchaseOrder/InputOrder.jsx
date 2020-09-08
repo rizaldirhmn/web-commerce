@@ -128,7 +128,7 @@ const InputOrder = (props) => {
                                             fullWidth
                                             variant="outlined"
                                             defaultValue={formState.values.description || ''}
-                                            label="Nama Product"
+                                            label="Deskripsi"
                                             margin="dense"
                                             name="description"
                                             onChange={handleChange}

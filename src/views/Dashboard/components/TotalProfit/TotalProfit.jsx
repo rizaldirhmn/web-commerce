@@ -79,7 +79,7 @@ const TotalProfit = props => {
               gutterBottom
               variant="body2"
             >
-              Total Laba Bersih
+              Total Laba
             </Typography>
           </Grid>
         </Grid>

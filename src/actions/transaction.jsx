@@ -36,8 +36,8 @@ export const getTransaction = () => async dispatch => {
     }
 }
 
-export const getTransactionSearch = (startDate, endDate) => async dispatch => {
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/transaction/search?tanggal=${startDate}/${endDate}`
+export const getTransactionSearch = (startDate, endDate, page) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/transaction/search?tanggal=${startDate}/${endDate}&page=${page}`
     const token = sessionStorage.getItem('access_token')
 
     try {

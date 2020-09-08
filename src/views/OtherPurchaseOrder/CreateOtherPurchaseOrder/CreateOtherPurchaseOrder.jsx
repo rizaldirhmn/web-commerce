@@ -61,7 +61,7 @@ const useStyles = makeStyles(theme => ({
 
 const columns = [
     { id: 'no', label: 'No', minWidth: 30 },
-    { id: 'nama', label: 'Nama Produk', minWidth: 100 },
+    { id: 'nama', label: 'Deskripsi', minWidth: 100 },
     { id: 'harga', label: 'Harga', minWidth: 100 },
     { id: 'action', label: 'Aksi', minWidth: 100 },
   ];
@@ -179,7 +179,9 @@ const CreateOtherPurchaseOrder = ({
                     />
                     </CardContent>
                 </Card>
-                <InputOrder />
+                {otherPurchaseOrderDetails.cost.status === '0' && (
+                    <InputOrder />
+                )}
                 <Card>
                     <CardContent>
                         <Box display="flex" flexDirection="row-reverse" p={1} m={1}>
@@ -198,7 +200,7 @@ const CreateOtherPurchaseOrder = ({
                             <Box display="flex" flexDirection="row-reverse" p={1} m={1}>
                                 <Box p={1}>
                                     <Button variant="contained" className={classes.btn} onClick={onUpdate}>
-                                        Kirim
+                                        Simpan
                                     </Button>
                                 </Box>
                             </Box>

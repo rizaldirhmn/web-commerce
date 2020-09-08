@@ -24,7 +24,7 @@ const columns = [
   { id: 'tanggal', label: 'Tanggal', minWidth: 100 },
   { id: 'no_invoice', label: 'No Invoice', minWidth: 100 },
   { id: 'customer', label: 'Customer', minWidth: 200 },
-  { id: 'total_harga', label: 'Total Harga', minWidth: 100 },
+  { id: 'total_harga', label: 'Penjualan', minWidth: 100 },
   { id: 'action', label: 'Aksi', minWidth: 100 },
   
 ];
@@ -44,18 +44,8 @@ const useStyles = makeStyles(theme => ({
 
 const ListTransaction = (props) => {
     const classes = useStyles();
-    const { transactions, loading } = props
-	const [page, setPage] = React.useState(0);
-	const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-	const handleChangePage = (event, newPage) => {
-		setPage(newPage);
-	};
-
-	const handleChangeRowsPerPage = (event) => {
-		setRowsPerPage(+event.target.value);
-		setPage(0);
-	};
+    const { transactions, loading, page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = props
+	
     
 	return loading || transactions == null ? 
 		<Backdrop className={classes.backdrop} open>
@@ -110,13 +100,14 @@ const ListTransaction = (props) => {
 				</Table>
 			</TableContainer>
 			<TablePagination
-				rowsPerPageOptions={[10, 25, 100]}
+				rowsPerPageOptions={[15]}
 				component="div"
-				count={!loading && transactions.total}
 				rowsPerPage={rowsPerPage}
+				onChangeRowsPerPage={handleChangeRowsPerPage}
+				handleChangeRowsPerPage={handleChangeRowsPerPage}
+				count={transactions.total}
 				page={page}
 				onChangePage={handleChangePage}
-				onChangeRowsPerPage={handleChangeRowsPerPage}
 			/>
 			</Paper>
 		</Fragment>

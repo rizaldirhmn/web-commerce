@@ -37,7 +37,7 @@ export const addPayment = (id_customer, input_price, note, history, date) => asy
         history.push(`/report/selling/detail/${res.data.id}`);
 
     } catch (error) {
-        dispatch(setAlert("Something Went Wrong", "error"))
+        dispatch(setAlert("Terjadi kesalahan, mohon dicoba kembali", "error"))
         console.log(error)
         // dispatch({
         //     payload: { msg: error.response.statusText, status: error.response.status },

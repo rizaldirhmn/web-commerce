@@ -74,7 +74,14 @@ const useStyles = makeStyles(theme => ({
 
 const Cart = (props) => {
     const classes = useStyles()
-    const { getCartBuyback , cartBuyback : { carts, loading, counting }, deleteCartItemBuyback, deleteCartAllItemBuyback, date } = props
+    const { 
+        getCartBuyback , 
+        cartBuyback : { carts, loading, counting }, 
+        deleteCartItemBuyback, 
+        deleteCartAllItemBuyback, 
+        date,
+        searchCustomerClear 
+    } = props
     const [ modalPaymentOpen, setModalPaymentOpen ] = useState(false)
     
     const handleDrawerPaymentOpen = () => {
@@ -95,7 +102,7 @@ const Cart = (props) => {
 
     useEffect(() => {
         getCartBuyback()
-    }, [loading, getCartBuyback, counting])
+    }, [loading, getCartBuyback, counting, searchCustomerClear, date])
 
     return loading || carts === null ? 
     <Skeleton>

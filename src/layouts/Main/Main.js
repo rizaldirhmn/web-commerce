@@ -107,13 +107,20 @@ const useStyles = makeStyles(theme => ({
     color: textMenuWhite,
     fontFamily: 'Roboto'
   },
+  textMenuNested: {
+    color: textMenuWhite,
+    fontFamily: 'Roboto',
+    fontSize: '12px',
+    textDecoration: 'underline'
+  },
   item: {
     display: 'flex',
     paddingTop: 0,
     paddingBottom: 0
   },
   nested: {
-    paddingLeft: theme.spacing(4),
+    paddingLeft: theme.spacing(8),
+    fontSize: '14px'
   },
 }));
 
@@ -258,7 +265,7 @@ const Main = props => {
                 to='/cashier'
               >
                 <ListItem button key='cashier'>
-                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Transaksi Penjualan</Typography>} />
+                    <ListItemText secondary={<Typography type="caption" className={classes.textMenuNested}>Penjualan</Typography>} />
                 </ListItem>
               </Button>
               <Button
@@ -270,7 +277,7 @@ const Main = props => {
                 to='/cashier-buyback'
               >
                 <ListItem button key='cashier-buyback'>
-                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Transaksi Buyback</Typography>} />
+                    <ListItemText secondary={<Typography type="caption" className={classes.textMenuNested}>Buyback</Typography>} />
                 </ListItem>
               </Button>
             </List>
@@ -286,7 +293,7 @@ const Main = props => {
                 <ListItemIcon>
                   <UserIcon style={{ color: textMenuWhite }} />
                 </ListItemIcon>
-                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Pelanggan</Typography>} />
+                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Customer</Typography>} />
             </ListItem>
           </Button>
           <Button
@@ -300,7 +307,7 @@ const Main = props => {
                 <ListItemIcon>
                   <CartIcon style={{ color: textMenuWhite }} />
                 </ListItemIcon>
-                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Purchase Order Emas</Typography>} />
+                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Purchase</Typography>} />
             </ListItem>
           </Button>
           <Button
@@ -314,7 +321,7 @@ const Main = props => {
                 <ListItemIcon>
                   <CartIcon style={{ color: textMenuWhite }} />
                 </ListItemIcon>
-                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Catat Pengeluaran</Typography>} />
+                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Biaya</Typography>} />
             </ListItem>
           </Button>
           <Button
@@ -345,7 +352,7 @@ const Main = props => {
                 to='/report/selling'
               >
                 <ListItem button key='report-selling'>
-                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Laporan Penjualan</Typography>} />
+                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Penjualan</Typography>} />
                 </ListItem>
               </Button>
               <Button
@@ -357,7 +364,7 @@ const Main = props => {
                 to='/report/buyback'
               >
                 <ListItem button key='report-buyback'>
-                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Laporan Buyback</Typography>} />
+                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Buyback</Typography>} />
                 </ListItem>
               </Button>
               <Button
@@ -369,7 +376,7 @@ const Main = props => {
                 to='/stock-history'
               >
                 <ListItem button key='stock-history'>
-                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Laporan Stock</Typography>} />
+                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Stock</Typography>} />
                 </ListItem>
               </Button>
             </List>

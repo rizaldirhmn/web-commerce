@@ -36,12 +36,12 @@ const StockProduct1 = (props) => {
                     // label : 'Grafik Stock',
                     data: [ grafikStock6.stock_on_hand, grafikStock6.stock_on_process ],
                     backgroundColor: [
-                        '#FF6384',
                         '#36A2EB',
+                        '#FF6384',
                     ],
                     hoverBackgroundColor: [
-                        '#FF6384',
                         '#36A2EB',
+                        '#FF6384',
                     ]
                 }
             ]
@@ -71,15 +71,12 @@ const StockProduct1 = (props) => {
         <div>
             {!loadingGrafikStock6 ? (
                 <Card>
-                    {/* <CardHeader
-                        title="Emas 5 Gram" 
-                        action={`Total : ${grafikStock6.stock_on_hand + grafikStock6.stock_on_process}`}
-                    /> */}
+                    {/* Perubahan warna grafik by Pak Faisal Ramli tgl 8 sept 2020 */}
                     <CardContent>
                         <Grid container justify="space-between">
                             <Grid item>
                                 <Typography variant="subtitle1">
-                                    Emas 0,1 Gram
+                                    Emas 5 Gram
                                 </Typography>
                             </Grid>
                             <Grid item>

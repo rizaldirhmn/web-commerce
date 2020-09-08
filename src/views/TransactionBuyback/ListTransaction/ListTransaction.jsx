@@ -24,7 +24,7 @@ const columns = [
   { id: 'tanggal', label: 'Tanggal', minWidth: 100 },
   { id: 'no_invoice', label: 'No Invoice', minWidth: 100 },
   { id: 'customer', label: 'Customer', minWidth: 200 },
-  { id: 'total_harga', label: 'Total Harga', minWidth: 100 },
+  { id: 'total_harga', label: 'Buyback', minWidth: 100 },
   { id: 'action', label: 'Aksi', minWidth: 100 },
   
 ];

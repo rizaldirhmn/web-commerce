@@ -91,16 +91,12 @@ const PaymentMethodOptions = (props) => {
         input_price: '',
     });
 
-    const [ changes, setChanges ] = useState(0)
-
     const handleChange = event => {
         // event.presist()
         setFormState(formState => ({
           ...formState,
             [event.target.name]: event.target.value
         }));
-
-        setChanges(event.target.value - carts.total_payment)
     };
 
     const onSubmitPayment = () => {
@@ -244,7 +240,7 @@ const PaymentMethodOptions = (props) => {
                             />
                         </Paper>
                     </Grid> */}
-                    <Grid
+                    {/* <Grid
                         item
                         lg={12}
                         md={12}
@@ -253,19 +249,13 @@ const PaymentMethodOptions = (props) => {
                     >
                         <Typography>Kembalian</Typography>
                         <Paper component="form" className={classes.searchRoot}>
-                            {/* <InputBase
-                                className={classes.input}
-                                value={}
-                                placeholder="Catatan"
-                                inputProps={{ 'aria-label': 'Catatan' }}
-                            /> */}
-                                {changes <= 0 ? (
-                                    <NumberFormat value='0' displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                ):(
-                                    <NumberFormat value={changes} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                )}
+                            {changes <= 0 ? (
+                                <NumberFormat value='0' displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+                            ):(
+                                <NumberFormat value={changes} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+                            )}
                         </Paper>
-                    </Grid>
+                    </Grid> */}
                 </Grid>                
             </CardContent>
             <CardActions>
