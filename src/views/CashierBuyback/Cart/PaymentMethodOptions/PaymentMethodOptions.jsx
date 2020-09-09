@@ -17,6 +17,7 @@ import Backdrop from '@material-ui/core/Backdrop'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import NumberFormat from 'react-number-format'
 import TextField from '@material-ui/core/TextField'
+import moment from 'moment'
 
 // Redux
 import { connect } from 'react-redux'
@@ -86,6 +87,7 @@ const PaymentMethodOptions = (props) => {
         addPaymentBuyback,
         date
     } = props
+    const dateToUTCServer = moment(date).subtract(7, 'H').format('YYYY-MM-DD HH:mm:ss')
 
     const [formState, setFormState] = useState({
         input_price: '',
@@ -101,7 +103,7 @@ const PaymentMethodOptions = (props) => {
 
     const onSubmitPayment = () => {
         // console.log(searchCustomerBuyback[0].id, formState.input_price, date)
-        addPaymentBuyback(searchCustomerBuyback[0].id, formState.input_price, formState.note, history, date)
+        addPaymentBuyback(searchCustomerBuyback[0].id, formState.input_price, formState.note, history, dateToUTCServer)
         handleDrawerPaymentClose()
     }
 
