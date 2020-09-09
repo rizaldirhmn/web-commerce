@@ -49,7 +49,9 @@ const useStyles = makeStyles(theme => ({
     contentItems: {
         padding: theme.spacing(1),
         width: '100%',
-		height: '390px'
+        [theme.breakpoints.up('md')]: {
+            height: '390px'
+        },
     },
     contentItemsPayment: {
         padding: theme.spacing(1),

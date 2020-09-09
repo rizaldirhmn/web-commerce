@@ -131,7 +131,7 @@ const ListProduct = (props) => {
 					</TableRow> */}
 					<TableRow>
 						<TableCell colSpan={3}>
-							<Typography variant="body">Total</Typography>
+							<Typography variant="h4">Total</Typography>
 						</TableCell>
 						<TableCell>
 

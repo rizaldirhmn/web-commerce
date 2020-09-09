@@ -15,7 +15,9 @@ import { Link as RouterLink } from 'react-router-dom'
 import { 
 	Tooltip,
 	IconButton,
+	Typography,
 } from '@material-ui/core';
+import NumberFormat from 'react-number-format'
 
 const columns = [
   { id: 'no_invoice', label: 'No Invoice', minWidth: 100 },
@@ -93,7 +95,7 @@ const ListPurchaseOrder = (props) => {
 								{moment(po.created_at).format('DD MMMM YYYY HH:mm')}
 							</TableCell>
 							<TableCell>
-								
+								<NumberFormat value={po.total_price_invoice} displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
 							</TableCell>
 							<TableCell>
 								<Tooltip title="Detail Invoice">
@@ -111,6 +113,14 @@ const ListPurchaseOrder = (props) => {
 							</TableCell>
 						</TableRow>
 					))}
+					<TableRow>
+						<TableCell colsPan={5}>
+							<Typography variant="h4">Total</Typography>
+						</TableCell>
+						<TableCell colsPan={2}>
+							<NumberFormat value="10000000" displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
+						</TableCell>
+					</TableRow>
 				</TableBody>
 				</Table>
 			</TableContainer>

@@ -17,6 +17,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import { 
 	Tooltip,
 	IconButton,
+	Typography
 } from '@material-ui/core';
 import NumberFormat from 'react-number-format'
 
@@ -106,6 +107,16 @@ const ListTransaction = (props) => {
 							</TableCell>
 						</TableRow>
 					))}
+					{transactions.data.length > 0 && (
+						<TableRow>
+							<TableCell colsPan={3}>
+								<Typography variant="h4">Total</Typography>
+							</TableCell>
+							<TableCell colsPan={2}>
+								<NumberFormat value="10000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+							</TableCell>
+						</TableRow>
+					)}
 				</TableBody>
 				</Table>
 			</TableContainer>

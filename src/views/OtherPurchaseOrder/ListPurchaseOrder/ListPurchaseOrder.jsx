@@ -102,6 +102,7 @@ function Row(props) {
 										<TableCell align="right">{moment(item.created_at).format('DD MMMM YYYY')}</TableCell>
 									</TableRow>
 								))}
+								
 							</TableBody>
 						</Table>
 						</Box>
@@ -150,6 +151,16 @@ const ListPurchaseOrder = (props) => {
 					{otherPurchaseOrders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((po) => (
 						<Row key={po.id} po={po} />
 					))}
+					{otherPurchaseOrders.length > 0 && (
+						<TableRow>
+							<TableCell colsPan={2}>
+								<Typography variant="h4">Total</Typography>
+							</TableCell>
+							<TableCell>
+								<NumberFormat value="10000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+							</TableCell>
+						</TableRow>
+					)}
 				</TableBody>
 				</Table>
 			</TableContainer>
