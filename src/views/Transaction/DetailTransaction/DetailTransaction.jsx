@@ -147,7 +147,7 @@ const DetailTransaction = ({ getDetailTransaction, transaction : { transaction, 
                             <Grid
                                 item
                             >
-                                <Typography variant="body1">Tanggal : {moment(transaction.created_at).format('DD MMMM yyyy HH:mm')}</Typography>
+                                <Typography variant="body1">Tanggal : {moment(transaction.created_at).format('DD MMMM YYYY HH:mm:ss')}</Typography>
                                 <Typography variant="body1">Nama Kasir : {cashier.name}</Typography>
                                 <Typography variant="body1">No Invoice : {transaction.inv_name}</Typography>
                             </Grid>

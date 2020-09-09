@@ -111,7 +111,7 @@ const Product = (props) => {
 								xs={12}
 							>
 								<Card className={classes.cardContentRoot}>
-									{item.product.stock_on_hand > 0 ? (
+									{item.product.stock_on_hand > 0 && item.product.latest_price.sell_price > 0 ? (
 										<CardActionArea onClick={() => handleModalOpen(item)}>
 											<CardMedia
 												square

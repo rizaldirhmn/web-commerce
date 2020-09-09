@@ -97,7 +97,7 @@ const ProductCard = (props) => {
 				<>
 				{products.map((item) => (
 					<>
-					{item.product.stock_on_hand > 0 ? (
+					{item.product.stock_on_hand > 0 && item.product.latest_price.sell_price > 0 ? (
 						<CardActionArea className={classes.card} onClick={() => handleQtyModalOpen(item)}>
 							<Grid
 								container
