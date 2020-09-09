@@ -111,7 +111,7 @@ const Product = (props) => {
 								xs={12}
 							>
 								<Card className={classes.cardContentRoot}>
-									{item.product.stock > 0 ? (
+									{item.product.stock_on_hand > 0 ? (
 										<CardActionArea onClick={() => handleModalOpen(item)}>
 											<CardMedia
 												square
@@ -155,13 +155,13 @@ const Product = (props) => {
 										</CardActionArea>
 									)}
 									<CardActions>
-										{item.product.stock > 0 ? (
-											<Typography variant="body2" color="textSecondary" component="p" className={classes.stock}>
-												Stok : <NumberFormat value={item.product.stock} displayType={'text'} thousandSeparator={true} />
+										{item.product.stock_on_hand > 0 ? (
+											<Typography variant="body2" color="textSecondary" component="p" className={classes.stock_on_hand}>
+												Stok On Hand : <NumberFormat value={item.product.stock_on_hand} displayType={'text'} thousandSeparator={true} />
 											</Typography>
 										):(
-											<Typography variant="body2" color="textSecondary" component="p" className={classes.stock}>
-												Stok : Habis
+											<Typography variant="body2" color="textSecondary" component="p" className={classes.stock_on_hand}>
+												Stok On Hand : Habis
 											</Typography>
 										)}
 									</CardActions>

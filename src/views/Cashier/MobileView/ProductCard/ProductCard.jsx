@@ -97,7 +97,7 @@ const ProductCard = (props) => {
 				<>
 				{products.map((item) => (
 					<>
-					{item.product.stock > 0 ? (
+					{item.product.stock_on_hand > 0 ? (
 						<CardActionArea className={classes.card} onClick={() => handleQtyModalOpen(item)}>
 							<Grid
 								container
@@ -134,7 +134,7 @@ const ProductCard = (props) => {
 										)}
 									</Typography>
 									<Typography className={classes.capDetail}>
-										Stok : {item.product.stock}
+										Stok On Hand : {item.product.stock_on_hand}
 									</Typography>
 								</Grid>
 							</Grid>
@@ -176,7 +176,7 @@ const ProductCard = (props) => {
 										)}
 									</Typography>
 									<Typography className={classes.capDetail}>
-										Stok : {item.product.stock}
+										Stok On Hand : {item.product.stock_on_hand}
 									</Typography>
 								</Grid>
 							</Grid>
