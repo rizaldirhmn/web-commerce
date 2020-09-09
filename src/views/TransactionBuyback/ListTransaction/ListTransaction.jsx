@@ -81,7 +81,7 @@ const ListTransaction = (props) => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{transactions.data.map((trx) => (
+					{transactions.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((trx) => (
 						<TableRow key={trx.id}>
 							<TableCell>
                                 {moment(trx.created_at).format('DD MMMM YYYY HH:mm')}
@@ -113,7 +113,7 @@ const ListTransaction = (props) => {
 								<Typography variant="h4">Total</Typography>
 							</TableCell>
 							<TableCell colsPan={2}>
-								<NumberFormat value="10000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+								<NumberFormat value={transactions.total.total_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 							</TableCell>
 						</TableRow>
 					)}
@@ -123,7 +123,7 @@ const ListTransaction = (props) => {
 			<TablePagination
 				rowsPerPageOptions={[10, 25, 100]}
 				component="div"
-				count={!loading && transactions.total}
+				count={!loading && transactions.data.length}
 				rowsPerPage={rowsPerPage}
 				page={page}
 				onChangePage={handleChangePage}
