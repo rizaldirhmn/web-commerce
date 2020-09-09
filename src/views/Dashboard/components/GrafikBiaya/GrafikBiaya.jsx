@@ -16,11 +16,11 @@ import { options } from './chart'
 
 // Redux
 import { connect } from 'react-redux'
-import { getGrafikNetIncome } from '../../../../actions/dashboard'
+import { getGrafikCost } from '../../../../actions/dashboard'
 import Skeleton from '@material-ui/lab/Skeleton';
 
-const GrafikNetIncome = (props) => {
-    const { getGrafikNetIncome, dashboard : { loadingGrafik, grafikNetIncome} } = props
+const GrafikCost = (props) => {
+    const { getGrafikCost, dashboard : { loadingGrafikCost, grafikCost} } = props
 
     // const week_ago = new Date()
     const selectedDate  = useState(new Date());
@@ -68,24 +68,24 @@ const GrafikNetIncome = (props) => {
     };
 
     useEffect(() => {
-        getGrafikNetIncome(startDate.submit.submit, endDate.submit.submit)
-    }, [loadingGrafik, getGrafikNetIncome, startDate, endDate])
+        getGrafikCost(startDate.submit.submit, endDate.submit.submit)
+    }, [loadingGrafikCost, getGrafikCost, startDate, endDate])
 
     var data = {}
     var jumlah=[];
     var bulan=[];
 
-    if(!loadingGrafik || grafikNetIncome !== null){
-        for (var i = 0; i < grafikNetIncome.data.length; i++) {
-            bulan.push(moment(grafikNetIncome.data[i].date).format('DD/MM'));
-            jumlah.push(grafikNetIncome.data[i].value);
+    if(!loadingGrafikCost || grafikCost !== null){
+        for (var i = 0; i < grafikCost.data.length; i++) {
+            bulan.push(moment(grafikCost.data[i].date).format('DD/MM'));
+            jumlah.push(grafikCost.data[i].value);
         }
     
         data = {
             labels: bulan,
             datasets: [
               {
-                label : 'Grafik Net Income',
+                label : 'Grafik Biaya',
                 data: jumlah,
                 backgroundColor: 'rgba(75,192,192,0.4)',
               }
@@ -96,7 +96,7 @@ const GrafikNetIncome = (props) => {
             labels: ["loading"],
             datasets: [
               {
-                label : 'Grafik Net Income',
+                label : 'Grafik Biaya',
                 data: ["loading"],
                 backgroundColor: 'rgba(75,192,192,0.4)',
                 borderColor: 'rgba(75,192,192,1)',
@@ -120,10 +120,10 @@ const GrafikNetIncome = (props) => {
     
     return(
         <div>
-            {!loadingGrafik ? (
+            {!loadingGrafikCost ? (
                 <Card>
                     <CardHeader 
-                        title="Grafik Total Laba"
+                        title="Grafik Biaya"
                     />
                     <CardContent>
                         <Grid container justify="space-between">
@@ -176,4 +176,4 @@ const mapStateToProps = state => ({
     dashboard: state.dashboard
 })
 
-export default connect(mapStateToProps, {getGrafikNetIncome})(GrafikNetIncome)
+export default connect(mapStateToProps, {getGrafikCost})(GrafikCost)

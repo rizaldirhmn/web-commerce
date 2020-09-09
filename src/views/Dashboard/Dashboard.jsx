@@ -22,7 +22,8 @@ import {
   GrafikTransactionSales,
   GrafikTransactionSalesMoney,
   GrafikStock,
-  GrafikHPP
+  GrafikHPP,
+  GrafikBiaya
 } from './components'
 
 import CartIcon from '@material-ui/icons/AddShoppingCart'
@@ -268,7 +269,7 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
             sm={12}
             xs={12}
           >
-            <GrafikNetIncome />
+            <GrafikBiaya />
           </Grid>
           <Grid
             item

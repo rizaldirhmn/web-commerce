@@ -15,6 +15,7 @@ import {
     GET_GRAFIK_STOCK5,
     GET_GRAFIK_STOCK6,
     GET_GRAFIK_HPP,
+    GET_GRAFIK_COST,
 } from './types'
 
 export const getProduct = (type) => async dispatch => {
@@ -392,7 +393,7 @@ export const getGrafikStock6 = (id) => async dispatch => {
 export const getGrafikHPP = (id_product, start_date, end_date) => async dispatch => {
     const endpoint = `${process.env.REACT_APP_BASE_URL}/user/dashboard_grafik/hpp?id_product=${id_product}&start_date=${start_date}&end_date=${end_date}`
     const token = sessionStorage.getItem('access_token')
-
+    console.log(endpoint)
     try {
         const res = await axios({
             url: endpoint,
@@ -407,6 +408,37 @@ export const getGrafikHPP = (id_product, start_date, end_date) => async dispatch
 
         dispatch({
             type: GET_GRAFIK_HPP,
+            payload: res.data
+        })
+
+    } catch (error) {
+        dispatch(setAlert("Something Went Wrong", "error"))
+        console.log(error)
+        // dispatch({
+        //     payload: { msg: error.response.statusText, status: error.response.status },
+        //     type: STAGE_ERROR
+        // })
+    }
+}
+
+export const getGrafikCost = (start_date, end_date) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/dashboard_grafik/cost?start_date=${start_date}&end_date=${end_date}`
+    const token = sessionStorage.getItem('access_token')
+
+    try {
+        const res = await axios({
+            url: endpoint,
+            method: "GET",
+            loading: true,
+            headers: { 
+              'Content-Type': 'application/json', 
+              'Accept' : 'application/json', 
+              'Authorization' : `bearer ${token}`
+            }
+        });
+
+        dispatch({
+            type: GET_GRAFIK_COST,
             payload: res.data
         })
 

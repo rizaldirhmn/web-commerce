@@ -80,7 +80,8 @@ const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomerClear, 
 
 	const [ valueSearch, setValueSearch ] = useState('')
 
-	const submitDefault = moment().format('YYYY-MM-DD HH:mm:ss');
+	const submitDefault = moment().format('YYYY-MM-DD HH:mm:ss')
+	const minDate = moment().subtract(2, 'd').format('YYYY-MM-DD HH:mm:ss')
 	const [ startDate, setStartDate ] = useState({
         submit: {
             submit: submitDefault
@@ -122,7 +123,13 @@ const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomerClear, 
 			</Grid>
         </Grid>
 
-		<SearchCustomer startDate={startDate} handleStartDate={handleStartDate} valueSearch={valueSearch} setValueSearch={setValueSearch} />
+		<SearchCustomer 
+			startDate={startDate} 
+			handleStartDate={handleStartDate} 
+			valueSearch={valueSearch} 
+			setValueSearch={setValueSearch} 
+			minDate={minDate}
+		/>
 			
 		{!loadingCustomerClear && (
 			<>

@@ -108,6 +108,7 @@ const Cashier = ({ getSearchCustomerAndClearBuyback, customer : { searchCustomer
 	})
 
 	const submitDefault = moment().format('YYYY-MM-DD HH:mm:ss');
+	const minDate = moment().subtract(2, 'd').format('YYYY-MM-DD HH:mm:ss')
 	const [ startDate, setStartDate ] = useState({
         submit: {
             submit: submitDefault
@@ -149,7 +150,11 @@ const Cashier = ({ getSearchCustomerAndClearBuyback, customer : { searchCustomer
 			</Grid>
         </Grid>
 				
-				<SearchCustomer startDate={startDate} handleStartDate={handleStartDate} />
+				<SearchCustomer 
+					startDate={startDate} 
+					handleStartDate={handleStartDate} 
+					minDate={minDate}
+				/>
 				{!loadingSearchCustomerBuyback && (
 					<>
 					{searchCustomerBuyback.length > 0 && (
