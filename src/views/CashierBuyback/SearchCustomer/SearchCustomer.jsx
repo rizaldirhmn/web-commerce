@@ -192,7 +192,8 @@ const SearchCustomer = (props) => {
 		getCustomerCashier, 
 		customer : { searchCustomerBuyback, loadingSearchCustomerBuyback, customers_v2, loadingCustomerV2 },
 		startDate,
-		handleStartDate
+		handleStartDate,
+		minDate
 	} = props
 	const classes = useStyles();
 	const { register, handleSubmit } = useForm();
@@ -304,6 +305,7 @@ const SearchCustomer = (props) => {
 									<DateTimePicker
 										fullWidth
 										disableFuture
+										minDate={minDate}
 										ampm={false}
 										variant="outlined"
 										name="start_date"

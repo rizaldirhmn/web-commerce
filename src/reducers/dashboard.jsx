@@ -12,6 +12,7 @@ import {
     GET_GRAFIK_STOCK5,
     GET_GRAFIK_STOCK6,
     GET_GRAFIK_HPP,
+    GET_GRAFIK_COST
 } from '../actions/types'
 
 const initialState = {
@@ -21,12 +22,14 @@ const initialState = {
     grafikNetIncome : null,
     grafikGoldPrice: null,
     grafikTransactionSales: null,
+    grafikCost : null,
     loading: true,
     loadingBuyback: true,
     loadingCard: true,
     loadingGrafik: true,
     loadingGoldPrice: true,
     loadingTransactionSales: true,
+    loadingGrafikCost: true,
 
     grafikStock: null,
     loadingGrafikStock: true,
@@ -126,6 +129,12 @@ export default function (state = initialState, action) {
                 ...state,
                 grafikHPP: payload,
                 loadingGrafikHPP: false
+            }
+        case GET_GRAFIK_COST:
+            return {
+                ...state,
+                grafikCost: payload,
+                loadingGrafikCost: false
             }
         default:
             return state

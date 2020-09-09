@@ -115,6 +115,7 @@ const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomerClea
 	})
 
 	const submitDefault = moment().format('YYYY-MM-DD HH:mm:ss');
+	const minDate = moment().subtract(2, 'd').format('YYYY-MM-DD HH:mm:ss')
 	const [ startDate, setStartDate ] = useState({
         submit: {
             submit: submitDefault
@@ -172,6 +173,7 @@ const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomerClea
 								<DateTimePicker
 									fullWidth
 									disableFuture
+									minDate={minDate}
 									ampm={false}
 									variant="outlined"
 									name="start_date"
