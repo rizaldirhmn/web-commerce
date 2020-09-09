@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-// import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -10,16 +9,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import SearchIcon from '@material-ui/icons/Search'
-// import DeleteIcon from '@material-ui/icons/Delete'
 import { Link as RouterLink } from 'react-router-dom'
-// import Backdrop from '@material-ui/core/Backdrop'
-// import CircularProgress from '@material-ui/core/CircularProgress'
-// import Button from '@material-ui/core/Button';
-// import Dialog from '@material-ui/core/Dialog';
-// import DialogActions from '@material-ui/core/DialogActions';
-// import DialogContent from '@material-ui/core/DialogContent';
-// import DialogContentText from '@material-ui/core/DialogContentText';
-// import DialogTitle from '@material-ui/core/DialogTitle';
+import NumberFormat from 'react-number-format'
 import CapitalizedText from '../../../components/layout/CapitalizedText'
 
 import { 
@@ -33,7 +24,8 @@ const columns = [
   { id: 'nama', label: 'Nama Item', minWidth: 150 },
   { id: 'satuan', label: 'Satuan', minWidth: 100 },
   { id: 'stock_awal', label: 'Stock Awal', minWidth: 100 },
-  { id: 'perubahan_stock', label: 'Perubahan Stock', minWidth: 100 },
+  { id: 'penambahan', label: 'Penambahan Stock', minWidth: 100 },
+  { id: 'pengurangan', label: 'Pengurangan Stock', minWidth: 100 },
   { id: 'stock_akhir', label: 'Stock Akhir', minWidth: 100 },
   { id: 'hpp', label: 'HPP', minWidth: 100 },
   { id: 'total', label: 'Total HPP', minWidth: 100 },
@@ -89,7 +81,7 @@ const ListProduct = (props) => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{stockHistory.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product) => (
+					{stockHistory.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product) => (
 						<TableRow key={product.id}>
                             <TableCell>
 								{no++}
@@ -101,19 +93,22 @@ const ListProduct = (props) => {
 								<CapitalizedText text={product.unit} />
 							</TableCell>
 							<TableCell>
-
+								{product.stock_awal}
 							</TableCell>
 							<TableCell>
-								
+								{product.penambahan}
 							</TableCell>
 							<TableCell>
-								
+								{product.pengurangan}
 							</TableCell>
 							<TableCell>
-								
+								{product.stock_akhir}
 							</TableCell>
 							<TableCell>
-								
+								<NumberFormat value={product.hpp} displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
+							</TableCell>
+							<TableCell>
+								<NumberFormat value={product.hpp * product.stock_akhir} displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
 							</TableCell>
 							<TableCell>
 								<Tooltip title="Detail">
@@ -134,16 +129,16 @@ const ListProduct = (props) => {
 							<Typography variant="h4">Total</Typography>
 						</TableCell>
 						<TableCell>
-
+							{stockHistory.total.stock_awal}
 						</TableCell>
 						<TableCell>
-							
+							{stockHistory.total.penambahan}
 						</TableCell>
 						<TableCell>
-							
+							{stockHistory.total.pengurangan}
 						</TableCell>
 						<TableCell>
-							
+							{stockHistory.total.stock_akhir}
 						</TableCell>
 						<TableCell colSpan={2}>
 							
@@ -155,7 +150,7 @@ const ListProduct = (props) => {
 			<TablePagination
 				rowsPerPageOptions={[10, 25, 100]}
 				component="div"
-				count={stockHistory.length}
+				count={stockHistory.data.length}
 				rowsPerPage={rowsPerPage}
 				page={page}
 				onChangePage={handleChangePage}

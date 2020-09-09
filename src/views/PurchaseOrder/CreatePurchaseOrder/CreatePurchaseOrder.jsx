@@ -160,7 +160,7 @@ const CreatePurchaseOrder = ({
                                         {product.product.name} {product.product.weight} {product.product.unit}
                                     </TableCell>
                                     <TableCell>
-                                        {product.in_stock}
+                                        {product.product.stock_on_hand}
                                     </TableCell>
                                     <TableCell>
                                         {product.qty}

@@ -96,9 +96,28 @@ const StockHistory = ({
         }));
     };
 
+    const [ endDate, setEndDate ] = useState({
+        submit: {
+            submit: submitDefault
+        },
+        view: {selectedDate}
+    });
+    const handleEndDate = (date) => {
+    const all = moment(date).format('YYYY-MM-DD');
+        setEndDate(endDate => ({
+            ...endDate,
+            submit: {
+                submit: all
+            },
+            view: {
+                view: date
+            }
+        }));
+    };
+
     useEffect(() => {
-        getStock()
-    }, [loading, getStock])
+        getStock(startDate.submit.submit, endDate.submit.submit)
+    }, [loading, getStock, startDate, endDate])
 
     return(
         <div className={classes.root}>
@@ -108,7 +127,7 @@ const StockHistory = ({
                     spacing={2}
                 >
                     <Grid item>  
-                        <Typography variant="h4">List Product</Typography>
+                        <Typography variant="h4">Stock History</Typography>
                     </Grid>
                 </Grid>
             </div>
@@ -118,7 +137,7 @@ const StockHistory = ({
                     spacing={2}
                 >
                     <Grid item lg={3} md={3} sm={6} xs={12}>
-                        <Typography>Tanggal</Typography>
+                        <Typography>Tanggal Awal</Typography>
                         <div className={classes.row}>
 							<Paper component="form" className={classes.searchRoot}>
 								<IconButton type="button" className={classes.iconButton} aria-label="search">
@@ -135,6 +154,29 @@ const StockHistory = ({
 										format="dd MMMM yyyy"
 										value={startDate.view.view} 
 										onChange={handleStartDate} 
+									/>
+								</MuiPickersUtilsProvider>
+							</Paper>
+						</div>
+                    </Grid>
+                    <Grid item lg={3} md={3} sm={6} xs={12}>
+                        <Typography>Tanggal Akhir</Typography>
+                        <div className={classes.row}>
+							<Paper component="form" className={classes.searchRoot}>
+								<IconButton type="button" className={classes.iconButton} aria-label="search">
+									<CalendarIcon />
+								</IconButton>
+								<Divider className={classes.divider} orientation="vertical" />
+								<MuiPickersUtilsProvider utils={DateFnsUtils}>
+									<DatePicker
+										fullWidth
+										disableFuture
+										ampm={false}
+										variant="outlined"
+										name="end_date"
+										format="dd MMMM yyyy"
+										value={endDate.view.view} 
+										onChange={handleEndDate} 
 									/>
 								</MuiPickersUtilsProvider>
 							</Paper>
