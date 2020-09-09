@@ -5,8 +5,8 @@ import {
     GET_STOCK_HISTORY, GET_STOCK_HISTORY_DETAIL
 } from './types'
 
-export const getStock = () => async dispatch => {
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/stock_branch`
+export const getStock = (startDate, endDate) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/stock_branch/filter_v2?start_date=${startDate}&end_date=${endDate}`
     const token = sessionStorage.getItem('access_token')
 
     try {

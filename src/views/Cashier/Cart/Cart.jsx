@@ -49,7 +49,9 @@ const useStyles = makeStyles(theme => ({
     contentItems: {
         padding: theme.spacing(1),
         width: '100%',
-		height: '390px'
+        [theme.breakpoints.up('md')]: {
+            height: '390px'
+        },
     },
     contentItemsPayment: {
         padding: theme.spacing(1),
@@ -75,7 +77,14 @@ const useStyles = makeStyles(theme => ({
 
 const Cart = (props) => {
     const classes = useStyles()
-    const { getCart , cart : { carts, loading, counting }, deleteCartItem, deleteCartAllItem, date } = props
+    const { 
+        getCart, 
+        cart : { carts, loading, counting }, 
+        deleteCartItem, 
+        deleteCartAllItem, 
+        date,
+        searchCustomerClear
+    } = props
     const [ modalPaymentOpen, setModalPaymentOpen ] = useState(false)
     
     const handleDrawerPaymentOpen = () => {
@@ -96,7 +105,7 @@ const Cart = (props) => {
 
     useEffect(() => {
         getCart()
-    }, [loading, getCart, counting])
+    }, [loading, getCart, counting, date, searchCustomerClear])
     
     return loading || carts === null ? 
     <Skeleton>

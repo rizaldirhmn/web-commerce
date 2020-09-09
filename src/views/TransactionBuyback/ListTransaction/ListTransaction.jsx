@@ -17,6 +17,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import { 
 	Tooltip,
 	IconButton,
+	Typography
 } from '@material-ui/core';
 import NumberFormat from 'react-number-format'
 
@@ -24,7 +25,7 @@ const columns = [
   { id: 'tanggal', label: 'Tanggal', minWidth: 100 },
   { id: 'no_invoice', label: 'No Invoice', minWidth: 100 },
   { id: 'customer', label: 'Customer', minWidth: 200 },
-  { id: 'total_harga', label: 'Total Harga', minWidth: 100 },
+  { id: 'total_harga', label: 'Buyback', minWidth: 100 },
   { id: 'action', label: 'Aksi', minWidth: 100 },
   
 ];
@@ -80,7 +81,7 @@ const ListTransaction = (props) => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{transactions.data.map((trx) => (
+					{transactions.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((trx) => (
 						<TableRow key={trx.id}>
 							<TableCell>
                                 {moment(trx.created_at).format('DD MMMM YYYY HH:mm')}
@@ -106,13 +107,23 @@ const ListTransaction = (props) => {
 							</TableCell>
 						</TableRow>
 					))}
+					{transactions.data.length > 0 && (
+						<TableRow>
+							<TableCell colsPan={3}>
+								<Typography variant="h4">Total</Typography>
+							</TableCell>
+							<TableCell colsPan={2}>
+								<NumberFormat value={transactions.total.total_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+							</TableCell>
+						</TableRow>
+					)}
 				</TableBody>
 				</Table>
 			</TableContainer>
 			<TablePagination
 				rowsPerPageOptions={[10, 25, 100]}
 				component="div"
-				count={!loading && transactions.total}
+				count={!loading && transactions.data.length}
 				rowsPerPage={rowsPerPage}
 				page={page}
 				onChangePage={handleChangePage}

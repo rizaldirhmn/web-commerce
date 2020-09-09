@@ -1,0 +1,4 @@
+body {
+    font-family: 'Nunito';
+    src: local('Nunito'), url(./fonts/Nunito-Regular.ttf) format('ttf');
+}

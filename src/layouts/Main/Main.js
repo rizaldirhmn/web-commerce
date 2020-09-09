@@ -2,7 +2,7 @@ import React, { forwardRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/styles';
-import { useMediaQuery, Button, Typography } from '@material-ui/core';
+import { useMediaQuery, Button, colors } from '@material-ui/core';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -11,8 +11,6 @@ import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -45,7 +43,13 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
   },
   button: {
-    width: '100%'
+    color: colors.blueGrey[800],
+    padding: '10px 8px',
+    justifyContent: 'flex-start',
+    textTransform: 'none',
+    letterSpacing: 0,
+    width: '100%',
+    fontWeight: theme.typography.fontWeightMedium
   },
   content: {
     flexGrow: 1,
@@ -107,13 +111,28 @@ const useStyles = makeStyles(theme => ({
     color: textMenuWhite,
     fontFamily: 'Roboto'
   },
+  textMenuNested: {
+    color: textMenuWhite,
+    fontFamily: 'Nunito',
+    fontSize: '14px',
+    // textDecoration: 'underline'
+  },
   item: {
     display: 'flex',
     paddingTop: 0,
     paddingBottom: 0
   },
   nested: {
-    paddingLeft: theme.spacing(4),
+    paddingLeft: theme.spacing(6),
+    // fontSize: '14px'
+  },
+  icon: {
+    color: theme.palette.icon,
+    width: 24,
+    height: 24,
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: theme.spacing(1)
   },
 }));
 
@@ -216,220 +235,265 @@ const Main = props => {
         <List
           className={classes.menus}
         >
-          <Button
-            activeclassname={classes.active}
-            className={classes.button}
-            component={CustomRouterLink}
-            onClick={handleDrawerClose}
-            to='/dashboard'
+          <ListItem 
+            key='dashboard' 
+            disabledGutters
+            className={classes.item}
           >
-            <ListItem button key='dashboard'>
-              <ListItemIcon>
-                <DashboardIcon style={{ color: textMenuWhite }} />
-              </ListItemIcon>
-              <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Dashboard</Typography>} />
-            </ListItem>
-          </Button>
-          <Button
-            activeclassname={classes.active}
-            className={classes.button}
-            
-          >
-            <ListItem
-              button 
-              key='transaksi'
-              onClick={() => handleClick('transaksi')}
+            <Button
+              activeClassName={classes.active}
+              className={classes.button}
+              component={CustomRouterLink}
+              onClick={handleDrawerClose}
+              to='/dashboard'
             >
-              <ListItemIcon>
+              <div className={classes.icon}>
+                <DashboardIcon style={{ color: textMenuWhite }} />
+              </div>
+              <div className={classes.textMenu}>
+                Dashboard
+              </div>
+            </Button>
+          </ListItem>
+          <ListItem
+            button 
+            disabledGutters
+            className={classes.item}
+            onClick={() => handleClick('transaksi')}
+          >
+            <Button
+              className={classes.button}
+            >
+              <div className={classes.icon}>
                 <CartIcon style={{ color: textMenuWhite }} />
-              </ListItemIcon>
-              <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Transaksi</Typography>} />
-            </ListItem>
+              </div>
+              <div className={classes.textMenu}>
+                Transaksi
+              </div>
+            </Button>
             {transactionOpen ? <ExpandLess style={{ color: textMenuWhite }} /> : <ExpandMore style={{ color: textMenuWhite }} />}
-          </Button>
+          </ListItem>
           <Collapse in={transactionOpen} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <Button
-                fullWidth
-                activeclassname={classes.active}
+              <ListItem 
+                key='cashier'
                 className={classes.nested}
-                component={CustomRouterLink}
-                onClick={handleDrawerClose}
-                to='/cashier'
               >
-                <ListItem button key='cashier'>
-                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Transaksi Penjualan</Typography>} />
-                </ListItem>
-              </Button>
-              <Button
-                fullWidth
-                activeclassname={classes.active}
+                <Button
+                  fullWidth
+                  activeClassName={classes.active}
+                  className={classes.button}
+                  component={CustomRouterLink}
+                  onClick={handleDrawerClose}
+                  to='/cashier'
+                >
+                    <div className={classes.textMenu}>Penjualan</div>
+                </Button>
+              </ListItem>
+              <ListItem
+                key='cashier-buyback'
                 className={classes.nested}
-                component={CustomRouterLink}
-                onClick={handleDrawerClose}
-                to='/cashier-buyback'
               >
-                <ListItem button key='cashier-buyback'>
-                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Transaksi Buyback</Typography>} />
-                </ListItem>
-              </Button>
+                <Button
+                  fullWidth
+                  activeClassName={classes.active}
+                  className={classes.button}
+                  component={CustomRouterLink}
+                  onClick={handleDrawerClose}
+                  to='/cashier-buyback'
+                >
+                    <div className={classes.textMenuNested}>Buyback</div>
+                </Button>
+              </ListItem>
             </List>
           </Collapse>
-          <Button
-            activeclassname={classes.active}
-            className={classes.button}
-            component={CustomRouterLink}
-            onClick={handleDrawerClose}
-            to='/customer'
+          <ListItem 
+            key='customer' 
+            disabledGutters
+            className={classes.item}
           >
-            <ListItem button key='customer'>
-                <ListItemIcon>
-                  <UserIcon style={{ color: textMenuWhite }} />
-                </ListItemIcon>
-                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Pelanggan</Typography>} />
-            </ListItem>
-          </Button>
-          <Button
-            activeclassname={classes.active}
-            className={classes.button}
-            component={CustomRouterLink}
-            onClick={handleDrawerClose}
-            to='/purchase-order'
-          >
-            <ListItem button key='purchase-order'>
-                <ListItemIcon>
-                  <CartIcon style={{ color: textMenuWhite }} />
-                </ListItemIcon>
-                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Purchase Order Emas</Typography>} />
-            </ListItem>
-          </Button>
-          <Button
-            activeclassname={classes.active}
-            className={classes.button}
-            component={CustomRouterLink}
-            onClick={handleDrawerClose}
-            to='/other-purchase-order'
-          >
-            <ListItem button key='other-purchase-order'>
-                <ListItemIcon>
-                  <CartIcon style={{ color: textMenuWhite }} />
-                </ListItemIcon>
-                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Catat Pengeluaran</Typography>} />
-            </ListItem>
-          </Button>
-          <Button
-            activeclassname={classes.active}
-            className={classes.button}
-            
-          >
-            <ListItem
-              button 
-              key='laporan'
-              onClick={() => handleClick('laporan')}
+            <Button
+              activeClassName={classes.active}
+              className={classes.button}
+              component={CustomRouterLink}
+              onClick={handleDrawerClose}
+              to='/customer'
             >
-              <ListItemIcon>
+                <div className={classes.icon}>
+                  <UserIcon style={{ color: textMenuWhite }} />
+                </div>
+                <div className={classes.textMenu}>Customer</div>
+            </Button>
+          </ListItem>
+          <ListItem
+            key='purchase-order'
+            disabledGutters
+            className={classes.item}
+          >
+            <Button
+              activeClassName={classes.active}
+              className={classes.button}
+              component={CustomRouterLink}
+              onClick={handleDrawerClose}
+              to='/purchase-order'
+            >
+                <div className={classes.icon}>
+                  <CartIcon style={{ color: textMenuWhite }} />
+                </div>
+                <div className={classes.textMenu}>Purchase</div>
+            </Button>
+          </ListItem>
+          <ListItem 
+            key='other-purchase-order'
+            disabledGutters
+            className={classes.item}
+          >
+            <Button
+              activeClassName={classes.active}
+              className={classes.button}
+              component={CustomRouterLink}
+              onClick={handleDrawerClose}
+              to='/other-purchase-order'
+            >
+                <div className={classes.icon}>
+                  <CartIcon style={{ color: textMenuWhite }} />
+                </div>
+                <div className={classes.textMenu}>Biaya</div>
+            </Button>
+          </ListItem>
+          
+          <ListItem
+            className={classes.item}
+            disabledGutters
+            button 
+            onClick={() => handleClick('laporan')}
+          >
+            <Button
+              className={classes.button}
+            >
+              <div className={classes.icon}>
                 <ReportIcon style={{ color: textMenuWhite }} />
-              </ListItemIcon>
-              <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Laporan</Typography>} />
-            </ListItem>
+              </div>
+              <div className={classes.textMenu}>Laporan</div>
+            </Button>
             {reportOpen ? <ExpandLess style={{ color: textMenuWhite }} /> : <ExpandMore style={{ color: textMenuWhite }} />}
-          </Button>
+          </ListItem>
           <Collapse in={reportOpen} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <Button
-                fullWidth
-                activeclassname={classes.active}
-                className={classes.nested}
-                component={CustomRouterLink}
-                onClick={handleDrawerClose}
-                to='/report/selling'
+              <ListItem 
+                className={classes.nested} 
+                key='report-selling'
               >
-                <ListItem button key='report-selling'>
-                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Laporan Penjualan</Typography>} />
-                </ListItem>
-              </Button>
-              <Button
-                fullWidth
-                activeclassname={classes.active}
-                className={classes.nested}
-                component={CustomRouterLink}
-                onClick={handleDrawerClose}
-                to='/report/buyback'
+                <Button
+                  fullWidth
+                  activeClassName={classes.active}
+                  className={classes.button}
+                  component={CustomRouterLink}
+                  onClick={handleDrawerClose}
+                  to='/report/selling'
+                >
+                    <div className={classes.textMenu}>Penjualan</div>
+                </Button>
+              </ListItem>
+              <ListItem 
+                className={classes.nested} 
+                key='report-buyback'
               >
-                <ListItem button key='report-buyback'>
-                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Laporan Buyback</Typography>} />
-                </ListItem>
-              </Button>
-              <Button
-                fullWidth
-                activeclassname={classes.active}
-                className={classes.nested}
-                component={CustomRouterLink}
-                onClick={handleDrawerClose}
-                to='/stock-history'
+                <Button
+                  fullWidth
+                  activeClassName={classes.active}
+                  className={classes.button}
+                  component={CustomRouterLink}
+                  onClick={handleDrawerClose}
+                  to='/report/buyback'
+                >
+                    <div className={classes.textMenu}>Buyback</div>
+                </Button>
+              </ListItem>
+              <ListItem 
+                className={classes.nested} 
+                key='stock-history'
               >
-                <ListItem button key='stock-history'>
-                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Laporan Stock</Typography>} />
-                </ListItem>
-              </Button>
+                <Button
+                  fullWidth
+                  activeClassName={classes.active}
+                  className={classes.button}
+                  component={CustomRouterLink}
+                  onClick={handleDrawerClose}
+                  to='/stock-history'
+                >
+                    <div className={classes.textMenu}>Stock</div>
+                </Button>
+              </ListItem>
             </List>
           </Collapse>
-          <Button
-            activeclassname={classes.active}
-            className={classes.button}
-            
+          <ListItem
+            className={classes.item}
+            disabledGutters
+            button 
+            onClick={() => handleClick('pengaturan')}
           >
-            <ListItem
-              button 
-              key='pengaturan'
-              onClick={() => handleClick('pengaturan')}
+            <Button
+              className={classes.button}
             >
-              <ListItemIcon>
+              <div className={classes.icon}>
                 <SettingIcon style={{ color: textMenuWhite }} />
-              </ListItemIcon>
-              <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Pengaturan</Typography>} />
-            </ListItem>
+              </div>
+              <div className={classes.textMenu}>Pengaturan</div>
+            </Button>
             {pengaturanOpen ? <ExpandLess style={{ color: textMenuWhite }} /> : <ExpandMore style={{ color: textMenuWhite }} />}
-          </Button>
+          </ListItem>
           <Collapse in={pengaturanOpen} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <Button
-                fullWidth
-                activeclassname={classes.active}
+              <ListItem 
                 className={classes.nested}
-                component={CustomRouterLink}
-                onClick={handleDrawerClose}
-                to='/begining-balance'
+                key='begining-balance'
               >
-                <ListItem button key='begining-balance'>
-                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Stock Awal</Typography>} />
-                </ListItem>
-              </Button>
-              <Button
-                fullWidth
-                activeclassname={classes.active}
-                className={classes.nested}
-                component={CustomRouterLink}
-                onClick={handleDrawerClose}
-                to='/stock-opname'
+                <Button
+                  fullWidth
+                  activeClassName={classes.active}
+                  className={classes.button}
+                  component={CustomRouterLink}
+                  onClick={handleDrawerClose}
+                  to='/begining-balance'
+                >
+                    <div className={classes.textMenu}>Stock Awal</div>
+                </Button>
+              </ListItem>
+              <ListItem 
+                className={classes.nested} 
+                key='stock-opname'
               >
-                <ListItem button key='stock-opname'>
-                    <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Stock Opname</Typography>} />
-                </ListItem>
-              </Button>
+                <Button
+                  fullWidth
+                  activeClassName={classes.active}
+                  className={classes.button}
+                  component={CustomRouterLink}
+                  onClick={handleDrawerClose}
+                  to='/stock-opname'
+                >
+                    <div className={classes.textMenu}>Stock Opname</div>
+                </Button>
+              </ListItem>
             </List>
           </Collapse>
-          <Button
-            className={classes.button}
-            onClick={handlingSignout}
+          <ListItem
+            disabledGutters
+            className={classes.item}
+            key='signout'
           >
-            <ListItem button key='signout'>
-                <ListItemIcon>
+            <Button
+              activeClassName={classes.active}
+              className={classes.button}
+              component={CustomRouterLink}
+              onClick={handlingSignout}
+            >
+                <div className={classes.icon}>
                   <SignOutIcon style={{ color: textMenuWhite }} />
-                </ListItemIcon>
-                <ListItemText secondary={<Typography type="subtitle1" className={classes.textMenu}>Sign Out</Typography>} />
-            </ListItem>
-          </Button>
+                </div>
+                <div className={classes.textMenu}>Sign Out</div>
+            </Button>
+          </ListItem>
         </List>
       </SwipeableDrawer>
       <main 

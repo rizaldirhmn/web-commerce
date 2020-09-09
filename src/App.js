@@ -46,9 +46,9 @@ export default function App() {
   }
 
   useEffect(() => {
-    // if(messaging !== undefined){
+    if(messaging !== undefined){
       fetchData();
-    // }
+    }
   });
 
   return (

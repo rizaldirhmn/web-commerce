@@ -80,7 +80,7 @@ const TotalTransaction = props => {
               gutterBottom
               variant="body2"
             >
-              TOTAL LABA BERSIH
+              TOTAL LABA
             </Typography>
 						<Typography className={classes.numbers} variant="h3">
 							<NumberFormat value={item} displayType={'text'} thousandSeparator={true} prefix={`RP `}/>

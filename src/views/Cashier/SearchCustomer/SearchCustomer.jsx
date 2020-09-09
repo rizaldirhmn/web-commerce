@@ -14,7 +14,8 @@ import {
 	TableCell,
 	TablePagination,
 	IconButton,
-	Divider
+	Divider,
+	Button
 } from '@material-ui/core'
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
@@ -103,7 +104,15 @@ const useStyles = makeStyles(theme => ({
 		position: 'fixed',
 		bottom: theme.spacing(4),
 		right: theme.spacing(2),
-	}
+	},
+	btn: {
+		backgroundColor: '#FF9300',
+		color: '#FFFFFF',
+		'&:hover': {
+		  backgroundColor: '#FFA938',
+		  opacity: 1,
+		},
+	},
 }));
 
 const useStyles1 = makeStyles((theme) => ({
@@ -111,12 +120,14 @@ const useStyles1 = makeStyles((theme) => ({
 	  flexShrink: 0,
 	  marginLeft: theme.spacing(2.5),
 	},
+	
 }));
 
 const columns = [
 	{ id: 'no_id', label: 'No ID', minWidth: 100 },
 	{ id: 'nama', label: 'Nama', minWidth: 150 },
 	{ id: 'kategori', label: 'Kategori', minWidth: 100 },	
+	{ id: 'action', label: 'Aksi', minWidth: 100 },	
   ];
 
 function TablePaginationActions(props) {
@@ -183,7 +194,9 @@ const SearchCustomer = (props) => {
 		getCustomerCashier, 
 		customer : { searchCustomerClear, loadingCustomerClear, customers_v2, loadingCustomerV2 },
 		startDate,
-		handleStartDate
+		handleStartDate,
+		valueSearch,
+		setValueSearch
 	 } = props
 	const classes = useStyles();
 	const { register, handleSubmit } = useForm();
@@ -220,7 +233,7 @@ const SearchCustomer = (props) => {
 	};
 	// End Dialog
 
-	const [ valueSearch, setValueSearch ] = useState('')
+	
 	const onSubmit = data => {
 		// e.preventDefault()
         setValueSearch(data.nama)
@@ -469,6 +482,17 @@ const SearchCustomer = (props) => {
 																</TableCell>
 																<TableCell>
 																	{customer.name_status}
+																</TableCell>
+																<TableCell>
+																	<Button
+																		fullWidth
+																		className={classes.btn}
+																		variant="contained"
+																		onClick={e => handleSelectChange(customer)}
+																		size="small"
+																		>
+																		Pilih
+																	</Button>
 																</TableCell>
 															</TableRow>
 														))}

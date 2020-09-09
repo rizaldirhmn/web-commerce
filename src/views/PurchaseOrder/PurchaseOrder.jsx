@@ -109,7 +109,7 @@ const PurchaseOrder = ({
                     spacing={2}
                 >
                     <Grid item>  
-                        <Typography variant="h4">Purchase Order Emas</Typography>
+                        <Typography variant="h4">Purchase Order</Typography>
                     </Grid>
                 </Grid>
             </div>

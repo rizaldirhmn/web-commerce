@@ -61,8 +61,8 @@ const columns = [
     { id: 'no', label: 'No', minWidth: 30 },
     { id: 'product', label: 'Item Produk', minWidth: 100 },
     { id: 'hpp', label: 'HPP', minWidth: 70 },
-    { id: 'stock', label: 'Stock Aplikasi', minWidth: 70 },
-    { id: 'stock_real', label: 'Stock Nyata', minWidth: 70 },
+    { id: 'stock', label: 'Stock Aplikasi (On Hand)', minWidth: 70 },
+    { id: 'stock_real', label: 'Stock Nyata (On Hand)', minWidth: 70 },
     { id: 'gap_stock', label: 'Selisih Stock', minWidth: 70 },
   ];
 

@@ -78,10 +78,8 @@ const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomerClear, 
 		setModalOpen(false)
 	}
 
-	const [ formState ] = useState({
-		params: '',
-		kata_kunci: ''
-	})
+	const [ valueSearch, setValueSearch ] = useState('')
+
 	const submitDefault = moment().format('YYYY-MM-DD HH:mm:ss');
 	const [ startDate, setStartDate ] = useState({
         submit: {
@@ -106,8 +104,8 @@ const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomerClear, 
 	};
 	
 	useEffect(() => {
-		getSearchCustomerAndClear(formState.params, formState.kata_kunci)
-	}, [loadingCustomerClear, getSearchCustomerAndClear, formState, startDate])
+		getSearchCustomerAndClear('name', '')
+	}, [loadingCustomerClear, getSearchCustomerAndClear, startDate])
 
   return (
 		<>
@@ -124,7 +122,7 @@ const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomerClear, 
 			</Grid>
         </Grid>
 
-		<SearchCustomer startDate={startDate} handleStartDate={handleStartDate} />
+		<SearchCustomer startDate={startDate} handleStartDate={handleStartDate} valueSearch={valueSearch} setValueSearch={setValueSearch} />
 			
 		{!loadingCustomerClear && (
 			<>
@@ -153,7 +151,7 @@ const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomerClear, 
 										sm={12}
 										xs={12}
 									>
-										<Cart date={startDate.submit.submit} />
+										<Cart date={startDate.submit.submit} searchCustomerClear={searchCustomerClear[0]} />
 									</Grid>
 								</Hidden>
 							</Grid>
@@ -170,7 +168,7 @@ const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomerClear, 
 									onOpen={handleModalOpen}
 									disableSwipeToOpen
 								>
-									<Cart date={startDate.submit.submit} />
+									<Cart date={startDate.submit.submit} searchCustomerClear={searchCustomerClear[0]} />
 								</SwipeableDrawer>
 							</Hidden>
 						</div>

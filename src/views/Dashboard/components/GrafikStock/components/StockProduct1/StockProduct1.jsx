@@ -36,12 +36,12 @@ const StockProduct1 = (props) => {
                     // label : 'Grafik Stock',
                     data: [ grafikStock.stock_on_hand, grafikStock.stock_on_process,  ],
                     backgroundColor: [
-                        '#FF6384',
                         '#36A2EB',
+                        '#FF6384',
                     ],
                     hoverBackgroundColor: [
-                        '#FF6384',
                         '#36A2EB',
+                        '#FF6384',
                     ]
                 }
             ]
@@ -71,10 +71,6 @@ const StockProduct1 = (props) => {
         <div>
             {!loadingGrafikStock ? (
                 <Card>
-                    {/* <CardHeader 
-                        title={`Emas 0.1 Gram`} 
-                        action={`Total : ${grafikStock.stock_on_hand + grafikStock.stock_on_process}`}
-                    /> */}
                     <CardContent>
                         <Grid container justify="space-between">
                             <Grid item>

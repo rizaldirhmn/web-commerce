@@ -208,7 +208,7 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
             sm={12}
             xs={12}
           >
-            <GrafikNetIncome />
+            <GrafikStock />
           </Grid>
         </Grid>
         <Grid
@@ -217,22 +217,17 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
         >
           <Grid
             item
-            lg={12}
-            md={12}
+            lg={6}
+            md={6}
             sm={12}
             xs={12}
           >
             <GrafikGoldPrice />
           </Grid>
-        </Grid>
-        <Grid
-          container
-          spacing={2}
-        >
           <Grid
             item
-            lg={12}
-            md={12}
+            lg={6}
+            md={6}
             sm={12}
             xs={12}
           >
@@ -245,26 +240,21 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
         >
           <Grid
             item
-            lg={12}
-            md={12}
+            lg={6}
+            md={6}
             sm={12}
             xs={12}
           >
             <GrafikTransactionSalesMoney />
           </Grid>
-        </Grid>
-        <Grid
-          container
-          spacing={2}
-        >
           <Grid
             item
-            lg={12}
-            md={12}
+            lg={6}
+            md={6}
             sm={12}
             xs={12}
           >
-            <GrafikStock />
+            <GrafikHPP />
           </Grid>
         </Grid>
         <Grid
@@ -273,12 +263,21 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
         >
           <Grid
             item
-            lg={12}
-            md={12}
+            lg={6}
+            md={6}
             sm={12}
             xs={12}
           >
-            <GrafikHPP />
+            <GrafikNetIncome />
+          </Grid>
+          <Grid
+            item
+            lg={6}
+            md={6}
+            sm={12}
+            xs={12}
+          >
+            <GrafikNetIncome />
           </Grid>
         </Grid>
       </div>

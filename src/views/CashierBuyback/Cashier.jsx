@@ -177,7 +177,7 @@ const Cashier = ({ getSearchCustomerAndClearBuyback, customer : { searchCustomer
 												sm={12}
 												xs={12}
 											>
-												<Cart date={startDate.submit.submit} />
+												<Cart date={startDate.submit.submit} searchCustomerBuyback={searchCustomerBuyback[0]} />
 											</Grid>
 										</Hidden>
 									</Grid>

@@ -150,15 +150,16 @@ const SearchCustomer = (props) => {
 						<div className={classes.row}>
 							<Paper component="form" className={classes.searchRoot}>
 									<IconButton type="button" className={classes.iconButton} aria-label="search">
-											<SearchIcon />
+										<SearchIcon />
 									</IconButton>
 									<Divider className={classes.divider} orientation="vertical" />
 									<InputBase
-											className={classes.input}
-											name="pesan"
-											onChange={handleChangeSearch}
-											placeholder="Cari Customer"
-											inputProps={{ 'aria-label': 'Cari Customer' }}
+										autoFocus
+										className={classes.input}
+										name="pesan"
+										onChange={handleChangeSearch}
+										placeholder="Cari Customer"
+										inputProps={{ 'aria-label': 'Cari Customer' }}
 									/>
 							</Paper>
 						</div>

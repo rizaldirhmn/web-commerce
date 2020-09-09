@@ -63,7 +63,7 @@ const useStyles = makeStyles(theme => ({
 const columns = [
     { id: 'no', label: 'No', minWidth: 30 },
     { id: 'item', label: 'Item Produk', minWidth: 100 },
-    { id: 'stok', label: 'Stok Tersedia', minWidth: 70 },
+    { id: 'stok', label: 'Total Stok', minWidth: 70 },
     { id: 'qty', label: 'Jumlah Order', minWidth: 80 },
     { id: 'hpp', label: 'Harga', minWidth: 100 },
     { id: 'total', label: 'Harga Total', minWidth: 100 },
@@ -160,7 +160,7 @@ const CreatePurchaseOrder = ({
                                         {product.product.name} {product.product.weight} {product.product.unit}
                                     </TableCell>
                                     <TableCell>
-                                        {product.in_stock}
+                                        {product.product.stock_on_hand}
                                     </TableCell>
                                     <TableCell>
                                         {product.qty}
@@ -219,7 +219,7 @@ const CreatePurchaseOrder = ({
                             <Box display="flex" flexDirection="row-reverse" p={1} m={1}>
                                 <Box p={1}>
                                     <Button variant="contained" className={classes.btn} onClick={onUpdate}>
-                                        Kirim
+                                        Simpan
                                     </Button>
                                 </Box>
                             </Box>
@@ -228,7 +228,7 @@ const CreatePurchaseOrder = ({
                             <Box display="flex" flexDirection="row-reverse" p={1} m={1}>
                                 <Box p={1}>
                                     <Button variant="contained" className={classes.btn} onClick={onUpdateDone}>
-                                        Pesanan Selesai
+                                        Barang Sampai
                                     </Button>
                                 </Box>
                             </Box>

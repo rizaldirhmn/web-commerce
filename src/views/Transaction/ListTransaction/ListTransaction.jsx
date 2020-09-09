@@ -17,6 +17,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import { 
 	Tooltip,
 	IconButton,
+	Typography,
 } from '@material-ui/core';
 import NumberFormat from 'react-number-format'
 
@@ -24,7 +25,8 @@ const columns = [
   { id: 'tanggal', label: 'Tanggal', minWidth: 100 },
   { id: 'no_invoice', label: 'No Invoice', minWidth: 100 },
   { id: 'customer', label: 'Customer', minWidth: 200 },
-  { id: 'total_harga', label: 'Total Harga', minWidth: 100 },
+  { id: 'total_harga', label: 'Penjualan', minWidth: 100 },
+  { id: 'net_income', label: 'Net Income', minWidth: 100 },
   { id: 'action', label: 'Aksi', minWidth: 100 },
   
 ];
@@ -44,18 +46,8 @@ const useStyles = makeStyles(theme => ({
 
 const ListTransaction = (props) => {
     const classes = useStyles();
-    const { transactions, loading } = props
-	const [page, setPage] = React.useState(0);
-	const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-	const handleChangePage = (event, newPage) => {
-		setPage(newPage);
-	};
-
-	const handleChangeRowsPerPage = (event) => {
-		setRowsPerPage(+event.target.value);
-		setPage(0);
-	};
+    const { transactions, loading, page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = props
+	
     
 	return loading || transactions == null ? 
 		<Backdrop className={classes.backdrop} open>
@@ -80,7 +72,7 @@ const ListTransaction = (props) => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{transactions.data.map((trx) => (
+					{transactions.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((trx) => (
 						<TableRow key={trx.id}>
 							<TableCell>
                                 {moment(trx.created_at).format('DD MMMM YYYY HH:mm')}
@@ -93,7 +85,10 @@ const ListTransaction = (props) => {
 								{trx.customer.name}
 							</TableCell>
 							<TableCell>
-                                <NumberFormat value={trx.total} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+                                <NumberFormat value={trx.total} displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
+							</TableCell>
+							<TableCell>
+                                <NumberFormat value={trx.net_income} displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
 							</TableCell>
 							<TableCell>
 								<Tooltip title="Detail Invoice">
@@ -106,17 +101,31 @@ const ListTransaction = (props) => {
 							</TableCell>
 						</TableRow>
 					))}
+					{transactions.data.length > 0 && (
+						<TableRow>
+							<TableCell colsPan={3}>
+								<Typography variant="h4">Total</Typography>
+							</TableCell>
+							<TableCell>
+								<NumberFormat value={transactions.total.total_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+							</TableCell>
+							<TableCell>
+								<NumberFormat value={transactions.total.total_net_income} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+							</TableCell>
+						</TableRow>
+					)}
 				</TableBody>
 				</Table>
 			</TableContainer>
 			<TablePagination
-				rowsPerPageOptions={[10, 25, 100]}
+				rowsPerPageOptions={[15]}
 				component="div"
-				count={!loading && transactions.total}
 				rowsPerPage={rowsPerPage}
+				onChangeRowsPerPage={handleChangeRowsPerPage}
+				handleChangeRowsPerPage={handleChangeRowsPerPage}
+				count={transactions.total}
 				page={page}
 				onChangePage={handleChangePage}
-				onChangeRowsPerPage={handleChangeRowsPerPage}
 			/>
 			</Paper>
 		</Fragment>

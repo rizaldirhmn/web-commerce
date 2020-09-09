@@ -9,7 +9,7 @@ import {
     InputBase,
     Divider,
     Hidden,
-    Button
+    // Button
 } from '@material-ui/core'
 import AddCircle from '@material-ui/icons/AddCircle'
 import SearchIcon from '@material-ui/icons/Search'
@@ -112,11 +112,11 @@ const Customer = ({ getSearchCustomer, customer : { searchCustomer, loadingSearc
                     <Grid item>  
                         <Typography variant="h4">Customer</Typography>
                     </Grid>
-                    <Grid item>  
+                    {/* <Grid item>  
                         <Button variant="contained" color="primary">
                             Import
                         </Button>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </div>
             <div className={classes.row}>

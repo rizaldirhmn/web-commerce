@@ -1,14 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import {
     Typography,
     Grid,
     Paper,
     IconButton,
-    InputBase,
     Divider,
+    Card,
+    CardContent,
 } from '@material-ui/core'
-import SearchIcon from '@material-ui/icons/Search'
+import CalendarIcon from '@material-ui/icons/CalendarToday'
+import DateFnsUtils from '@date-io/date-fns'; // choose your lib
+import {
+  DatePicker,
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
+import moment from 'moment';
 
 // Components
 import ListProduct from './ListProduct'
@@ -67,9 +74,50 @@ const StockHistory = ({
 }) => {
     const classes = useStyles()
 
+    const [selectedDate ] = useState(new Date());
+
+    const submitDefault = moment({}).format('YYYY-MM-DD');
+    const [ startDate, setStartDate ] = useState({
+        submit: {
+            submit: submitDefault
+        },
+        view: {selectedDate}
+    });
+    const handleStartDate = (date) => {
+    const changeDate = moment(date).format('YYYY-MM-DD');
+        setStartDate(startDate => ({
+            ...startDate,
+                submit: {
+                    submit: changeDate
+            },
+                view: {
+                    view: date
+            }
+        }));
+    };
+
+    const [ endDate, setEndDate ] = useState({
+        submit: {
+            submit: submitDefault
+        },
+        view: {selectedDate}
+    });
+    const handleEndDate = (date) => {
+    const all = moment(date).format('YYYY-MM-DD');
+        setEndDate(endDate => ({
+            ...endDate,
+            submit: {
+                submit: all
+            },
+            view: {
+                view: date
+            }
+        }));
+    };
+
     useEffect(() => {
-        getStock()
-    }, [loading, getStock])
+        getStock(startDate.submit.submit, endDate.submit.submit)
+    }, [loading, getStock, startDate, endDate])
 
     return(
         <div className={classes.root}>
@@ -79,7 +127,7 @@ const StockHistory = ({
                     spacing={2}
                 >
                     <Grid item>  
-                        <Typography variant="h4">List Product</Typography>
+                        <Typography variant="h4">Stock History</Typography>
                     </Grid>
                 </Grid>
             </div>
@@ -87,21 +135,52 @@ const StockHistory = ({
                 <Grid
                     container
                     spacing={2}
-                    justify='space-between'
                 >
-                    <Grid item lg={6} md={6} sm={6} xs={12}>
-                        <Paper component="form" className={classes.searchRoot}>
-                            <InputBase
-                                className={classes.input}
-                                name="pesan"
-                                placeholder="Cari Product"
-                                inputProps={{ 'aria-label': 'Cari Product' }}
-                            />
-                            <Divider className={classes.divider} orientation="vertical" />
-                            <IconButton type="button" className={classes.iconButton} aria-label="search">
-                                <SearchIcon />
-                            </IconButton>
-                        </Paper>
+                    <Grid item lg={3} md={3} sm={6} xs={12}>
+                        <Typography>Tanggal Awal</Typography>
+                        <div className={classes.row}>
+							<Paper component="form" className={classes.searchRoot}>
+								<IconButton type="button" className={classes.iconButton} aria-label="search">
+									<CalendarIcon />
+								</IconButton>
+								<Divider className={classes.divider} orientation="vertical" />
+								<MuiPickersUtilsProvider utils={DateFnsUtils}>
+									<DatePicker
+										fullWidth
+										disableFuture
+										ampm={false}
+										variant="outlined"
+										name="start_date"
+										format="dd MMMM yyyy"
+										value={startDate.view.view} 
+										onChange={handleStartDate} 
+									/>
+								</MuiPickersUtilsProvider>
+							</Paper>
+						</div>
+                    </Grid>
+                    <Grid item lg={3} md={3} sm={6} xs={12}>
+                        <Typography>Tanggal Akhir</Typography>
+                        <div className={classes.row}>
+							<Paper component="form" className={classes.searchRoot}>
+								<IconButton type="button" className={classes.iconButton} aria-label="search">
+									<CalendarIcon />
+								</IconButton>
+								<Divider className={classes.divider} orientation="vertical" />
+								<MuiPickersUtilsProvider utils={DateFnsUtils}>
+									<DatePicker
+										fullWidth
+										disableFuture
+										ampm={false}
+										variant="outlined"
+										name="end_date"
+										format="dd MMMM yyyy"
+										value={endDate.view.view} 
+										onChange={handleEndDate} 
+									/>
+								</MuiPickersUtilsProvider>
+							</Paper>
+						</div>
                     </Grid>
                 </Grid>
             </div>
@@ -117,11 +196,15 @@ const StockHistory = ({
                         sm={12}
                         xs={12}
                     >
-                        {!loading ? (
-                            <ListProduct stockHistory={stockHistory} />
-                        ):(
-                            <Skeleton variant="rect" height={100}></Skeleton>
-                        )}
+                        <Card>
+                            <CardContent>
+                                {!loading ? (
+                                    <ListProduct stockHistory={stockHistory} />
+                                ):(
+                                    <Skeleton variant="rect" height={100}></Skeleton>
+                                )}
+                            </CardContent>
+                        </Card>
                     </Grid>
                 </Grid>
             </div>

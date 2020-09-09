@@ -122,7 +122,7 @@ const GrafikNetIncome = (props) => {
             {!loadingGrafik ? (
                 <Card>
                     <CardHeader 
-                        title="Grafik Net Income"
+                        title="Grafik Total Laba"
                     />
                     <CardContent>
                         <Grid container justify="space-between">

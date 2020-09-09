@@ -1,26 +1,31 @@
-import React, { Fragment } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
+import React, { Fragment } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import Paper from '@material-ui/core/Paper'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableContainer from '@material-ui/core/TableContainer'
+import TableHead from '@material-ui/core/TableHead'
+import TablePagination from '@material-ui/core/TablePagination'
+import TableRow from '@material-ui/core/TableRow'
 import DeleteIcon from '@material-ui/icons/Delete'
 import DetailIcon from '@material-ui/icons/Search'
+import moment from 'moment'
 import { Link as RouterLink } from 'react-router-dom'
 import { 
 	Tooltip,
 	IconButton,
+	Typography,
 } from '@material-ui/core';
+import NumberFormat from 'react-number-format'
 
 const columns = [
   { id: 'no_invoice', label: 'No Invoice', minWidth: 100 },
   { id: 'nama', label: 'Nama Pembeli', minWidth: 200 },
   { id: 'cabang', label: 'Cabang', minWidth: 200 },
-  { id: 'status', label: 'Status', minWidth: 200 },
+  { id: 'status', label: 'Status', minWidth: 100 },
+  { id: 'tanggal', label: 'Tanggal Pembelian', minWidth: 200 },
+  { id: 'total', label: 'Total Pembelian', minWidth: 200 },
   { id: 'action', label: 'Aksi', minWidth: 100 },
   
 ];
@@ -87,6 +92,12 @@ const ListPurchaseOrder = (props) => {
 								{po.status_name}
 							</TableCell>
 							<TableCell>
+								{moment(po.created_at).format('DD MMMM YYYY HH:mm')}
+							</TableCell>
+							<TableCell>
+								<NumberFormat value={po.total_price_invoice} displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
+							</TableCell>
+							<TableCell>
 								<Tooltip title="Detail Invoice">
 									<RouterLink to={`/purchase-order/create/${po.id}`}>
 										<IconButton aria-label="detail" color="primary">
@@ -102,6 +113,14 @@ const ListPurchaseOrder = (props) => {
 							</TableCell>
 						</TableRow>
 					))}
+					<TableRow>
+						<TableCell colsPan={5}>
+							<Typography variant="h4">Total</Typography>
+						</TableCell>
+						<TableCell colsPan={2}>
+							<NumberFormat value={purchaseOrders.total.total_price} displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
+						</TableCell>
+					</TableRow>
 				</TableBody>
 				</Table>
 			</TableContainer>
