@@ -97,90 +97,94 @@ const ProductCard = (props) => {
 				<>
 				{products.map((item) => (
 					<>
-					{item.product.stock_on_hand > 0 && item.product.latest_price.sell_price > 0 ? (
-						<CardActionArea className={classes.card} onClick={() => handleQtyModalOpen(item)}>
-							<Grid
-								container
-								spacing={2}
-							>
+					{item.product.latest_price !== null && (
+						<>
+						{item.product.stock_on_hand > 0 && item.product.latest_price.sell_price > 0 ? (
+							<CardActionArea className={classes.card} onClick={() => handleQtyModalOpen(item)}>
 								<Grid
-									item
-									lg={3}
-									md={3}
-									sm={3}
-									xs={3}
+									container
+									spacing={2}
 								>
-										<div className={classes.imageContainer}>
-											<img
-												alt="Product"
-												className={classes.image}
-												src={item.product.image}
-											/>
-										</div>
+									<Grid
+										item
+										lg={3}
+										md={3}
+										sm={3}
+										xs={3}
+									>
+											<div className={classes.imageContainer}>
+												<img
+													alt="Product"
+													className={classes.image}
+													src={item.product.image}
+												/>
+											</div>
+									</Grid>
+									<Grid
+										item
+										lg={3}
+										md={3}
+										sm={3}
+										xs={6}
+									>
+										<Typography variant='h5'>
+											{item.product.name} {item.product.weight} {item.product.unit}
+										</Typography>
+										<Typography className={classes.capDetail}>
+											{item.product.latest_price !== null && (
+												<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+											)}
+										</Typography>
+										<Typography className={classes.capDetail}>
+											Stok On Hand : {item.product.stock_on_hand}
+										</Typography>
+									</Grid>
 								</Grid>
+							</CardActionArea>
+						):(
+							<CardActionArea className={classes.card} disabled onClick={() => handleQtyModalOpen(item)}>
 								<Grid
-									item
-									lg={3}
-									md={3}
-									sm={3}
-									xs={6}
+									container
+									spacing={2}
 								>
-									<Typography variant='h5'>
-										{item.product.name} {item.product.weight} {item.product.unit}
-									</Typography>
-									<Typography className={classes.capDetail}>
-										{item.product.latest_price !== null && (
-											<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-										)}
-									</Typography>
-									<Typography className={classes.capDetail}>
-										Stok On Hand : {item.product.stock_on_hand}
-									</Typography>
+									<Grid
+										item
+										lg={3}
+										md={3}
+										sm={3}
+										xs={3}
+									>
+											<div className={classes.imageContainer}>
+												<img
+													alt="Product"
+													className={classes.image}
+													src={item.product.image}
+												/>
+											</div>
+									</Grid>
+									<Grid
+										item
+										lg={3}
+										md={3}
+										sm={3}
+										xs={6}
+									>
+										<Typography variant='h5'>
+											{item.product.name} {item.product.weight} {item.product.unit}
+										</Typography>
+										<Typography className={classes.capDetail}>
+											{item.product.latest_price !== null && (
+												<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+											)}
+										</Typography>
+										<Typography className={classes.capDetail}>
+											Stok On Hand : {item.product.stock_on_hand}
+										</Typography>
+									</Grid>
 								</Grid>
-							</Grid>
-						</CardActionArea>
-					):(
-						<CardActionArea className={classes.card} disabled onClick={() => handleQtyModalOpen(item)}>
-							<Grid
-								container
-								spacing={2}
-							>
-								<Grid
-									item
-									lg={3}
-									md={3}
-									sm={3}
-									xs={3}
-								>
-										<div className={classes.imageContainer}>
-											<img
-												alt="Product"
-												className={classes.image}
-												src={item.product.image}
-											/>
-										</div>
-								</Grid>
-								<Grid
-									item
-									lg={3}
-									md={3}
-									sm={3}
-									xs={6}
-								>
-									<Typography variant='h5'>
-										{item.product.name} {item.product.weight} {item.product.unit}
-									</Typography>
-									<Typography className={classes.capDetail}>
-										{item.product.latest_price !== null && (
-											<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-										)}
-									</Typography>
-									<Typography className={classes.capDetail}>
-										Stok On Hand : {item.product.stock_on_hand}
-									</Typography>
-								</Grid>
-							</Grid>
-						</CardActionArea>
+							</CardActionArea>
+						)}
+						</>
 					)}
 					<hr/>
 					</>

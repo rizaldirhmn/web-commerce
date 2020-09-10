@@ -111,60 +111,64 @@ const Product = (props) => {
 								xs={12}
 							>
 								<Card className={classes.cardContentRoot}>
-									{item.product.stock_on_hand > 0 && item.product.latest_price.sell_price > 0 ? (
-										<CardActionArea onClick={() => handleModalOpen(item)}>
-											<CardMedia
-												square
-												className={classes.media}
-												image={item.product.image}
-												title={item.product.name}
-											/>
-											<CardContent>
-												<Typography gutterBottom variant="body2" className={classes.title}>
-													{item.product.name} {item.product.weight} {item.product.unit}
-												</Typography>
-												<Typography variant="body2" color="textSecondary" className={classes.price}>
-													{item.product.latest_price !== null ? (
-														<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-													):(
-														<NumberFormat value='0' displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-													)}
-												</Typography>
-											</CardContent>
-										</CardActionArea>
-									):(
-										<CardActionArea onClick={() => handleModalOpen(item)} disabled>
-											<CardMedia
-												square
-												className={classes.media}
-												image={item.product.image}
-												title={item.product.name}
-											/>
-											<CardContent>
-												<Typography gutterBottom variant="body2" className={classes.title}>
-													{item.product.name} {item.product.weight} {item.product.unit}
-												</Typography>
-												<Typography variant="body2" color="textSecondary" className={classes.price}>
-													{item.product.latest_price !== null ? (
-														<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-													):(
-														<NumberFormat value='0' displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-													)}
-												</Typography>
-											</CardContent>
-										</CardActionArea>
+									{item.product.latest_price !== null && (
+										<div>
+											{item.product.stock_on_hand > 0 && item.product.latest_price.sell_price > 0 ? (
+												<CardActionArea onClick={() => handleModalOpen(item)}>
+													<CardMedia
+														square
+														className={classes.media}
+														image={item.product.image}
+														title={item.product.name}
+													/>
+													<CardContent>
+														<Typography gutterBottom variant="body2" className={classes.title}>
+															{item.product.name} {item.product.weight} {item.product.unit}
+														</Typography>
+														<Typography variant="body2" color="textSecondary" className={classes.price}>
+															{item.product.latest_price !== null ? (
+																<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+															):(
+																<NumberFormat value='0' displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+															)}
+														</Typography>
+													</CardContent>
+												</CardActionArea>
+											):(
+												<CardActionArea onClick={() => handleModalOpen(item)} disabled>
+													<CardMedia
+														square
+														className={classes.media}
+														image={item.product.image}
+														title={item.product.name}
+													/>
+													<CardContent>
+														<Typography gutterBottom variant="body2" className={classes.title}>
+															{item.product.name} {item.product.weight} {item.product.unit}
+														</Typography>
+														<Typography variant="body2" color="textSecondary" className={classes.price}>
+															{item.product.latest_price !== null ? (
+																<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+															):(
+																<NumberFormat value='0' displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+															)}
+														</Typography>
+													</CardContent>
+												</CardActionArea>
+											)}
+											<CardActions>
+												{item.product.stock_on_hand > 0 ? (
+													<Typography variant="body2" color="textSecondary" component="p" className={classes.stock_on_hand}>
+														Stok On Hand : <NumberFormat value={item.product.stock_on_hand} displayType={'text'} thousandSeparator={true} />
+													</Typography>
+												):(
+													<Typography variant="body2" color="textSecondary" component="p" className={classes.stock_on_hand}>
+														Stok On Hand : Habis
+													</Typography>
+												)}
+											</CardActions>
+										</div>
 									)}
-									<CardActions>
-										{item.product.stock_on_hand > 0 ? (
-											<Typography variant="body2" color="textSecondary" component="p" className={classes.stock_on_hand}>
-												Stok On Hand : <NumberFormat value={item.product.stock_on_hand} displayType={'text'} thousandSeparator={true} />
-											</Typography>
-										):(
-											<Typography variant="body2" color="textSecondary" component="p" className={classes.stock_on_hand}>
-												Stok On Hand : Habis
-											</Typography>
-										)}
-									</CardActions>
 								</Card>
 							</Grid>
 						))}

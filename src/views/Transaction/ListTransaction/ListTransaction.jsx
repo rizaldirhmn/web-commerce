@@ -123,7 +123,7 @@ const ListTransaction = (props) => {
 				rowsPerPage={rowsPerPage}
 				onChangeRowsPerPage={handleChangeRowsPerPage}
 				handleChangeRowsPerPage={handleChangeRowsPerPage}
-				count={transactions.total}
+				count={transactions.data.length}
 				page={page}
 				onChangePage={handleChangePage}
 			/>
