@@ -133,9 +133,6 @@ const ProductCard = (props) => {
 											<NumberFormat value={item.product.latest_price_buyback.buyback_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 										)}
 									</Typography>
-									<Typography className={classes.capDetail}>
-										Stok : {item.product.stock}
-									</Typography>
 								</Grid>
 							</Grid>
 						</CardActionArea>
@@ -174,9 +171,6 @@ const ProductCard = (props) => {
 										{item.product.latest_price_buyback !== null && (
 											<NumberFormat value={item.product.latest_price_buyback.buyback_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 										)}
-									</Typography>
-									<Typography className={classes.capDetail}>
-										Stok : {item.product.stock}
 									</Typography>
 								</Grid>
 							</Grid>
