@@ -97,7 +97,7 @@ const ProductCard = (props) => {
 				<>
 				{products.map((item) => (
 					<>
-					{item.product.stock > 0 ? (
+					{item.product.latest_price_buyback.buyback_price > 0 ? (
 						<CardActionArea className={classes.card} onClick={() => handleQtyModalOpen(item)}>
 							<Grid
 								container
@@ -129,8 +129,8 @@ const ProductCard = (props) => {
 										{item.product.name} {item.product.weight} {item.product.unit}
 									</Typography>
 									<Typography className={classes.capDetail}>
-										{item.product.latest_price !== null && (
-											<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										{item.product.latest_price_buyback !== null && (
+											<NumberFormat value={item.product.latest_price_buyback.buyback_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 										)}
 									</Typography>
 									<Typography className={classes.capDetail}>
@@ -171,8 +171,8 @@ const ProductCard = (props) => {
 										{item.product.name} {item.product.weight} {item.product.unit}
 									</Typography>
 									<Typography className={classes.capDetail}>
-										{item.product.latest_price !== null && (
-											<NumberFormat value={item.product.latest_price.sell_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+										{item.product.latest_price_buyback !== null && (
+											<NumberFormat value={item.product.latest_price_buyback.buyback_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 										)}
 									</Typography>
 									<Typography className={classes.capDetail}>

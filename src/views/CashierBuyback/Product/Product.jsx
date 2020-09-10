@@ -109,48 +109,52 @@ const Product = (props) => {
 								sm={6}
 								xs={12}
 							>
-								{item.product.latest_price_buyback.buyback_price > 0 ? (
-									<Card className={classes.cardContentRoot}>
-										<CardActionArea onClick={() => handleModalOpen(item)}>
-											<CardMedia
-												square
-												className={classes.media}
-												image={item.product.image}
-												title={item.product.name}
-											/>
-											<CardContent>
-												<Typography gutterBottom variant="body2" className={classes.title}>
-													{item.product.name} {item.product.weight} {item.product.unit}
-												</Typography>
-												<Typography variant="body2" color="textSecondary" className={classes.price}>
-													{item.product.latest_price_buyback && (
-														<NumberFormat value={item.product.latest_price_buyback.buyback_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-													)}
-												</Typography>
-											</CardContent>
-										</CardActionArea>
-									</Card>
-								):(
-									<Card className={classes.cardContentRoot}>
-										<CardActionArea onClick={() => handleModalOpen(item)} disabled>
-											<CardMedia
-												square
-												className={classes.media}
-												image={item.product.image}
-												title={item.product.name}
-											/>
-											<CardContent>
-												<Typography gutterBottom variant="body2" className={classes.title}>
-													{item.product.name} {item.product.weight} {item.product.unit}
-												</Typography>
-												<Typography variant="body2" color="textSecondary" className={classes.price}>
-													{item.product.latest_price_buyback && (
-														<NumberFormat value={item.product.latest_price_buyback.buyback_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-													)}
-												</Typography>
-											</CardContent>
-										</CardActionArea>
-									</Card>
+								{item.product.latest_price_buyback.buyback_price !== null && (
+									<>
+										{item.product.latest_price_buyback.buyback_price > 0 ? (
+											<Card className={classes.cardContentRoot}>
+												<CardActionArea onClick={() => handleModalOpen(item)}>
+													<CardMedia
+														square
+														className={classes.media}
+														image={item.product.image}
+														title={item.product.name}
+													/>
+													<CardContent>
+														<Typography gutterBottom variant="body2" className={classes.title}>
+															{item.product.name} {item.product.weight} {item.product.unit}
+														</Typography>
+														<Typography variant="body2" color="textSecondary" className={classes.price}>
+															{item.product.latest_price_buyback && (
+																<NumberFormat value={item.product.latest_price_buyback.buyback_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+															)}
+														</Typography>
+													</CardContent>
+												</CardActionArea>
+											</Card>
+										):(
+											<Card className={classes.cardContentRoot}>
+												<CardActionArea onClick={() => handleModalOpen(item)} disabled>
+													<CardMedia
+														square
+														className={classes.media}
+														image={item.product.image}
+														title={item.product.name}
+													/>
+													<CardContent>
+														<Typography gutterBottom variant="body2" className={classes.title}>
+															{item.product.name} {item.product.weight} {item.product.unit}
+														</Typography>
+														<Typography variant="body2" color="textSecondary" className={classes.price}>
+															{item.product.latest_price_buyback && (
+																<NumberFormat value={item.product.latest_price_buyback.buyback_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+															)}
+														</Typography>
+													</CardContent>
+												</CardActionArea>
+											</Card>
+										)}
+									</>
 								)}
 							</Grid>
 						))}
