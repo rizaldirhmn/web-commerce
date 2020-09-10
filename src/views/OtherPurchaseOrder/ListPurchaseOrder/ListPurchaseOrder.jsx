@@ -148,7 +148,7 @@ const ListPurchaseOrder = (props) => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{otherPurchaseOrders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((po) => (
+					{otherPurchaseOrders.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((po) => (
 						<Row key={po.id} po={po} />
 					))}
 					{otherPurchaseOrders.length > 0 && (
@@ -157,7 +157,7 @@ const ListPurchaseOrder = (props) => {
 								<Typography variant="h4">Total</Typography>
 							</TableCell>
 							<TableCell>
-								<NumberFormat value="10000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+								<NumberFormat value={otherPurchaseOrders.total.total} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
 							</TableCell>
 						</TableRow>
 					)}
@@ -165,9 +165,9 @@ const ListPurchaseOrder = (props) => {
 				</Table>
 			</TableContainer>
 			<TablePagination
-				rowsPerPageOptions={[10, 25, 100]}
+				rowsPerPageOptions={[10]}
 				component="div"
-				count={otherPurchaseOrders.length}
+				count={otherPurchaseOrders.data.length}
 				rowsPerPage={rowsPerPage}
 				page={page}
 				onChangePage={handleChangePage}
