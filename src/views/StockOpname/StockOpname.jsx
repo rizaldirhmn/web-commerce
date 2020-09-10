@@ -66,7 +66,7 @@ const columns = [
     { id: 'gap_stock', label: 'Selisih Stock', minWidth: 70 },
   ];
 
-const StockOpname = ({ getStockOpname, balancingStock, stock_opname: { stockOpnames, loading }, counting }) => {
+const StockOpname = ({ getStockOpname, balancingStock, stock_opname: { stockOpnames, loading, counting } }) => {
     const classes = useStyles()
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -74,6 +74,7 @@ const StockOpname = ({ getStockOpname, balancingStock, stock_opname: { stockOpna
     var no = 1
 
     const [ stockReal, setStockReal ] = useState([])
+
     const [ password, setPassword ] = useState()
     const [ openDialogPassword, setOpenDialogPassword ] = useState(false)
 
@@ -116,7 +117,19 @@ const StockOpname = ({ getStockOpname, balancingStock, stock_opname: { stockOpna
 
     useEffect(() => {
         getStockOpname()
+        // if(!loading){
+        //     for (let index = 0; index < stockOpnames.length; index++) {
+        //         var list = [...stockReal]
+        //         list[index] = { 
+        //             id_product : stockOpnames[index].id,
+        //             qty : stockOpnames[index].stock_on_hand
+        //         }
+        //         setStockReal(list)
+        //     }
+        // }
     }, [ loading, getStockOpname, counting ])
+    console.log(stockReal)
+
 
     return loading || stockOpnames === null ? 
     <Backdrop className={classes.backdrop} open>
@@ -169,7 +182,7 @@ const StockOpname = ({ getStockOpname, balancingStock, stock_opname: { stockOpna
                                         -
                                     </TableCell>
                                     <TableCell>
-                                        {product.stock}
+                                        {product.stock_on_hand}
                                     </TableCell>
                                     <TableCell>
                                             <TextField
@@ -184,10 +197,10 @@ const StockOpname = ({ getStockOpname, balancingStock, stock_opname: { stockOpna
                                         {/* <Chip label={` ${stockReal[index] - product.stock} stock`} color="primary" /> */}
                                         {stockReal[index] ? (
                                             <>
-                                            {stockReal[index].qty - product.stock === 0 ? (
+                                            {stockReal[index].qty - product.stock_on_hand === 0 ? (
                                                 <Chip label={` Balanced `} color="primary" />
                                             ):(
-                                                <Chip label={` ${stockReal[index].qty - product.stock} stock`} color="primary" />
+                                                <Chip label={` ${stockReal[index].qty - product.stock_on_hand} stock`} color="primary" />
                                             )}
                                             </>
                                         ):(
