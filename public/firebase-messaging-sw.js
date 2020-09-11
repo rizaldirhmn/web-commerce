@@ -28,7 +28,12 @@ messaging.setBackgroundMessageHandler(function(payload) {
     .then(() => {
       const title = payload.data.title;
       const options = {
-          body: payload.data.message,
+          body: payload.data.body,
+          click_action: payload.data.url, // To handle notification click when notification is moved to notification tray
+          icon: payload.data.icon,
+          data: {
+            click_action: payload.data.url
+          }
       };
       // console.log(options);
       return registration.showNotification(title, options);
@@ -45,4 +50,24 @@ self.addEventListener('notificationclick', function(event) {
   //   clients.openWindow(event.action);
   // }
   // event.notification.close();
+  // document.location.href = `https://youtube.com/${event.notification.data.click_action}`;
+  let url = `${event.notification.data.click_action}`
+  event.notification.close()
+  event.waitUntil(
+    clients.matchAll({type: 'window'}).then( windowClients => {
+        // Check if there is already a window/tab open with the target URL
+        for (var i = 0; i < windowClients.length; i++) {
+            var client = windowClients[i];
+            // If so, just focus it.
+            if (client.url === url && 'focus' in client) {
+                return client.focus();
+            }
+        }
+        // If not, then open the target URL in a new window/tab.
+        if (clients.openWindow) {
+            return clients.openWindow(url);
+        }
+    })
+  )
+  console.log(event)
 });
