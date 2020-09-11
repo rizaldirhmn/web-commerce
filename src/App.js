@@ -33,6 +33,7 @@ const browserHistory = createBrowserHistory();
 
 export default function App() {
   const { isLatestVersion, emptyCacheStorage } = useClearCache({ duration: 5000 });
+  
   const fetchData = async () => {
       messaging.requestPermission()
       .then(async function() {
@@ -42,7 +43,10 @@ export default function App() {
       .catch(function(err) {
         console.log("Unable to get permission to notify.", err);
       });
-      navigator.serviceWorker.addEventListener("message", (message) => console.log(message.data));
+      navigator.serviceWorker.addEventListener("message", (message) => {
+        // history.push(`https://youtube.com/${message.data.url}`)
+        // document.location.href = `https://youtube.com/${message.data.url}`;
+      });
   }
 
   useEffect(() => {
