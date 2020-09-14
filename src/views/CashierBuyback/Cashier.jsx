@@ -93,6 +93,10 @@ const Cashier = ({ getSearchCustomerAndClearBuyback, customer : { searchCustomer
 	const classes = useStyles();
 	
 	const [ modalOpen, setModalOpen ] = useState(false)
+	const [ valueSearch, setValueSearch ] = useState({
+		type: 'id_agent',
+		name: ''
+	})
 
 	const handleModalOpen = () => {
 		setModalOpen(true)
@@ -154,6 +158,8 @@ const Cashier = ({ getSearchCustomerAndClearBuyback, customer : { searchCustomer
 					startDate={startDate} 
 					handleStartDate={handleStartDate} 
 					minDate={minDate}
+					valueSearch={valueSearch} 
+					setValueSearch={setValueSearch} 
 				/>
 				{!loadingSearchCustomerBuyback && (
 					<>

@@ -393,7 +393,7 @@ export const getGrafikStock6 = (id) => async dispatch => {
 export const getGrafikHPP = (id_product, start_date, end_date) => async dispatch => {
     const endpoint = `${process.env.REACT_APP_BASE_URL}/user/dashboard_grafik/hpp?id_product=${id_product}&start_date=${start_date}&end_date=${end_date}`
     const token = sessionStorage.getItem('access_token')
-    console.log(endpoint)
+
     try {
         const res = await axios({
             url: endpoint,

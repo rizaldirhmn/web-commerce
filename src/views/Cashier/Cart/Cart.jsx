@@ -9,7 +9,8 @@ import {
     Button,
     IconButton,
     SwipeableDrawer,
-    Hidden
+    Hidden,
+    Tooltip
 } from '@material-ui/core'
 import Skeleton from '@material-ui/lab/Skeleton'
 import { makeStyles } from '@material-ui/styles'
@@ -123,7 +124,9 @@ const Cart = (props) => {
                     <IconButton
                         onClick={getCart}
                     >
-                        <RefreshIcon />
+                        <Tooltip title="Refresh">
+                            <RefreshIcon />
+                        </Tooltip>
                     </IconButton>
                   }
             />
@@ -178,11 +181,11 @@ const Cart = (props) => {
                         <Grid item xs={12}>
                             {carts.cart.length > 0 ? (
                                 <Button fullWidth variant="contained" onClick={handleDrawerPaymentOpen} className={classes.btnPayment}>
-                                    Lanjutkan Pembayaran
+                                    Bayar
                                 </Button>
                             ):(
                                 <Button disabled fullWidth variant="contained" onClick={handleDrawerPaymentOpen} className={classes.btnPayment}>
-                                    Lanjutkan Pembayaran
+                                    Bayar
                                 </Button>
                             )}
                         </Grid>

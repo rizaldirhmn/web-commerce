@@ -47,8 +47,8 @@ export const getCustomer = (page) => async dispatch => {
     }
 }
 
-export const getCustomerCashier = (kata_kunci) => async dispatch => {
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/customer/search_v2?type=name&kata_kunci=${kata_kunci}`
+export const getCustomerCashier = (type, kata_kunci) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/customer/search_v2?type=${type}&kata_kunci=${kata_kunci}`
     const token = sessionStorage.getItem('access_token')
 
     try {

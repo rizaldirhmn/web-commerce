@@ -134,7 +134,7 @@ const PaymentMethodOptions = (props) => {
                         sm={12}
                         xs={12}
                     >
-                        <Typography>
+                        <Typography variant="h3">
                             Total Harus Bayar : <NumberFormat value={carts.total_payment} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
                         </Typography>
                         
@@ -254,7 +254,7 @@ const PaymentMethodOptions = (props) => {
                         xs={12}
                     >
                         <Typography>Kembalian</Typography>
-                        <Paper component="form" className={classes.searchRoot}>
+                        {/* <Paper component="form" className={classes.searchRoot}> */}
                             {/* <InputBase
                                 className={classes.input}
                                 value={}
@@ -266,7 +266,7 @@ const PaymentMethodOptions = (props) => {
                                 ):(
                                     <NumberFormat value={changes} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
                                 )}
-                        </Paper>
+                        {/* </Paper> */}
                     </Grid>
                 </Grid>                
             </CardContent>

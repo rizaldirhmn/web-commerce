@@ -78,7 +78,10 @@ const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomerClear, 
 		setModalOpen(false)
 	}
 
-	const [ valueSearch, setValueSearch ] = useState('')
+	const [ valueSearch, setValueSearch ] = useState({
+		type: 'id_agent',
+		name: ''
+	})
 
 	const submitDefault = moment().format('YYYY-MM-DD HH:mm:ss')
 	const minDate = moment().subtract(2, 'd').format('YYYY-MM-DD HH:mm:ss')

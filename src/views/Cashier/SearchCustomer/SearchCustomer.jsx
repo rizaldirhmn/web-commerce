@@ -15,6 +15,8 @@ import {
 	TablePagination,
 	IconButton,
 	Divider,
+	TextField,
+	MenuItem,
 	Button
 } from '@material-ui/core'
 import FirstPageIcon from '@material-ui/icons/FirstPage';
@@ -204,10 +206,23 @@ const SearchCustomer = (props) => {
 
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
-	const [ keyword, setKeyword ] = useState('')
+	const [ keyword, setKeyword ] = useState({
+		values: {
+			keyword: '',
+			type: 'id_agent'
+		}
+	})
 	
 	const handleChangeSearch = event => {
-		setKeyword(event.target.value)
+		event.persist();
+
+		setKeyword(keyword => ({
+			...keyword,
+			values: {
+			  ...keyword.values,
+			  [event.target.name]: event.target.value
+			}
+		}))
 		setPage(0)
 	}
 
@@ -237,12 +252,15 @@ const SearchCustomer = (props) => {
 	
 	const onSubmit = data => {
 		// e.preventDefault()
-        setValueSearch(data.nama)
-    }
+        setValueSearch({
+			type: keyword.values.type,
+			name: keyword.values.keyword
+		})
+	}
 
 	useEffect(() => {
 		// const timer = setTimeout(() => {
-			getCustomerCashier(valueSearch)
+			getCustomerCashier(valueSearch.type, valueSearch.name)
 		// }, 2000)
 
 		// return () => clearTimeout(timer)
@@ -282,12 +300,13 @@ const SearchCustomer = (props) => {
 								<Divider className={classes.divider} orientation="vertical" />
 								<InputBase
 									className={classes.input}
-									name="pesan"
-									value={keyword || ''}
+									name="nama"
+									value={keyword.values.keyword || ''}
 									onClick={handleClickOpen}
 									placeholder="Cari Customer"
 									inputProps={{ 'aria-label': 'Cari Customer' }}
 								/>
+								
 							</Paper>
 						</div>
 					</Grid>
@@ -434,13 +453,25 @@ const SearchCustomer = (props) => {
 										<InputBase
 											autoFocus
 											className={classes.input}
-											name="nama"
-											value={keyword || ''}
+											name="keyword"
+											value={keyword.values.keyword || ''}
 											onChange={handleChangeSearch}
-											placeholder="Cari Customer"
 											inputRef={register}
-											inputProps={{ 'aria-label': 'Cari Customer' }}
 										/>
+										<Divider className={classes.divider} orientation="vertical" />
+										<TextField 
+											select
+											className={classes.input}
+											variant="outlined"
+											name="type"
+											value={keyword.values.type || ''}
+											label="Tipe Pencarian"
+											inputRef={register}
+											onChange={handleChangeSearch}
+										>
+											<MenuItem key="id_agent" value="id_agent">ID Agent</MenuItem>
+											<MenuItem key="name" value="name">Nama</MenuItem>
+										</TextField>
 									</Paper>
 								</div>
 							</form>

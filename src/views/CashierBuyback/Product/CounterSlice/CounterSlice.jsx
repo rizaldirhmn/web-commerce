@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
     },
     inputComponent: {
         height: '30px',
-        width:  'auto',
+        width:  '100%',
         border: '1px solid #D3D4D0',
         borderRadius: '5px',
         backgroundColor: '#FFFFFF',

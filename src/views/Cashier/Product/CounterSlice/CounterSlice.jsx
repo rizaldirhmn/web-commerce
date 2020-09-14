@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
     },
     inputComponent: {
         height: '30px',
-        width:  'auto',
+        width:  '100%',
         border: '1px solid #D3D4D0',
         borderRadius: '5px',
         backgroundColor: '#FFFFFF',
@@ -71,6 +71,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         alignItems: 'center',
         margin: 'auto',
+        width: '100%'
     },
 	input: {
         marginLeft: theme.spacing(1),
@@ -123,6 +124,7 @@ const CounterSlice = (props) => {
                         className={classes.inputComponent} 
                         onChange={onChange}
                         name="qty"
+                        disabled
                         value={count} />
                     <Divider className={classes.divider} orientation="vertical" />
                     <IconButton onClick={more} className={classes.iconButton}>
