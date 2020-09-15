@@ -512,11 +512,7 @@ const SearchCustomer = (props) => {
 																	{customer.name}
 																</TableCell>
 																<TableCell>
-																	{customer.status === '1' ? (
-																		<Typography>AOG</Typography>
-																	): (
-																		<Typography>MOG</Typography>
-																	)}
+																	{customer.name_status}
 																</TableCell>
 																<TableCell>
 																	<Button

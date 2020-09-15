@@ -14,6 +14,7 @@ import first_balance from './first_balance'
 import stock_opname from './stock_opname'
 import stockHistory from './stockHistory'
 import otherPurchaseOrder from './otherPurchaseOrder'
+import profile from './profile'
 
 export default combineReducers({
     alert,
@@ -30,5 +31,6 @@ export default combineReducers({
     cartBuyback,
     transactionBuyback,
     stockHistory,
-    otherPurchaseOrder
+    otherPurchaseOrder,
+    profile
 })
