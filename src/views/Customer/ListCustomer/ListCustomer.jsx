@@ -28,7 +28,7 @@ const columns = [
   { id: 'no_id', label: 'No ID', minWidth: 100 },
   { id: 'nama', label: 'Nama', minWidth: 150 },
   { id: 'alamat', label: 'Alamat', minWidth: 200 },
-  { id: 'kategori', label: 'Kategori', minWidth: 100 },
+  { id: 'kategori', label: 'Tipe Customer', minWidth: 100 },
   { id: 'status_aktif', label: 'Status', minWidth: 100 },
   { id: 'action', label: 'Action', minWidth: 140 },
   
@@ -54,6 +54,10 @@ const useStyles = makeStyles(theme => ({
 		zIndex: theme.zIndex.drawer + 1,
 		color: '#fff',
 	},
+	statusNonActive: {
+		backgroundColor: 'red',
+		color: '#fff'
+	}
 }));
 
 const ListCustomer = (props) => {
@@ -109,7 +113,7 @@ const ListCustomer = (props) => {
 								{customer.is_active === '1' ? (
 									<Chip label='Aktif' color="primary" />
 								): (
-									<Chip label='Tidak Aktif' color="secondary" />
+									<Chip label='Tidak Aktif' className={classes.statusNonActive} />
 								)}
 							</TableCell>
 							<TableCell>

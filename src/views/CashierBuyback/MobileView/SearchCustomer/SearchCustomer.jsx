@@ -14,7 +14,9 @@ import {
 	TableCell,
 	TablePagination,
 	IconButton,
-	Divider
+	Divider,
+	TextField,
+	MenuItem
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 // Redux
@@ -98,10 +100,23 @@ const SearchCustomer = (props) => {
 
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
-	const [ keyword, setKeyword ] = useState('')
-
+	const [ keyword, setKeyword ] = useState({
+		values: {
+			keyword: '',
+			type: 'id_agent'
+		}
+	})
+	
 	const handleChangeSearch = event => {
-		setKeyword(event.target.value)
+		event.persist();
+
+		setKeyword(keyword => ({
+			...keyword,
+			values: {
+			  ...keyword.values,
+			  [event.target.name]: event.target.value
+			}
+		  }))
 		setPage(0)
 	}
 
@@ -116,7 +131,7 @@ const SearchCustomer = (props) => {
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
-			getCustomerCashier(keyword)
+			getCustomerCashier(keyword.values.type, keyword.values.keyword)
 		}, 2000)
 
 		return () => clearTimeout(timer)
@@ -146,20 +161,43 @@ const SearchCustomer = (props) => {
 						sm={6}
 						xs={12}
 					>
+						<Typography>Cari Berdasarkan</Typography>
+						<div className={classes.row}>
+							<TextField 
+								select
+								className={classes.input}
+								variant="outlined"
+								name="type"
+								value={keyword.values.type || ''}
+								onChange={handleChangeSearch}
+							>
+								<MenuItem key="id_agent" value="id_agent">ID Agent</MenuItem>
+								<MenuItem key="name" value="name">Nama</MenuItem>
+							</TextField>
+						</div>
+					</Grid>
+					<Grid
+						item
+						lg={3}
+						md={6}
+						sm={6}
+						xs={12}
+					>
 						<Typography>Cari Customer</Typography>
 						<div className={classes.row}>
 							<Paper component="form" className={classes.searchRoot}>
-									<IconButton type="button" className={classes.iconButton} aria-label="search">
-											<SearchIcon />
-									</IconButton>
-									<Divider className={classes.divider} orientation="vertical" />
-									<InputBase
-											className={classes.input}
-											name="pesan"
-											onChange={handleChangeSearch}
-											placeholder="Cari Customer"
-											inputProps={{ 'aria-label': 'Cari Customer' }}
-									/>
+								<IconButton type="button" className={classes.iconButton} aria-label="search">
+									<SearchIcon />
+								</IconButton>
+								<Divider className={classes.divider} orientation="vertical" />
+								<InputBase
+									className={classes.input}
+									name="keyword"
+									value={keyword.values.keyword || ''}
+									onChange={handleChangeSearch}
+									placeholder="Cari Customer"
+									inputProps={{ 'aria-label': 'Cari Customer' }}
+								/>
 							</Paper>
 						</div>
 					</Grid>

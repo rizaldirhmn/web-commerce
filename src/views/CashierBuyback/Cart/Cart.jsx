@@ -175,11 +175,11 @@ const Cart = (props) => {
                         <Grid item xs={12}>
                             {carts.cart.length > 0 ? (
                                 <Button fullWidth variant="contained" onClick={handleDrawerPaymentOpen} className={classes.btnPayment}>
-                                    Lanjutkan Pembayaran
+                                    Bayar
                                 </Button>
                             ):(
                                 <Button disabled fullWidth variant="contained" onClick={handleDrawerPaymentOpen} className={classes.btnPayment}>
-                                    Lanjutkan Pembayaran
+                                    Bayar
                                 </Button>
                             )}
                         </Grid>

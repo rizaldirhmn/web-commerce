@@ -68,12 +68,15 @@ const TransactionBuyback = ({ getTransactionBuyback, getTransactionSearchBuyback
     const classes = useStyles()
     const [selectedDate ] = useState(new Date());
 
-    const submitDefault = moment({}).format('YYYY-MM-DD');
+    const submitDefault = moment().subtract(7, 'd').format('YYYY-MM-DD');
+    const submitDefaultEndDate = moment().format('YYYY-MM-DD');
     const [ startDate, setStartDate ] = useState({
         submit: {
             submit: submitDefault
         },
-        view: {selectedDate}
+        view: {
+            view: moment().subtract(7, 'd').format('YYYY-MM-DD')
+        }
     });
     const handleStartDate = (date) => {
     const changeDate = moment(date).format('YYYY-MM-DD');
@@ -90,7 +93,7 @@ const TransactionBuyback = ({ getTransactionBuyback, getTransactionSearchBuyback
 
     const [ endDate, setEndDate ] = useState({
         submit: {
-            submit: submitDefault
+            submit: submitDefaultEndDate
         },
         view: {selectedDate}
     });
