@@ -118,7 +118,7 @@ const Cashier = ({ getSearchCustomerAndClearBuyback, customer : { searchCustomer
             submit: submitDefault
         },
         view: {
-            view: moment().format('YYYY-MM-DD HH:mm')
+            view: new Date()
         }
         
     });
