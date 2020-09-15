@@ -14,6 +14,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 // import MailIcon from '@material-ui/icons/Mail';
 // import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 const appDrawerBlue = '#011747';
@@ -162,7 +163,11 @@ const Appbar = props => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <Link to="/profile">
+        <MenuItem onClick={handleMenuClose}>
+          Profile
+        </MenuItem>
+      </Link>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
   );

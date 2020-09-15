@@ -1,10 +1,10 @@
 import axios from 'axios'
 import { setAlert } from './alert'
 import { 
-    PURCHASE_ITEM_PAY, PURCHASE_ITEM_PAY_BUYBACK
+    PURCHASE_ITEM_PAY, PURCHASE_ITEM_PAY_BUYBACK, PURCHASE_ITEM_PAY_START
 } from './types'
 
-export const addPayment = (id_customer, input_price, note, history, date) => async dispatch => {
+export const addPayment = (id_customer, input_price, note, ongkir, history, date) => async dispatch => {
     const endpoint = `${process.env.REACT_APP_BASE_URL}/user/payment_cart`
     const token = sessionStorage.getItem('access_token')
 
@@ -12,8 +12,13 @@ export const addPayment = (id_customer, input_price, note, history, date) => asy
         id_customer : id_customer,
         input_price : input_price,
         date_time : date,
-        note : note
+        note : note,
+        shipping_cost: ongkir
     }
+
+    dispatch({
+        type: PURCHASE_ITEM_PAY_START,
+    })
 
     try {
         const res = await axios({
@@ -37,12 +42,15 @@ export const addPayment = (id_customer, input_price, note, history, date) => asy
         history.push(`/report/selling/detail/${res.data.id}`);
 
     } catch (error) {
-        dispatch(setAlert("Terjadi kesalahan, mohon dicoba kembali", "error"))
-        console.log(error)
-        // dispatch({
-        //     payload: { msg: error.response.statusText, status: error.response.status },
-        //     type: STAGE_ERROR
-        // })
+        if(error.response.status === 422){
+            dispatch(setAlert("Nominal Tidak Mencukupi", "error"))
+        }else{
+            dispatch(setAlert("Terjadi kesalahan, mohon dicoba kembali", "error"))
+        }
+        dispatch({
+            type: PURCHASE_ITEM_PAY,
+            payload: error
+        })
     }
 }
 

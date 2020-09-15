@@ -90,10 +90,10 @@ const Cashier = ({ getSearchCustomerAndClear, customer : { searchCustomerClear, 
             submit: submitDefault
         },
         view: {
-            view: moment().format('YYYY-MM-DD HH:mm')
+            view: new Date()
         }
         
-    });
+	});
     const handleStartDate = (date) => {
         const changeDate = moment(date).format('YYYY-MM-DD HH:mm:ss');
         setStartDate(startDate => ({

@@ -26,9 +26,10 @@ import CapitalizedText from '../../../components/layout/CapitalizedText'
 
 // Redux
 import { connect } from 'react-redux'
-import { getDetailTransaction } from '../../../actions/transaction'
+import { getDetailTransaction, downloadReportTransaction } from '../../../actions/transaction'
 import NumberFormat from 'react-number-format'
 import CartIcon from '@material-ui/icons/AddShoppingCart'
+import DownloadIcon from '@material-ui/icons/CloudDownload'
 
 
 const useStyles = makeStyles(theme => ({
@@ -50,8 +51,18 @@ const useStyles = makeStyles(theme => ({
     btn: {
         backgroundColor: '#FF9300',
         color: '#FFFFFF',
+        display: 'flex',
         '&:hover': {
           backgroundColor: '#FFA938',
+          opacity: 1,
+        },
+    },
+    btnDownload: {
+        backgroundColor: '#3f51b5',
+        color: '#FFFFFF',
+        display: 'flex',
+        '&:hover': {
+          backgroundColor: '#0277BD',
           opacity: 1,
         },
     },
@@ -75,7 +86,11 @@ const CustomRouterLink = forwardRef((props, ref) => (
     </div>
 ));
 
-const DetailTransaction = ({ getDetailTransaction, transaction : { transaction, loading } }) => {
+const DetailTransaction = ({ 
+    getDetailTransaction, 
+    transaction : { transaction, loading, downloadTransaction, loadingDownload },
+    downloadReportTransaction
+}) => {
     const classes = useStyles()
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -92,11 +107,16 @@ const DetailTransaction = ({ getDetailTransaction, transaction : { transaction, 
 		setPage(0);
     };
 
+    const DownloadReport = e => {
+        // console.log(id)
+        downloadReportTransaction(id)
+    }
+
     useEffect(() => {
         getDetailTransaction(id)
     }, [loading, getDetailTransaction, id])
 
-    return loading || transaction == null ? 
+    return loading || transaction == null || loadingDownload ? 
     <Backdrop className={classes.backdrop} open>
         <CircularProgress color="inherit" />
     </Backdrop>  
@@ -111,6 +131,24 @@ const DetailTransaction = ({ getDetailTransaction, transaction : { transaction, 
                 >
                     <Grid item>  
                         <Typography variant="h4">Invoice</Typography>
+                    </Grid>
+                </Grid>
+                <Grid
+                    container
+                    spacing={2}
+                    alignItems="flex-start" 
+                    justify="flex-end"
+                >
+                    <Grid item>  
+                        <Button
+                            fullWidth
+                            className={classes.btnDownload}
+                            variant="contained"
+                            onClick={DownloadReport}
+                            startIcon={<DownloadIcon />}
+                        >
+                            DOWNLOAD
+                        </Button>
                     </Grid>
                     <Grid item>
                         <Button
@@ -194,10 +232,18 @@ const DetailTransaction = ({ getDetailTransaction, transaction : { transaction, 
                             ))}
                             <TableRow>
                                 <TableCell colSpan={5} align="right">
+                                    <Typography variant="h6">Ongkos Kirim</Typography>
+                                </TableCell>
+                                <TableCell>
+                                    <NumberFormat value={transaction.shipping_cost} displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell colSpan={5} align="right">
                                     <Typography variant="h6">Total</Typography>
                                 </TableCell>
                                 <TableCell>
-                                    <NumberFormat value={transaction.total} displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
+                                    <NumberFormat value={transaction.total_and_shipping_cost} displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
                                 </TableCell>
                             </TableRow>
                         </TableBody>
@@ -231,4 +277,4 @@ const mapStateToProps = state => ({
     transaction : state.transaction
 })
 
-export default connect(mapStateToProps, { getDetailTransaction })(DetailTransaction)
+export default connect(mapStateToProps, { getDetailTransaction, downloadReportTransaction })(DetailTransaction)

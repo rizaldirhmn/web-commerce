@@ -92,11 +92,15 @@ const CounterSlice = (props) => {
     const history = useHistory()
     const [count, setCount] = React.useState(0);
     const more = () => {
-        if(count < product.product.stock){
+        if(count < product.product.stock_on_hand){
             setCount(count + 1)
         }
     };
-    const less = () => setCount(count - 1);
+    const less = () => {
+        if(count > 0){
+            setCount(count - 1)
+        }
+    }
     const onChange = e => {
         if(count <= product.product.stock){
             setCount(+e.target.value)

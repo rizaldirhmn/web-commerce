@@ -10,7 +10,7 @@ import {
     Paper,
     IconButton,
     Divider,
-    Button
+    Button,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import Backdrop from '@material-ui/core/Backdrop'
@@ -91,6 +91,7 @@ const PaymentMethodOptions = (props) => {
 
     const [formState, setFormState] = useState({
         input_price: '',
+        ongkir: 0
     });
 
     const [ changes, setChanges ] = useState(0)
@@ -107,7 +108,8 @@ const PaymentMethodOptions = (props) => {
 
     const onSubmitPayment = () => {
         // console.log(dateToUTCServer)
-        addPayment(searchCustomerClear[0].id, formState.input_price, formState.note, history, dateToUTCServer)
+        // console.log(formState)
+        addPayment(searchCustomerClear[0].id, formState.input_price, formState.note, formState.ongkir, history, dateToUTCServer)
         handleDrawerPaymentClose()
     }
 
@@ -144,6 +146,30 @@ const PaymentMethodOptions = (props) => {
                     container
                     spacing={2}
                 >
+                    <Grid
+                        item
+                        lg={12}
+                        md={12}
+                        sm={12}
+                        xs={12}
+                    >
+                        <Typography>Ongkir</Typography>
+                        <Paper component="form" className={classes.searchRoot}>
+                            <IconButton type="submit" className={classes.iconButton} aria-label="search">
+                                <Typography variant="subtitle2">Rp</Typography>
+                            </IconButton>
+                            <Divider className={classes.divider} orientation="vertical" />
+                            <NumberFormat
+                                {...props}
+                                defaultValue={formState.ongkir || ''}
+                                name="ongkir"
+                                customInput={TextField}
+                                type="text"
+                                thousandSeparator
+                                onValueChange={({ value: v }) => handleChange({ target : { name : 'ongkir', value: v} })}
+                            />
+                        </Paper>
+                    </Grid>
                     <Grid
                         item
                         lg={12}
@@ -229,23 +255,7 @@ const PaymentMethodOptions = (props) => {
                     container
                     spacing={2}
                 >
-                    {/* <Grid
-                        item
-                        lg={6}
-                        md={6}
-                        sm={6}
-                        xs={12}
-                    >
-                        <Typography>Lainnya</Typography>
-                        <Paper component="form" className={classes.searchRoot}>
-                            <InputBase
-                                className={classes.input}
-                                name="other_payment"
-                                placeholder="Masukan Jenis Pembayaran"
-                                inputProps={{ 'aria-label': 'Masukan Jenis Pembayaran' }}
-                            />
-                        </Paper>
-                    </Grid> */}
+                    
                     <Grid
                         item
                         lg={12}
@@ -254,19 +264,11 @@ const PaymentMethodOptions = (props) => {
                         xs={12}
                     >
                         <Typography>Kembalian</Typography>
-                        {/* <Paper component="form" className={classes.searchRoot}> */}
-                            {/* <InputBase
-                                className={classes.input}
-                                value={}
-                                placeholder="Catatan"
-                                inputProps={{ 'aria-label': 'Catatan' }}
-                            /> */}
-                                {changes <= 0 ? (
-                                    <NumberFormat value='0' displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                ):(
-                                    <NumberFormat value={changes} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-                                )}
-                        {/* </Paper> */}
+                            {changes <= 0 ? (
+                                <NumberFormat value='0' displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+                            ):(
+                                <NumberFormat value={changes} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+                            )}
                     </Grid>
                 </Grid>                
             </CardContent>

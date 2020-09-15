@@ -1,20 +1,25 @@
 import {
-    GET_PRODUCT_DASHBOARD, GET_CARD_STATS, GET_NET_INCOME, GET_GOLD_PRICE
+    EDIT_PROFILE, UPDATE_PROFILE
 } from '../actions/types'
 
 const initialState = {
-    products : null,
-    loading: true,
+    profiles : null,
+    loading: false,
     error: {}
 }
 
 export default function (state = initialState, action) {
     const { type, payload } = action
     switch (type) {
-        case GET_PRODUCT_DASHBOARD:
+        case EDIT_PROFILE:
             return {
                 ...state,
-                products: payload,
+                loading: true
+            }
+        case UPDATE_PROFILE:
+            return {
+                ...state,
+                profiles: payload,
                 loading: false
             }
         default:

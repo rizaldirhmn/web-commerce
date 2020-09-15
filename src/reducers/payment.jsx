@@ -1,13 +1,14 @@
 import {
     PURCHASE_ITEM_PAY,
     PURCHASE_ITEM_PAY_ERROR,
-    PURCHASE_ITEM_PAY_BUYBACK
+    PURCHASE_ITEM_PAY_BUYBACK,
+    PURCHASE_ITEM_PAY_START
 } from '../actions/types'
 
 const initialState = {
     payment: {},
     paymentBuyback: {},
-    loading: true,
+    loading: false,
     error: {},
     counting : 0
 }
@@ -20,6 +21,11 @@ export default function (state = initialState, action) {
                 ...state,
                 error: payload,
                 loading: false
+            }
+        case PURCHASE_ITEM_PAY_START:
+            return {
+                ...state,
+                loading: true
             }
         case PURCHASE_ITEM_PAY:
             return {
