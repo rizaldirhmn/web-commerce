@@ -26,10 +26,10 @@ import CapitalizedText from '../../../components/layout/CapitalizedText'
 
 // Redux
 import { connect } from 'react-redux'
-import { getDetailTransactionBuyback } from '../../../actions/transactionBuyback'
+import { getDetailTransactionBuyback, downloadReportTransactionBuyback } from '../../../actions/transactionBuyback'
 import NumberFormat from 'react-number-format'
 import CartIcon from '@material-ui/icons/AddShoppingCart'
-
+import DownloadIcon from '@material-ui/icons/CloudDownload'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -55,6 +55,15 @@ const useStyles = makeStyles(theme => ({
           opacity: 1,
         },
     },
+    btnDownload: {
+        backgroundColor: '#3f51b5',
+        color: '#FFFFFF',
+        display: 'flex',
+        '&:hover': {
+          backgroundColor: '#0277BD',
+          opacity: 1,
+        },
+    },
 }))
 
 const columns = [
@@ -75,7 +84,11 @@ const CustomRouterLink = forwardRef((props, ref) => (
     </div>
 ));
 
-const DetailTransaction = ({ getDetailTransactionBuyback, transactionBuyback : { transaction, loading } }) => {
+const DetailTransaction = ({ 
+    getDetailTransactionBuyback, 
+    transactionBuyback : { transaction, loading, downloadTransaction, loadingDownload },
+    downloadReportTransactionBuyback
+}) => {
     const classes = useStyles()
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -92,11 +105,16 @@ const DetailTransaction = ({ getDetailTransactionBuyback, transactionBuyback : {
 		setPage(0);
     };
 
+    const DownloadReport = e => {
+        // console.log(id)
+        downloadReportTransactionBuyback(id)
+    }
+
     useEffect(() => {
         getDetailTransactionBuyback(id)
     }, [loading, getDetailTransactionBuyback, id])
 
-    return loading || transaction == null ? 
+    return loading || transaction == null || loadingDownload ? 
     <Backdrop className={classes.backdrop} open>
         <CircularProgress color="inherit" />
     </Backdrop>  
@@ -111,6 +129,24 @@ const DetailTransaction = ({ getDetailTransactionBuyback, transactionBuyback : {
                 >
                     <Grid item>  
                         <Typography variant="h4">Invoice Buyback</Typography>
+                    </Grid>
+                </Grid>
+                <Grid
+                    container
+                    spacing={2}
+                    alignItems="flex-start" 
+                    justify="flex-end"
+                >
+                    <Grid item>  
+                        <Button
+                            fullWidth
+                            className={classes.btnDownload}
+                            variant="contained"
+                            onClick={DownloadReport}
+                            startIcon={<DownloadIcon />}
+                        >
+                            DOWNLOAD
+                        </Button>
                     </Grid>
                     <Grid item>
                         <Button
@@ -231,4 +267,4 @@ const mapStateToProps = state => ({
     transactionBuyback : state.transactionBuyback
 })
 
-export default connect(mapStateToProps, { getDetailTransactionBuyback })(DetailTransaction)
+export default connect(mapStateToProps, { getDetailTransactionBuyback, downloadReportTransactionBuyback })(DetailTransaction)
