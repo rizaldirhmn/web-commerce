@@ -124,7 +124,7 @@ export const downloadReportTransaction = (id_trx) => async dispatch => {
             responseType: 'blob'
         });
 
-        fileDownload(res.data, 'report-selling.pdf')
+        fileDownload(res.data, `INV${id_trx}.pdf`)
         dispatch({
             type: DOWNLOAD_REPORT_TRANSACTION_SUCCESS,
             payload: res.data
