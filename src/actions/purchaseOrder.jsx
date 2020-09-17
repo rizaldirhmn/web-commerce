@@ -10,8 +10,8 @@ import {
     UPDATE_PURCHASE_ORDER_DONE
 } from './types'
 
-export const getPurchaseOrder = (keyword, status, type) => async dispatch => {
-    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/purchase_order/filter?kata_kunci=${keyword}&status=${status}&type=${type}`
+export const getPurchaseOrder = (keyword, status, type, startDate, endDate) => async dispatch => {
+    const endpoint = `${process.env.REACT_APP_BASE_URL}/user/purchase_order/filter?kata_kunci=${keyword}&status=${status}&type=${type}&start_date=${startDate}&end_date=${endDate}`
     const token = sessionStorage.getItem('access_token')
 
     try {
@@ -34,6 +34,10 @@ export const getPurchaseOrder = (keyword, status, type) => async dispatch => {
     } catch (error) {
         dispatch(setAlert("Something Went Wrong", "error"))
         console.log(error)
+        dispatch({
+            type: GET_PURCHASE_ORDER,
+            payload: error
+        })
         // dispatch({
         //     payload: { msg: error.response.statusText, status: error.response.status },
         //     type: STAGE_ERROR
