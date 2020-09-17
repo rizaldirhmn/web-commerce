@@ -18,6 +18,12 @@ import {
 import AddCircle from '@material-ui/icons/AddCircle'
 import { useHistory } from 'react-router-dom'
 import Skeleton from '@material-ui/lab/Skeleton'
+import {
+    DatePicker,
+    MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns'; // choose your lib
+import moment from 'moment';
 
 // Components
 import ListPurchaseOrder from './ListPurchaseOrder'
@@ -97,9 +103,52 @@ const PurchaseOrder = ({
         setKeyword(event.target.value)
     }
 
+    const [selectedDate ] = useState(new Date());
+    const submitDefault = moment().subtract(7, 'd').format('YYYY-MM-DD');
+    const submitDefaultEndDate = moment({}).format('YYYY-MM-DD');
+    const [ startDate, setStartDate ] = useState({
+        submit: {
+            submit: submitDefault
+        },
+        view: {
+            view: moment().subtract(7, 'd').format('YYYY-MM-DD')
+        }
+    });
+    const handleStartDate = (date) => {
+    const changeDate = moment(date).format('YYYY-MM-DD');
+        setStartDate(startDate => ({
+            ...startDate,
+                submit: {
+                    submit: changeDate
+            },
+                view: {
+                    view: date
+            }
+        }));
+    };
+
+    const [ endDate, setEndDate ] = useState({
+        submit: {
+            submit: submitDefaultEndDate
+        },
+        view: {selectedDate}
+    });
+    const handleEndDate = (date) => {
+    const all = moment(date).format('YYYY-MM-DD');
+        setEndDate(endDate => ({
+            ...endDate,
+            submit: {
+                submit: all
+            },
+            view: {
+                view: date
+            }
+        }));
+    };
+
     useEffect(() => {
-		getPurchaseOrder(keyword, status, type)
-	}, [loading, getPurchaseOrder, keyword, status, type]);
+		getPurchaseOrder(keyword, status, type, startDate.submit.submit, endDate.submit.submit)
+	}, [loading, getPurchaseOrder, keyword, status, type, startDate, endDate]);
 
     return(
         <div className={classes.root}>
@@ -154,6 +203,43 @@ const PurchaseOrder = ({
                             >
                                 <MenuItem value="id_invoice">No Invoice</MenuItem>
                             </TextField>
+                        </Paper>
+                    </Grid>
+                </Grid>
+            </div>
+            <div className={classes.row}>
+                <Grid
+                    container
+                    spacing={2}
+                >
+                    <Grid item lg={3} md={3} sm={6} xs={12}>
+                        <Paper className={classes.root}>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <DatePicker 
+                                    fullWidth
+                                    label="Tanggal Awal"
+                                    variant="outlined"
+                                    name="start_date"
+                                    format="dd MMMM yyyy"
+                                    value={startDate.view.view} 
+                                    onChange={handleStartDate} 
+                                />
+                            </MuiPickersUtilsProvider>
+                        </Paper>
+                    </Grid>
+                    <Grid item lg={3} md={3} sm={6} xs={12}>
+                        <Paper className={classes.root}>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <DatePicker 
+                                    fullWidth
+                                    label="Tanggal Akhir"
+                                    variant="outlined"
+                                    name="end_date"
+                                    format="dd MMMM yyyy"
+                                    value={endDate.view.view} 
+                                    onChange={handleEndDate} 
+                                />
+                            </MuiPickersUtilsProvider>
                         </Paper>
                     </Grid>
                 </Grid>
