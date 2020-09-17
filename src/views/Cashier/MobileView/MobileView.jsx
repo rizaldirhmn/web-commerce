@@ -121,7 +121,7 @@ const MobileView = ({ getSearchCustomerAndClear, customer : { searchCustomerClea
             submit: submitDefault
         },
         view: {
-            view: moment().format('YYYY-MM-DD HH:mm')
+            view: new Date()
         }
         
     });
