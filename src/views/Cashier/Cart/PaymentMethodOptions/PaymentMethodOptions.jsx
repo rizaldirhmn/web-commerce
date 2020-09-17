@@ -90,11 +90,9 @@ const PaymentMethodOptions = (props) => {
     const dateToUTCServer = moment(date).subtract(7, 'H').format('YYYY-MM-DD HH:mm:ss')
 
     const [formState, setFormState] = useState({
-        input_price: '',
+        input_price: 0,
         ongkir: 0
     });
-
-    const [ changes, setChanges ] = useState(0)
 
     const handleChange = event => {
         // event.presist()
@@ -103,7 +101,6 @@ const PaymentMethodOptions = (props) => {
             [event.target.name]: event.target.value
         }));
 
-        setChanges(event.target.value - carts.total_payment)
     };
 
     const onSubmitPayment = () => {
@@ -112,6 +109,9 @@ const PaymentMethodOptions = (props) => {
         addPayment(searchCustomerClear[0].id, formState.input_price, formState.note, formState.ongkir, history, dateToUTCServer)
         handleDrawerPaymentClose()
     }
+
+    const total_payment = carts.total_payment + formState.ongkir
+    const changes = formState.input_price - (carts.total_payment + formState.ongkir)
 
     return loadingCustomerClear || searchCustomerClear === null ? 
 	<Backdrop className={classes.backdrop} open>
@@ -137,7 +137,7 @@ const PaymentMethodOptions = (props) => {
                         xs={12}
                     >
                         <Typography variant="h3">
-                            Total Harus Bayar : <NumberFormat value={carts.total_payment} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+                            Total Harus Bayar : <NumberFormat value={total_payment} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
                         </Typography>
                         
                     </Grid>
@@ -166,7 +166,7 @@ const PaymentMethodOptions = (props) => {
                                 customInput={TextField}
                                 type="text"
                                 thousandSeparator
-                                onValueChange={({ value: v }) => handleChange({ target : { name : 'ongkir', value: v} })}
+                                onValueChange={({ value: v }) => handleChange({ target : { name : 'ongkir', value: parseInt(v)} })}
                             />
                         </Paper>
                     </Grid>
@@ -190,7 +190,7 @@ const PaymentMethodOptions = (props) => {
                                 customInput={TextField}
                                 type="text"
                                 thousandSeparator
-                                onValueChange={({ value: v }) => handleChange({ target : { name : 'input_price', value: v} })}
+                                onValueChange={({ value: v }) => handleChange({ target : { name : 'input_price', value: parseInt(v)} })}
                             />
                         </Paper>
                     </Grid>
