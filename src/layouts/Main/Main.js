@@ -109,7 +109,7 @@ const useStyles = makeStyles(theme => ({
   },
   textMenu: {
     color: textMenuWhite,
-    fontFamily: 'Roboto'
+    fontFamily: 'Nunito'
   },
   textMenuNested: {
     color: textMenuWhite,
@@ -287,7 +287,7 @@ const Main = props => {
                   onClick={handleDrawerClose}
                   to='/cashier'
                 >
-                    <div className={classes.textMenu}>Penjualan</div>
+                    <div className={classes.textMenuNested}>Penjualan</div>
                 </Button>
               </ListItem>
               <ListItem
