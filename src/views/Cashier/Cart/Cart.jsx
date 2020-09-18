@@ -50,8 +50,9 @@ const useStyles = makeStyles(theme => ({
     contentItems: {
         padding: theme.spacing(1),
         width: '100%',
+        height: '200px',
         [theme.breakpoints.up('md')]: {
-            height: '320px'
+            height: '320px',
         },
     },
     contentItemsPayment: {
@@ -72,7 +73,7 @@ const useStyles = makeStyles(theme => ({
         fontSize: '12px'
     },
     itemName: {
-        padding: '11px'
+        padding: '11px',
     }
 }))
 
