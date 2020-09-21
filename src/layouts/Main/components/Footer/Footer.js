@@ -24,7 +24,7 @@ const Footer = props => {
         &copy;{' '}
         <Link
           component="a"
-          href="https://ngampooz.com/"
+          href="https://pos-cabang.eoatech.com/"
           target="_blank"
         >
           EOA Tech Team

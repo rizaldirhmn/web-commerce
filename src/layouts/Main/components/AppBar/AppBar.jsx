@@ -15,12 +15,15 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 // import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { Link } from 'react-router-dom';
+import {
+  Typography
+} from '@material-ui/core'
 
 const drawerWidth = 240;
 const appDrawerBlue = '#011747';
 // const appDrawerDefault = '#FFFFFF';
 
-const iconBlack = '#000000';
+// const iconBlack = '#000000';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -34,6 +37,10 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('sm')]: {
       paddingTop: 64
     },
+  },
+  name_logo : {
+    fontFamily : 'Nunito',
+    color: '#FFF',
   },
   logo : {
     width: 'auto',
@@ -82,45 +89,6 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     [theme.breakpoints.up('md')]: {
       display: 'none',
-    },
-  },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    // backgroundColor: fade('#f5f5f5', 0.15),
-    // '&:hover': {
-    //   backgroundColor: fade('#f5f5f5', 0.25),
-    // },
-    backgroundColor: '#f5f5f5',
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: 'auto',
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: iconBlack
-  },
-  inputRoot: {
-    color: iconBlack,
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
     },
   },
 }));
@@ -235,13 +203,16 @@ const Appbar = props => {
             <MenuIcon />
           </IconButton>
 
-          {/* <RouterLink to="/">
-            <img
+          <Link to="/">
+            {/* <img
               alt="Logo"
               className={classes.logo}
               src="/images/logo/bukalapak.png"
-            />
-          </RouterLink> */}
+            /> */}
+            <Typography variant="h5" className={classes.name_logo}>
+              Point Of Sales - EOA Gold
+            </Typography>
+          </Link>
           {/* <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />

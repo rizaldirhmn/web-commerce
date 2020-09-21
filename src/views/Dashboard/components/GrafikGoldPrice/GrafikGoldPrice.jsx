@@ -14,7 +14,6 @@ import {
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 import moment from 'moment';
-import moment_tz from 'moment-timezone'
 import {options} from './chart'
 
 // Redux
@@ -99,10 +98,8 @@ const GrafikGoldPrice = (props) => {
 
     if(!loadingGoldPrice || grafikGoldPrice !== null){
         for (var i = 0; i < grafikGoldPrice.data.length; i++) {
-            // bulan.push(grafikGoldPrice.data[i].date);
-            var date = new Date(grafikGoldPrice.data[i].date)
-            bulan.push(moment_tz(date, "Europe/London").tz("Asia/Jakarta").format('DD/MM HH:mm'));
-            jumlah.push(grafikGoldPrice.data[i].harga);
+            bulan.push(moment(grafikGoldPrice.data[i].date).format('DD/MM HH:mm'));
+            jumlah.push(grafikGoldPrice.data[i].hpp);
         }
     
         data = {
