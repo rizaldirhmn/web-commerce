@@ -14,7 +14,6 @@ import {
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 import moment from 'moment';
-import moment_tz from 'moment-timezone'
 import {options} from './chart'
 
 // Redux
@@ -99,8 +98,8 @@ const GrafikHPP = (props) => {
     if(!loadingGrafikHPP || grafikHPP !== null){
         for (var i = 0; i < grafikHPP.data.length; i++) {
             // bulan.push(grafikHPP.data[i].date);
-            var date = new Date(grafikHPP.data[i].date)
-            bulan.push(moment_tz(date, "Europe/London").tz("Asia/Jakarta").format('DD/MM HH:mm'));
+            // var date = new Date(grafikHPP.data[i].date)
+            bulan.push(moment(grafikHPP.data[i].date).format('DD/MM HH:mm'));
             jumlah.push(grafikHPP.data[i].hpp);
         }
     
