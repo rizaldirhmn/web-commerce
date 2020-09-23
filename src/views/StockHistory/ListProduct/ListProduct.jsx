@@ -129,16 +129,24 @@ const ListProduct = (props) => {
 							<Typography variant="h4">Total</Typography>
 						</TableCell>
 						<TableCell>
-							{stockHistory.total.stock_awal}
+							<Typography variant="h4">
+								{stockHistory.total.stock_awal}
+							</Typography>
 						</TableCell>
 						<TableCell>
-							{stockHistory.total.penambahan}
+							<Typography variant="h4">
+								{stockHistory.total.penambahan}
+							</Typography>
 						</TableCell>
 						<TableCell>
-							{stockHistory.total.pengurangan}
+							<Typography variant="h4">
+								{stockHistory.total.pengurangan}
+							</Typography>
 						</TableCell>
 						<TableCell>
-							{stockHistory.total.stock_akhir}
+							<Typography variant="h4">
+								{stockHistory.total.stock_akhir}
+							</Typography>
 						</TableCell>
 						<TableCell colSpan={2}>
 							

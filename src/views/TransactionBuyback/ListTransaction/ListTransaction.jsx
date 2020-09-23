@@ -113,7 +113,9 @@ const ListTransaction = (props) => {
 								<Typography variant="h4">Total</Typography>
 							</TableCell>
 							<TableCell colsPan={2}>
-								<NumberFormat value={transactions.total.total_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+								<Typography variant="h4">
+									<NumberFormat value={transactions.total.total_price} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+								</Typography>
 							</TableCell>
 						</TableRow>
 					)}

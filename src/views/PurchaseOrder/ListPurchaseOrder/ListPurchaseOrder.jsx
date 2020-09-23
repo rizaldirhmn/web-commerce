@@ -118,7 +118,9 @@ const ListPurchaseOrder = (props) => {
 							<Typography variant="h4">Total</Typography>
 						</TableCell>
 						<TableCell colsPan={2}>
-							<NumberFormat value={purchaseOrders.total.total_price} displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
+							<Typography variant="h4">
+								<NumberFormat value={purchaseOrders.total.total_price} displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
+							</Typography>
 						</TableCell>
 					</TableRow>
 				</TableBody>
