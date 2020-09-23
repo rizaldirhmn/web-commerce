@@ -125,7 +125,7 @@ const Profile = (props) => {
                                 <CardContent>
                                     <TextField 
                                         fullWidth
-                                        name="nama"
+                                        name="name"
                                         label="Nama Akun"
                                         variant="outlined"
                                         defaultValue={detailProfile.name || ''}
