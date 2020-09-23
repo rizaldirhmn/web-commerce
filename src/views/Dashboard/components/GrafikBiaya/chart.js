@@ -44,8 +44,8 @@ export const options = {
       {
         ticks: {
           fontColor: palette.text.secondary,
-          beginAtZero: true,
-          min: 0,
+          beginAtZero: false,
+          // min: 0,
           callback(value) {
             // you can add your own method here (just an example)
             return Number(value).toLocaleString('en')

@@ -17,7 +17,9 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import CartIcon from '@material-ui/icons/AddShoppingCart';
+import PurchaseIcon from '@material-ui/icons/Assignment';
 import UserIcon from '@material-ui/icons/People';
+import PaymentIcon from '@material-ui/icons/Payment'
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -338,7 +340,7 @@ const Main = props => {
               to='/purchase-order'
             >
                 <div className={classes.icon}>
-                  <CartIcon style={{ color: textMenuWhite }} />
+                  <PurchaseIcon style={{ color: textMenuWhite }} />
                 </div>
                 <div className={classes.textMenu}>Purchase</div>
             </Button>
@@ -356,7 +358,7 @@ const Main = props => {
               to='/other-purchase-order'
             >
                 <div className={classes.icon}>
-                  <CartIcon style={{ color: textMenuWhite }} />
+                  <PaymentIcon style={{ color: textMenuWhite }} />
                 </div>
                 <div className={classes.textMenu}>Biaya</div>
             </Button>
