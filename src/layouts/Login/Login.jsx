@@ -17,17 +17,6 @@ import { useHistory } from 'react-router-dom';
 import { addLogin } from '../../actions/login'
 import { connect } from 'react-redux'
 
-// const useStyles = makeStyles(theme => ({
-// 	card: {
-// 			minWidth: 275
-// 	},
-// 	extendedIcon: {
-// 			marginRight: theme.spacing(2)
-// 	},
-// 	action: {
-// 			flexDirection: "row-reverse"
-// 	}
-// }));
 const useStyles = makeStyles((theme) => ({
 	root: {
 	  height: '100vh'
@@ -170,75 +159,6 @@ const Login = ({ addLogin }) => {
 				</div>
 			</Grid>
 		</Grid>
-		// <Grid
-		// 	container
-		// 	spacing={0}
-		// 	alignItems="center"
-		// 	justify="center"
-		// 	style={{ minHeight: "90vh" }}
-		// >
-		// 	<Grid item xs={10} sm={4}>
-		// 		<Fragment>
-		// 			<Card className={classes.card}>
-		// 				<CardHeader
-		// 					// ={< src={Logo} className={classes.} />}
-		// 					title="Login Access EOA POS Cabang"
-		// 				/>
-		// 				<form onSubmit={handleSubmit(onSubmit)}>
-		// 					<CardContent>
-		// 						<TextField
-		// 							fullWidth
-		// 							label="Email"
-		// 							style={{
-		// 								marginBottom: "20px"
-		// 							}}
-		// 							name="email" 
-		// 							inputRef={register}
-		// 							placeholder="Masukan Email Anda"
-		// 							helperText={
-		// 								errors.email && errors.email.message
-		// 							}
-		// 							error={errors.email && true}
-		// 							inputProps={{
-		// 								"aria-label": "Description"
-		// 							}}
-		// 						/>
-		// 						<TextField 
-		// 							fullWidth
-		// 							label="Password"
-		// 							style={{
-		// 								marginBottom: "20px"
-		// 							}}
-		// 							name="password" 
-		// 							inputRef={register}
-		// 							placeholder="Masukan Password Anda"
-		// 							helperText={
-		// 								errors.password && errors.password.message
-		// 							}
-		// 							error={errors.password && true}
-		// 							type="password" 
-		// 							inputProps={{
-		// 								"aria-label": "Description"
-		// 							}}
-		// 						/>
-		// 					</CardContent>
-		// 					<CardActions className={classes.action}>
-		// 						<Button
-		// 							id="btn_login"
-		// 							type="submit"
-		// 							color="primary"
-		// 							className={classes.button}
-		// 							variant="contained"
-		// 						>
-		// 							<Send className={classes.extendedIcon}/>
-		// 								Login
-		// 						</Button>
-		// 					</CardActions>
-		// 				</form>
-		// 			</Card>
-		// 		</Fragment>
-		// 	</Grid>
-		// </Grid>
 	);
 }
 
