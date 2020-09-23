@@ -99,7 +99,7 @@ const GrafikGoldPrice = (props) => {
     if(!loadingGoldPrice || grafikGoldPrice !== null){
         for (var i = 0; i < grafikGoldPrice.data.length; i++) {
             bulan.push(moment(grafikGoldPrice.data[i].date).format('DD/MM HH:mm'));
-            jumlah.push(grafikGoldPrice.data[i].hpp);
+            jumlah.push(grafikGoldPrice.data[i].harga);
         }
     
         data = {
