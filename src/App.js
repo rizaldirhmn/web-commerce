@@ -67,13 +67,10 @@ export default function App() {
             <DialogTitle id="alert-dialog-title">{"Update info"}</DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                Update aplikasi nya dulu yuk
+                Kami telah melakukan beberapa perubahan, silahkan update
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button color="primary">
-                Tidak
-              </Button>
               <Button 
                 onClick={e => {
                   e.preventDefault();
@@ -82,7 +79,7 @@ export default function App() {
                 color="primary" 
                 autoFocus
               >
-                Ya
+                Update
               </Button>
             </DialogActions>
           </Dialog>
