@@ -17,7 +17,8 @@ import {
 	IconButton,
 	Collapse,
 	Box,
-	Typography
+	Typography,
+	Chip
 } from '@material-ui/core';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
@@ -25,6 +26,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 const columns = [
   { id: 'tanggal', label: 'Tanggal', minWidth: 100 },
   { id: 'total', label: 'Total Pengeluaran', minWidth: 100 },
+  { id: 'status', label: 'Status Pengeluaran', minWidth: 100 },
   { id: 'action', label: 'Aksi', minWidth: 100 },
   
 ];
@@ -60,6 +62,21 @@ function Row(props) {
 				</TableCell>
 				<TableCell>
 					<NumberFormat value={po.total_price_invoice} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+				</TableCell>
+				<TableCell>
+					{po.status === '1' ? (
+						<Chip
+							label="Sudah Tersimpan"
+							style={{ color: '#4AD991' }}
+							variant="outlined"
+						/>
+					):(
+						<Chip
+							label="Tersimpan Sementara"
+							style={{ color: '#FF6565' }}
+							variant="outlined"
+						/>
+					)}
 				</TableCell>
 				<TableCell>
 					<Tooltip title="Detail Invoice">
