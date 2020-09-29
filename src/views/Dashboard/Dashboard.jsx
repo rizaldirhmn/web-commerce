@@ -8,7 +8,7 @@ import {
 import { Link as RouterLink } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { getCardStats } from '../../actions/dashboard'
-
+// import '../../../public/index.css'
 import { 
   TotalTransaction,
   TotalSelling,

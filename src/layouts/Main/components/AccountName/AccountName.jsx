@@ -28,7 +28,8 @@ const useStyles = makeStyles(theme => ({
   name: {
     marginTop: theme.spacing(1),
     textAlign: 'center',
-    color: nameColorWhite
+    color: nameColorWhite,
+    fontFamily: 'Nunito'
   }
 }));
 
@@ -75,7 +76,7 @@ const Profile = props => {
           <Skeleton variant="rect" className={classes.name}></Skeleton>
         )}
         {!loadingGetProfile ? (
-          <Typography variant="body2" style={{ color: nameColorWhite }}>{profile.email}</Typography>
+          <Typography variant="body2" style={{ color: nameColorWhite, fontFamily: 'Nunito' }}>{profile.email}</Typography>
         ):(
           <Skeleton variant="rect"></Skeleton>
         )}
