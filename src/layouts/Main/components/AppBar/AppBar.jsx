@@ -20,7 +20,7 @@ import {
 } from '@material-ui/core'
 
 const drawerWidth = 240;
-const appDrawerBlue = '#011747';
+const appDrawerBlue = '#FFFFFF';
 // const appDrawerDefault = '#FFFFFF';
 
 // const iconBlack = '#000000';
@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   },
   name_logo : {
     fontFamily : 'Nunito',
-    color: '#FFF',
+    color: '#000000',
   },
   logo : {
     width: 'auto',
@@ -56,6 +56,7 @@ const useStyles = makeStyles(theme => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
+    boxShadow: 'none',
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -64,6 +65,7 @@ const useStyles = makeStyles(theme => ({
   },
   appBarShift: {
     marginLeft: drawerWidth,
+    boxShadow: 'none',
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -192,7 +194,7 @@ const Appbar = props => {
       >
         <Toolbar>
           <IconButton
-            color="inherit"
+            // color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
@@ -244,7 +246,7 @@ const Appbar = props => {
               aria-controls={menuId}
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
-              color="inherit"
+              // color="inherit"
             >
               <AccountCircle />
             </IconButton>

@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import { getProfile } from '../../../../actions/profile'
 import Skeleton from '@material-ui/lab/Skeleton';
 
-const nameColorWhite = '#FFFFFF';
+const nameColorWhite = '#000000';
 // const nameColorBlack = '#000000';
 
 const useStyles = makeStyles(theme => ({

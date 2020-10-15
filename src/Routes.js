@@ -7,23 +7,7 @@ import { Main as MainLayout, Login } from './layouts';
 import {
   Dashboard as DashboardView,
   Cashier as CashierView,
-  CashierBuyback as CashierBuybackView,
-  Customer as CustomerView,
-  CreateCustomer as CreateCustomerView,
-  EditCustomer as EditCustomerView,
-  PurchaseOrder as PurchaseOrderView,
-  CreatePurchaseOrder as CreatePurchaseOrderView,
-  Transaction as TransactionView,
-  BeginingBalance as BeginingBalanceView,
-  DetailTransaction as DetailTransactionView,
-  StockOpname as StockOpnameView,
   Profile as ProfileView,
-  TransactionBuyback as TransactionBuybackView,
-  DetailTransactionBuyback as DetailTransactionBuybackView,
-  StockHistory as StockHistoryView,
-  OtherPurchaseOrder as OtherPurchaseOrderView,
-  CreateOtherPurchaseOrder as CreateOtherPurchaseOrderView,
-  DetailStock as DetailStockView
 } from './views';
 
 const Routes = () => {
@@ -54,118 +38,6 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/cashier"
-      />
-
-      <RouteWithLayout
-        component={CashierBuybackView}
-        exact
-        layout={MainLayout}
-        path="/cashier-buyback"
-      />
-
-      <RouteWithLayout
-        component={CustomerView}
-        exact
-        layout={MainLayout}
-        path="/customer"
-      />
-
-      <RouteWithLayout
-        component={CreateCustomerView}
-        exact
-        layout={MainLayout}
-        path="/customer/create"
-      />
-
-      <RouteWithLayout
-        component={EditCustomerView}
-        exact
-        layout={MainLayout}
-        path="/customer/edit/:id"
-      />
-
-      <RouteWithLayout
-        component={PurchaseOrderView}
-        exact
-        layout={MainLayout}
-        path="/purchase-order"
-      />
-
-      <RouteWithLayout
-        component={CreatePurchaseOrderView}
-        exact
-        layout={MainLayout}
-        path="/purchase-order/create/:id"
-      />
-
-      <RouteWithLayout
-        component={TransactionView}
-        exact
-        layout={MainLayout}
-        path="/report/selling"
-      />
-
-      <RouteWithLayout
-        component={DetailTransactionView}
-        exact
-        layout={MainLayout}
-        path="/report/selling/detail/:id"
-      />
-
-      <RouteWithLayout
-        component={TransactionBuybackView}
-        exact
-        layout={MainLayout}
-        path="/report/buyback"
-      />
-
-      <RouteWithLayout
-        component={DetailTransactionBuybackView}
-        exact
-        layout={MainLayout}
-        path="/report/buyback/detail/:id"
-      />
-
-      <RouteWithLayout
-        component={BeginingBalanceView}
-        exact
-        layout={MainLayout}
-        path="/begining-balance"
-      />
-
-      <RouteWithLayout
-        component={StockOpnameView}
-        exact
-        layout={MainLayout}
-        path="/stock-opname"
-      />
-
-      <RouteWithLayout
-        component={StockHistoryView}
-        exact
-        layout={MainLayout}
-        path="/stock-history"
-      />
-
-      <RouteWithLayout
-        component={DetailStockView}
-        exact
-        layout={MainLayout}
-        path="/stock-history/detail/:id"
-      />
-
-      <RouteWithLayout
-        component={OtherPurchaseOrderView}
-        exact
-        layout={MainLayout}
-        path="/other-purchase-order"
-      />
-
-      <RouteWithLayout
-        component={CreateOtherPurchaseOrderView}
-        exact
-        layout={MainLayout}
-        path="/other-purchase-order/create/:id"
       />
 
       <Route
