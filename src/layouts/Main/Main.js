@@ -2,7 +2,7 @@ import React, { forwardRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/styles';
-import { useMediaQuery, Button, colors } from '@material-ui/core';
+import { useMediaQuery, Button, colors, Divider, Typography } from '@material-ui/core';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -17,9 +17,6 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import CartIcon from '@material-ui/icons/AddShoppingCart';
-import PurchaseIcon from '@material-ui/icons/Assignment';
-import UserIcon from '@material-ui/icons/People';
-import PaymentIcon from '@material-ui/icons/Payment'
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -27,17 +24,16 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import SignOutIcon from '@material-ui/icons/Input';
-import ReportIcon from '@material-ui/icons/Assessment'
-import SettingIcon from '@material-ui/icons/Settings'
 
 import Hidden from '@material-ui/core/Hidden';
 
 import { Footer, AppBar, AccountName } from './components';
 
 const drawerWidth = 240;
-const drawerColorBlue = '#011747';
+const drawerColorBlue = '#FFFFFF';
 
-const textMenuWhite = '#FFFFFF';
+// const textMenuWhite = '#FFFFFF';
+const textMenuBlack = '#000000';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -72,9 +68,30 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 0,
   },
   drawer: {
-    [theme.breakpoints.up("sm")]: {
-      flexShrink: 0
-    }
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+  },
+  drawerOpen: {
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    backgroundColor: drawerColorBlue
+  },
+  drawerClose: {
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: 'hidden',
+    width: theme.spacing(7) + 1,
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing(9) + 1,
+    },
+    backgroundColor: drawerColorBlue,
+    paddingTop: theme.spacing(5)
   },
   drawerPaper: {
     width: drawerWidth,
@@ -108,13 +125,15 @@ const useStyles = makeStyles(theme => ({
     bottom: 0,
     textAlign: "center",
     paddingBottom: 10,
+    width: 'auto'
   },
   textMenu: {
-    color: textMenuWhite,
-    fontFamily: 'Nunito'
+    color: textMenuBlack,
+    fontFamily: 'Nunito',
+    paddingLeft: theme.spacing(2)
   },
   textMenuNested: {
-    color: textMenuWhite,
+    color: textMenuBlack,
     fontFamily: 'Nunito',
     fontSize: '14px',
     // textDecoration: 'underline'
@@ -122,7 +141,7 @@ const useStyles = makeStyles(theme => ({
   item: {
     display: 'flex',
     paddingTop: 0,
-    paddingBottom: 0
+    paddingBottom: 0,
   },
   nested: {
     paddingLeft: theme.spacing(6),
@@ -156,7 +175,7 @@ const Main = props => {
     defaultMatches: true
   });
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   // Dialog Box
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -218,27 +237,34 @@ const Main = props => {
     >
       <AppBar handleDrawerOpen={handleDrawerOpen} open={open} setOpen={setOpen} />
       <SwipeableDrawer
-        className={classes.drawer}
+        // className={classes.drawer}
         anchor="left"
+        variant="permanent"
         open={open}
         onClose={handleDrawerClose}
         onOpen={handleDrawerOpen}
+        // classes={{
+        //   paper: classes.drawerPaper,
+        // }}
+        className={clsx(classes.drawer, {
+          [classes.drawerOpen]: open,
+          [classes.drawerClose]: !open,
+        })}
         classes={{
-          paper: classes.drawerPaper,
+          paper: clsx({
+            [classes.drawerOpen]: open,
+            [classes.drawerClose]: !open,
+          }),
         }}
       >
-        <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon style={{ color: textMenuWhite }} /> : <ChevronLeftIcon style={{ color: textMenuWhite }} />}
-          </IconButton>
-        </div>
         {open && <AccountName /> }
-        
+        <Divider />
         <List
           className={classes.menus}
         >
           <ListItem 
             key='dashboard' 
+            button
             disabledGutters
             className={classes.item}
           >
@@ -246,11 +272,11 @@ const Main = props => {
               activeClassName={classes.active}
               className={classes.button}
               component={CustomRouterLink}
-              onClick={handleDrawerClose}
+              
               to='/dashboard'
             >
               <div className={classes.icon}>
-                <DashboardIcon style={{ color: textMenuWhite }} />
+                <DashboardIcon style={{ color: textMenuBlack }} />
               </div>
               <div className={classes.textMenu}>
                 Dashboard
@@ -267,13 +293,13 @@ const Main = props => {
               className={classes.button}
             >
               <div className={classes.icon}>
-                <CartIcon style={{ color: textMenuWhite }} />
+                <CartIcon style={{ color: textMenuBlack }} />
               </div>
               <div className={classes.textMenu}>
                 Transaksi
               </div>
             </Button>
-            {transactionOpen ? <ExpandLess style={{ color: textMenuWhite }} /> : <ExpandMore style={{ color: textMenuWhite }} />}
+            {transactionOpen ? <ExpandLess style={{ color: textMenuBlack }} /> : <ExpandMore style={{ color: textMenuBlack }} />}
           </ListItem>
           <Collapse in={transactionOpen} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
@@ -286,7 +312,7 @@ const Main = props => {
                   activeClassName={classes.active}
                   className={classes.button}
                   component={CustomRouterLink}
-                  onClick={handleDrawerClose}
+                  
                   to='/cashier'
                 >
                     <div className={classes.textMenuNested}>Penjualan</div>
@@ -301,7 +327,7 @@ const Main = props => {
                   activeClassName={classes.active}
                   className={classes.button}
                   component={CustomRouterLink}
-                  onClick={handleDrawerClose}
+                  
                   to='/cashier-buyback'
                 >
                     <div className={classes.textMenuNested}>Buyback</div>
@@ -309,176 +335,7 @@ const Main = props => {
               </ListItem>
             </List>
           </Collapse>
-          <ListItem 
-            key='customer' 
-            disabledGutters
-            className={classes.item}
-          >
-            <Button
-              activeClassName={classes.active}
-              className={classes.button}
-              component={CustomRouterLink}
-              onClick={handleDrawerClose}
-              to='/customer'
-            >
-                <div className={classes.icon}>
-                  <UserIcon style={{ color: textMenuWhite }} />
-                </div>
-                <div className={classes.textMenu}>Customer</div>
-            </Button>
-          </ListItem>
-          <ListItem
-            key='purchase-order'
-            disabledGutters
-            className={classes.item}
-          >
-            <Button
-              activeClassName={classes.active}
-              className={classes.button}
-              component={CustomRouterLink}
-              onClick={handleDrawerClose}
-              to='/purchase-order'
-            >
-                <div className={classes.icon}>
-                  <PurchaseIcon style={{ color: textMenuWhite }} />
-                </div>
-                <div className={classes.textMenu}>Purchase</div>
-            </Button>
-          </ListItem>
-          <ListItem 
-            key='other-purchase-order'
-            disabledGutters
-            className={classes.item}
-          >
-            <Button
-              activeClassName={classes.active}
-              className={classes.button}
-              component={CustomRouterLink}
-              onClick={handleDrawerClose}
-              to='/other-purchase-order'
-            >
-                <div className={classes.icon}>
-                  <PaymentIcon style={{ color: textMenuWhite }} />
-                </div>
-                <div className={classes.textMenu}>Biaya</div>
-            </Button>
-          </ListItem>
           
-          <ListItem
-            className={classes.item}
-            disabledGutters
-            button 
-            onClick={() => handleClick('laporan')}
-          >
-            <Button
-              className={classes.button}
-            >
-              <div className={classes.icon}>
-                <ReportIcon style={{ color: textMenuWhite }} />
-              </div>
-              <div className={classes.textMenu}>Laporan</div>
-            </Button>
-            {reportOpen ? <ExpandLess style={{ color: textMenuWhite }} /> : <ExpandMore style={{ color: textMenuWhite }} />}
-          </ListItem>
-          <Collapse in={reportOpen} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem 
-                className={classes.nested} 
-                key='report-selling'
-              >
-                <Button
-                  fullWidth
-                  activeClassName={classes.active}
-                  className={classes.button}
-                  component={CustomRouterLink}
-                  onClick={handleDrawerClose}
-                  to='/report/selling'
-                >
-                    <div className={classes.textMenu}>Penjualan</div>
-                </Button>
-              </ListItem>
-              <ListItem 
-                className={classes.nested} 
-                key='report-buyback'
-              >
-                <Button
-                  fullWidth
-                  activeClassName={classes.active}
-                  className={classes.button}
-                  component={CustomRouterLink}
-                  onClick={handleDrawerClose}
-                  to='/report/buyback'
-                >
-                    <div className={classes.textMenu}>Buyback</div>
-                </Button>
-              </ListItem>
-              <ListItem 
-                className={classes.nested} 
-                key='stock-history'
-              >
-                <Button
-                  fullWidth
-                  activeClassName={classes.active}
-                  className={classes.button}
-                  component={CustomRouterLink}
-                  onClick={handleDrawerClose}
-                  to='/stock-history'
-                >
-                    <div className={classes.textMenu}>Stock</div>
-                </Button>
-              </ListItem>
-            </List>
-          </Collapse>
-          <ListItem
-            className={classes.item}
-            disabledGutters
-            button 
-            onClick={() => handleClick('pengaturan')}
-          >
-            <Button
-              className={classes.button}
-            >
-              <div className={classes.icon}>
-                <SettingIcon style={{ color: textMenuWhite }} />
-              </div>
-              <div className={classes.textMenu}>Pengaturan</div>
-            </Button>
-            {pengaturanOpen ? <ExpandLess style={{ color: textMenuWhite }} /> : <ExpandMore style={{ color: textMenuWhite }} />}
-          </ListItem>
-          <Collapse in={pengaturanOpen} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem 
-                className={classes.nested}
-                key='begining-balance'
-              >
-                <Button
-                  fullWidth
-                  activeClassName={classes.active}
-                  className={classes.button}
-                  component={CustomRouterLink}
-                  onClick={handleDrawerClose}
-                  to='/begining-balance'
-                >
-                    <div className={classes.textMenu}>Stock Awal</div>
-                </Button>
-              </ListItem>
-              <ListItem 
-                className={classes.nested} 
-                key='stock-opname'
-              >
-                <Button
-                  fullWidth
-                  activeClassName={classes.active}
-                  className={classes.button}
-                  component={CustomRouterLink}
-                  onClick={handleDrawerClose}
-                  to='/stock-opname'
-                >
-                    <div className={classes.textMenu}>Stock Opname</div>
-                </Button>
-              </ListItem>
-            </List>
-          </Collapse>
           <ListItem
             disabledGutters
             className={classes.item}
@@ -491,12 +348,26 @@ const Main = props => {
               onClick={handlingSignout}
             >
                 <div className={classes.icon}>
-                  <SignOutIcon style={{ color: textMenuWhite }} />
+                  <SignOutIcon style={{ color: textMenuBlack }} />
                 </div>
                 <div className={classes.textMenu}>Sign Out</div>
             </Button>
           </ListItem>
         </List>
+        <div className={classes.bottomPush}>
+          <div className={classes.toolbar}>
+            {open ? (
+              <IconButton onClick={handleDrawerClose}>
+                {theme.direction === 'rtl' ? <ChevronRightIcon style={{ color: textMenuBlack }} /> : <ChevronLeftIcon style={{ color: textMenuBlack }} />}
+                <Typography>Kecilkan Menu</Typography>
+              </IconButton>
+            ):(
+              <IconButton onClick={handleDrawerOpen}>
+                {theme.direction === 'rtl' ? <ChevronLeftIcon style={{ color: textMenuBlack }} /> : <ChevronRightIcon style={{ color: textMenuBlack }} />}
+              </IconButton>
+            )}
+          </div>
+        </div>
       </SwipeableDrawer>
       <main 
         className={classes.content}
