@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
 import NumberFormat from 'react-number-format';
-import PaymentIcon from '@material-ui/icons/Payment'
+import CartIcon from '@material-ui/icons/AttachMoney'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TotalCost = props => {
+const TotalInvestasiRP = props => {
   const { className, item, ...rest } = props;
 
   const classes = useStyles();
@@ -74,15 +74,15 @@ const TotalCost = props => {
               gutterBottom
               variant="body2"
             >
-              TOTAL BIAYA
+              Investasi (Rupiah)
             </Typography>
 						<Typography className={classes.numbers} variant="h3">
-							<NumberFormat value={item} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+							<NumberFormat value={item} displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
 						</Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <PaymentIcon className={classes.icon} />
+              <CartIcon className={classes.icon} />
             </Avatar>
           </Grid>
         </Grid>
@@ -91,8 +91,8 @@ const TotalCost = props => {
   );
 };
 
-TotalCost.propTypes = {
+TotalInvestasiRP.propTypes = {
   className: PropTypes.string
 };
 
-export default TotalCost;
+export default TotalInvestasiRP;

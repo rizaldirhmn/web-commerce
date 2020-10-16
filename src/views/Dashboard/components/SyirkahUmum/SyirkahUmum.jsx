@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
 import NumberFormat from 'react-number-format';
-import PeopleIcon from '@material-ui/icons/People'
+import PeopleIcon from '@material-ui/icons/DataUsage'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TotalCost = props => {
+const SyirkahUmum = props => {
   const { className, item, ...rest } = props;
 
   const classes = useStyles();
@@ -74,7 +74,7 @@ const TotalCost = props => {
               gutterBottom
               variant="body2"
             >
-              TOTAL CUSTOMER
+              Syirkah Umum
             </Typography>
 						<Typography className={classes.numbers} variant="h3">
 							<NumberFormat value={item} displayType={'text'} thousandSeparator={true} />
@@ -91,8 +91,8 @@ const TotalCost = props => {
   );
 };
 
-TotalCost.propTypes = {
+SyirkahUmum.propTypes = {
   className: PropTypes.string
 };
 
-export default TotalCost;
+export default SyirkahUmum;

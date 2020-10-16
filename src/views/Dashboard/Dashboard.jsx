@@ -11,12 +11,12 @@ import { getCardStats } from '../../actions/dashboard'
 // import '../../../public/index.css'
 import { 
   TotalTransaction,
-  TotalSelling,
-  TotalPurchasing,
-  TotalCost,
+  TotalInvestasi,
+  TotalInvestasiRP,
+  Investor,
   OverviewTodayPricing,
-  TotalProfitClean,
-  TotalCustomer,
+  TotalSyirkah,
+  SyirkahUmum,
   GrafikNetIncome,
   GrafikGoldPrice,
   GrafikTransactionSales,
@@ -107,8 +107,8 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
         >
           <Grid
             item
-            lg={4}
-            md={4}
+            lg={3}
+            md={3}
             sm={6}
             xs={12}
           >
@@ -120,65 +120,65 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
           </Grid>
           <Grid
             item
-            lg={4}
-            md={4}
+            lg={3}
+            md={3}
             sm={6}
             xs={12}
           >
             {!loadingCard ? (
-              <TotalSelling loading={loadingCard} item={card.total_penjualan} />
+              <TotalInvestasi loading={loadingCard} item={card.total_penjualan} />
             ):(
               <Skeleton variant="rect"></Skeleton>
             )}
           </Grid>
           <Grid
             item
-            lg={4}
-            md={4}
+            lg={3}
+            md={3}
             sm={6}
             xs={12}
           >
             {!loadingCard ? (
-              <TotalPurchasing loading={loadingCard} item={card.total_pembelian} />
+              <TotalInvestasiRP loading={loadingCard} item={card.total_pembelian} />
             ):(
               <Skeleton variant="rect"></Skeleton>
             )}
           </Grid>
           <Grid
             item
-            lg={4}
-            md={4}
+            lg={3}
+            md={3}
             sm={6}
             xs={12}
           >
             {!loadingCard ? (
-              <TotalCost loading={loadingCard} item={card.total_biaya} />
+              <Investor loading={loadingCard} item={card.total_biaya} />
             ):(
               <Skeleton variant="rect"></Skeleton>
             )}
           </Grid>
           <Grid
             item
-            lg={4}
-            md={4}
+            lg={3}
+            md={3}
             sm={6}
             xs={12}
           >
             {!loadingCard ? (
-              <TotalProfitClean loading={loadingCard} item={card.total_penjualan_bersih} />
+              <TotalSyirkah loading={loadingCard} item={card.total_penjualan_bersih} />
             ):(
               <Skeleton variant="rect"></Skeleton>
             )}
           </Grid>
           <Grid
             item
-            lg={4}
-            md={4}
+            lg={3}
+            md={3}
             sm={6}
             xs={12}
           >
             {!loadingCard ? (
-              <TotalCustomer loading={loadingCard} item={card.total_customer} />
+              <SyirkahUmum loading={loadingCard} item={card.total_customer} />
             ):(
               <Skeleton variant="rect"></Skeleton>
             )}

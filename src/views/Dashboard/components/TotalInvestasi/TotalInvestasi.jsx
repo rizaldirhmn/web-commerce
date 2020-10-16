@@ -2,15 +2,9 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { 
-  Card, 
-  CardContent, 
-  Grid, 
-  Typography, 
-  Avatar
-} from '@material-ui/core';
+import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
 import NumberFormat from 'react-number-format';
-import MoneyIcon from '@material-ui/icons/Money'
+import SellingIcon from '@material-ui/icons/CardTravelOutlined'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -58,7 +52,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TotalTransaction = props => {
+const TotalInvestasi = props => {
   const { className, item, ...rest } = props;
 
   const classes = useStyles();
@@ -80,15 +74,15 @@ const TotalTransaction = props => {
               gutterBottom
               variant="body2"
             >
-              TOTAL LABA
+              Investasi (Gram)
             </Typography>
 						<Typography className={classes.numbers} variant="h3">
-							<NumberFormat value={item} displayType={'text'} thousandSeparator={true} prefix={`RP `}/>
+							<NumberFormat value={item} displayType={'text'} thousandSeparator={true} /> gram
 						</Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <MoneyIcon className={classes.icon} />
+              <SellingIcon className={classes.icon} />
             </Avatar>
           </Grid>
         </Grid>
@@ -97,8 +91,8 @@ const TotalTransaction = props => {
   );
 };
 
-TotalTransaction.propTypes = {
+TotalInvestasi.propTypes = {
   className: PropTypes.string
 };
 
-export default TotalTransaction;
+export default TotalInvestasi;

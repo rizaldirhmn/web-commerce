@@ -2,9 +2,15 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
+import { 
+  Card, 
+  CardContent, 
+  Grid, 
+  Typography, 
+  Avatar
+} from '@material-ui/core';
 import NumberFormat from 'react-number-format';
-import CartIcon from '@material-ui/icons/AddShoppingCart'
+import MoneyIcon from '@material-ui/icons/RefreshRounded'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,7 +58,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TotalPurchasing = props => {
+const TotalSyirkah = props => {
   const { className, item, ...rest } = props;
 
   const classes = useStyles();
@@ -74,15 +80,15 @@ const TotalPurchasing = props => {
               gutterBottom
               variant="body2"
             >
-              TOTAL PEMBELIAN
+              Total Syirkah
             </Typography>
 						<Typography className={classes.numbers} variant="h3">
-							<NumberFormat value={item} displayType={'text'} thousandSeparator={true} prefix={`RP `} />
+							<NumberFormat value={item} displayType={'text'} thousandSeparator={true}/>
 						</Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <CartIcon className={classes.icon} />
+              <MoneyIcon className={classes.icon} />
             </Avatar>
           </Grid>
         </Grid>
@@ -91,8 +97,8 @@ const TotalPurchasing = props => {
   );
 };
 
-TotalPurchasing.propTypes = {
+TotalSyirkah.propTypes = {
   className: PropTypes.string
 };
 
-export default TotalPurchasing;
+export default TotalSyirkah;
