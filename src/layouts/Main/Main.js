@@ -136,7 +136,7 @@ const useStyles = makeStyles(theme => ({
     color: textMenuBlack,
     fontFamily: 'Nunito',
     fontSize: '14px',
-    // textDecoration: 'underline'
+    paddingLeft: theme.spacing(2)
   },
   item: {
     display: 'flex',
@@ -313,7 +313,7 @@ const Main = props => {
                   className={classes.button}
                   component={CustomRouterLink}
                   
-                  to='/cashier'
+                  // to='/cashier'
                 >
                     <div className={classes.textMenuNested}>Penjualan</div>
                 </Button>
@@ -328,7 +328,7 @@ const Main = props => {
                   className={classes.button}
                   component={CustomRouterLink}
                   
-                  to='/cashier-buyback'
+                  // to='/cashier-buyback'
                 >
                     <div className={classes.textMenuNested}>Buyback</div>
                 </Button>

@@ -90,10 +90,10 @@ const Login = ({ addLogin }) => {
 				<Hidden only={["xs","sm"]}>
 				<div className={classes.contentName}>
 					<Typography variant="h1" className={classes.center}>
-					Point Of Sales
+					D'syirkah Administration
 					</Typography>
 					<Typography variant="h1" className={classes.center2}>
-					EOA Gold - Cabang
+					EOA Club
 					</Typography>
 				</div>
 				</Hidden>

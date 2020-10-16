@@ -1,5 +1,2 @@
 export { default as Dashboard } from './Dashboard'
-export { default as Cashier } from './Cashier'
-export { default as Transaction } from './Transaction'
-export { default as DetailTransaction } from './Transaction/DetailTransaction'
 export { default as Profile } from './Profile'
