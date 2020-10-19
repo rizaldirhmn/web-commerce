@@ -240,7 +240,7 @@ const Appbar = props => {
               src="/images/logo/bukalapak.png"
             /> */}
             <Typography variant="h5" className={classes.name_logo}>
-              Point Of Sales - EOA Gold
+              D'Syirkah Administration
             </Typography>
           </Link>
           {/* <div className={classes.search}>
