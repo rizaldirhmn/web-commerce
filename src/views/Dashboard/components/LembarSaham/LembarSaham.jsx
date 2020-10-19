@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SyirkahUmum = props => {
+const LembarSaham = props => {
   const { className, item, ...rest } = props;
 
   const classes = useStyles();
@@ -74,10 +74,10 @@ const SyirkahUmum = props => {
               gutterBottom
               variant="body2"
             >
-              Syirkah Umum
+              Lembar Saham
             </Typography>
 						<Typography className={classes.numbers} variant="h3">
-							<NumberFormat value={item} displayType={'text'} thousandSeparator={true} /> gram
+							<NumberFormat value={item} displayType={'text'} thousandSeparator={true} /> 
 						</Typography>
           </Grid>
           <Grid item>
@@ -91,8 +91,8 @@ const SyirkahUmum = props => {
   );
 };
 
-SyirkahUmum.propTypes = {
+LembarSaham.propTypes = {
   className: PropTypes.string
 };
 
-export default SyirkahUmum;
+export default LembarSaham;

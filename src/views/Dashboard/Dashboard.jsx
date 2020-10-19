@@ -1,11 +1,10 @@
-import React, { forwardRef, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { 
   Grid, 
   Typography,
-  Button,
 } from '@material-ui/core';
-import { Link as RouterLink } from 'react-router-dom';
+// import { Link as RouterLink } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { getCardStats } from '../../actions/dashboard'
 // import '../../../public/index.css'
@@ -14,19 +13,13 @@ import {
   TotalInvestasi,
   TotalInvestasiRP,
   Investor,
-  OverviewTodayPricing,
   TotalSyirkah,
   SyirkahUmum,
-  GrafikNetIncome,
-  GrafikGoldPrice,
   GrafikTransactionSales,
-  GrafikTransactionSalesMoney,
-  GrafikStock,
-  GrafikHPP,
-  GrafikBiaya
+  SyirkahUnitBisnis,
+  LembarSaham
 } from './components'
 
-import CartIcon from '@material-ui/icons/AddShoppingCart'
 import Skeleton from '@material-ui/lab/Skeleton'
 
 const useStyles = makeStyles(theme => ({
@@ -61,14 +54,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const CustomRouterLink = forwardRef((props, ref) => (
-  <div
-    ref={ref}
-    style={{ flexGrow: 1 }}
-  >
-    <RouterLink {...props} />
-  </div>
-));
+// const CustomRouterLink = forwardRef((props, ref) => (
+//   <div
+//     ref={ref}
+//     style={{ flexGrow: 1 }}
+//   >
+//     <RouterLink {...props} />
+//   </div>
+// ));
 
 const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
   const classes = useStyles();
@@ -87,18 +80,6 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
         >
           <Grid item>  
             <Typography variant="h4">Dashboard</Typography>
-          </Grid>
-          <Grid item>
-            <Button
-              fullWidth
-              className={classes.btn}
-              variant="contained"
-              component={CustomRouterLink}
-              to='/cashier'
-              startIcon={<CartIcon />}
-            >
-              TRANSAKSI
-            </Button>
           </Grid>
         </Grid>
         <Grid
@@ -183,19 +164,31 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
               <Skeleton variant="rect"></Skeleton>
             )}
           </Grid>
-        </Grid>
-        <Grid
-          container
-          spacing={2}
-        >
           <Grid
             item
-            lg={12}
-            md={12}
-            sm={12}
+            lg={3}
+            md={3}
+            sm={6}
             xs={12}
           >
-            <OverviewTodayPricing />
+            {!loadingCard ? (
+              <SyirkahUnitBisnis loading={loadingCard} item={card.total_customer} />
+            ):(
+              <Skeleton variant="rect"></Skeleton>
+            )}
+          </Grid>
+          <Grid
+            item
+            lg={3}
+            md={3}
+            sm={6}
+            xs={12}
+          >
+            {!loadingCard ? (
+              <LembarSaham loading={loadingCard} item={card.total_customer} />
+            ):(
+              <Skeleton variant="rect"></Skeleton>
+            )}
           </Grid>
         </Grid>
         <Grid
@@ -204,81 +197,12 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
         >
           <Grid
             item
-            lg={12}
-            md={12}
-            sm={12}
-            xs={12}
-          >
-            <GrafikStock />
-          </Grid>
-        </Grid>
-        <Grid
-          container
-          spacing={2}
-        >
-          <Grid
-            item
-            lg={6}
-            md={6}
-            sm={12}
-            xs={12}
-          >
-            <GrafikGoldPrice />
-          </Grid>
-          <Grid
-            item
-            lg={6}
-            md={6}
+            lg={8}
+            md={8}
             sm={12}
             xs={12}
           >
             <GrafikTransactionSales />
-          </Grid>
-        </Grid>
-        <Grid
-          container
-          spacing={2}
-        >
-          <Grid
-            item
-            lg={6}
-            md={6}
-            sm={12}
-            xs={12}
-          >
-            <GrafikTransactionSalesMoney />
-          </Grid>
-          <Grid
-            item
-            lg={6}
-            md={6}
-            sm={12}
-            xs={12}
-          >
-            <GrafikHPP />
-          </Grid>
-        </Grid>
-        <Grid
-          container
-          spacing={2}
-        >
-          <Grid
-            item
-            lg={6}
-            md={6}
-            sm={12}
-            xs={12}
-          >
-            <GrafikBiaya />
-          </Grid>
-          <Grid
-            item
-            lg={6}
-            md={6}
-            sm={12}
-            xs={12}
-          >
-            <GrafikNetIncome />
           </Grid>
         </Grid>
       </div>

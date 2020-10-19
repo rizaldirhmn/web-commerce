@@ -100,7 +100,7 @@ const GrafikTransactionSales = (props) => {
             {!loadingTransactionSales ? (
                 <Card>
                     <CardHeader 
-                        title={`Grafik Total Transaksi`}
+                        title={`Transaksi Syirkah`}
                     />
                     <CardContent>
                         <Grid container spacing={2} justify="space-between">

@@ -2,7 +2,7 @@ import React, { forwardRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/styles';
-import { useMediaQuery, Button, colors, Divider, Typography } from '@material-ui/core';
+import { useMediaQuery, Button, colors, Divider, Typography, Tooltip } from '@material-ui/core';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -11,9 +11,6 @@ import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
-import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
 
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import CartIcon from '@material-ui/icons/AddShoppingCart';
@@ -179,19 +176,6 @@ const Main = props => {
 
   // Dialog Box
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [pengaturanOpen, setPengaturanOpen] = useState(false);
-  const [ reportOpen, setReportOpen ] = useState(false)
-  const [ transactionOpen, setTransactionOpen ] = useState(false)
-
-  const handleClick = (event) => {
-    if (event === 'pengaturan') {
-      setPengaturanOpen(!pengaturanOpen);
-    }else if(event === 'laporan'){
-      setReportOpen(!reportOpen)
-    }else if(event === 'transaksi'){
-      setTransactionOpen(!transactionOpen)
-    }
-  };
 
   const handleDialogClose = () => {
     setDialogOpen(false);
@@ -275,66 +259,51 @@ const Main = props => {
               
               to='/dashboard'
             >
-              <div className={classes.icon}>
-                <DashboardIcon style={{ color: textMenuBlack }} />
-              </div>
-              <div className={classes.textMenu}>
-                Dashboard
-              </div>
+              {open ? (
+                <>
+                <div className={classes.icon}>
+                  <DashboardIcon style={{ color: textMenuBlack }} />
+                </div>
+                <div className={classes.textMenu}>
+                  Dashboard
+                </div>
+                </>
+              ):(
+                <Tooltip title="Dashboard" placement="right" arrow>
+                  <div className={classes.icon}>
+                    <DashboardIcon style={{ color: textMenuBlack }} />
+                  </div>
+                </Tooltip>
+              )}
             </Button>
           </ListItem>
           <ListItem
+            key="transaksi"
             button 
             disabledGutters
             className={classes.item}
-            onClick={() => handleClick('transaksi')}
           >
             <Button
               className={classes.button}
             >
-              <div className={classes.icon}>
-                <CartIcon style={{ color: textMenuBlack }} />
-              </div>
-              <div className={classes.textMenu}>
-                Transaksi
-              </div>
+              {open ? (
+                <>
+                  <div className={classes.icon}>
+                    <CartIcon style={{ color: textMenuBlack }} />
+                  </div>
+                  <div className={classes.textMenu}>
+                    Transaksi
+                  </div>
+                </>
+              ):(
+                <Tooltip title="Transaksi" placement="right" arrow>
+                  <div className={classes.icon}>
+                    <CartIcon style={{ color: textMenuBlack }} />
+                  </div>
+                </Tooltip>
+              )}
             </Button>
-            {transactionOpen ? <ExpandLess style={{ color: textMenuBlack }} /> : <ExpandMore style={{ color: textMenuBlack }} />}
           </ListItem>
-          <Collapse in={transactionOpen} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem 
-                key='cashier'
-                className={classes.nested}
-              >
-                <Button
-                  fullWidth
-                  activeClassName={classes.active}
-                  className={classes.button}
-                  component={CustomRouterLink}
-                  
-                  // to='/cashier'
-                >
-                    <div className={classes.textMenuNested}>Penjualan</div>
-                </Button>
-              </ListItem>
-              <ListItem
-                key='cashier-buyback'
-                className={classes.nested}
-              >
-                <Button
-                  fullWidth
-                  activeClassName={classes.active}
-                  className={classes.button}
-                  component={CustomRouterLink}
-                  
-                  // to='/cashier-buyback'
-                >
-                    <div className={classes.textMenuNested}>Buyback</div>
-                </Button>
-              </ListItem>
-            </List>
-          </Collapse>
           
           <ListItem
             disabledGutters
@@ -347,10 +316,20 @@ const Main = props => {
               component={CustomRouterLink}
               onClick={handlingSignout}
             >
-                <div className={classes.icon}>
-                  <SignOutIcon style={{ color: textMenuBlack }} />
-                </div>
-                <div className={classes.textMenu}>Sign Out</div>
+              {open ? (
+                <>
+                  <div className={classes.icon}>
+                    <SignOutIcon style={{ color: textMenuBlack }} />
+                  </div>
+                  <div className={classes.textMenu}>Sign Out</div>
+                </>
+              ):(
+                <Tooltip title="Signout" placement="right">
+                  <div className={classes.icon}>
+                    <SignOutIcon style={{ color: textMenuBlack }} />
+                  </div>
+                </Tooltip>
+              )}
             </Button>
           </ListItem>
         </List>

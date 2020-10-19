@@ -13,3 +13,5 @@ export { default as GrafikTransactionSalesMoney } from './GrafikTransactionSales
 export { default as GrafikStock } from './GrafikStock'
 export { default as GrafikHPP } from './GrafikHPP'
 export { default as GrafikBiaya } from './GrafikBiaya'
+export { default as SyirkahUnitBisnis } from './SyirkahUnitBisnis'
+export { default as LembarSaham } from './LembarSaham'

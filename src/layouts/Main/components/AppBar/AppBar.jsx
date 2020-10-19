@@ -1,23 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-// import Badge from '@material-ui/core/Badge';
+import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 // import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-// import MailIcon from '@material-ui/icons/Mail';
-// import NotificationsIcon from '@material-ui/icons/Notifications';
+import MailIcon from '@material-ui/icons/Mail';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { Link } from 'react-router-dom';
 import {
-  Typography
+  Divider,
+  Typography,
+  Avatar
 } from '@material-ui/core'
+
+import { connect } from 'react-redux'
+import { getProfile } from '../../../../actions/profile'
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const drawerWidth = 240;
 const appDrawerBlue = '#FFFFFF';
@@ -93,10 +100,26 @@ const useStyles = makeStyles(theme => ({
       display: 'none',
     },
   },
+  profileMenu: {
+    marginTop : theme.spacing(2)
+  },
+  divider: {
+    height: 28,
+    marginTop: theme.spacing(1),
+    marginLeft: theme.spacing(1),
+    color: '#000',
+    width: 'fit-content',
+    border: `1px solid ${theme.palette.divider}`,
+    borderRadius: theme.shape.borderRadius,
+  },
+  avatar: {
+    width: 30,
+    height: 30
+  },
 }));
 
 const Appbar = props => {
-  const { handleDrawerOpen, open } = props;
+  const { handleDrawerOpen, open, getProfile, profile: { profile, loadingGetProfile } } = props;
 
   const classes = useStyles();
   // const theme = useTheme();
@@ -122,6 +145,10 @@ const Appbar = props => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  useEffect(() => {
+    getProfile()
+  }, [loadingGetProfile, getProfile])
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -132,6 +159,7 @@ const Appbar = props => {
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMenuOpen}
       onClose={handleMenuClose}
+      className={classes.profileMenu}
     >
       <Link to="/profile">
         <MenuItem onClick={handleMenuClose}>
@@ -153,7 +181,7 @@ const Appbar = props => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {/* <MenuItem>
+      <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="secondary">
             <MailIcon />
@@ -168,7 +196,7 @@ const Appbar = props => {
           </Badge>
         </IconButton>
         <p>Notifications</p>
-      </MenuItem> */}
+      </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
@@ -230,25 +258,48 @@ const Appbar = props => {
           </div> */}
           <div className={classes.flexGrow} />
           <div className={classes.sectionDesktop}>
-            {/* <IconButton aria-label="show 4 new mails" color="inherit">
+            <IconButton aria-label="show 4 new mails" color="default">
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />
               </Badge>
             </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
+            <IconButton aria-label="show 17 new notifications" color="default">
               <Badge badgeContent={17} color="secondary">
                 <NotificationsIcon />
               </Badge>
-            </IconButton> */}
+            </IconButton>
+            <Divider className={classes.divider} orientation="vertical" />
+            <IconButton
+              onClick={handleProfileMenuOpen}
+            >
+              {!loadingGetProfile ? (
+                <Typography variant="h5" className={classes.profileName}>
+                  {profile.name}
+                </Typography>
+              ): (
+                <Skeleton variant="rect" className={classes.avatar}></Skeleton>
+              )}
+              
+              <ExpandMore style={{ color: '#000' }} />
+            </IconButton>
             <IconButton
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}
               aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
+              // onClick={handleProfileMenuOpen}
               // color="inherit"
             >
-              <AccountCircle />
+              {/* <AccountCircle /> */}
+              {!loadingGetProfile ? (
+                <Avatar
+                  alt="Person"
+                  className={classes.avatar}
+                  src={profile.image}
+                />
+              ): (
+                <Skeleton variant="rect" className={classes.avatar}></Skeleton>
+              )}
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
@@ -270,4 +321,8 @@ const Appbar = props => {
   );
 };
 
-export default Appbar;
+const mapStateToProps = state => ({
+  profile: state.profile
+})
+
+export default connect(mapStateToProps, {getProfile})(Appbar)
