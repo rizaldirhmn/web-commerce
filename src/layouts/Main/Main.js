@@ -305,6 +305,28 @@ const Main = props => {
             </Button>
           </ListItem>
           
+          <ListItem 
+            key='pengiriman-emas' 
+            button
+            disabledGutters
+            className={classes.item}
+          >
+            <Button
+              activeClassName={classes.active}
+              className={classes.button}
+              component={CustomRouterLink}
+              
+              to='/pengiriman-emas'
+            >
+              <div className={classes.icon}>
+                <DashboardIcon style={{ color: textMenuBlack }} />
+              </div>
+              <div className={classes.textMenu}>
+                Pengiriman Emas
+              </div>
+            </Button>
+          </ListItem>
+
           <ListItem
             disabledGutters
             className={classes.item}
