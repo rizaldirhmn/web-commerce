@@ -7,6 +7,7 @@ import { Main as MainLayout, Login } from './layouts';
 import {
   Dashboard as DashboardView,
   Profile as ProfileView,
+  PengirimanEmas as PengirimanEmasView,
 } from './views';
 
 const Routes = () => {
@@ -30,6 +31,13 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/profile"
+      />
+
+      <RouteWithLayout
+        component={PengirimanEmasView}
+        exact
+        layout={MainLayout}
+        path="/pengiriman-emas"
       />
 
       <Route
