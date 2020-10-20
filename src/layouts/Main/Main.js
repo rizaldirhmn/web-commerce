@@ -15,6 +15,10 @@ import ListItem from '@material-ui/core/ListItem';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import CartIcon from '@material-ui/icons/AddShoppingCart';
 
+import {
+  CreditCardRounded as CreditCardRoundedIcon
+} from '@material-ui/icons';
+
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -306,7 +310,7 @@ const Main = props => {
           </ListItem>
           
           <ListItem 
-            key='pengiriman-emas' 
+            key='pembayaran-emas' 
             button
             disabledGutters
             className={classes.item}
@@ -316,13 +320,13 @@ const Main = props => {
               className={classes.button}
               component={CustomRouterLink}
               
-              to='/pengiriman-emas'
+              to='/pembayaran-emas'
             >
               <div className={classes.icon}>
-                <DashboardIcon style={{ color: textMenuBlack }} />
+                <CreditCardRoundedIcon style={{ color: textMenuBlack }} />
               </div>
               <div className={classes.textMenu}>
-                Pengiriman Emas
+                Pembayaran Emas
               </div>
             </Button>
           </ListItem>

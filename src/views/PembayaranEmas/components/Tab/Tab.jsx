@@ -8,7 +8,11 @@ import Box from '@material-ui/core/Box';
 import { Divider, FormControl, Grid, IconButton, InputBase, InputLabel, Paper, Select, withStyles } from '@material-ui/core';
 import { Search, DoneOutline as DoneOutlineIcon, PersonAddDisabled as PersonAddDisabledIcon, Block as BlockIcon, Schedule as ScheduleIcon } from '@material-ui/icons';
 
-import { DateRangePicker, DateRange } from "materialui-daterange-picker";
+import { DateRangePicker } from "materialui-daterange-picker";
+
+import { 
+  TransaksiBaru
+} from './components'; 
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -83,6 +87,9 @@ const useStyles = makeStyles((theme) => ({
   },
   tabStyle: {
     textTransform: 'none'
+  },
+  labelFont: {
+    fontSize: '12px'
   }
 }));
 
@@ -94,7 +101,7 @@ const TabCustom = withStyles((theme) => ({
     margin: 'auto'
   },
   selected: {},
-}))((props) => <Tab disableRipple {...props} />)
+}))((props) => <Tab disableRipple {...props} />);
 
 const ScrollableTabsButtonForce = props => {
   const classes = useStyles();
@@ -140,7 +147,7 @@ const ScrollableTabsButtonForce = props => {
                   <FormControl
                     // error={errors.id_cat && true}
                     variant="outlined" className={classes.formControl} fullWidth>
-                    <InputLabel htmlFor="outlined-age-native-simple">Semua Tipe</InputLabel>
+                    <InputLabel className={classes.labelFont} htmlFor="outlined-age-native-simple">Semua Tipe</InputLabel>
                     <Select
                       native
                       // value={formSearch.id_cat}
@@ -164,7 +171,7 @@ const ScrollableTabsButtonForce = props => {
                   <FormControl
                     // error={errors.id_cat && true}
                     variant="outlined" className={classes.formControl} fullWidth>
-                    <InputLabel htmlFor="outlined-age-native-simple">Semua Metode Pembayaran</InputLabel>
+                    <InputLabel className={classes.labelFont} htmlFor="outlined-age-native-simple">Semua Metode Pembayaran</InputLabel>
                     <Select
                       native
                       // value={formSearch.id_cat}
@@ -215,12 +222,9 @@ const ScrollableTabsButtonForce = props => {
     </div>
     <div style={{marginTop: '20px'}}>
       <Paper>
-        <Typography className={classes.panelHead}>
-          Menunggu Konfirmasi
-        </Typography>
         
         <TabPanel value={value} index={0}>
-          Item One
+          <TransaksiBaru />
         </TabPanel>
         <TabPanel value={value} index={1}>
           Item Two

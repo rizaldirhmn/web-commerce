@@ -7,7 +7,7 @@ import { Main as MainLayout, Login } from './layouts';
 import {
   Dashboard as DashboardView,
   Profile as ProfileView,
-  PengirimanEmas as PengirimanEmasView,
+  PembayaranEmas as PembayaranEmasView,
 } from './views';
 
 const Routes = () => {
@@ -34,10 +34,10 @@ const Routes = () => {
       />
 
       <RouteWithLayout
-        component={PengirimanEmasView}
+        component={PembayaranEmasView}
         exact
         layout={MainLayout}
-        path="/pengiriman-emas"
+        path="/pembayaran-emas"
       />
 
       <Route
