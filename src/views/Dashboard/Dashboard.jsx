@@ -17,7 +17,8 @@ import {
   SyirkahUmum,
   GrafikTransactionSales,
   SyirkahUnitBisnis,
-  LembarSaham
+  LembarSaham,
+  ActivityLog
 } from './components'
 
 import Skeleton from '@material-ui/lab/Skeleton'
@@ -203,6 +204,15 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
             xs={12}
           >
             <GrafikTransactionSales />
+          </Grid>
+          <Grid
+            item
+            lg={4}
+            md={4}
+            sm={12}
+            xs={12}
+          >
+            <ActivityLog />
           </Grid>
         </Grid>
       </div>

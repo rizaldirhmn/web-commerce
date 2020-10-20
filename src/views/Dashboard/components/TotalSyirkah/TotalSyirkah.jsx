@@ -22,12 +22,13 @@ const useStyles = makeStyles(theme => ({
     display: 'flex'
   },
   title: {
-		fontWeight: 500,
-    color: '#000000',
-    fontSize: '18px'
+		fontFamily: 'Roboto',
+    color: '#A1A0AE',
+    fontSize: 16
 	},
 	numbers: {
-		color: '#FF9300'
+		color: '#000000',
+    fontFamily: 'Roboto'
 	},
 	caption: {
 		fontWeight: 700,
@@ -42,7 +43,7 @@ const useStyles = makeStyles(theme => ({
   icon: {
     height: 32,
     width: 32,
-    color: '#BFC1CB'
+    color: '#00E676'
   },
   difference: {
     marginTop: theme.spacing(2),
