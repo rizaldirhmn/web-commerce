@@ -89,7 +89,8 @@ const GrafikTransactionSales = (props) => {
               {
                 label : 'Jumlah Transaksi',
                 data: jumlah_trx,
-                backgroundColor: 'rgba(75,192,192,0.4)',
+                // backgroundColor: 'rgba(75,192,192,0.4)',
+                backgroundColor: '#6200EE',
               }
             ]
         };
