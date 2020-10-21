@@ -8,6 +8,8 @@ import {
   Dashboard as DashboardView,
   Profile as ProfileView,
   PembayaranEmas as PembayaranEmasView,
+  PengirimanEmas as PengirimanEmasView,
+  RincianTransaksi as RincianTransaksiView,
 } from './views';
 
 const Routes = () => {
@@ -31,6 +33,20 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/profile"
+      />
+
+      <RouteWithLayout
+        component={PengirimanEmasView}
+        exact
+        layout={MainLayout}
+        path="/pengiriman-emas"
+      />
+
+      <RouteWithLayout
+        component={RincianTransaksiView}
+        exact
+        layout={MainLayout}
+        path="/rincian-transaksi"
       />
 
       <RouteWithLayout

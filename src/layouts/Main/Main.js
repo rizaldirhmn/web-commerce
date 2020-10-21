@@ -16,6 +16,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import CartIcon from '@material-ui/icons/AddShoppingCart';
 
 import {
+  LocalShippingSharp as LocalShippingSharpIcon,
   CreditCardRounded as CreditCardRoundedIcon
 } from '@material-ui/icons';
 
@@ -303,6 +304,38 @@ const Main = props => {
                 <Tooltip title="Transaksi" placement="right" arrow>
                   <div className={classes.icon}>
                     <CartIcon style={{ color: textMenuBlack }} />
+                  </div>
+                </Tooltip>
+              )}
+            </Button>
+          </ListItem>
+
+          <ListItem 
+            key='pengiriman-emas' 
+            button
+            disabledGutters
+            className={classes.item}
+          >
+            <Button
+              activeClassName={classes.active}
+              className={classes.button}
+              component={CustomRouterLink}
+              
+              to='/pengiriman-emas'
+            >
+              {open ? (
+                <>
+                <div className={classes.icon}>
+                  <LocalShippingSharpIcon style={{ color: textMenuBlack }} />
+                </div>
+                <div className={classes.textMenu}>
+                  Pengiriman Emas
+                </div>
+                </>
+              ):(
+                <Tooltip title="Pengiriman Emas" placement="right" arrow>
+                  <div className={classes.icon}>
+                    <LocalShippingSharpIcon style={{ color: textMenuBlack }} />
                   </div>
                 </Tooltip>
               )}
