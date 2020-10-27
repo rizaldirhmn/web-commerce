@@ -10,6 +10,7 @@ import {
   PembayaranEmas as PembayaranEmasView,
   PengirimanEmas as PengirimanEmasView,
   RincianTransaksi as RincianTransaksiView,
+  Syirkah as SyirkahView,
 } from './views';
 
 const Routes = () => {
@@ -54,6 +55,13 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/pembayaran-emas"
+      />
+      
+      <RouteWithLayout
+        component={SyirkahView}
+        exact
+        layout={MainLayout}
+        path="/syirkah"
       />
 
       <Route

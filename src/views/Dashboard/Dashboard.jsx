@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { 
   Grid, 
@@ -20,8 +20,6 @@ import {
   LembarSaham,
   ActivityLog
 } from './components'
-
-import Skeleton from '@material-ui/lab/Skeleton'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -64,12 +62,8 @@ const useStyles = makeStyles(theme => ({
 //   </div>
 // ));
 
-const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
+const Dashboard = () => {
   const classes = useStyles();
-
-  useEffect(() => {
-    getCardStats()
-  }, [loadingCard, getCardStats])
 
   return (
       <div className={classes.root}>
@@ -94,11 +88,7 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
             sm={6}
             xs={12}
           >
-            {!loadingCard ? (
-              <TotalTransaction loading={loadingCard} item={card.total_transaksi} />
-            ):(
-              <Skeleton variant="rect"></Skeleton>
-            )}
+              <TotalTransaction />
           </Grid>
           <Grid
             item
@@ -107,11 +97,7 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
             sm={6}
             xs={12}
           >
-            {!loadingCard ? (
-              <TotalInvestasi loading={loadingCard} item={card.total_penjualan} />
-            ):(
-              <Skeleton variant="rect"></Skeleton>
-            )}
+              <TotalInvestasi />
           </Grid>
           <Grid
             item
@@ -120,11 +106,7 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
             sm={6}
             xs={12}
           >
-            {!loadingCard ? (
-              <TotalInvestasiRP loading={loadingCard} item={card.total_pembelian} />
-            ):(
-              <Skeleton variant="rect"></Skeleton>
-            )}
+              <TotalInvestasiRP />
           </Grid>
           <Grid
             item
@@ -133,11 +115,7 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
             sm={6}
             xs={12}
           >
-            {!loadingCard ? (
-              <Investor loading={loadingCard} item={card.total_biaya} />
-            ):(
-              <Skeleton variant="rect"></Skeleton>
-            )}
+              <Investor />
           </Grid>
           <Grid
             item
@@ -146,11 +124,7 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
             sm={6}
             xs={12}
           >
-            {!loadingCard ? (
-              <TotalSyirkah loading={loadingCard} item={card.total_penjualan_bersih} />
-            ):(
-              <Skeleton variant="rect"></Skeleton>
-            )}
+              <TotalSyirkah />
           </Grid>
           <Grid
             item
@@ -159,11 +133,7 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
             sm={6}
             xs={12}
           >
-            {!loadingCard ? (
-              <SyirkahUmum loading={loadingCard} item={card.total_customer} />
-            ):(
-              <Skeleton variant="rect"></Skeleton>
-            )}
+              <SyirkahUmum />
           </Grid>
           <Grid
             item
@@ -172,11 +142,7 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
             sm={6}
             xs={12}
           >
-            {!loadingCard ? (
-              <SyirkahUnitBisnis loading={loadingCard} item={card.total_customer} />
-            ):(
-              <Skeleton variant="rect"></Skeleton>
-            )}
+              <SyirkahUnitBisnis />
           </Grid>
           <Grid
             item
@@ -185,11 +151,7 @@ const Dashboard = ({ getCardStats, dashboard : { card, loadingCard } }) => {
             sm={6}
             xs={12}
           >
-            {!loadingCard ? (
-              <LembarSaham loading={loadingCard} item={card.total_customer} />
-            ):(
-              <Skeleton variant="rect"></Skeleton>
-            )}
+              <LembarSaham />
           </Grid>
         </Grid>
         <Grid

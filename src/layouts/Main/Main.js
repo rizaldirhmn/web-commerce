@@ -14,6 +14,7 @@ import ListItem from '@material-ui/core/ListItem';
 
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import CartIcon from '@material-ui/icons/AddShoppingCart';
+import SyirkahIcon from '@material-ui/icons/DragHandle'
 
 import {
   LocalShippingSharp as LocalShippingSharpIcon,
@@ -361,6 +362,38 @@ const Main = props => {
               <div className={classes.textMenu}>
                 Pembayaran Emas
               </div>
+            </Button>
+          </ListItem>
+
+          <ListItem 
+            key="list-syirkah"
+            button
+            disabledGutters
+            className={classes.item}
+          >
+            <Button
+              activeClassName={classes.active}
+              className={classes.button}
+              component={CustomRouterLink}
+              
+              to='/syirkah'
+            >
+              {open ? (
+                <>
+                  <div className={classes.icon}>
+                    <SyirkahIcon style={{ color: textMenuBlack }} />
+                  </div>
+                  <div className={classes.textMenu}>
+                    Syirkah
+                  </div>
+                </>
+              ):(
+                <Tooltip title="Transaksi" placement="right" arrow>
+                  <div className={classes.icon}>
+                    <SyirkahIcon style={{ color: textMenuBlack }} />
+                  </div>
+                </Tooltip>
+              )} 
             </Button>
           </ListItem>
 

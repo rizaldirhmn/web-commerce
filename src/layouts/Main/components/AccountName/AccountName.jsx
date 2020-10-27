@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -7,7 +7,6 @@ import { Avatar, Typography } from '@material-ui/core';
 
 import { connect } from 'react-redux'
 import { getProfile } from '../../../../actions/profile'
-import Skeleton from '@material-ui/lab/Skeleton';
 
 const nameColorWhite = '#000000';
 // const nameColorBlack = '#000000';
@@ -34,52 +33,37 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Profile = props => {
-  const { getProfile, profile: { profile, loadingGetProfile }, className, ...rest } = props;
-
-  useEffect(() => {
-    getProfile()
-  }, [loadingGetProfile, getProfile])
+  const { className, ...rest } = props
 
   const classes = useStyles();
   // const data = profile
 
-  // const user = {
-  //   name: data.name,
-  //   avatar: data.image,
-  //   position: data.role
-  // };
+  const profile = {
+    name: "Rizaldi Rahman",
+    // avatar: data.image,
+    email: 'rizaldirahman0@gmail.com' 
+  };
 
   return (
     <div
       {...rest}
       className={clsx(classes.root, className)}
     >
-        {!loadingGetProfile ? (
           <Avatar
             alt="Person"
             className={classes.avatar}
             component={RouterLink}
-            src={profile.image}
+            // src={profile.image}
+            src={`${process.env.PUBLIC_URL}/images/logo/logo_eoa.png`}
             to="/profile"
           />
-        ): (
-          <Skeleton variant="rect" className={classes.avatar}></Skeleton>
-        )}
-        {!loadingGetProfile ? (
           <Typography
             className={classes.name}
             variant="h4"
           >
             {profile.name}
           </Typography>
-        ):(
-          <Skeleton variant="rect" className={classes.name}></Skeleton>
-        )}
-        {!loadingGetProfile ? (
           <Typography variant="body2" style={{ color: nameColorWhite, fontFamily: 'Nunito' }}>{profile.email}</Typography>
-        ):(
-          <Skeleton variant="rect"></Skeleton>
-        )}
         
     </div>
   );
