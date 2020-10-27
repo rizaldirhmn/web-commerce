@@ -1,0 +1,1 @@
+export { default as RincianTransaksi } from './RincianTransaksi';

@@ -7,6 +7,9 @@ import { Main as MainLayout, Login } from './layouts';
 import {
   Dashboard as DashboardView,
   Profile as ProfileView,
+  PembayaranEmas as PembayaranEmasView,
+  PengirimanEmas as PengirimanEmasView,
+  RincianTransaksi as RincianTransaksiView,
   Syirkah as SyirkahView,
 } from './views';
 
@@ -33,6 +36,27 @@ const Routes = () => {
         path="/profile"
       />
 
+      <RouteWithLayout
+        component={PengirimanEmasView}
+        exact
+        layout={MainLayout}
+        path="/pengiriman-emas"
+      />
+
+      <RouteWithLayout
+        component={RincianTransaksiView}
+        exact
+        layout={MainLayout}
+        path="/rincian-transaksi"
+      />
+
+      <RouteWithLayout
+        component={PembayaranEmasView}
+        exact
+        layout={MainLayout}
+        path="/pembayaran-emas"
+      />
+      
       <RouteWithLayout
         component={SyirkahView}
         exact
