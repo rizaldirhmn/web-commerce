@@ -12,12 +12,9 @@ import {
 } from '@material-ui/core'
 import Backdrop from '@material-ui/core/Backdrop'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import { useHistory } from 'react-router-dom'
+// import { useHistory } from 'react-router-dom'
 import { AccountImage } from './components'
 import Skeleton from '@material-ui/lab/Skeleton'
-
-import { connect } from 'react-redux'
-import { editProfile } from '../../actions/profile'
 
 const useStyles = makeStyles(theme => ({
     root : {
@@ -29,11 +26,10 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-const Profile = (props) => {
-    const { editProfile } = props
+const Profile = () => {
     const classes = useStyles()
     const { register, handleSubmit } = useForm()
-    const history = useHistory()
+    // const history = useHistory()
     const [ setBanner] = useState([])
     const [ setB64] = useState()
     const [ url ] = useState(`${process.env.REACT_APP_BASE_URL}/user/profile`)
@@ -48,7 +44,7 @@ const Profile = (props) => {
         }
     };
 
-    const [ formState, setFormState ] = useState({
+    const [ setFormState ] = useState({
         values: {}
     })
     const [ isLoading, setIsLoading ] = useState(false)
@@ -91,7 +87,7 @@ const Profile = (props) => {
     }, [url])
 
     const onSubmit = e => {
-        editProfile(formState.values, history)
+        // editProfile(formState.values, history)
         // console.log(formState.values)
     }
 
@@ -149,4 +145,4 @@ const Profile = (props) => {
     </Fragment>
 }
 
-export default connect(null, { editProfile })(Profile)
+export default Profile

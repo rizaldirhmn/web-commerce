@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 
@@ -22,9 +22,6 @@ import {
   Avatar
 } from '@material-ui/core'
 
-import { connect } from 'react-redux'
-import { getProfile } from '../../../../actions/profile'
-import Skeleton from '@material-ui/lab/Skeleton';
 
 const drawerWidth = 240;
 const appDrawerBlue = '#FFFFFF';
@@ -118,8 +115,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Appbar = props => {
-  const { handleDrawerOpen, open, getProfile, profile: { profile, loadingGetProfile } } = props;
+const Appbar = (props) => {
+  const { handleDrawerOpen, open } = props;
 
   const classes = useStyles();
   // const theme = useTheme();
@@ -145,9 +142,9 @@ const Appbar = props => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  useEffect(() => {
-    getProfile()
-  }, [loadingGetProfile, getProfile])
+  // useEffect(() => {
+  //   getProfile()
+  // }, [loadingGetProfile, getProfile])
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -272,13 +269,9 @@ const Appbar = props => {
             <IconButton
               onClick={handleProfileMenuOpen}
             >
-              {!loadingGetProfile ? (
                 <Typography variant="h5" className={classes.profileName}>
-                  {profile.name}
+                  Rizaldi Rahman
                 </Typography>
-              ): (
-                <Skeleton variant="rect" className={classes.avatar}></Skeleton>
-              )}
               
               <ExpandMore style={{ color: '#000' }} />
             </IconButton>
@@ -291,15 +284,12 @@ const Appbar = props => {
               // color="inherit"
             >
               {/* <AccountCircle /> */}
-              {!loadingGetProfile ? (
                 <Avatar
                   alt="Person"
                   className={classes.avatar}
-                  src={profile.image}
+                  // src={profile.image}
+                  src={`${process.env.PUBLIC_URL}/images/logo/logo_eoa.png`}
                 />
-              ): (
-                <Skeleton variant="rect" className={classes.avatar}></Skeleton>
-              )}
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
@@ -321,8 +311,5 @@ const Appbar = props => {
   );
 };
 
-const mapStateToProps = state => ({
-  profile: state.profile
-})
 
-export default connect(mapStateToProps, {getProfile})(Appbar)
+export default Appbar
