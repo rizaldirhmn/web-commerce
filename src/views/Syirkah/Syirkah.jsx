@@ -63,6 +63,12 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
       backgroundColor: '#FFFFFF',
       boxShadow: 'none'
+  },
+  text: {
+    fontFamily: 'Nunito'
+  },
+  cardContent: {
+    backgroundColor: '#F7F9FC'
   }
 }));
 
@@ -82,7 +88,7 @@ export default function Syirkah() {
             justify="space-between"
         >
             <Grid item>  
-            <Typography variant="h4">Syirkah</Typography>
+            <Typography variant="h4" className={classes.text}>Syirkah</Typography>
             </Grid>
         </Grid>
         <Grid
@@ -128,16 +134,42 @@ export default function Syirkah() {
                     <CardHeader
                         title="Syirkah EOA Club Umum"
                     />
-                    <CardContent>
-                    <TabPanel value={value} index={0}>
-                        <ListSyirkah />
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
-                        Item Two
-                    </TabPanel>
-                    <TabPanel value={value} index={2}>
-                        Item Three
-                    </TabPanel>
+                    <CardContent className={classes.cardContent}>
+                      <TabPanel value={value} index={0}>
+                          <ListSyirkah />
+                      </TabPanel>
+                      <TabPanel value={value} index={1}>
+                          Item Two
+                      </TabPanel>
+                      <TabPanel value={value} index={2}>
+                          Item Three
+                      </TabPanel>
+                    </CardContent>
+                </Card>
+            </Grid>
+        </Grid>
+        <Grid 
+            container
+            spacing={3}
+        >
+            <Grid
+                item
+                lg={12}
+            >
+                <Card className={classes.card}>
+                    <CardHeader
+                        title="Syirkah Unit Bisnis"
+                    />
+                    <CardContent className={classes.cardContent}>
+                      <TabPanel value={value} index={0}>
+                          <ListSyirkah />
+                      </TabPanel>
+                      <TabPanel value={value} index={1}>
+                          Item Two
+                      </TabPanel>
+                      <TabPanel value={value} index={2}>
+                          Item Three
+                      </TabPanel>
                     </CardContent>
                 </Card>
             </Grid>

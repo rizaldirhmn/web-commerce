@@ -14,6 +14,7 @@ import ListItem from '@material-ui/core/ListItem';
 
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import CartIcon from '@material-ui/icons/AddShoppingCart';
+import SyirkahIcon from '@material-ui/icons/DragHandle'
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -299,6 +300,38 @@ const Main = props => {
                 <Tooltip title="Transaksi" placement="right" arrow>
                   <div className={classes.icon}>
                     <CartIcon style={{ color: textMenuBlack }} />
+                  </div>
+                </Tooltip>
+              )}
+            </Button>
+          </ListItem>
+
+          <ListItem
+            key="list-syirkah"
+            button 
+            disabledGutters
+            className={classes.item}
+          >
+            <Button
+              activeClassName={classes.active}
+              className={classes.button}
+              component={CustomRouterLink}
+              
+              to='/syirkah'
+            >
+              {open ? (
+                <>
+                  <div className={classes.icon}>
+                    <SyirkahIcon style={{ color: textMenuBlack }} />
+                  </div>
+                  <div className={classes.textMenu}>
+                    Syirkah
+                  </div>
+                </>
+              ):(
+                <Tooltip title="Transaksi" placement="right" arrow>
+                  <div className={classes.icon}>
+                    <SyirkahIcon style={{ color: textMenuBlack }} />
                   </div>
                 </Tooltip>
               )}

@@ -9,15 +9,22 @@ import {
     Chip,
     Grid
 } from '@material-ui/core'
+import NumberFormat from 'react-number-format';
 
-const useStyles = makeStyles({
+import '../../../../App.css'
+
+const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: 345,
   },
   media: {
     height: 140,
   },
-});
+  text: {
+      fontFamily: 'Nunito',
+      margin: theme.spacing(1)
+  },
+}));
 
 export default function ListSyirkah() {
     const classes = useStyles();
@@ -44,14 +51,19 @@ export default function ListSyirkah() {
                         title="Contemplative Reptile"
                     />
                     <CardContent>
-                    <Chip label="Open" color="primary" size="small" />
-                    <Typography gutterBottom variant="h5" component="h2">
-                        Judul Syirkah
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                        across all continents except Antarctica
-                    </Typography>
+                        <Chip label="Open" color="primary" size="small" />
+                        <Typography className={classes.text} gutterBottom variant="h5" component="h2">
+                            Judul Syirkah
+                        </Typography>
+                        <Typography className={classes.text} variant="body1" color="textPrimary" component="p">
+                            2 Jan 2021 - 5 Jan 2021
+                        </Typography>
+                        <Typography className={classes.text} variant="caption" color="textSecondary" component="p">
+                            Target Kuota Investasi
+                        </Typography>
+                        <Typography className={classes.text} variant="h4">
+                            <NumberFormat value="500000" displayType={'text'} thousandSeparator={true} prefix={'Rp '} />
+                        </Typography>
                     </CardContent>
                 </CardActionArea>
                 {/* <CardActions>

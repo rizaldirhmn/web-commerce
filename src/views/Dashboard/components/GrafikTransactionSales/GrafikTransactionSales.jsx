@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Line } from 'react-chartjs-2';
 import {
     Card,
@@ -12,16 +12,10 @@ import {
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 import moment from 'moment';
-import moment_tz from 'moment-timezone'
 import {options} from './chart'
 
-// Redux
-import { connect } from 'react-redux'
-import { getGrafikTransactionSales } from '../../../../actions/dashboard'
-import Skeleton from '@material-ui/lab/Skeleton';
-
-const GrafikTransactionSales = (props) => {
-    const { getGrafikTransactionSales, dashboard : { loadingTransactionSales, grafikTransactionSales} } = props
+const GrafikTransactionSales = () => {
+    
 
     const [selectedDate ] = useState(new Date());
 
@@ -67,38 +61,33 @@ const GrafikTransactionSales = (props) => {
         }));
     };
 
-    useEffect(() => {
-        getGrafikTransactionSales(startDate.submit.submit, endDate.submit.submit, 'total_trx')
-    }, [loadingTransactionSales, getGrafikTransactionSales, startDate, endDate])
-
     var data = {}
-    var jumlah_trx=[]
-    var bulan=[];
+    // var jumlah_trx=[]
+    // var bulan=[];
 
-    if(!loadingTransactionSales || grafikTransactionSales !== null){
-        for (var i = 0; i < grafikTransactionSales.data.length; i++) {
-            // bulan.push(grafikTransactionSales.data[i].date);
-            var date = new Date(grafikTransactionSales.data[i].date)
-            bulan.push(moment_tz(date, "Europe/London").tz("Asia/Jakarta").format('DD/MM'));
-            jumlah_trx.push(grafikTransactionSales.data[i].total_trx);
-        }
+    // if(!loadingTransactionSales || grafikTransactionSales !== null){
+    //     for (var i = 0; i < grafikTransactionSales.data.length; i++) {
+    //         // bulan.push(grafikTransactionSales.data[i].date);
+    //         var date = new Date(grafikTransactionSales.data[i].date)
+    //         bulan.push(moment_tz(date, "Europe/London").tz("Asia/Jakarta").format('DD/MM'));
+    //         jumlah_trx.push(grafikTransactionSales.data[i].total_trx);
+    //     }
     
         data = {
-            labels: bulan,
+            labels: ['januari','februari','maret','april','mei','juni'],
             datasets: [
               {
                 label : 'Jumlah Transaksi',
-                data: jumlah_trx,
+                data: ['100','200','300','400','500','400'],
                 // backgroundColor: 'rgba(75,192,192,0.4)',
                 backgroundColor: '#6200EE',
               }
             ]
         };
-    }
+    // }
     
     return(
         <div>
-            {!loadingTransactionSales ? (
                 <Card>
                     <CardHeader 
                         title={`Transaksi Syirkah`}
@@ -146,16 +135,9 @@ const GrafikTransactionSales = (props) => {
                         />
                     </CardContent>
                 </Card>
-            ):(
-                <Skeleton variant="rect" height={100}></Skeleton>
-            )}
 
         </div>
     )
 }
 
-const mapStateToProps = state => ({
-    dashboard: state.dashboard
-})
-
-export default connect(mapStateToProps, {getGrafikTransactionSales})(GrafikTransactionSales)
+export default GrafikTransactionSales
