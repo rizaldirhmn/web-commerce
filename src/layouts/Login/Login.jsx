@@ -1,12 +1,9 @@
 import React from "react";
 import { Grid, TextField } from "@material-ui/core";
 // import Logo from '../img/login-logo.png';
-import CssBaseline from '@material-ui/core/CssBaseline'
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
-  Hidden,
-  Typography,
   Paper
 } from "@material-ui/core";
 import { useForm } from "react-hook-form";
@@ -14,8 +11,9 @@ import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { useHistory } from 'react-router-dom';
 
-import { addLogin } from '../../actions/login'
-import { connect } from 'react-redux'
+// import { addLogin } from '../../actions/login'
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -28,15 +26,18 @@ const useStyles = makeStyles((theme) => ({
 	  margin: theme.spacing(8, 4),
 	  display: 'flex',
 	  flexDirection: 'column',
-	  alignItems: 'center'
+		alignItems: 'center',
+		padding: '30px 50px',
+		fontSize: 16,
+		textAlign: 'center',
 	},
 	avatar: {
 	  marginTop: theme.spacing(8),
 	},
 	form: {
 	  width: '100%', // Fix IE 11 issue.
-	  marginTop: theme.spacing(1),
-	  paddingTop: 30
+	  // marginTop: 20,
+	  paddingTop: 25
 	},
 	textField: {
 	  [`& fieldset`]: {
@@ -45,12 +46,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 	submit: {
 	  margin: theme.spacing(3, 0, 2),
-	  backgroundColor: '#FF9300',
+	  backgroundColor: '#0277BD',
 	  '&:hover': {
-		backgroundColor: '#ef8b03'
+		backgroundColor: '#0277BD'
 	  },
 	  color: '#FFFFFF',
-	  borderRadius: 100
+	  // borderRadius: 100
 	},
 	contentName: {
 	  // padding: '200px 20px 0px',
@@ -64,6 +65,23 @@ const useStyles = makeStyles((theme) => ({
 	center2: {
 	  color: '#FFFFFF',
 	  fontSize: 60
+	}, 
+	logoClub: {
+		width: 113,
+		height: 'auto',
+	},
+	welcome: {
+		fontSize: 20,
+		fontWeight: 'bold',
+		paddingBottom: 10,
+	},
+	btnForget: {
+		alignSelf: 'flex-end',
+		marginRight: 15,
+		marginBottom: 15,
+	},
+	footer: {
+		fontSize: 14
 	}
 }))
 
@@ -72,7 +90,7 @@ const SignInSchema = yup.object().shape({
 	password: yup.string().required("Password harus diisi"),
 });
 
-const Login = ({ addLogin }) => {
+const Login =  props => {
 	const classes = useStyles();
 	const history = useHistory();
 	const { register, handleSubmit, errors } = useForm({
@@ -80,86 +98,92 @@ const Login = ({ addLogin }) => {
 	});
 	
 	const onSubmit = event => {
-		addLogin(event, history)
+		console.log(event);
+		// addLogin(event, history)
+		props.onAuth(event.email, event.password, history)
+		// console.log(event);
 	}
 
 	return (
-		<Grid container component="main" className={classes.root}>
-			<CssBaseline />
-			<Grid item xs={false} sm={false} md={6} lg={7} className={classes.image} >
-				<Hidden only={["xs","sm"]}>
-				<div className={classes.contentName}>
-					<Typography variant="h1" className={classes.center}>
-					D'syirkah Administration
-					</Typography>
-					<Typography variant="h1" className={classes.center2}>
-					EOA Club
-					</Typography>
-				</div>
-				</Hidden>
-			</Grid>
-			<Grid item xs={12} sm={12} md={6} lg={5} component={Paper} elevation={6} square>
-				
-				<div className={classes.paper}>
-				<div container>
-					<div item lg={12} sm={12} md={12} xs={12}>
-					<center>
-					<img src={`${process.env.PUBLIC_URL}/images/logo/logo_eoa.png`} alt="logo-wakaf" width="50%" height="auto" />
+		<Grid container>
+			<Grid item lg={12} md={12} sm={12} xs={12}>
+				<Grid container>
+					<Grid item lg={3} md={3} sm={12} xs={12} />
+					<Grid item lg={6} md={6} sm={12} xs={12}>
+						<Paper className={classes.paper}>
+							<div>
+								<img src={require('../../assets/images/logo/club.png')} alt="club" className={classes.logoClub} />
+							</div>
+							<div className={classes.welcome}>
+								Selamat Datang Kembali
+							</div>
+							<div>
+								Masuk ke D'Syirkah Management System
+							</div>
+							<div>
+								<form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+									<TextField
+										variant="outlined"
+										margin="normal"
+										fullWidth
+										id="email"
+										label="Email Address"
+										name="email"
+										autoComplete="email"
+										autoFocus
+										inputRef={register}
+										error={!!errors.email}
+										helperText={errors.email && errors.email.message}
+										// className={classes.textField}
+									/>
+									<TextField
+										variant="outlined"
+										margin="normal"
+										fullWidth
+										name="password"
+										label="Password"
+										type="password"
+										id="password"
+										autoComplete="current-password"
+										inputRef={register}
+										error={!!errors.password}
+										helperText={errors.password && errors.password.message}
+										// className={classes.textField}
+									/>
+									<Button
+										type="submit"
+										fullWidth
+										variant="contained"
+										color="primary"
+										className={classes.submit}
+										>
+										Sign In
+									</Button>
+								</form>
+							</div>
 
-					</center>
-					
-					</div>
-				</div>
-				{/* <Avatar className={classes.avatar}>
-					<LockOutlinedIcon />
-				</Avatar> */}
-				<Typography component="h1" variant="h3"className={classes.avatar}>
-					Selamat Datang
-				</Typography>
-				<form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-					
-					<TextField
-					variant="outlined"
-					margin="normal"
-					fullWidth
-					id="email"
-					label="Email Address"
-					name="email"
-					autoComplete="email"
-					autoFocus
-					inputRef={register}
-					error={!!errors.email}
-					helperText={errors.email && errors.email.message}
-					className={classes.textField}
-					/>
-					<TextField
-					variant="outlined"
-					margin="normal"
-					fullWidth
-					name="password"
-					label="Password"
-					type="password"
-					id="password"
-					autoComplete="current-password"
-					inputRef={register}
-					error={!!errors.password}
-					helperText={errors.password && errors.password.message}
-					className={classes.textField}
-					/>
-					<Button
-					type="submit"
-					fullWidth
-					variant="contained"
-					color="primary"
-					className={classes.submit}
-					>
-					Sign In
-					</Button>
-				</form>
-				</div>
+							<div className={classes.btnForget}>
+								<Button style={{color: '#0277BD'}}>
+									Lupa Kata Sandi
+								</Button>
+							</div>
+
+							<div className={classes.footer}>
+								© EOA Tech Team. 2020
+							</div>
+						</Paper>
+					</Grid>
+				</Grid>
 			</Grid>
 		</Grid>
 	);
 }
 
-export default connect(null, { addLogin })(Login);
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuth: (email, password, history) => dispatch(actions.auth(email, password, history)),
+    // onAlert: (message, alertType) => dispatch(actions.setAlert(message, alertType))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Login);
