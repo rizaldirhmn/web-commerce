@@ -15,7 +15,7 @@ import { messaging } from "./init-fcm";
 // Redux
 import { Provider } from 'react-redux'
 import store from './store'
-import Alert from './components/layout/Alert'
+import Alert from './components/UI/Alert/SnackBar/SnackBar';
 
 // Clear Cache
 import { useClearCache } from 'react-clear-cache';

@@ -76,8 +76,9 @@ const useStyles = makeStyles((theme) => ({
 		paddingBottom: 10,
 	},
 	btnForget: {
-		alignSelf: 'flex-end',
-		marginRight: 15,
+		display: 'flex',
+		justifyContent: 'flex-end',
+		width: '100%',
 		marginBottom: 15,
 	},
 	footer: {

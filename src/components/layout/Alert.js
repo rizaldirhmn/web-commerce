@@ -21,7 +21,7 @@ const Alert = ({ alerts }) =>
                 horizontal: 'right',
             }}
             key={alert.id}
-        >
+        >{console.log(alert)}
             <Alerts variant="filled" severity={alert.alertType}>
                 {alert.msg}
             </Alerts>
