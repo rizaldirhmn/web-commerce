@@ -32,15 +32,17 @@ export const auth = (email, password, history) => {
       password: password
     }
 
-    axios.post('auth/login', authData)
+    axios.post('admin/login', authData, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        // Authorization: `Bearer ${token}`
+      }
+    })
       .then(response => {
-        // sessionStorage.setItem('token', response.data.Token)
-        // sessionStorage.setItem('user', response.data.Admin.id)
-        // sessionStorage.setItem('userData', JSON.stringify(response.data.Admin))
-        
-        sessionStorage.setItem('access_token', response.data.access_token)
-        sessionStorage.setItem('role', response.data.role)
-        sessionStorage.setItem('data', JSON.stringify(response.data.admin))
+        sessionStorage.setItem('access_token', response.data.Token)
+        sessionStorage.setItem('role', response.data.Admin.id_role)
+        sessionStorage.setItem('data', JSON.stringify(response.data.Admin))
         history.push(`/dashboard`);
         dispatch(authSuccess(response.data.access_token, response.data.role, response.data.admin))
       })
