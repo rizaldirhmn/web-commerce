@@ -54,7 +54,7 @@ const Profile = props => {
             className={classes.avatar}
             component={RouterLink}
             // src={profile.image}
-            src={`${process.env.PUBLIC_URL}/images/logo/logo_eoa.png`}
+            src={`${process.env.PUBLIC_URL}/images/logo/logo.png`}
             to="/profile"
           />
           <Typography

@@ -47,7 +47,7 @@ export default function ListSyirkah() {
                     <CardMedia
                         square
                         className={classes.media}
-                        image="images/logo/logo_eoa.png"
+                        image="images/logo/logo.png"
                         title="Contemplative Reptile"
                     />
                     <CardContent>

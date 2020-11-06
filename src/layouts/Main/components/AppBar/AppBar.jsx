@@ -288,7 +288,7 @@ const Appbar = (props) => {
                   alt="Person"
                   className={classes.avatar}
                   // src={profile.image}
-                  src={`${process.env.PUBLIC_URL}/images/logo/logo_eoa.png`}
+                  src={`${process.env.PUBLIC_URL}/images/logo/logo.png`}
                 />
             </IconButton>
           </div>
