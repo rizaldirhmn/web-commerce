@@ -8,6 +8,7 @@ import theme from './theme';
 // import 'react-perfect-scrollbar/dist/css/styles.css';
 import './assets/scss/index.scss';
 import Routes from './Routes';
+import './App.css';
 
 // Firebase Initial
 import { messaging } from "./init-fcm";

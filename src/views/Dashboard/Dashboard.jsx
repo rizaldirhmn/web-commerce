@@ -51,6 +51,9 @@ const useStyles = makeStyles(theme => ({
       opacity: 1,
     },
   },
+  title: {
+    fontFamily: 'Nunito'
+  }
 }));
 
 // const CustomRouterLink = forwardRef((props, ref) => (
@@ -74,7 +77,7 @@ const Dashboard = () => {
           justify="space-between"
         >
           <Grid item>  
-            <Typography variant="h4">Dashboard</Typography>
+            <Typography variant="h4" className={classes.title}>Dashboard</Typography>
           </Grid>
         </Grid>
         <Grid

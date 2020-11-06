@@ -22,18 +22,18 @@ const useStyles = makeStyles(theme => ({
     display: 'flex'
   },
   title: {
-		fontFamily: 'Roboto',
+		fontFamily: 'Nunito',
     color: '#A1A0AE',
     fontSize: 16
 	},
 	numbers: {
 		color: '#000000',
-    fontFamily: 'Roboto'
+    fontFamily: 'Nunito'
 	},
 	caption: {
 		fontWeight: 700,
 		color: '#000000',
-		fontFamily: 'Arial',
+		fontFamily: 'Nunito',
 	},
   avatar: {
     backgroundColor: '#fff',
@@ -84,7 +84,7 @@ const TotalSyirkah = props => {
               Total Syirkah
             </Typography>
 						<Typography className={classes.numbers} variant="h3">
-							<NumberFormat value={item} displayType={'text'} thousandSeparator={true}/>
+							<NumberFormat value='0' displayType={'text'} thousandSeparator={true}/>
 						</Typography>
           </Grid>
           <Grid item>

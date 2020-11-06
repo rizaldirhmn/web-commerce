@@ -7,6 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import {
+  Button,
     Card,
     CardContent,
     CardHeader,
@@ -88,7 +89,12 @@ export default function Syirkah() {
             justify="space-between"
         >
             <Grid item>  
-            <Typography variant="h4" className={classes.text}>Syirkah</Typography>
+              <Typography variant="h4" className={classes.text}>Syirkah</Typography>
+            </Grid>
+            <Grid item>  
+              <Button color="primary" variant="contained" size="small">
+                + Buat D'Syirkah
+              </Button>
             </Grid>
         </Grid>
         <Grid
