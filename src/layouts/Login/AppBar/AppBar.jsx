@@ -8,24 +8,20 @@ import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
 // import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
 import { Link } from 'react-router-dom';
 import {
-  Divider,
   Typography,
-  Avatar
 } from '@material-ui/core'
 
 
 const drawerWidth = 240;
-const appDrawerBlue = '#FFFFFF';
-// const appDrawerDefault = '#FFFFFF';
+const appDrawerBlue = '#f4f6f8';
+// const appDrawerDefault = '#f4f6f8';
 
 // const iconBlack = '#000000';
 
@@ -116,7 +112,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Appbar = (props) => {
-  const { handleDrawerOpen, open } = props;
+  const { open } = props;
 
   const classes = useStyles();
   // const theme = useTheme();
@@ -158,9 +154,14 @@ const Appbar = (props) => {
       onClose={handleMenuClose}
       className={classes.profileMenu}
     >
-      <Link to="/profile">
+      <Link to="#">
         <MenuItem onClick={handleMenuClose}>
-          Profile
+          Indonesia
+        </MenuItem>
+      </Link>
+      <Link to="#">
+        <MenuItem onClick={handleMenuClose}>
+          English
         </MenuItem>
       </Link>
       {/* <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
@@ -218,64 +219,18 @@ const Appbar = (props) => {
         })}
       >
         <Toolbar>
-          <IconButton
-            // color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}
-          >
-            <MenuIcon />
-          </IconButton>
-
-          <Link to="/">
-            {/* <img
-              alt="Logo"
-              className={classes.logo}
-              src="/images/logo/bukalapak.png"
-            /> */}
-            <Typography variant="h5" className={classes.name_logo}>
-              Jarvis Dashboard
-            </Typography>
-          </Link>
-          {/* <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div> */}
           <div className={classes.flexGrow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="default">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="default">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <Divider className={classes.divider} orientation="vertical" />
             <IconButton
               onClick={handleProfileMenuOpen}
             >
                 <Typography variant="h5" className={classes.profileName}>
-                  Rizaldi Rahman
+                  Indonesia
                 </Typography>
               
               <ExpandMore style={{ color: '#000' }} />
             </IconButton>
-            <IconButton
+            {/* <IconButton
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}
@@ -283,14 +238,13 @@ const Appbar = (props) => {
               // onClick={handleProfileMenuOpen}
               // color="inherit"
             >
-              {/* <AccountCircle /> */}
                 <Avatar
                   alt="Person"
                   className={classes.avatar}
                   // src={profile.image}
                   src={`${process.env.PUBLIC_URL}/images/logo/logo.png`}
                 />
-            </IconButton>
+            </IconButton> */}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
@@ -300,8 +254,13 @@ const Appbar = (props) => {
               onClick={handleMobileMenuOpen}
               color="inherit"
             >
-              <MoreIcon />
+              <Typography variant="h5" className={classes.profileName}>
+                  Indonesia
+                </Typography>
+              
+              <ExpandMore style={{ color: '#000' }} />
             </IconButton>
+
           </div>
         </Toolbar>
         {renderMobileMenu}

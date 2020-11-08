@@ -13,13 +13,6 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import CartIcon from '@material-ui/icons/AddShoppingCart';
-import SyirkahIcon from '@material-ui/icons/DragHandle'
-
-import {
-  LocalShippingSharp as LocalShippingSharpIcon,
-  CreditCardRounded as CreditCardRoundedIcon
-} from '@material-ui/icons';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -283,120 +276,6 @@ const Main = props => {
               )}
             </Button>
           </ListItem>
-          <ListItem
-            key="transaksi"
-            button 
-            disabledGutters
-            className={classes.item}
-          >
-            <Button
-              className={classes.button}
-            >
-              {open ? (
-                <>
-                  <div className={classes.icon}>
-                    <CartIcon style={{ color: textMenuBlack }} />
-                  </div>
-                  <div className={classes.textMenu}>
-                    Transaksi
-                  </div>
-                </>
-              ):(
-                <Tooltip title="Transaksi" placement="right" arrow>
-                  <div className={classes.icon}>
-                    <CartIcon style={{ color: textMenuBlack }} />
-                  </div>
-                </Tooltip>
-              )}
-            </Button>
-          </ListItem>
-
-          <ListItem 
-            key='pengiriman-emas' 
-            button
-            disabledGutters
-            className={classes.item}
-          >
-            <Button
-              activeClassName={classes.active}
-              className={classes.button}
-              component={CustomRouterLink}
-              
-              to='/pengiriman-emas'
-            >
-              {open ? (
-                <>
-                <div className={classes.icon}>
-                  <LocalShippingSharpIcon style={{ color: textMenuBlack }} />
-                </div>
-                <div className={classes.textMenu}>
-                  Pengiriman Emas
-                </div>
-                </>
-              ):(
-                <Tooltip title="Pengiriman Emas" placement="right" arrow>
-                  <div className={classes.icon}>
-                    <LocalShippingSharpIcon style={{ color: textMenuBlack }} />
-                  </div>
-                </Tooltip>
-              )}
-            </Button>
-          </ListItem>
-          
-          <ListItem 
-            key='pembayaran-emas' 
-            button
-            disabledGutters
-            className={classes.item}
-          >
-            <Button
-              activeClassName={classes.active}
-              className={classes.button}
-              component={CustomRouterLink}
-              
-              to='/pembayaran-emas'
-            >
-              <div className={classes.icon}>
-                <CreditCardRoundedIcon style={{ color: textMenuBlack }} />
-              </div>
-              <div className={classes.textMenu}>
-                Pembayaran Emas
-              </div>
-            </Button>
-          </ListItem>
-
-          <ListItem 
-            key="list-syirkah"
-            button
-            disabledGutters
-            className={classes.item}
-          >
-            <Button
-              activeClassName={classes.active}
-              className={classes.button}
-              component={CustomRouterLink}
-              
-              to='/syirkah'
-            >
-              {open ? (
-                <>
-                  <div className={classes.icon}>
-                    <SyirkahIcon style={{ color: textMenuBlack }} />
-                  </div>
-                  <div className={classes.textMenu}>
-                    Syirkah
-                  </div>
-                </>
-              ):(
-                <Tooltip title="Transaksi" placement="right" arrow>
-                  <div className={classes.icon}>
-                    <SyirkahIcon style={{ color: textMenuBlack }} />
-                  </div>
-                </Tooltip>
-              )} 
-            </Button>
-          </ListItem>
-
           <ListItem
             disabledGutters
             className={classes.item}

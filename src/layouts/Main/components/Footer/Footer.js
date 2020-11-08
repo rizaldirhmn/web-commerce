@@ -27,12 +27,9 @@ const Footer = props => {
           href="https://pos-cabang.eoatech.com/"
           target="_blank"
         >
-          EOA Tech Team
+          PT Jari Solusi Internasional
         </Link>
         . 2020
-      </Typography>
-      <Typography variant="caption">
-        Crafted with love for "Peradaban EOA"
       </Typography>
     </div>
   );

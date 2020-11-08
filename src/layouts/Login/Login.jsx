@@ -1,26 +1,25 @@
 import React from "react";
-import { Grid, TextField } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 // import Logo from '../img/login-logo.png';
 import { makeStyles } from "@material-ui/core/styles";
 import {
-  Button,
-  Paper
+  Hidden
 } from "@material-ui/core";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers";
-import * as yup from "yup";
 import { useHistory } from 'react-router-dom';
+import CssBaseline from '@material-ui/core/CssBaseline'
 
 // import { addLogin } from '../../actions/login'
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 
+// Google Login
+import { GoogleLogin } from 'react-google-login';
+
+import AppBar from './AppBar'
+
 const useStyles = makeStyles((theme) => ({
 	root: {
 	  height: '100vh'
-	},
-	image: {
-	  backgroundColor: '#011747',
 	},
 	paper: {
 	  margin: theme.spacing(8, 4),
@@ -51,24 +50,21 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: '#0277BD'
 	  },
 	  color: '#FFFFFF',
+	  width: '100%'
 	  // borderRadius: 100
 	},
 	contentName: {
 	  // padding: '200px 20px 0px',
 	  padding: theme.spacing(25, 6)
 	},
+	image: {
+		width: '100%',
+		height: 'auto'
+	},
 	center: {
 	  color: '#FFFFFF',
 	  fontSize: 50,
 	  paddingBottom: 15
-	},
-	center2: {
-	  color: '#FFFFFF',
-	  fontSize: 60
-	}, 
-	logoClub: {
-		width: 113,
-		height: 'auto',
 	},
 	welcome: {
 		fontSize: 20,
@@ -83,106 +79,88 @@ const useStyles = makeStyles((theme) => ({
 	},
 	footer: {
 		fontSize: 14
+	},
+	loginContent: {
+		marginTop: theme.spacing(5)
 	}
 }))
-
-const SignInSchema = yup.object().shape({
-  email: yup.string().required("Email harus diisi"),
-	password: yup.string().required("Password harus diisi"),
-});
 
 const Login =  props => {
 	const classes = useStyles();
 	const history = useHistory();
-	const { register, handleSubmit, errors } = useForm({
-		resolver: yupResolver(SignInSchema)
-	});
-	
-	const onSubmit = event => {
-		console.log(event);
-		// addLogin(event, history)
-		props.onAuth(event.email, event.password, history)
-		// console.log(event);
+
+	const responseGoogle = (response) => {
+		console.log(response.tokenId);
+		console.log(response.profileObj);
+		props.onAuth(response.tokenId, history)
+
+		// sessionStorage.setItem('access_token', response.accessToken)
+
+		// history.push('/dashboard')
 	}
 
 	return (
-		<Grid container>
-			<Grid item lg={12} md={12} sm={12} xs={12}>
-				<Grid container>
-					<Grid item lg={3} md={3} sm={12} xs={12} />
-					<Grid item lg={6} md={6} sm={12} xs={12}>
-						<Paper className={classes.paper}>
-							<div>
-								<img src={require('../../assets/images/logo/club.png')} alt="club" className={classes.logoClub} />
-							</div>
-							<div className={classes.welcome}>
-								Selamat Datang Kembali
-							</div>
-							<div>
-								Masuk ke D'Syirkah Management System
-							</div>
-							<div>
-								<form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-									<TextField
-										variant="outlined"
-										margin="normal"
-										fullWidth
-										id="email"
-										label="Email Address"
-										name="email"
-										autoComplete="email"
-										autoFocus
-										inputRef={register}
-										error={!!errors.email}
-										helperText={errors.email && errors.email.message}
-										// className={classes.textField}
-									/>
-									<TextField
-										variant="outlined"
-										margin="normal"
-										fullWidth
-										name="password"
-										label="Password"
-										type="password"
-										id="password"
-										autoComplete="current-password"
-										inputRef={register}
-										error={!!errors.password}
-										helperText={errors.password && errors.password.message}
-										// className={classes.textField}
-									/>
-									<Button
-										type="submit"
-										fullWidth
-										variant="contained"
-										color="primary"
-										className={classes.submit}
-										>
-										Sign In
-									</Button>
-								</form>
-							</div>
+		<div>
+			<AppBar />
+			<Grid container>
+				<CssBaseline />
+				<Grid item xs={false} sm={false} md={6} lg={7} className={classes.image} >
+					<Hidden only={["xs","sm"]}>
+						<div className={classes.paper}>
+							<img className={classes.image} src={`${process.env.PUBLIC_URL}/images/logo/banner_login.png`} alt=""/>
+						</div>
+					</Hidden>
+				</Grid>
+				<Grid item lg={4} md={4} sm={6} xs={12}>
+					<Grid container>
+						<Grid item lg={12} md={12} sm={12} xs={12}>
+							<div className={classes.paper}>
+								<div className={classes.loginContent}>
+									<div>
+										<img src={`${process.env.PUBLIC_URL}/images/jari_visibility.png`} alt="club" className={classes.logoClub} />
+									</div>
 
-							<div className={classes.btnForget}>
-								<Button style={{color: '#0277BD'}}>
-									Lupa Kata Sandi
-								</Button>
-							</div>
+									<div className={classes.btnForget}>
+										{/* <Button style={{color: '#0277BD'}}>
+											Lupa Kata Sandi
+										</Button> */}
+										<GoogleLogin
+											className={classes.submit}
+											clientId="536549901613-h37hneagkf2fgjpcpn5uk4vqi6elouoq.apps.googleusercontent.com"
+											buttonText="Login With Google"
+											onSuccess={responseGoogle}
+											onFailure={responseGoogle}
+											cookiePolicy={'single_host_origin'}
+										/>
+									</div>
 
-							<div className={classes.footer}>
-								© EOA Tech Team. 2020
+									<div className={classes.footer}>
+										{/* © EOA Tech Team. 2020 */}
+										<Grid container spacing={2}>
+											<Grid item>
+												<img src={`${process.env.PUBLIC_URL}/images/logo/logo.png`} alt="jari"/>
+											</Grid>
+											<Grid item>
+												<Typography align="left">
+													Powered by <br></br>
+													PT Jari Solusi Internasional
+												</Typography>
+											</Grid>
+										</Grid>
+									</div>
+								</div>
 							</div>
-						</Paper>
+						</Grid>
 					</Grid>
 				</Grid>
 			</Grid>
-		</Grid>
+		</div>
 	);
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuth: (email, password, history) => dispatch(actions.auth(email, password, history)),
+    onAuth: (tokenId, history) => dispatch(actions.auth(tokenId, history)),
     // onAlert: (message, alertType) => dispatch(actions.setAlert(message, alertType))
   }
 }
