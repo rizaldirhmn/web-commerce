@@ -80,7 +80,7 @@ const Dashboard = () => {
             <Typography variant="h4" className={classes.title}>Dashboard</Typography>
           </Grid>
         </Grid>
-        <Grid
+        {/* <Grid
           container
           spacing={2}
         >
@@ -179,7 +179,7 @@ const Dashboard = () => {
           >
             <ActivityLog />
           </Grid>
-        </Grid>
+        </Grid> */}
       </div>
   );
 };

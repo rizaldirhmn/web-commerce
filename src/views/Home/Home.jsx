@@ -16,7 +16,7 @@ const Home = () => {
     return (
         <div className={classes.root}>
             <Card>
-
+            
             </Card>
         </div>
     )

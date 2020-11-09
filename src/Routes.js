@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Redirect, Route } from 'react-router-dom';
 
 import { RouteWithLayout } from './components';
-import { Main as MainLayout, Login } from './layouts';
+import { Main as MainLayout, Login, Home as HomeLayout } from './layouts';
 
 import {
   Dashboard as DashboardView,
@@ -11,6 +11,7 @@ import {
   PengirimanEmas as PengirimanEmasView,
   RincianTransaksi as RincianTransaksiView,
   Syirkah as SyirkahView,
+  Home as HomeView
 } from './views';
 
 const Routes = () => {
@@ -21,6 +22,13 @@ const Routes = () => {
         exact
         from="/"
         to="/dashboard"
+      />
+
+      <RouteWithLayout 
+        component={HomeView}
+        exact
+        layout={HomeLayout}
+        path="/home"
       />
       <RouteWithLayout
         component={DashboardView}
