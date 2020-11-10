@@ -30,6 +30,7 @@ const Routes = () => {
         layout={HomeLayout}
         path="/home"
       />
+
       <RouteWithLayout
         component={DashboardView}
         exact

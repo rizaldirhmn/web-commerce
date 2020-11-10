@@ -8,18 +8,6 @@ import {
 import { connect } from 'react-redux'
 import { getCardStats } from '../../actions/dashboard'
 // import '../../../public/index.css'
-import { 
-  TotalTransaction,
-  TotalInvestasi,
-  TotalInvestasiRP,
-  Investor,
-  TotalSyirkah,
-  SyirkahUmum,
-  GrafikTransactionSales,
-  SyirkahUnitBisnis,
-  LembarSaham,
-  ActivityLog
-} from './components'
 
 const useStyles = makeStyles(theme => ({
   root: {
