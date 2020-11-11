@@ -1,1 +1,0 @@
-export { default as TransaksiBaru } from './TransaksiBaru';

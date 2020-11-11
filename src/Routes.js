@@ -7,11 +7,8 @@ import { Main as MainLayout, Login, Home as HomeLayout } from './layouts';
 import {
   Dashboard as DashboardView,
   Profile as ProfileView,
-  PembayaranEmas as PembayaranEmasView,
-  PengirimanEmas as PengirimanEmasView,
-  RincianTransaksi as RincianTransaksiView,
-  Syirkah as SyirkahView,
-  Home as HomeView
+  Home as HomeView,
+  Customer as CustomerView
 } from './views';
 
 const Routes = () => {
@@ -46,31 +43,10 @@ const Routes = () => {
       />
 
       <RouteWithLayout
-        component={PengirimanEmasView}
+        component={CustomerView}
         exact
         layout={MainLayout}
-        path="/pengiriman-emas"
-      />
-
-      <RouteWithLayout
-        component={RincianTransaksiView}
-        exact
-        layout={MainLayout}
-        path="/rincian-transaksi"
-      />
-
-      <RouteWithLayout
-        component={PembayaranEmasView}
-        exact
-        layout={MainLayout}
-        path="/pembayaran-emas"
-      />
-      
-      <RouteWithLayout
-        component={SyirkahView}
-        exact
-        layout={MainLayout}
-        path="/syirkah"
+        path="/customer"
       />
 
       <Route
