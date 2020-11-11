@@ -14,8 +14,9 @@ build:
     - echo "Build successful"
   artifacts:
     expire_in: 1 hour
-      paths:
-        - build
+    paths:
+      - build
+          
 deploy-dev:
   stage: deploy
   script:
