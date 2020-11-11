@@ -15,6 +15,7 @@ import ListItem from '@material-ui/core/ListItem';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import HomeIcon from '@material-ui/icons/Home'
 import CustomerIcon from '@material-ui/icons/People'
+import TaskIcon from '@material-ui/icons/Assessment'
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -335,6 +336,37 @@ const Main = props => {
                 <Tooltip title="Customer" placement="right" arrow>
                   <div className={classes.icon}>
                     <CustomerIcon style={{ color: textMenuBlack }} />
+                  </div>
+                </Tooltip>
+              )}
+            </Button>
+          </ListItem>
+          <ListItem 
+            key='task' 
+            button
+            disabledGutters
+            className={classes.item}
+          >
+            <Button
+              activeClassName={classes.active}
+              className={classes.button}
+              component={CustomRouterLink}
+              
+              to='/task'
+            >
+              {open ? (
+                <>
+                <div className={classes.icon}>
+                  <TaskIcon style={{ color: textMenuBlack }} />
+                </div>
+                <div className={classes.textMenu}>
+                  Task
+                </div>
+                </>
+              ):(
+                <Tooltip title="Task" placement="right" arrow>
+                  <div className={classes.icon}>
+                    <TaskIcon style={{ color: textMenuBlack }} />
                   </div>
                 </Tooltip>
               )}
