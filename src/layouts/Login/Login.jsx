@@ -92,11 +92,11 @@ const Login =  props => {
 	const responseGoogle = (response) => {
 		console.log(response.tokenId);
 		console.log(response.profileObj);
-		// props.onAuth(response.tokenId, history)
+		props.onAuth(response.tokenId, history)
 
-		sessionStorage.setItem('access_token', response.accessToken)
+		// sessionStorage.setItem('access_token', response.accessToken)
 
-		history.push('/home')
+		// history.push('/home')
 	}
 
 	return (

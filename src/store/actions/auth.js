@@ -40,7 +40,7 @@ export const auth = (tokenId, history) => {
       .then(response => {
         sessionStorage.setItem('access_token', response.data.token)
         sessionStorage.setItem('data', JSON.stringify(response.data.data))
-        history.push(`/dashboard`);
+        history.push(`/home`);
         dispatch(authSuccess(response.data.token, response.data.data))
       })
       .catch(err => {
