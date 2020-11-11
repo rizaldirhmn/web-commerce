@@ -20,6 +20,7 @@ build:
 deploy-dev:
   stage: deploy
   script:
+    - whoami
     - echo "Deploying to server"
     - cp -rv build/* /var/www/html/dev-fe/
     - echo "Deployed"
