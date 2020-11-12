@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import { 
     Card, 
@@ -9,6 +9,9 @@ import {
     Typography,
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { getTeam } from '../../store/actions/team'
+import { Skeleton } from '@material-ui/lab'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -41,8 +44,19 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const Home = () => {
+const Home = props => {
     const classes = useStyles()
+    const { 
+        getTeam, 
+        team : { 
+            teamList, 
+            loadingTeam 
+        } 
+    } = props
+
+    useEffect(() => {
+        getTeam()
+    }, [getTeam])
 
     return (
         <div className={classes.root}>
@@ -86,57 +100,45 @@ const Home = () => {
                 container
                 spacing={2}
             >
-                <Grid
-                    item
-                    lg={3}
-                    md={3}
-                    sm={6}
-                    xs={12}
-                >
-                    <Card className={classes.cardTeam}>
-                        <Link
-                            to="/dashboard"
+                {!loadingTeam && teamList !== null ? (
+                    <>
+                    {teamList.map(team => (
+                        <Grid
+                            item
+                            lg={3}
+                            md={3}
+                            sm={6}
+                            xs={12}
                         >
-                            <CardActionArea>
-                                <CardMedia 
-                                    className={classes.media}
-                                    image={`${process.env.PUBLIC_URL}/images/produk/team_jari.png`}
-                                    title="Contemplative Reptile"
-                                />
-                            </CardActionArea>
-                        </Link>
-                    </Card>
-                    <Typography variant="body1" className={classes.titleTeam}>
-                        Team Jari Solusi International
-                    </Typography>
-                </Grid>
-                <Grid
-                    item
-                    lg={3}
-                    md={3}
-                    sm={6}
-                    xs={12}
-                >
-                    <Card className={classes.cardTeam}>
-                        <Link
-                            to="/dashboard"
-                        >
-                            <CardActionArea>
-                                <CardMedia 
-                                    className={classes.media}
-                                    image={`${process.env.PUBLIC_URL}/images/produk/team_sales.png`}
-                                    title="Contemplative Reptile"
-                                />
-                            </CardActionArea>
-                        </Link>
-                    </Card>
-                    <Typography variant="body1" className={classes.titleTeam}>
-                        Team Sales & Marketing
-                    </Typography>
-                </Grid>
+                            <Card className={classes.cardTeam}>
+                                <Link
+                                    to={`/dashboard/${team.id}`}
+                                >
+                                    <CardActionArea>
+                                        <CardMedia 
+                                            className={classes.media}
+                                            image={team.profile_globalconfig.logo}
+                                            title="Contemplative Reptile"
+                                        />
+                                    </CardActionArea>
+                                </Link>
+                            </Card>
+                            <Typography variant="body1" className={classes.titleTeam}>
+                                {team.profile_globalconfig.display_name}
+                            </Typography>
+                        </Grid>
+                    ))}
+                    </>
+                ):(
+                    <Skeleton variant="rect" height="140"></Skeleton>
+                )}
             </Grid>
         </div>
     )
 }
 
-export default Home
+const mapStateToProps = state => ({
+    team : state.team
+})
+
+export default connect(mapStateToProps, { getTeam })(Home)

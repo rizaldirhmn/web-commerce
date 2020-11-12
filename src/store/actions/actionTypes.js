@@ -9,5 +9,6 @@ export const REMOVE_ALERT = 'REMOVE_ALERT';
 export const SET_DIALOG_BOX = 'SET_DIALOG_BOX';
 export const REMOVE_DIALOG_BOX = 'REMOVE_DIALOG_BOX';
 
-export const GET_TEAM = "GET_TEAM"
+export const GET_TEAM_SUCCESS = "GET_TEAM_SUCCESS"
 export const GET_TEAM_START = "GET_TEAM_START"
+export const GET_TEAM_FAIL = "GET_TEAM_FAIL"

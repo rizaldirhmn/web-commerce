@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import { useMediaQuery, Button, colors, Divider, Typography, Tooltip } from '@material-ui/core';
-import { Link as RouterLink, Redirect } from 'react-router-dom';
+import { Link as RouterLink, Redirect, useParams } from 'react-router-dom';
 
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import List from '@material-ui/core/List';
@@ -174,6 +174,8 @@ const Main = props => {
     defaultMatches: true
   });
 
+  const params = useParams()
+
   const [open, setOpen] = useState(true);
 
   // Dialog Box
@@ -290,7 +292,7 @@ const Main = props => {
               className={classes.button}
               component={CustomRouterLink}
               
-              to='/dashboard'
+              to={`/dashboard/${params.id}`}
             >
               {open ? (
                 <>

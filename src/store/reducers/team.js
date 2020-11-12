@@ -12,13 +12,19 @@ export default function (state = initialState, action) {
         case actions.GET_TEAM_START:
             return {
                 ...state,
-                loading: true
+                loadingTeam: true
             }
-        case actions.GET_TEAM:
+        case actions.GET_TEAM_SUCCESS:
             return {
                 ...state,
                 teamList: payload,
-                loading: true
+                loadingTeam: false
+            }
+        case actions.GET_TEAM_FAIL:
+            return {
+                ...state,
+                error: payload,
+                loadingTeam: false
             }
         default:
             return state

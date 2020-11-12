@@ -20,7 +20,7 @@ const Routes = () => {
       <Redirect
         exact
         from="/"
-        to="/dashboard"
+        to="/home"
       />
 
       <RouteWithLayout 
@@ -34,7 +34,7 @@ const Routes = () => {
         component={DashboardView}
         exact
         layout={MainLayout}
-        path="/dashboard"
+        path="/dashboard/:id"
       />
 
       <RouteWithLayout

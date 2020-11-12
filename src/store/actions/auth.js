@@ -44,7 +44,7 @@ export const auth = (tokenId, history) => {
           history.push(`/home`);
           dispatch(authSuccess(response.data.token, response.data.data))
         }else{
-          dispatch(setAlert("Email atau Password Salah", "error"))
+          dispatch(setAlert(response.data.message, "error"))
         }
       })
       .catch(err => {

@@ -90,13 +90,8 @@ const Login =  props => {
 	const history = useHistory();
 
 	const responseGoogle = (response) => {
-		console.log(response.tokenId);
-		console.log(response.profileObj);
+		console.log(response)
 		props.onAuth(response.tokenId, history)
-
-		// sessionStorage.setItem('access_token', response.accessToken)
-
-		// history.push('/home')
 	}
 
 	return (
