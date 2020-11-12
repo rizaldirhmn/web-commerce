@@ -9,7 +9,8 @@ import {
   Profile as ProfileView,
   Home as HomeView,
   Customer as CustomerView,
-  Task as TaskView
+  Task as TaskView,
+  Report as ReportView
 } from './views';
 
 const Routes = () => {
@@ -55,6 +56,13 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/task"
+      />
+
+      <RouteWithLayout 
+        component={ReportView}
+        exact
+        layout={MainLayout}
+        path="/report"
       />
 
       <Route
