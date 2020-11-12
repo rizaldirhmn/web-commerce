@@ -126,7 +126,7 @@ const Login =  props => {
 										</Button> */}
 										<GoogleLogin
 											className={classes.submit}
-											clientId="536549901613-h37hneagkf2fgjpcpn5uk4vqi6elouoq.apps.googleusercontent.com"
+											clientId={process.env.REACT_APP_CLIENT_ID}
 											buttonText="Login With Google"
 											onSuccess={responseGoogle}
 											onFailure={responseGoogle}

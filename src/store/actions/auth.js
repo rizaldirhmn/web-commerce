@@ -38,7 +38,7 @@ export const auth = (tokenId, history) => {
       }
     })
       .then(response => {
-        if(response.data.code === 200){
+        if(response.data.code === "200"){
           sessionStorage.setItem('access_token', response.data.token)
           sessionStorage.setItem('data', JSON.stringify(response.data.data))
           history.push(`/home`);
