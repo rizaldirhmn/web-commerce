@@ -129,7 +129,7 @@ const Login =  props => {
 											clientId="536549901613-h37hneagkf2fgjpcpn5uk4vqi6elouoq.apps.googleusercontent.com"
 											buttonText="Login With Google"
 											onSuccess={responseGoogle}
-											// onFailure={responseGoogle}
+											onFailure={responseGoogle}
 											cookiePolicy={'single_host_origin'}
 										/>
 									</div>

@@ -38,10 +38,14 @@ export const auth = (tokenId, history) => {
       }
     })
       .then(response => {
-        sessionStorage.setItem('access_token', response.data.token)
-        sessionStorage.setItem('data', JSON.stringify(response.data.data))
-        history.push(`/home`);
-        dispatch(authSuccess(response.data.token, response.data.data))
+        if(response.data.code === 200){
+          sessionStorage.setItem('access_token', response.data.token)
+          sessionStorage.setItem('data', JSON.stringify(response.data.data))
+          history.push(`/home`);
+          dispatch(authSuccess(response.data.token, response.data.data))
+        }else{
+          dispatch(setAlert("Email atau Password Salah", "error"))
+        }
       })
       .catch(err => {
         // dispatch(authFail(err.response.data.msg_str))
