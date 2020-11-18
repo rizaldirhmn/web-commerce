@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   title: {
-    fontFamily: 'Nunito'
+    fontFamily: 'Montserrat'
   }
 }));
 

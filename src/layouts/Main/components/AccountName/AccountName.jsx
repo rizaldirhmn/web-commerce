@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1),
     textAlign: 'center',
     color: nameColorWhite,
-    fontFamily: 'Nunito'
+    fontFamily: 'Montserrat'
   }
 }));
 
@@ -63,7 +63,7 @@ const Profile = props => {
           >
             {profile.name}
           </Typography>
-          <Typography variant="body2" style={{ color: nameColorWhite, fontFamily: 'Nunito' }}>{profile.email}</Typography>
+          <Typography variant="body2" style={{ color: nameColorWhite, fontFamily: 'Montserrat' }}>{profile.email}</Typography>
         
     </div>
   );

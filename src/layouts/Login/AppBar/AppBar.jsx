@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   name_logo : {
-    fontFamily : 'Nunito',
+    fontFamily : 'Montserrat',
     color: '#000000',
   },
   logo : {

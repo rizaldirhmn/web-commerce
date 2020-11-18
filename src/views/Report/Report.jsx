@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(4)
     },
     title: {
-        fontFamily: 'Nunito'
+        fontFamily: 'Montserrat'
     },
     button: {
         textTransform: 'none',
@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     },
     textMenu: {
         color: '#FFFFFF',
-        fontFamily: 'Nunito',
+        fontFamily: 'Montserrat',
     },
 }))
 

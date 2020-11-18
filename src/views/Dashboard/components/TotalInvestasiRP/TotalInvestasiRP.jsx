@@ -16,18 +16,18 @@ const useStyles = makeStyles(theme => ({
     display: 'flex'
   },
   title: {
-		fontFamily: 'Nunito',
+		fontFamily: 'Montserrat',
     color: '#A1A0AE',
     fontSize: 16
 	},
 	numbers: {
 		color: '#000000',
-    fontFamily: 'Nunito'
+    fontFamily: 'Montserrat'
 	},
 	caption: {
 		fontWeight: 700,
 		color: '#000000',
-		fontFamily: 'Nunito',
+		fontFamily: 'Montserrat',
 	},
   avatar: {
     backgroundColor: '#fff',

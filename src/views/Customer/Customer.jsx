@@ -1,20 +1,37 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import { 
     Button,
     Grid,
     Typography,
     Paper,
-    InputBase
+    InputBase,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Box,
+    LinearProgress,
+    Snackbar,
 } from '@material-ui/core'
+import { Alert as Alerts } from '@material-ui/lab';
 import TableCustomer from './TableCustomer'
+import { connect } from 'react-redux'
+import { getTemplateCustomer, getCustomer } from '../../store/actions/customer'
+import { useParams } from 'react-router-dom'
+
+import axios from 'axios'
+
+import UploadCustomer from './UploadCustomer'
+import { Skeleton } from '@material-ui/lab'
+
 
 const useStyles = makeStyles(theme => ({
     root: {
         padding: theme.spacing(4)
     },
     title: {
-        fontFamily: 'Nunito'
+        fontFamily: 'Montserrat'
     },
     button: {
         textTransform: 'none',
@@ -28,7 +45,7 @@ const useStyles = makeStyles(theme => ({
     },
     textMenu: {
         color: '#FFFFFF',
-        fontFamily: 'Nunito',
+        fontFamily: 'Montserrat',
     },
     searchRoot: {
 		padding: '2px 4px',
@@ -56,6 +73,93 @@ const useStyles = makeStyles(theme => ({
 
 const Customer = props => {
     const classes = useStyles()
+    const { 
+        getTemplateCustomer, 
+        getCustomer,
+        customer: {
+            templateCustomer,
+            listCustomer
+        }
+    } = props
+
+    // const [exCust] = useState(templateCustomer)
+
+    const [open, setOpen] = React.useState(false);
+    const params = useParams()
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const [banner, setBanner] = useState([]);
+    // const [base64, setB64] = useState(null);
+    const [ uploadPercentage, setUploadPercentage ] = useState(0)
+    const [ errorUpload, setErrorUpload ] = useState(null)
+    const [ openAlert, setOpenAlert ] = useState(false)
+
+    const handleChangeBanner = event => {
+        setBanner(event[0]);
+        // console.log(event[0])
+        // let reader = new FileReader();
+        // reader.readAsDataURL(event[0]);
+        // reader.onload = function(){
+        //     setB64(reader.result);
+        // }
+
+    };
+
+    const uploadFile = async event => {
+        let data = new FormData()
+        data.append('profile_id', params.id)
+        data.append('file_csv', event )
+        try {
+            const res = await axios({
+                url: "https://dev.api.jrvis.id/customer/import",
+                method: "POST",
+                data: data,
+                onUploadProgress : (progressEvent) => {
+                    const {loaded, total} = progressEvent
+                    let percent = Math.floor( (loaded * 100 ) / total )
+        
+                    if( percent < 100 ){
+                        setUploadPercentage(percent)
+                    }
+                },
+                headers: { 
+                  'Content-Type': 'application/json', 
+                  'Accept' : 'application/json', 
+                  'Token' : `${sessionStorage.getItem('access_token')}`
+                }
+            });
+            
+            setUploadPercentage(100)
+            setTimeout(() => {
+                setUploadPercentage(0)
+            }, 1000)
+            if(res.data.code === "200"){
+                handleClose()
+                getCustomer(params.id)
+                setOpenAlert(true)
+            }else{
+                setErrorUpload(res.data.data)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleCloseAlert = () => {
+        setOpenAlert(false)
+    }
+    
+    useEffect(() => {
+        getTemplateCustomer(params.id)
+        getCustomer(params.id)
+    }, [getTemplateCustomer, params, getCustomer])
 
     return (
         <div className={classes.root}>
@@ -79,7 +183,7 @@ const Customer = props => {
                     </Button>
                 </Grid>
                 <Grid item>
-                    <Button className={classes.button}>
+                    <Button className={classes.button} onClick={handleClickOpen}>
                         <div className={classes.textMenu}>
                             Upload
                         </div>
@@ -104,11 +208,82 @@ const Customer = props => {
                 spacing={2}
             >
                 <Grid item lg={12}>
-                    <TableCustomer />
+                    {templateCustomer !== null && listCustomer !== null ? (
+                        <TableCustomer 
+                            templateCustomer={templateCustomer}
+                            listCustomer={listCustomer}
+                        />
+                    ):(
+                        <Skeleton variant="rect"></Skeleton>
+                    )}
                 </Grid>
             </Grid>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    <Typography className={classes.title}>
+                        Upload File Master Customer
+                    </Typography>
+                </DialogTitle>
+                <DialogContent>
+                    <UploadCustomer value={banner} handleChangeBanner={handleChangeBanner} />
+                    {uploadPercentage > 0 && (
+                        <Box display="flex" alignItems="center">
+                            <Box width="100%" mr={1}>
+                                <LinearProgress variant="determinate" value={uploadPercentage} />
+                            </Box>
+                            <Box minWidth={35}>
+                                <Typography variant="body2" color="textSecondary">{uploadPercentage}</Typography>
+                            </Box>
+                        </Box>
+                    )}
+                    {errorUpload !== null && (
+                        <div>
+                            {errorUpload.map(item => (
+                                <Typography>
+                                    {item}
+                                </Typography>
+                            ))}
+                        </div>
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    <Button className={classes.button} onClick={handleClose}>
+                        <div className={classes.textMenu}>
+                            Tutup
+                        </div>
+                    </Button>
+                    <Button className={classes.button} onClick={e => uploadFile(banner)}>
+                        <div className={classes.textMenu}>
+                            Upload
+                        </div>
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <Snackbar 
+                open={openAlert} 
+                autoHideDuration={2000}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                key="customer"
+                onClose={handleCloseAlert}
+            >
+                <Alerts variant="filled" severity="success" onClose={handleCloseAlert}>
+                    Customer Added
+                </Alerts>
+            </Snackbar>
         </div>
     )
 }
 
-export default Customer
+const mapStateToProps = state => ({
+    customer : state.customer
+})
+
+export default connect(mapStateToProps, { getTemplateCustomer, getCustomer })(Customer)

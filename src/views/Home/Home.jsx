@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
         boxShadow: 'none'
     },
     text: {
-        fontFamily: 'Nunito'
+        fontFamily: 'Montserrat'
     },
     cardTeam: {
         marginTop: theme.spacing(10)
@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     },
     titleTeam: {
         marginTop: theme.spacing(2),
-        fontFamily: 'Nunito',
+        fontFamily: 'Montserrat',
         textAlign: 'center'
     }
 }))

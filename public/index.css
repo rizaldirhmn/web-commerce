@@ -1,4 +1,4 @@
 body {
-    font-family: 'Nunito';
-    src: local('Nunito'), url(./fonts/Nunito-Regular.ttf) format('ttf');
+    font-family: 'Montserrat';
+    src: local('Montserrat'), url(./fonts/Montserrat-Regular.ttf) format('ttf');
 }

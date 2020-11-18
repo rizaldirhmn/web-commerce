@@ -78,7 +78,7 @@ const useStyles = makeStyles(theme => ({
     },
     textMenu: {
         color: '#FFFFFF',
-        fontFamily: 'Nunito',
+        fontFamily: 'Montserrat',
     },
 }));
 

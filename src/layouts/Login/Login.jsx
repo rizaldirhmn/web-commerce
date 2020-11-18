@@ -90,7 +90,7 @@ const Login =  props => {
 	const history = useHistory();
 
 	const responseGoogle = (response) => {
-		console.log(response)
+		console.log(response.tokenId)
 		props.onAuth(response.tokenId, history)
 	}
 

@@ -48,7 +48,7 @@ const Routes = () => {
         component={CustomerView}
         exact
         layout={MainLayout}
-        path="/customer"
+        path="/customer/:id"
       />
 
       <RouteWithLayout
