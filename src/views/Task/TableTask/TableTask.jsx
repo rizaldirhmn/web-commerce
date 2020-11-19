@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,53 +9,18 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { Button, Card, CardContent, CardHeader } from '@material-ui/core';
 
+import { CSVLink } from 'react-csv'
+
 const columns = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
-  {
-    id: 'population',
-    label: 'Population',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'size',
-    label: 'Size\u00a0(km\u00b2)',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'density',
-    label: 'Density',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toFixed(2),
-  },
-];
-
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
-
-const rows = [
-  createData('India', 'IN', 1324171354, 3287263),
-  createData('China', 'CN', 1403500365, 9596961),
-  createData('Italy', 'IT', 60483973, 301340),
-  createData('United States', 'US', 327167434, 9833520),
-  createData('Canada', 'CA', 37602103, 9984670),
-  createData('Australia', 'AU', 25475400, 7692024),
-  createData('Germany', 'DE', 83019200, 357578),
-  createData('Ireland', 'IE', 4857000, 70273),
-  createData('Mexico', 'MX', 126577691, 1972550),
-  createData('Japan', 'JP', 126317000, 377973),
-  createData('France', 'FR', 67022000, 640679),
-  createData('United Kingdom', 'GB', 67545757, 242495),
-  createData('Russia', 'RU', 146793744, 17098246),
-  createData('Nigeria', 'NG', 200962417, 923768),
-  createData('Brazil', 'BR', 210147125, 8515767),
+  { id: 'no', label: 'No', minWidth: 100 },
+  { id: 'code', label: 'Task Code', minWidth: 100 },
+  { id: 'task_description', label: 'Task Description' , minWidth: 270 },
+  { id: 'assign_date', label: 'Assign Date', minWidth: 100 },
+  { id: 'valid_until', label: 'Valid Until', minWidth: 100 },
+  { id: 'customer_name', label: 'Customer Name', minWidth: 170 },
+  { id: 'customer_email', label: 'Customer Email', minWidth: 170 },
+  { id: 'task_status', label: 'Task Status', minWidth: 100 },
+  { id: 'assign_to', label: 'Assign To', minWidth: 200 },
 ];
 
 const useStyles = makeStyles(theme => ({
@@ -80,80 +45,113 @@ const useStyles = makeStyles(theme => ({
         color: '#FFFFFF',
         fontFamily: 'Montserrat',
     },
+    paper: {
+      width: '100%',
+      marginBottom: theme.spacing(2),
+    },
 }));
 
-const TableTask = props => {
-  const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+const TableCustomer = props => {
+    const classes = useStyles();
+    
+    const { 
+        listTask,
+        page,
+        rowsPerPage,
+        handleChangePage,
+        handleChangeRowsPerPage
+        } = props
+        
+    var no = listTask.from
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+    const customer = () => {
+        let headers = []
+        headers.push(
+            ["Code (freetext | REQUIRED) ", "Description (freetext | OPTIONAL) ", "Customer Code (Ref: Master Customer | REQUIRED) ", "Task Type Code (Ref: Master Task Type | REQUIRED) ","User Code (Ref: Master User | REQUIRED) ","Assigndate (Date Format : yyyy-mm-dd | REQUIRED) "],
+            ["ex: TASK-1199", "ex: This task has problem with the bill", "ex: CUST001", "ex: KYC","ex: andrew@gmail.com","ex: 2020-05-21"]
+        )
+        return headers
+    }
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+  const [exCust] = useState(customer)
 
   return (
-    <Card className={classes.root}>
-        <CardHeader 
-            title="Task"
-            action={
-                <Button className={classes.button}>
-                    <div className={classes.textMenu}>
-                        Download Template
-                    </div>
-                </Button>
-            }
-        />
-        <CardContent>
+      <Card className={classes.paper}>
+          <CardHeader 
+              title="Customer"
+              action={
+                  <Button className={classes.button}>
+                      <CSVLink data={exCust} filename="Template Task" separator={";"}>
+                        <div className={classes.textMenu}>
+                          Download Template
+                        </div>
+                      </CSVLink>
+                  </Button>
+              }
+          />
+          <CardContent>
             <TableContainer className={classes.container}>
-                <Table stickyHeader aria-label="sticky table">
-                <TableHead>
-                    <TableRow>
-                    {columns.map((column) => (
-                        <TableCell
-                        key={column.id}
-                        align={column.align}
-                        style={{ minWidth: column.minWidth }}
-                        >
-                        {column.label}
-                        </TableCell>
-                    ))}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    return (
-                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                        {columns.map((column) => {
-                            const value = row[column.id];
-                            return (
-                            <TableCell key={column.id} align={column.align}>
-                                {column.format && typeof value === 'number' ? column.format(value) : value}
-                            </TableCell>
-                            );
-                        })}
-                        </TableRow>
-                    );
-                    })}
-                </TableBody>
-                </Table>
+              <Table stickyHeader>
+              <TableHead>
+                  <TableRow>
+                  {columns.map((column) => (
+                      <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                      >
+                      {column.label}
+                      </TableCell>
+                  ))}
+                  </TableRow>
+              </TableHead>
+              <TableBody>
+                  {listTask.data.map((row) => (
+                      <TableRow key={row.task.code}>
+                          <TableCell>
+                              {no++}
+                          </TableCell>
+                          <TableCell>
+                              {row.task.code}
+                          </TableCell>
+                          <TableCell>
+                              {row.task.description}
+                          </TableCell>
+                          <TableCell>
+                              {row.assign_date}
+                          </TableCell>
+                          <TableCell>
+                              {row.valid_until}
+                          </TableCell>
+                          <TableCell>
+                              {row.task.customer.name}
+                          </TableCell>
+                          <TableCell>
+                              {row.task.customer.email}
+                          </TableCell>
+                          <TableCell>
+                              {row.task.status}
+                          </TableCell>
+                          <TableCell>
+                              {row.user_id.display_name}({row.user_id.username})
+                          </TableCell>
+                      </TableRow>
+                  ))}
+              </TableBody>
+              </Table>
             </TableContainer>
             <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
+                rowsPerPageOptions={[10]}
                 component="div"
-                count={rows.length}
+                count={listTask.total}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onChangePage={handleChangePage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
             />
-        </CardContent>
-    </Card>
+          </CardContent>
+      </Card>
   );
 }
 
-export default TableTask
+export default TableCustomer

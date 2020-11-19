@@ -5,6 +5,7 @@ import profile from '../../reducers/profile'
 import dashboard from '../../reducers/dashboard'
 import team from './team'
 import customer from './customer'
+import task from './task'
 
 export default combineReducers({
     alert,
@@ -12,5 +13,6 @@ export default combineReducers({
     profile,
     dashboard,
     team,
-    customer
+    customer,
+    task
 })
