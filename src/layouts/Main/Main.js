@@ -354,7 +354,7 @@ const Main = props => {
               className={classes.button}
               component={CustomRouterLink}
               
-              to='/task'
+              to={`/task/${params.id}`}
             >
               {open ? (
                 <>

@@ -58,25 +58,21 @@ const TableCustomer = props => {
   };
 
   const customer = () => {
-    let custs = []
-    custs.push({
-        'Name (Freetext)': `Rizaldi Rahman`,
-        'Code (Freetext)': `123123123`,
-        'Email (Freetext)': `abc@gmail.com`, 
-        'Phone (Number)': `ex: 081313131313`
-    });
+    let headers = []
+    headers.push(
+        ["Name (Freetext) ", "Code (Freetext)", "Email (Freetext)", "Phone (Number)"],
+        ["Rizaldi Rahman", "123123123", "abc@gmail.com", "123123123"]
+    )
     for (let i = 0; i < templateCustomer.length; i++) {
         let caption = templateCustomer[i].caption+` (${templateCustomer[i].form_type}) (${templateCustomer[i].mode})`
         let value = templateCustomer[i].value
-        custs.push({
-            [caption] : [value]
-        })
+        headers[0].push(caption)
+        headers[1].push(value)
     }
-    return custs
+    return headers
   }
 
   const [exCust] = useState(customer)
-
   return (
     <Card className={classes.root}>
         <CardHeader 
