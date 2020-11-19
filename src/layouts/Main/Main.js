@@ -2,14 +2,14 @@ import React, { forwardRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/styles';
-import { useMediaQuery, Button, colors, Divider, Typography, Tooltip } from '@material-ui/core';
+import { useMediaQuery, Button, colors, Divider, Tooltip } from '@material-ui/core';
 import { Link as RouterLink, Redirect, useParams } from 'react-router-dom';
 
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import List from '@material-ui/core/List';
-import IconButton from '@material-ui/core/IconButton';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+// import IconButton from '@material-ui/core/IconButton';
+// import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+// import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 
 import DashboardIcon from '@material-ui/icons/Dashboard';
@@ -36,8 +36,19 @@ const textMenuBlack = '#000000';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    color: theme.palette.text.primary,
     display: 'flex',
+  },
+  appBar: {
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+    },
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
   },
   button: {
     color: colors.blueGrey[800],
@@ -53,23 +64,12 @@ const useStyles = makeStyles(theme => ({
     paddingTop: 56,
     marginLeft: 0,
     width: '100%',
-    [theme.breakpoints.up("sm")]: {
-      padding: theme.spacing(3),
-      paddingTop: 56,
-      width: `calc(100% - ${drawerWidth}px)`
-    }
-  },
-  contentShift: {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
   },
   drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
+    [theme.breakpoints.up('sm')]: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
   },
   drawerOpen: {
     width: drawerWidth,
@@ -94,7 +94,10 @@ const useStyles = makeStyles(theme => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    backgroundColor: drawerColorBlue
+    backgroundColor: drawerColorBlue,
+    [theme.breakpoints.up('sm')]: {
+      paddingTop: 56,
+    }
   },
   
   toolbar: {
@@ -128,12 +131,12 @@ const useStyles = makeStyles(theme => ({
   },
   textMenu: {
     color: textMenuBlack,
-    fontFamily: 'Montserrat',
+    fontFamily: 'Nunito',
     paddingLeft: theme.spacing(2)
   },
   textMenuNested: {
     color: textMenuBlack,
-    fontFamily: 'Montserrat',
+    fontFamily: 'Nunito',
     fontSize: '14px',
     paddingLeft: theme.spacing(2)
   },
@@ -166,17 +169,26 @@ const CustomRouterLink = forwardRef((props, ref) => (
 ));
 
 const Main = props => {
-  const { children } = props;
+  const { children, window } = props;
 
   const classes = useStyles();
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
     defaultMatches: true
   });
-
+  
   const params = useParams()
 
   const [open, setOpen] = useState(true);
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const handleDrawerClose = () => {
+    setMobileOpen(false)
+  }
 
   // Dialog Box
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -208,13 +220,168 @@ const Main = props => {
     return <Redirect to='/sign-in'/>;
   };
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const drawer = (
+    <div>
+      <Divider />
+      <List
+        className={classes.menus}
+      >
+        <ListItem 
+          key='home' 
+          button
+          disabledGutters
+          className={classes.item}
+        >
+          <Button
+            activeClassName={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            onClick={handleDrawerClose}
+            to='/home'
+          >
+            {open ? (
+              <>
+              <div className={classes.icon}>
+                <HomeIcon style={{ color: textMenuBlack }} />
+              </div>
+              <div className={classes.textMenu}>
+                Home
+              </div>
+              </>
+            ):(
+              <Tooltip title="Home" placement="right" arrow>
+                <div className={classes.icon}>
+                  <HomeIcon style={{ color: textMenuBlack }} />
+                </div>
+              </Tooltip>
+            )}
+          </Button>
+        </ListItem>
+        <ListItem 
+          key='dashboard' 
+          button
+          disabledGutters
+          className={classes.item}
+        >
+          <Button
+            activeClassName={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            onClick={handleDrawerClose}
+            to={`/dashboard/${params.id}`}
+          >
+            {open ? (
+              <>
+              <div className={classes.icon}>
+                <DashboardIcon style={{ color: textMenuBlack }} />
+              </div>
+              <div className={classes.textMenu}>
+                Dashboard
+              </div>
+              </>
+            ):(
+              <Tooltip title="Dashboard" placement="right" arrow>
+                <div className={classes.icon}>
+                  <DashboardIcon style={{ color: textMenuBlack }} />
+                </div>
+              </Tooltip>
+            )}
+          </Button>
+        </ListItem>
+        <ListItem 
+          key='customer' 
+          button
+          disabledGutters
+          className={classes.item}
+        >
+          <Button
+            activeClassName={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            onClick={handleDrawerClose}
+            to={`/customer/${params.id}`}
+          >
+            {open ? (
+              <>
+              <div className={classes.icon}>
+                <CustomerIcon style={{ color: textMenuBlack }} />
+              </div>
+              <div className={classes.textMenu}>
+                Customer
+              </div>
+              </>
+            ):(
+              <Tooltip title="Customer" placement="right" arrow>
+                <div className={classes.icon}>
+                  <CustomerIcon style={{ color: textMenuBlack }} />
+                </div>
+              </Tooltip>
+            )}
+          </Button>
+        </ListItem>
+        <ListItem 
+          key='task' 
+          button
+          disabledGutters
+          className={classes.item}
+        >
+          <Button
+            activeClassName={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            onClick={handleDrawerClose}
+            to={`/task/${params.id}`}
+          >
+            {open ? (
+              <>
+              <div className={classes.icon}>
+                <TaskIcon style={{ color: textMenuBlack }} />
+              </div>
+              <div className={classes.textMenu}>
+                Task
+              </div>
+              </>
+            ):(
+              <Tooltip title="Task" placement="right" arrow>
+                <div className={classes.icon}>
+                  <TaskIcon style={{ color: textMenuBlack }} />
+                </div>
+              </Tooltip>
+            )}
+          </Button>
+        </ListItem>
+        <ListItem
+          disabledGutters
+          className={classes.item}
+          key='signout'
+        >
+          <Button
+            activeClassName={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            onClick={handlingSignout}
+          >
+            {open ? (
+              <>
+                <div className={classes.icon}>
+                  <SignOutIcon style={{ color: textMenuBlack }} />
+                </div>
+                <div className={classes.textMenu}>Sign Out</div>
+              </>
+            ):(
+              <Tooltip title="Signout" placement="right">
+                <div className={classes.icon}>
+                  <SignOutIcon style={{ color: textMenuBlack }} />
+                </div>
+              </Tooltip>
+            )}
+          </Button>
+        </ListItem>
+      </List>
+    </div>
+  )
+  
+  const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
     <div
@@ -223,200 +390,40 @@ const Main = props => {
         [classes.shiftContent]: isDesktop
       })}
     >
-      <AppBar handleDrawerOpen={handleDrawerOpen} open={open} setOpen={setOpen} />
-      <SwipeableDrawer
-        // className={classes.drawer}
-        anchor="left"
-        variant="permanent"
-        open={open}
-        onClose={handleDrawerClose}
-        onOpen={handleDrawerOpen}
-        // classes={{
-        //   paper: classes.drawerPaper,
-        // }}
-        className={clsx(classes.drawer, {
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
-        })}
-        classes={{
-          paper: clsx({
-            [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open,
-          }),
-        }}
-      >
-        {open && <AccountName /> }
-        <Divider />
-        <List
-          className={classes.menus}
-        >
-          <ListItem 
-            key='home' 
-            button
-            disabledGutters
-            className={classes.item}
+      <AppBar handleDrawerToggle={handleDrawerToggle} open={open} setOpen={setOpen} />
+      <nav className={classes.drawer} aria-label="mailbox folders">
+        <Hidden smUp implementation="css">
+          <SwipeableDrawer
+            container={container}
+            variant="temporary"
+            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
           >
-            <Button
-              activeClassName={classes.active}
-              className={classes.button}
-              component={CustomRouterLink}
-              
-              to='/home'
-            >
-              {open ? (
-                <>
-                <div className={classes.icon}>
-                  <HomeIcon style={{ color: textMenuBlack }} />
-                </div>
-                <div className={classes.textMenu}>
-                  Home
-                </div>
-                </>
-              ):(
-                <Tooltip title="Home" placement="right" arrow>
-                  <div className={classes.icon}>
-                    <HomeIcon style={{ color: textMenuBlack }} />
-                  </div>
-                </Tooltip>
-              )}
-            </Button>
-          </ListItem>
-          <ListItem 
-            key='dashboard' 
-            button
-            disabledGutters
-            className={classes.item}
+            {open && <AccountName /> }
+            {drawer}
+          </SwipeableDrawer>
+        </Hidden>
+        <Hidden xsDown implementation="css">
+          <SwipeableDrawer
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            variant="permanent"
+            open
           >
-            <Button
-              activeClassName={classes.active}
-              className={classes.button}
-              component={CustomRouterLink}
-              
-              to={`/dashboard/${params.id}`}
-            >
-              {open ? (
-                <>
-                <div className={classes.icon}>
-                  <DashboardIcon style={{ color: textMenuBlack }} />
-                </div>
-                <div className={classes.textMenu}>
-                  Dashboard
-                </div>
-                </>
-              ):(
-                <Tooltip title="Dashboard" placement="right" arrow>
-                  <div className={classes.icon}>
-                    <DashboardIcon style={{ color: textMenuBlack }} />
-                  </div>
-                </Tooltip>
-              )}
-            </Button>
-          </ListItem>
-          <ListItem 
-            key='customer' 
-            button
-            disabledGutters
-            className={classes.item}
-          >
-            <Button
-              activeClassName={classes.active}
-              className={classes.button}
-              component={CustomRouterLink}
-              
-              to={`/customer/${params.id}`}
-            >
-              {open ? (
-                <>
-                <div className={classes.icon}>
-                  <CustomerIcon style={{ color: textMenuBlack }} />
-                </div>
-                <div className={classes.textMenu}>
-                  Customer
-                </div>
-                </>
-              ):(
-                <Tooltip title="Customer" placement="right" arrow>
-                  <div className={classes.icon}>
-                    <CustomerIcon style={{ color: textMenuBlack }} />
-                  </div>
-                </Tooltip>
-              )}
-            </Button>
-          </ListItem>
-          <ListItem 
-            key='task' 
-            button
-            disabledGutters
-            className={classes.item}
-          >
-            <Button
-              activeClassName={classes.active}
-              className={classes.button}
-              component={CustomRouterLink}
-              
-              to={`/task/${params.id}`}
-            >
-              {open ? (
-                <>
-                <div className={classes.icon}>
-                  <TaskIcon style={{ color: textMenuBlack }} />
-                </div>
-                <div className={classes.textMenu}>
-                  Task
-                </div>
-                </>
-              ):(
-                <Tooltip title="Task" placement="right" arrow>
-                  <div className={classes.icon}>
-                    <TaskIcon style={{ color: textMenuBlack }} />
-                  </div>
-                </Tooltip>
-              )}
-            </Button>
-          </ListItem>
-          <ListItem
-            disabledGutters
-            className={classes.item}
-            key='signout'
-          >
-            <Button
-              activeClassName={classes.active}
-              className={classes.button}
-              component={CustomRouterLink}
-              onClick={handlingSignout}
-            >
-              {open ? (
-                <>
-                  <div className={classes.icon}>
-                    <SignOutIcon style={{ color: textMenuBlack }} />
-                  </div>
-                  <div className={classes.textMenu}>Sign Out</div>
-                </>
-              ):(
-                <Tooltip title="Signout" placement="right">
-                  <div className={classes.icon}>
-                    <SignOutIcon style={{ color: textMenuBlack }} />
-                  </div>
-                </Tooltip>
-              )}
-            </Button>
-          </ListItem>
-        </List>
-        <div className={classes.bottomPush}>
-          <div className={classes.toolbar}>
-            {open ? (
-              <IconButton onClick={handleDrawerClose}>
-                {theme.direction === 'rtl' ? <ChevronRightIcon style={{ color: textMenuBlack }} /> : <ChevronLeftIcon style={{ color: textMenuBlack }} />}
-                <Typography>Kecilkan Menu</Typography>
-              </IconButton>
-            ):(
-              <IconButton onClick={handleDrawerOpen}>
-                {theme.direction === 'rtl' ? <ChevronLeftIcon style={{ color: textMenuBlack }} /> : <ChevronRightIcon style={{ color: textMenuBlack }} />}
-              </IconButton>
-            )}
-          </div>
-        </div>
-      </SwipeableDrawer>
+            {open && <AccountName /> }
+            {drawer}
+
+          </SwipeableDrawer>
+        </Hidden>
+      </nav>
       <main 
         className={classes.content}
       >

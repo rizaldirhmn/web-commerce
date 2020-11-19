@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 
 import AppBar from '@material-ui/core/AppBar';
@@ -19,7 +18,8 @@ import { Link } from 'react-router-dom';
 import {
   Divider,
   Typography,
-  Avatar
+  Avatar,
+  Hidden
 } from '@material-ui/core'
 
 
@@ -116,7 +116,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Appbar = (props) => {
-  const { handleDrawerOpen, open } = props;
+  const { handleDrawerToggle } = props;
 
   const classes = useStyles();
   // const theme = useTheme();
@@ -211,24 +211,22 @@ const Appbar = (props) => {
   return (
     // <div className={classes.flexGrow}>
       <AppBar
-        position="fixed"
+        // position="fixed"
         // color="inherit"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
+        className={classes.appBar}
       >
         <Toolbar>
+        <Hidden smUp>
           <IconButton
-            // color="inherit"
+            color="inherit"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
             edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}
+            onClick={handleDrawerToggle}
+            className={classes.menuButton}
           >
-            <MenuIcon />
+            <MenuIcon style={{ color: '#000' }} />
           </IconButton>
+        </Hidden>
 
           <Link to="/">
             {/* <img
@@ -240,19 +238,7 @@ const Appbar = (props) => {
               Jarvis Dashboard
             </Typography>
           </Link>
-          {/* <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div> */}
+          
           <div className={classes.flexGrow} />
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="default">
@@ -300,7 +286,7 @@ const Appbar = (props) => {
               onClick={handleMobileMenuOpen}
               color="inherit"
             >
-              <MoreIcon />
+              <MoreIcon style={{ color: '#000' }} />
             </IconButton>
           </div>
         </Toolbar>
