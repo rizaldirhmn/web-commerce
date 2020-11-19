@@ -12,10 +12,11 @@ import { Button, Card, CardContent, CardHeader } from '@material-ui/core';
 import { CSVLink } from 'react-csv'
 
 const columns = [
-  { id: 'code', label: 'Kode', minWidth: 170 },
-  { id: 'name', label: 'Nama Customer', minWidth: 100 },
-  { id: 'email', label: 'Email Customer', minWidth: 100 },
-  { id: 'is_active', label: 'Status Customer', minWidth: 100 },
+  { id: 'no', label: 'No' },
+  { id: 'code', label: 'Kode' },
+  { id: 'name', label: 'Nama Customer' },
+  { id: 'email', label: 'Email Customer' },
+  { id: 'is_active', label: 'Status Customer' },
 ];
 
 const useStyles = makeStyles(theme => ({
@@ -43,34 +44,33 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TableCustomer = props => {
-  const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const { templateCustomer, listCustomer } = props
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const classes = useStyles();
+    
+    const { 
+        templateCustomer, 
+        listCustomer,
+        page,
+        rowsPerPage,
+        handleChangePage,
+        handleChangeRowsPerPage
+        } = props
+        
+    var no = listCustomer.from
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
-  const customer = () => {
-    let headers = []
-    headers.push(
-        ["Name (Freetext) ", "Code (Freetext)", "Email (Freetext)", "Phone (Number)"],
-        ["Rizaldi Rahman", "123123123", "abc@gmail.com", "123123123"]
-    )
-    for (let i = 0; i < templateCustomer.length; i++) {
-        let caption = templateCustomer[i].caption+` (${templateCustomer[i].form_type}) (${templateCustomer[i].mode})`
-        let value = templateCustomer[i].value
-        headers[0].push(caption)
-        headers[1].push(value)
+    const customer = () => {
+        let headers = []
+        headers.push(
+            ["Name (Freetext) ", "Code (Freetext)", "Email (Freetext)", "Phone (Number)"],
+            ["Rizaldi Rahman", "123123123", "abc@gmail.com", "123123123"]
+        )
+        for (let i = 0; i < templateCustomer.length; i++) {
+            let caption = templateCustomer[i].caption+` (${templateCustomer[i].form_type}) (${templateCustomer[i].mode})`
+            let value = templateCustomer[i].value
+            headers[0].push(caption)
+            headers[1].push(value)
+        }
+        return headers
     }
-    return headers
-  }
 
   const [exCust] = useState(customer)
   return (
@@ -105,27 +105,32 @@ const TableCustomer = props => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {listCustomer.data.map((row) => {
-                    return (
-                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                        {columns.map((column) => {
-                            const value = row[column.id];
-                            return (
-                            <TableCell key={column.id} align={column.align}>
-                                {value}
+                    {listCustomer.data.map((row) => (
+                        <TableRow key={row.code}>
+                            <TableCell>
+                                {no++}
                             </TableCell>
-                            );
-                        })}
+                            <TableCell key={row.code}>
+                                {row.code}
+                            </TableCell>
+                            <TableCell key={row.name}>
+                                {row.name}
+                            </TableCell>
+                            <TableCell key={row.email}>
+                                {row.email}
+                            </TableCell>
+                            <TableCell key={row.is_active}>
+                                {row.is_active}
+                            </TableCell>
                         </TableRow>
-                    );
-                    })}
+                    ))}
                 </TableBody>
                 </Table>
             </TableContainer>
             <TablePagination
                 rowsPerPageOptions={[10]}
                 component="div"
-                count={listCustomer.data.length}
+                count={listCustomer.total}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onChangePage={handleChangePage}

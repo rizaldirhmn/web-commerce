@@ -5,7 +5,7 @@ const initialState = {
     listCustomer: null,
     uploadCustomer: null,
     loadingCustomer: false,
-    loadingListCustomer: false,
+    loadingListCustomer: true,
     loadingUploadCustomer: false,
     error: {}
 }
@@ -29,11 +29,6 @@ export default function (state = initialState, action) {
                 ...state,
                 error: payload,
                 loadingCustomer: false
-            }
-        case actions.GET_LIST_CUSTOMER_START:
-            return {
-                ...state,
-                loadingListCustomer: true
             }
         case actions.GET_LIST_CUSTOMER_SUCCESS:
             return {

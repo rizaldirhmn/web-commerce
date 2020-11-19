@@ -14,7 +14,7 @@ import {
     LinearProgress,
     Snackbar,
 } from '@material-ui/core'
-import { Alert as Alerts } from '@material-ui/lab';
+import { Alert as Alerts } from '@material-ui/lab'
 import TableCustomer from './TableCustomer'
 import { connect } from 'react-redux'
 import { getTemplateCustomer, getCustomer } from '../../store/actions/customer'
@@ -78,39 +78,44 @@ const Customer = props => {
         getCustomer,
         customer: {
             templateCustomer,
-            listCustomer
+            listCustomer,
         }
     } = props
 
-    // const [exCust] = useState(templateCustomer)
-
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(false)
     const params = useParams()
 
     const handleClickOpen = () => {
-        setOpen(true);
-    };
+        setOpen(true)
+    }
 
     const handleClose = () => {
-        setOpen(false);
-    };
+        setOpen(false)
+        setErrorUpload(null)
+    }
 
-    const [banner, setBanner] = useState([]);
-    // const [base64, setB64] = useState(null);
+    const [banner, setBanner] = useState([])
     const [ uploadPercentage, setUploadPercentage ] = useState(0)
     const [ errorUpload, setErrorUpload ] = useState(null)
     const [ openAlert, setOpenAlert ] = useState(false)
 
-    const handleChangeBanner = event => {
-        setBanner(event[0]);
-        // console.log(event[0])
-        // let reader = new FileReader();
-        // reader.readAsDataURL(event[0]);
-        // reader.onload = function(){
-        //     setB64(reader.result);
-        // }
+    // Table
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
     };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
+
+    const handleChangeBanner = event => {
+        setBanner(event[0])
+
+    }
 
     const uploadFile = async event => {
         let data = new FormData()
@@ -134,7 +139,7 @@ const Customer = props => {
                   'Accept' : 'application/json', 
                   'Token' : `${sessionStorage.getItem('access_token')}`
                 }
-            });
+            })
             
             setUploadPercentage(100)
             setTimeout(() => {
@@ -142,7 +147,7 @@ const Customer = props => {
             }, 1000)
             if(res.data.code === "200"){
                 handleClose()
-                getCustomer(params.id)
+                getCustomer(params.id, page+1)
                 setOpenAlert(true)
             }else{
                 setErrorUpload(res.data.data)
@@ -158,8 +163,8 @@ const Customer = props => {
     
     useEffect(() => {
         getTemplateCustomer(params.id)
-        getCustomer(params.id)
-    }, [getTemplateCustomer, params, getCustomer])
+        getCustomer(params.id, page+1)
+    }, [getTemplateCustomer, params, getCustomer, page])
 
     return (
         <div className={classes.root}>
@@ -212,6 +217,10 @@ const Customer = props => {
                         <TableCustomer 
                             templateCustomer={templateCustomer}
                             listCustomer={listCustomer}
+                            page={page}
+                            rowsPerPage={rowsPerPage}
+                            handleChangePage={handleChangePage}
+                            handleChangeRowsPerPage={handleChangeRowsPerPage}
                         />
                     ):(
                         <Skeleton variant="rect"></Skeleton>
@@ -257,11 +266,13 @@ const Customer = props => {
                             Tutup
                         </div>
                     </Button>
-                    <Button className={classes.button} onClick={e => uploadFile(banner)}>
-                        <div className={classes.textMenu}>
-                            Upload
-                        </div>
-                    </Button>
+                    {uploadPercentage === 0 && (
+                        <Button className={classes.button} onClick={e => uploadFile(banner)}>
+                            <div className={classes.textMenu}>
+                                Upload
+                            </div>
+                        </Button>
+                    )}
                 </DialogActions>
             </Dialog>
             <Snackbar 
