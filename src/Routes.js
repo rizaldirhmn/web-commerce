@@ -62,7 +62,7 @@ const Routes = () => {
         component={ReportView}
         exact
         layout={MainLayout}
-        path="/report"
+        path="/report/:id"
       />
 
       <Route

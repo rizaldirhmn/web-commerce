@@ -208,6 +208,8 @@ const Appbar = (props) => {
     </Menu>
   );
 
+  const data = JSON.parse(sessionStorage.getItem('data'))
+
   return (
     // <div className={classes.flexGrow}>
       <AppBar
@@ -256,7 +258,7 @@ const Appbar = (props) => {
               onClick={handleProfileMenuOpen}
             >
                 <Typography variant="h5" className={classes.profileName}>
-                  Rizaldi Rahman
+                  {data.display_name}
                 </Typography>
               
               <ExpandMore style={{ color: '#000' }} />

@@ -37,13 +37,13 @@ const Profile = props => {
 
   const classes = useStyles();
   // const data = profile
-
+  const data = JSON.parse(sessionStorage.getItem('data'))
   const profile = {
-    name: "Rizaldi Rahman",
+    name: data.display_name,
     // avatar: data.image,
-    email: 'rizaldirahman0@gmail.com' 
+    email: data.username,
   };
-
+  
   return (
     <div
       {...rest}
