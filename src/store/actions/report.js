@@ -56,41 +56,90 @@ export const exportReport = (id, startDate, endDate) => async dispatch => {
     myData.set('start_date', startDate)
     myData.set('finish_date', endDate)
   
-      try {
-          const res = await axios({
-              url: endpoint,
-              method: "POST",
-              data: myData,
-              headers: { 
-                'Content-Type': 'multipart/form-data', 
-                'Accept' : 'application/json', 
-                'Token' : `${sessionStorage.getItem('access_token')}`
-              }
-          });
-        //   if(res.data.code === '200'){
-            
-            dispatch({
-                type: actions.EXPORT_REPORT,
-                payload: res.data
-            })
-        //   }else{
-        //     dispatch({
-        //         type: actions.EXPORT_REPORT,
-        //         payload: res.data.message
-        //     })
-        //   }
+    try {
+        const res = await axios({
+            url: endpoint,
+            method: "POST",
+            data: myData,
+            headers: { 
+            'Content-Type': 'multipart/form-data', 
+            'Accept' : 'application/json', 
+            'Token' : `${sessionStorage.getItem('access_token')}`
+            }
+        });
+    //   if(res.data.code === '200'){
+        
+        dispatch({
+            type: actions.EXPORT_REPORT,
+            payload: res.data
+        })
+    //   }else{
+    //     dispatch({
+    //         type: actions.EXPORT_REPORT,
+    //         payload: res.data.message
+    //     })
+    //   }
+
+    } catch (error) {
+        dispatch(setAlert("Something went wrong", "error"))
+        console.log(error)
+        dispatch({
+            type: actions.EXPORT_REPORT,
+            payload: error
+        })
+        // dispatch({
+        //     payload: { msg: error.response.statusText, status: error.response.status },
+        //     type: STAGE_ERROR
+        // })
+    }
+    
+}
+
+export const exportReportAbsence = (id, startDate, endDate) => async dispatch => {
+    dispatch({
+      type: actions.EXPORT_REPORT_ABSENCE_START
+    })
+    const endpoint = `${process.env.REACT_APP_BASE_URL}report/export/absence`
+    const myData = new FormData()
+    myData.set('profile_id', id)
+    myData.set('start_date', startDate)
+    myData.set('finish_date', endDate)
   
-      } catch (error) {
-          dispatch(setAlert("Something went wrong", "error"))
-          console.log(error)
-          dispatch({
-              type: actions.EXPORT_REPORT,
-              payload: error
-          })
-          // dispatch({
-          //     payload: { msg: error.response.statusText, status: error.response.status },
-          //     type: STAGE_ERROR
-          // })
-      }
-      
-  }
+    try {
+        const res = await axios({
+            url: endpoint,
+            method: "POST",
+            data: myData,
+            headers: { 
+            'Content-Type': 'multipart/form-data', 
+            'Accept' : 'application/json', 
+            'Token' : `${sessionStorage.getItem('access_token')}`
+            }
+        });
+    //   if(res.data.code === '200'){
+        
+        dispatch({
+            type: actions.EXPORT_REPORT,
+            payload: res.data
+        })
+    //   }else{
+    //     dispatch({
+    //         type: actions.EXPORT_REPORT,
+    //         payload: res.data.message
+    //     })
+    //   }
+
+    } catch (error) {
+        dispatch(setAlert("Something went wrong", "error"))
+        console.log(error)
+        dispatch({
+            type: actions.EXPORT_REPORT,
+            payload: error
+        })
+        // dispatch({
+        //     payload: { msg: error.response.statusText, status: error.response.status },
+        //     type: STAGE_ERROR
+        // })
+    }
+    
+}

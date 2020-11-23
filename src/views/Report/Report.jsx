@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import moment from 'moment';
 import { makeStyles, useTheme } from '@material-ui/styles'
 import {
@@ -34,7 +34,7 @@ import {
 import { CSVLink } from 'react-csv'
 
 import { connect } from 'react-redux'
-import { getReport, exportReport } from '../../store/actions/report'
+import { getReport, exportReport, exportReportAbsence } from '../../store/actions/report'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -98,9 +98,10 @@ const Report = props => {
     const { 
         getReport,
         exportReport,
+        exportReportAbsence,
         report: {
             listReport,
-            dataReport
+            dataReport,
         }
     } = props
 
@@ -127,7 +128,11 @@ const Report = props => {
     
     const [ selectedReport, setSelectedReport ] = useState(null)
     const handleSelectChange = event => {
-        console.log(event)
+        if(event.code === 'TASKRESULT'){
+            exportReport(params.id, startDate.submit.submit, endDate.submit.submit)
+        }else{
+            exportReportAbsence(params.id, startDate.submit.submit, endDate.submit.submit)
+        }
         setSelectedReport(event)
 		setOpen(false)
     };
@@ -178,9 +183,9 @@ const Report = props => {
         }));
     };
     
-    useEffect(() => {
-        exportReport(params.id, startDate.submit.submit, endDate.submit.submit)
-    }, [exportReport, params, startDate, endDate])
+    // useEffect(() => {
+    //     exportReport(params.id, startDate.submit.submit, endDate.submit.submit)
+    // }, [exportReport, params, startDate, endDate])
 
     return(
         <div className={classes.root}>
@@ -220,18 +225,16 @@ const Report = props => {
                     </Paper>
                 </Grid>
             </Grid>
-            {selectedReport !== null && (
+            {dataReport !== null && (
                 <>
                 <Grid container spacing={2}>
-                    {selectedReport !== null && (
-                        <Grid item>
-                            <Typography variant="subtitle1" className={classes.textMenu}>
-                                    <div>
-                                        {selectedReport.name}
-                                    </div>
-                            </Typography>
-                        </Grid>
-                    )}
+                    <Grid item>
+                        <Typography variant="subtitle1" className={classes.textMenu}>
+                                <div>
+                                    {selectedReport.name}
+                                </div>
+                        </Typography>
+                    </Grid>
                 </Grid>
                 <Grid container spacing={2}>
                     <Grid 
@@ -414,4 +417,4 @@ const mapStateToProps = state => ({
     report: state.report
 })
 
-export default connect(mapStateToProps, { getReport, exportReport })(Report)
+export default connect(mapStateToProps, { getReport, exportReport, exportReportAbsence })(Report)

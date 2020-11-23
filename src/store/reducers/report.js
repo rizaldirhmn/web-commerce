@@ -3,8 +3,10 @@ import * as actions from '../actions/actionTypes'
 const initialState = {
     listReport: null,
     dataReport: null,
+    dataReportAbsence: null,
     loadingListReport: true,
     loadingExportReport: false,
+    loadingExportReportAbsence: false,
     error: {}
 }
 
@@ -27,6 +29,17 @@ export default function (state = initialState, action) {
                 ...state,
                 dataReport: payload,
                 loadingExportReport: false
+            }
+        case actions.EXPORT_REPORT_ABSENCE_START:
+            return {
+                ...state,
+                loadingExportReportAbsence: true
+            }
+        case actions.EXPORT_REPORT_ABSENCE:
+            return {
+                ...state,
+                dataReportAbsence: payload,
+                loadingExportReportAbsence: false
             }
         default:
             return state
