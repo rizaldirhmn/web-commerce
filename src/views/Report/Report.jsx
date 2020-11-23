@@ -178,7 +178,7 @@ const Report = props => {
     };
     
     useEffect(() => {
-        exportReport(params.id, startDate, endDate)
+        exportReport(params.id, startDate.submit.submit, endDate.submit.submit)
     }, [exportReport, params, startDate, endDate])
 
     return(

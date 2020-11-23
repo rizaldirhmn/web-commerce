@@ -46,13 +46,13 @@ export const getReport = (team_id, page) => async dispatch => {
     
 }
 
-export const exportReport = (team_id, startDate, endDate) => async dispatch => {
+export const exportReport = (id, startDate, endDate) => async dispatch => {
     dispatch({
       type: actions.EXPORT_REPORT_START
     })
     const endpoint = `${process.env.REACT_APP_BASE_URL}report/export/taskresult`
     const myData = new FormData()
-    myData.set('profile_id', team_id)
+    myData.set('profile_id', id)
     myData.set('start_date', startDate)
     myData.set('finish_date', endDate)
   
@@ -62,22 +62,23 @@ export const exportReport = (team_id, startDate, endDate) => async dispatch => {
               method: "POST",
               data: myData,
               headers: { 
-                'Content-Type': 'application/json', 
+                'Content-Type': 'multipart/form-data', 
                 'Accept' : 'application/json', 
                 'Token' : `${sessionStorage.getItem('access_token')}`
               }
           });
-          if(res.data.code === '200'){
+        //   if(res.data.code === '200'){
+            
             dispatch({
                 type: actions.EXPORT_REPORT,
-                payload: res.data.data
+                payload: res.data
             })
-          }else{
-            dispatch({
-                type: actions.EXPORT_REPORT,
-                payload: res.data.message
-            })
-          }
+        //   }else{
+        //     dispatch({
+        //         type: actions.EXPORT_REPORT,
+        //         payload: res.data.message
+        //     })
+        //   }
   
       } catch (error) {
           dispatch(setAlert("Something went wrong", "error"))
