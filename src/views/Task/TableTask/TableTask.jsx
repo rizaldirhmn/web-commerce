@@ -81,7 +81,7 @@ const TableCustomer = props => {
               title="Customer"
               action={
                   <Button className={classes.button}>
-                      <CSVLink data={exCust} filename="Template Task" separator={";"}>
+                      <CSVLink data={exCust} filename={`Template Task.csv`} separator={";"}>
                         <div className={classes.textMenu}>
                           Download Template
                         </div>

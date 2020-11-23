@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import moment from 'moment';
 import { makeStyles, useTheme } from '@material-ui/styles'
 import {
@@ -20,6 +20,7 @@ import {
     TableCell,
     TableBody,
     TablePagination,
+    Button
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import CalendarIcon from '@material-ui/icons/CalendarToday'
@@ -29,9 +30,10 @@ import {
   DatePicker,
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
+import { CSVLink } from 'react-csv'
 
 import { connect } from 'react-redux'
-import { getReport } from '../../store/actions/report'
+import { getReport, exportReport } from '../../store/actions/report'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -44,14 +46,19 @@ const useStyles = makeStyles(theme => ({
         textTransform: 'none',
         backgroundColor: '#2285DF',
         color: '#FFFFFF',
-        width: '120px',
+        width: '200px',
         height: '40px',
         '&:hover': {
             backgroundColor: '#0277BD'
         },
+        marginTop: theme.spacing(3)
     },
     textMenu: {
         color: '#000000',
+        fontFamily: 'Montserrat',
+    },
+    textButton: {
+        color: '#FFFFFF',
         fontFamily: 'Montserrat',
     },
     searchRoot: {
@@ -89,8 +96,10 @@ const Report = props => {
     var no = 1
     const { 
         getReport,
+        exportReport,
         report: {
             listReport,
+            dataReport
         }
     } = props
 
@@ -166,7 +175,11 @@ const Report = props => {
                     view: date
             }
         }));
-	};
+    };
+    
+    useEffect(() => {
+        exportReport(params.id, startDate, endDate)
+    }, [exportReport, params, startDate, endDate])
 
     return(
         <div className={classes.root}>
@@ -249,6 +262,21 @@ const Report = props => {
 								</MuiPickersUtilsProvider>
 							</Paper>
 						</div>
+                    </Grid>
+                    <Grid 
+                        item 
+                        lg={6}
+                        md={8}
+                        sm={8}
+                        xs={12}
+                    >
+                        <CSVLink data={dataReport} filename={`${selectedReport.name}.csv`} separator={";"}>
+                            <Button className={classes.button}>
+                                <div className={classes.textButton}>
+                                Download Report
+                                </div>
+                            </Button>
+                        </CSVLink>
                     </Grid>
                 </Grid>
                 <Grid container spacing={2}>
@@ -366,4 +394,4 @@ const mapStateToProps = state => ({
     report: state.report
 })
 
-export default connect(mapStateToProps, { getReport })(Report)
+export default connect(mapStateToProps, { getReport, exportReport })(Report)

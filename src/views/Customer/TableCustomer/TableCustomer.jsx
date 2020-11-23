@@ -80,7 +80,7 @@ const TableCustomer = props => {
             action={
                 // <Button className={classes.button} onClick={(e) => exportToCSV(exCust,'Customers')}>
                 <Button className={classes.button}>
-                    <CSVLink data={exCust} filename="Customers" separator={";"}>
+                    <CSVLink data={exCust} filename="Customers.csv" separator={";"}>
                       <div className={classes.textMenu}>
                         Download Template
                       </div>
