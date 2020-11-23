@@ -212,11 +212,7 @@ const Task = props => {
             >
                 <Grid 
                     item 
-                    // lg={12}
-                    // lg={12}
-                    // md={12}
-                    // sm={12}
-                    // xs={12}
+                    lg={12}
                 >
                     {listTask !== null ? (
                         <TableTask 

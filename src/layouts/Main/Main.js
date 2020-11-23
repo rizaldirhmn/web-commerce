@@ -131,12 +131,12 @@ const useStyles = makeStyles(theme => ({
   },
   textMenu: {
     color: textMenuBlack,
-    fontFamily: 'Nunito',
+    fontFamily: 'Montserrat',
     paddingLeft: theme.spacing(2)
   },
   textMenuNested: {
     color: textMenuBlack,
-    fontFamily: 'Nunito',
+    fontFamily: 'Montserrat',
     fontSize: '14px',
     paddingLeft: theme.spacing(2)
   },

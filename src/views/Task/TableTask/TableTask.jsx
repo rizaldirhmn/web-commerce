@@ -11,17 +11,17 @@ import { Button, Card, CardContent, CardHeader } from '@material-ui/core';
 
 import { CSVLink } from 'react-csv'
 
-const columns = [
-  { id: 'no', label: 'No', minWidth: 100 },
-  { id: 'code', label: 'Task Code', minWidth: 100 },
-  { id: 'task_description', label: 'Task Description' , minWidth: 270 },
-  { id: 'assign_date', label: 'Assign Date', minWidth: 100 },
-  { id: 'valid_until', label: 'Valid Until', minWidth: 100 },
-  { id: 'customer_name', label: 'Customer Name', minWidth: 170 },
-  { id: 'customer_email', label: 'Customer Email', minWidth: 170 },
-  { id: 'task_status', label: 'Task Status', minWidth: 100 },
-  { id: 'assign_to', label: 'Assign To', minWidth: 200 },
-];
+// const columns = [
+//   { id: 'no', label: 'No', minWidth: 100 },
+//   { id: 'code', label: 'Task Code', minWidth: 100 },
+//   { id: 'task_description', label: 'Task Description' , minWidth: 270 },
+//   { id: 'assign_date', label: 'Assign Date', minWidth: 100 },
+//   { id: 'valid_until', label: 'Valid Until', minWidth: 100 },
+//   { id: 'customer_name', label: 'Customer Name', minWidth: 170 },
+//   { id: 'customer_email', label: 'Customer Email', minWidth: 170 },
+//   { id: 'task_status', label: 'Task Status', minWidth: 100 },
+//   { id: 'assign_to', label: 'Assign To', minWidth: 200 },
+// ];
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -94,7 +94,7 @@ const TableCustomer = props => {
               <Table stickyHeader>
               <TableHead>
                   <TableRow>
-                  {columns.map((column) => (
+                  {/* {columns.map((column) => (
                       <TableCell
                       key={column.id}
                       align={column.align}
@@ -102,7 +102,34 @@ const TableCustomer = props => {
                       >
                       {column.label}
                       </TableCell>
-                  ))}
+                  ))} */}
+                    <TableCell>
+                        No
+                    </TableCell>
+                    <TableCell>
+                        Task Code
+                    </TableCell>
+                    <TableCell>
+                        Task Description
+                    </TableCell>
+                    <TableCell>
+                        Assign date
+                    </TableCell>
+                    <TableCell>
+                        Valid Until
+                    </TableCell>
+                    <TableCell>
+                        Customer Name
+                    </TableCell>
+                    <TableCell>
+                        Customer Email
+                    </TableCell>
+                    <TableCell>
+                        Task Status
+                    </TableCell>
+                    <TableCell>
+                        Assign To
+                    </TableCell>
                   </TableRow>
               </TableHead>
               <TableBody>
