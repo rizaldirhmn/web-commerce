@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
         margin: theme.spacing(8),
     },
     card: {
-        width: '500px',
+        width: '700px',
         [theme.breakpoints.down('sm')]: {
             width: '100%',
             height: '100%'
@@ -54,6 +54,8 @@ const Home = props => {
         } 
     } = props
 
+    const data = JSON.parse(sessionStorage.getItem('data'))
+
     useEffect(() => {
         getTeam()
     }, [getTeam])
@@ -85,7 +87,7 @@ const Home = props => {
                                     lg={6}
                                 >
                                     <Typography variant="h2" className={classes.text}>
-                                        Hello Gatot!
+                                        Hello {data.display_name}!
                                     </Typography>
                                     <Typography variant="body1" className={classes.text}>
                                         It's good to see you again
