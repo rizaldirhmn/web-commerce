@@ -20,7 +20,8 @@ import {
     TableCell,
     TableBody,
     TablePagination,
-    Button
+    Button,
+    Hidden
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import CalendarIcon from '@material-ui/icons/CalendarToday'
@@ -263,21 +264,23 @@ const Report = props => {
 							</Paper>
 						</div>
                     </Grid>
-                    <Grid 
-                        item 
-                        lg={6}
-                        md={8}
-                        sm={8}
-                        xs={12}
-                    >
-                        <CSVLink data={dataReport} filename={`${selectedReport.name}.csv`} separator={";"}>
-                            <Button className={classes.button}>
-                                <div className={classes.textButton}>
-                                Download Report
-                                </div>
-                            </Button>
-                        </CSVLink>
-                    </Grid>
+                    <Hidden xsDown>
+                        <Grid 
+                            item 
+                            lg={6}
+                            md={4}
+                            sm={4}
+                            xs={12}
+                        >
+                            <CSVLink data={dataReport} filename={`${selectedReport.name}.csv`} separator={";"}>
+                                <Button className={classes.button}>
+                                    <div className={classes.textButton}>
+                                    Download Report
+                                    </div>
+                                </Button>
+                            </CSVLink>
+                        </Grid>
+                    </Hidden>
                 </Grid>
                 <Grid container spacing={2}>
                     <Grid 
@@ -310,6 +313,23 @@ const Report = props => {
 							</Paper>
 						</div>
                     </Grid>
+                    <Hidden smUp>
+                        <Grid 
+                            item 
+                            lg={6}
+                            md={4}
+                            sm={4}
+                            xs={12}
+                        >
+                            <CSVLink data={dataReport} filename={`${selectedReport.name}.csv`} separator={";"}>
+                                <Button fullWidth className={classes.button}>
+                                    <div className={classes.textButton}>
+                                    Download Report
+                                    </div>
+                                </Button>
+                            </CSVLink>
+                        </Grid>
+                    </Hidden>
                 </Grid>
                 </>
             )}
