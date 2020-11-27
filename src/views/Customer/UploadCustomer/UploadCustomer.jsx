@@ -96,7 +96,9 @@ export default function Dropzone(props) {
         isDragAccept,
         isDragReject,
     } = useDropzone({
-      onDropAccepted: handleChangeBanner,
+      accept: 'text/*',
+      maxFiles: 1,
+      onDropAccepted: handleChangeBanner
     });
   // console.log(files)
 
@@ -110,18 +112,6 @@ export default function Dropzone(props) {
     isDragReject,
     isDragAccept
   ]);
-  
-  // const thumbs = files.map(file => (
-  //   <div className={classes.thumb} key={file.name}>
-	// 		<div className={classes.thumbInner}>
-	// 			<img
-  //                   alt={file.name}
-	// 				src={file.preview}
-	// 				className={classes.img}
-	// 			/>
-	// 		</div>
-	// 	</div>
-  // ));
   
   const files = acceptedFiles.map(file => (
     <li key={file.path}>
@@ -139,25 +129,10 @@ export default function Dropzone(props) {
       <div {...getRootProps({style})}>
         <input {...getInputProps()} />
         <p>Drag 'n' drop some files here, or click to select files</p>
-				{/* <Button
-					variant="contained"
-					color="secondary"
-					className={classes.button}
-					startIcon={<AddIcon />}
-				>
-					Upload Image
-				</Button> */}
       </div>
       <aside className={classes.thumbsContainer}>
-        {/* {thumbs} */}
         <ul>{files}</ul>
       </aside>
-      {/* <aside className={classes.thumbsContainer}>
-        <h4>Failed</h4> <br/>
-        <ul>
-          <li>1. asdadsds</li>
-        </ul>
-      </aside> */}
 		</div>
   );
 }

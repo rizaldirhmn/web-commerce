@@ -278,7 +278,7 @@ const Report = props => {
                             <CSVLink data={dataReport} filename={`${selectedReport.name}.csv`} separator={";"}>
                                 <Button className={classes.button}>
                                     <div className={classes.textButton}>
-                                    Download Report
+                                    Excel
                                     </div>
                                 </Button>
                             </CSVLink>
@@ -327,7 +327,7 @@ const Report = props => {
                             <CSVLink data={dataReport} filename={`${selectedReport.name}.csv`} separator={";"}>
                                 <Button fullWidth className={classes.button}>
                                     <div className={classes.textButton}>
-                                    Download Report
+                                    Excel
                                     </div>
                                 </Button>
                             </CSVLink>

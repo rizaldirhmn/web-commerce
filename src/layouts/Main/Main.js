@@ -13,7 +13,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import HomeIcon from '@material-ui/icons/Home'
 import CustomerIcon from '@material-ui/icons/People'
 import TaskIcon from '@material-ui/icons/AssignmentInd'
 import ReportIcon from '@material-ui/icons/Assessment'
@@ -78,7 +77,8 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    backgroundColor: drawerColorBlue
+    backgroundColor: drawerColorBlue,
+    borderRadius: theme.spacing(2)
   },
   drawerClose: {
     transition: theme.transitions.create('width', {
@@ -97,7 +97,7 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth,
     backgroundColor: drawerColorBlue,
     [theme.breakpoints.up('sm')]: {
-      paddingTop: 56,
+      paddingTop: 0,
     }
   },
   
@@ -227,37 +227,6 @@ const Main = props => {
       <List
         className={classes.menus}
       >
-        <ListItem 
-          key='home' 
-          button
-          disabledGutters
-          className={classes.item}
-        >
-          <Button
-            activeClassName={classes.active}
-            className={classes.button}
-            component={CustomRouterLink}
-            onClick={handleDrawerClose}
-            to='/home'
-          >
-            {open ? (
-              <>
-              <div className={classes.icon}>
-                <HomeIcon style={{ color: textMenuBlack }} />
-              </div>
-              <div className={classes.textMenu}>
-                Home
-              </div>
-              </>
-            ):(
-              <Tooltip title="Home" placement="right" arrow>
-                <div className={classes.icon}>
-                  <HomeIcon style={{ color: textMenuBlack }} />
-                </div>
-              </Tooltip>
-            )}
-          </Button>
-        </ListItem>
         <ListItem 
           key='dashboard' 
           button
@@ -438,7 +407,7 @@ const Main = props => {
               keepMounted: true, // Better open performance on mobile.
             }}
           >
-            {open && <AccountName /> }
+            {<AccountName /> }
             {drawer}
           </SwipeableDrawer>
         </Hidden>

@@ -42,6 +42,8 @@ const useStyles = makeStyles(theme => ({
         '&:hover': {
             backgroundColor: '#0277BD'
         },
+        marginRight: theme.spacing(2),
+        marginBottom: theme.spacing(2)
     },
     textMenu: {
         color: '#FFFFFF',
@@ -114,7 +116,6 @@ const Customer = props => {
 
     const handleChangeBanner = event => {
         setBanner(event[0])
-
     }
 
     const uploadFile = async event => {
@@ -160,12 +161,20 @@ const Customer = props => {
     const handleCloseAlert = () => {
         setOpenAlert(false)
     }
+
+    function isEmpty(obj) {
+        for(var key in obj) {
+            if(obj.hasOwnProperty(key))
+                return false;
+        }
+        return true;
+    }
     
     useEffect(() => {
         getTemplateCustomer(params.id)
         getCustomer(params.id, page+1)
     }, [getTemplateCustomer, params, getCustomer, page])
-
+    
     return (
         <div className={classes.root}>
             <Grid
@@ -179,6 +188,7 @@ const Customer = props => {
             <Grid
                 container
                 spacing={2}
+                justify="space-between"
             >
                 <Grid item>  
                     <Button className={classes.button}>
@@ -186,8 +196,6 @@ const Customer = props => {
                             Add
                         </div>
                     </Button>
-                </Grid>
-                <Grid item>
                     <Button className={classes.button} onClick={handleClickOpen}>
                         <div className={classes.textMenu}>
                             Upload
@@ -201,7 +209,7 @@ const Customer = props => {
                             name="nama"
                             // value={keyword.values.keyword || ''}
                             // onClick={handleClickOpen}
-                            placeholder="Cari Customer"
+                            placeholder="Search Customer"
                             inputProps={{ 'aria-label': 'Cari Customer' }}
                         />
                         
@@ -250,13 +258,21 @@ const Customer = props => {
                             </Box>
                         </Box>
                     )}
-                    {errorUpload !== null && (
+                    {!isEmpty(errorUpload) && errorUpload !== null ? (
                         <div>
                             {errorUpload.map(item => (
                                 <Typography>
                                     {item}
                                 </Typography>
                             ))}
+                        </div>
+                    ):(
+                        <div>
+                            {isEmpty(errorUpload) && errorUpload !== null && (
+                                <Typography>
+                                    Format Dokumen anda salah
+                                </Typography>
+                            )}
                         </div>
                     )}
                 </DialogContent>

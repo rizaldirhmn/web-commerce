@@ -24,7 +24,7 @@ import {
 
 
 const drawerWidth = 240;
-const appDrawerBlue = '#FFFFFF';
+// const appDrawerBlue = '#FFFFFF';
 // const appDrawerDefault = '#FFFFFF';
 
 // const iconBlack = '#000000';
@@ -65,7 +65,7 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    backgroundColor: appDrawerBlue
+    backgroundColor: 'transparent'
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -111,7 +111,8 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     width: 30,
-    height: 30
+    height: 30,
+    marginRight: theme.spacing(1)
   },
 }));
 
@@ -121,9 +122,11 @@ const Appbar = (props) => {
   const classes = useStyles();
   // const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [ openLanguage, setOpenLanguage ] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
+  const isMenuLanguage = Boolean(openLanguage)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event) => {
@@ -141,6 +144,14 @@ const Appbar = (props) => {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const handleOpenLanguage = (event) => {
+    setOpenLanguage(event.currentTarget)
+  }
+
+  const handleCloseLanguage = () => {
+    setOpenLanguage(null)
+  }
 
   // useEffect(() => {
   //   getProfile()
@@ -208,6 +219,31 @@ const Appbar = (props) => {
     </Menu>
   );
 
+  const renderLanguage = (
+    <Menu
+      anchorEl={openLanguage}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMenuLanguage}
+      onClose={handleCloseLanguage}
+      className={classes.profileMenu}
+    >
+      <Link to="#">
+        <MenuItem onClick={handleMenuClose}>
+          Indonesia
+        </MenuItem>
+      </Link>
+      <Link to="#">
+        <MenuItem onClick={handleMenuClose}>
+          English
+        </MenuItem>
+      </Link>
+      {/* <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
+    </Menu>
+  );
+
   const data = JSON.parse(sessionStorage.getItem('data'))
 
   return (
@@ -229,21 +265,10 @@ const Appbar = (props) => {
             <MenuIcon style={{ color: '#000' }} />
           </IconButton>
         </Hidden>
-
-          <Link to="/">
-            {/* <img
-              alt="Logo"
-              className={classes.logo}
-              src="/images/logo/bukalapak.png"
-            /> */}
-            <Typography variant="h5" className={classes.name_logo}>
-              Jarvis Dashboard
-            </Typography>
-          </Link>
           
           <div className={classes.flexGrow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="default">
+            {/* <IconButton aria-label="show 4 new mails" color="default">
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />
               </Badge>
@@ -252,32 +277,31 @@ const Appbar = (props) => {
               <Badge badgeContent={17} color="secondary">
                 <NotificationsIcon />
               </Badge>
+            </IconButton> */}
+            <IconButton
+              onClick={handleOpenLanguage}
+            >
+                <Typography variant="h5" className={classes.profileName}>
+                  English
+                </Typography>
+              
+              <ExpandMore style={{ color: '#000' }} />
             </IconButton>
             <Divider className={classes.divider} orientation="vertical" />
             <IconButton
               onClick={handleProfileMenuOpen}
             >
-                <Typography variant="h5" className={classes.profileName}>
-                  {data.display_name}
-                </Typography>
-              
-              <ExpandMore style={{ color: '#000' }} />
-            </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              // onClick={handleProfileMenuOpen}
-              // color="inherit"
-            >
-              {/* <AccountCircle /> */}
                 <Avatar
                   alt="Person"
                   className={classes.avatar}
                   // src={profile.image}
                   src={`${process.env.PUBLIC_URL}/images/logo/logo.png`}
                 />
+                <Typography variant="h5" className={classes.profileName}>
+                  {data.display_name}
+                </Typography>
+              
+              <ExpandMore style={{ color: '#000' }} />
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
@@ -294,6 +318,7 @@ const Appbar = (props) => {
         </Toolbar>
         {renderMobileMenu}
         {renderMenu}
+        {renderLanguage}
       </AppBar>
     // </div>
   );

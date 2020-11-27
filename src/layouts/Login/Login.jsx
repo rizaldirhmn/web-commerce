@@ -1,6 +1,5 @@
 import React from "react";
-import { Grid, Typography } from "@material-ui/core";
-// import Logo from '../img/login-logo.png';
+import { Grid, Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Hidden
@@ -22,13 +21,15 @@ const useStyles = makeStyles((theme) => ({
 	  height: '100vh'
 	},
 	paper: {
-	  margin: theme.spacing(8, 4),
-	  display: 'flex',
-	  flexDirection: 'column',
+	  margin: theme.spacing(30, 4),
+		marginTop: theme.spacing(20),
+		display: 'flex',
+		flexDirection: 'column',
 		alignItems: 'center',
 		padding: '30px 50px',
 		fontSize: 16,
 		textAlign: 'center',
+
 	},
 	avatar: {
 	  marginTop: theme.spacing(8),
@@ -44,14 +45,17 @@ const useStyles = makeStyles((theme) => ({
 	  },
 	},
 	submit: {
-	  margin: theme.spacing(3, 0, 2),
-	  backgroundColor: '#0277BD',
-	  '&:hover': {
-		backgroundColor: '#0277BD'
-	  },
-	  color: '#FFFFFF',
-	  width: '100%'
-	  // borderRadius: 100
+	  	margin: theme.spacing(3, 0, 2),
+		border: '0.5px solid rgba(224, 224, 224, 0.5)',
+		boxSizing: 'border-box',
+		color: '#000000',
+		width: '100%',
+		fontFamily: 'Montserrat',
+		borderRadius: theme.spacing(1)
+	},
+	googleLogo : {
+		left: 0,
+		marginRight: '10px'
 	},
 	contentName: {
 	  // padding: '200px 20px 0px',
@@ -75,14 +79,21 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'flex-end',
 		width: '100%',
-		marginBottom: 15,
+		marginTop: theme.spacing(5),
 	},
 	footer: {
 		fontSize: 14
 	},
 	loginContent: {
 		marginTop: theme.spacing(5)
-	}
+	},
+	bottomPush: {
+		position: "fixed",
+		bottom: 0,
+		textAlign: "center",
+		marginBottom: 20,
+		width: 'auto'
+	},
 }))
 
 const Login =  props => {
@@ -107,8 +118,8 @@ const Login =  props => {
 					</Hidden>
 				</Grid>
 				<Grid item lg={4} md={4} sm={6} xs={12}>
-					<Grid container>
-						<Grid item lg={12} md={12} sm={12} xs={12}>
+					{/* <Grid container> */}
+						{/* <Grid item lg={12} md={12} sm={12} xs={12}> */}
 							<div className={classes.paper}>
 								<div className={classes.loginContent}>
 									<div>
@@ -116,11 +127,18 @@ const Login =  props => {
 									</div>
 
 									<div className={classes.btnForget}>
-										{/* <Button style={{color: '#0277BD'}}>
-											Lupa Kata Sandi
-										</Button> */}
 										<GoogleLogin
-											className={classes.submit}
+											// className={classes.submit}
+											render={renderProps => (
+												<Button 
+													onClick={renderProps.onClick} 
+													className={classes.submit} 
+													disabled={renderProps.disabled}
+												>
+													<img src={`${process.env.PUBLIC_URL}/images/logo/google.svg`} alt="google" className={classes.googleLogo} />	
+													Login With Google
+												</Button>
+											)}
 											clientId={process.env.REACT_APP_CLIENT_ID}
 											buttonText="Login With Google"
 											onSuccess={responseGoogle}
@@ -128,25 +146,27 @@ const Login =  props => {
 											cookiePolicy={'single_host_origin'}
 										/>
 									</div>
-
-									<div className={classes.footer}>
-										{/* © EOA Tech Team. 2020 */}
-										<Grid container spacing={2}>
-											<Grid item>
-												<img src={`${process.env.PUBLIC_URL}/images/logo/logo.png`} alt="jari"/>
+									
+									<div className={classes.bottomPush}>
+										<div className={classes.footer}>
+											{/* © EOA Tech Team. 2020 */}
+											<Grid container spacing={2}>
+												<Grid item>
+													<img src={`${process.env.PUBLIC_URL}/images/logo/logo.png`} alt="jari"/>
+												</Grid>
+												<Grid item>
+													<Typography align="left">
+														Powered by <br></br>
+														PT Jari Solusi Internasional
+													</Typography>
+												</Grid>
 											</Grid>
-											<Grid item>
-												<Typography align="left">
-													Powered by <br></br>
-													PT Jari Solusi Internasional
-												</Typography>
-											</Grid>
-										</Grid>
+										</div>
 									</div>
 								</div>
 							</div>
-						</Grid>
-					</Grid>
+						{/* </Grid> */}
+					{/* </Grid> */}
 				</Grid>
 			</Grid>
 		</div>

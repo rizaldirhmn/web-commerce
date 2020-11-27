@@ -96,6 +96,8 @@ export default function Dropzone(props) {
         isDragAccept,
         isDragReject,
     } = useDropzone({
+      accept: 'text/*',
+      maxFiles: 1,
       onDropAccepted: handleChangeBanner,
     });
   // console.log(files)

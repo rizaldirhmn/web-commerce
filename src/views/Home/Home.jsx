@@ -8,10 +8,11 @@ import {
     Grid,
     Typography,
 } from '@material-ui/core'
-import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getTeam } from '../../store/actions/team'
 import { Skeleton } from '@material-ui/lab'
+import "../../styles.scss"
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -32,10 +33,14 @@ const useStyles = makeStyles(theme => ({
         fontFamily: 'Montserrat'
     },
     cardTeam: {
-        marginTop: theme.spacing(10)
+        marginTop: theme.spacing(10),
+        width: 140,
+        alignContent: 'center',
+        marginLeft : 'auto',
+        marginRight : 'auto',
     },
     media: {
-        height: 140,
+        height: 150,
     },
     titleTeam: {
         marginTop: theme.spacing(2),
@@ -46,6 +51,7 @@ const useStyles = makeStyles(theme => ({
 
 const Home = props => {
     const classes = useStyles()
+    const history = useHistory()
     const { 
         getTeam, 
         team : { 
@@ -55,6 +61,11 @@ const Home = props => {
     } = props
 
     const data = JSON.parse(sessionStorage.getItem('data'))
+
+    const onClickTeam = event => {
+        sessionStorage.setItem('team', event.profile_globalconfig.display_name)
+        history.push(`/dashboard/${event.id}`)
+    }
 
     useEffect(() => {
         getTeam()
@@ -113,17 +124,16 @@ const Home = props => {
                             xs={12}
                         >
                             <Card className={classes.cardTeam}>
-                                <Link
+                                {/* <Link
                                     to={`/dashboard/${team.id}`}
-                                >
-                                    <CardActionArea>
+                                > */}
+                                    <CardActionArea onClick={e => onClickTeam(team)}>
                                         <CardMedia 
                                             className={classes.media}
                                             image={team.profile_globalconfig.logo}
-                                            title="Contemplative Reptile"
                                         />
                                     </CardActionArea>
-                                </Link>
+                                {/* </Link> */}
                             </Card>
                             <Typography variant="body1" className={classes.titleTeam}>
                                 {team.profile_globalconfig.display_name}

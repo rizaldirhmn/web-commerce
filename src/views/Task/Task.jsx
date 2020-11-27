@@ -160,6 +160,14 @@ const Task = props => {
     const handleCloseAlert = () => {
         setOpenAlert(false)
     }
+
+    function isEmpty(obj) {
+        for(var key in obj) {
+            if(obj.hasOwnProperty(key))
+                return false;
+        }
+        return true;
+    }
     
     useEffect(() => {
         getTask(params.id, page+1)
@@ -172,7 +180,7 @@ const Task = props => {
                 spacing={2}
             >
                 <Grid item>  
-                    <Typography variant="h4" className={classes.title}>Customer</Typography>
+                    <Typography variant="h4" className={classes.title}>Task</Typography>
                 </Grid>
             </Grid>
             <Grid
@@ -199,7 +207,7 @@ const Task = props => {
                             name="nama"
                             // value={keyword.values.keyword || ''}
                             // onClick={handleClickOpen}
-                            placeholder="Cari Customer"
+                            placeholder="Search Task"
                             inputProps={{ 'aria-label': 'Cari Customer' }}
                         />
                         
@@ -250,13 +258,21 @@ const Task = props => {
                             </Box>
                         </Box>
                     )}
-                    {errorUpload !== null && (
+                    {!isEmpty(errorUpload) && errorUpload !== null ? (
                         <div>
                             {errorUpload.map(item => (
                                 <Typography>
                                     {item}
                                 </Typography>
                             ))}
+                        </div>
+                    ):(
+                        <div>
+                            {isEmpty(errorUpload) && errorUpload !== null && (
+                                <Typography>
+                                    Format Dokumen anda salah
+                                </Typography>
+                            )}
                         </div>
                     )}
                 </DialogContent>
