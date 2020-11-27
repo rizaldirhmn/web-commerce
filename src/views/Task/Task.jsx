@@ -82,7 +82,7 @@ const Task = props => {
         }
     } = props
 
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = useState(false)
     const params = useParams()
 
     const handleClickOpen = () => {
@@ -100,8 +100,9 @@ const Task = props => {
     const [ openAlert, setOpenAlert ] = useState(false)
 
     // Table
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [keyword, setKeyword] = useState('')
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -161,6 +162,11 @@ const Task = props => {
         setOpenAlert(false)
     }
 
+    const handleChangeSearch = event => {
+        setKeyword(event.target.value)
+        setPage(0)
+    }
+
     function isEmpty(obj) {
         for(var key in obj) {
             if(obj.hasOwnProperty(key))
@@ -170,8 +176,8 @@ const Task = props => {
     }
     
     useEffect(() => {
-        getTask(params.id, page+1)
-    }, [params, getTask, page])
+        getTask(params.id, page+1, keyword, rowsPerPage)
+    }, [params, getTask, page, keyword, rowsPerPage])
 
     return (
         <div className={classes.root}>
@@ -205,8 +211,8 @@ const Task = props => {
                         <InputBase
                             className={classes.input}
                             name="nama"
-                            // value={keyword.values.keyword || ''}
-                            // onClick={handleClickOpen}
+                            value={keyword || ''}
+                            onChange={handleChangeSearch}
                             placeholder="Search Task"
                             inputProps={{ 'aria-label': 'Cari Customer' }}
                         />

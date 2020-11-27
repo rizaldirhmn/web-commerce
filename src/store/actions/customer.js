@@ -48,15 +48,15 @@ export const getTemplateCustomer = (team_id) => async dispatch => {
     
 }
 
-export const getCustomer = (team_id, page) => async dispatch => {
+export const getCustomer = (team_id, page, keyword, show) => async dispatch => {
   const endpoint = `${process.env.REACT_APP_BASE_URL}customer/list`
   const myData = new FormData()
   myData.set('profile_id', team_id)
   myData.set('page', page)
-  myData.set('show', '10')
+  myData.set('show', show)
   myData.set('order_by', '')
   myData.set('order_type', '')
-  myData.set('search', '')
+  myData.set('search', keyword)
 
     try {
         const res = await axios({

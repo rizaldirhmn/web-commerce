@@ -84,7 +84,7 @@ const Customer = props => {
         }
     } = props
 
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = useState(false)
     const params = useParams()
 
     const handleClickOpen = () => {
@@ -102,8 +102,9 @@ const Customer = props => {
     const [ openAlert, setOpenAlert ] = useState(false)
 
     // Table
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [keyword, setKeyword] = useState('')
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -162,6 +163,11 @@ const Customer = props => {
         setOpenAlert(false)
     }
 
+    const handleChangeSearch = event => {
+        setKeyword(event.target.value)
+        setPage(0)
+    }
+
     function isEmpty(obj) {
         for(var key in obj) {
             if(obj.hasOwnProperty(key))
@@ -172,8 +178,8 @@ const Customer = props => {
     
     useEffect(() => {
         getTemplateCustomer(params.id)
-        getCustomer(params.id, page+1)
-    }, [getTemplateCustomer, params, getCustomer, page])
+        getCustomer(params.id, page+1, keyword, rowsPerPage)
+    }, [getTemplateCustomer, params, getCustomer, page, keyword, rowsPerPage])
     
     return (
         <div className={classes.root}>
@@ -206,9 +212,9 @@ const Customer = props => {
                     <Paper component="form" className={classes.searchRoot}>
                         <InputBase
                             className={classes.input}
-                            name="nama"
-                            // value={keyword.values.keyword || ''}
-                            // onClick={handleClickOpen}
+                            name="keyword"
+                            value={keyword || ''}
+                            onChange={handleChangeSearch}
                             placeholder="Search Customer"
                             inputProps={{ 'aria-label': 'Cari Customer' }}
                         />

@@ -168,7 +168,7 @@ const TableCustomer = props => {
               </Table>
             </TableContainer>
             <TablePagination
-                rowsPerPageOptions={[10]}
+                rowsPerPageOptions={[10, 20, 50, 100]}
                 component="div"
                 count={listTask.total}
                 rowsPerPage={rowsPerPage}
