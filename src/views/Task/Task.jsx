@@ -186,7 +186,7 @@ const Task = props => {
                 spacing={2}
             >
                 <Grid item>  
-                    <Typography variant="h4" className={classes.title}>Task</Typography>
+                    <Typography variant="h4" className={classes.title}>Master Task</Typography>
                 </Grid>
             </Grid>
             <Grid

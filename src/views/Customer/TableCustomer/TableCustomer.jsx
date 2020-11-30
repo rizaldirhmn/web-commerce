@@ -43,6 +43,11 @@ const useStyles = makeStyles(theme => ({
         color: '#FFFFFF',
         fontFamily: 'Montserrat',
     },
+    textHeader: {
+        color: '#000000',
+        fontFamily: 'Montserrat',
+        fontWeight: 700
+    },
     textTable: {
         color: '#000000',
         fontFamily: 'Montserrat',
@@ -168,6 +173,9 @@ const TableCustomer = props => {
     <Card className={classes.root}>
         <CardHeader 
             title="Customer"
+            classes={{
+                title: classes.textHeader
+            }}
             action={
                 <Button className={classes.button}>
                     <CSVLink data={exCust} filename="Customers.csv" separator={";"}>

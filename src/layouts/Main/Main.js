@@ -1,38 +1,38 @@
-import React, { forwardRef, useState } from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/styles';
-import { useMediaQuery, Button, colors, Divider, Tooltip } from '@material-ui/core';
-import { Link as RouterLink, Redirect, useParams } from 'react-router-dom';
+import React, { forwardRef, useState } from 'react'
+import PropTypes from 'prop-types'
+import clsx from 'clsx'
+import { makeStyles, useTheme } from '@material-ui/styles'
+import { useMediaQuery, Button, colors, Divider, Tooltip } from '@material-ui/core'
+import { Link as RouterLink, Redirect, useParams } from 'react-router-dom'
 
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import List from '@material-ui/core/List';
-// import IconButton from '@material-ui/core/IconButton';
-// import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-// import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
+import List from '@material-ui/core/List'
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import Collapse from '@material-ui/core/Collapse';
+import ListItem from '@material-ui/core/ListItem'
 
-import DashboardIcon from '@material-ui/icons/Dashboard';
+import DashboardIcon from '@material-ui/icons/Dashboard'
 import CustomerIcon from '@material-ui/icons/People'
 import TaskIcon from '@material-ui/icons/AssignmentInd'
 import ReportIcon from '@material-ui/icons/Assessment'
 
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import SignOutIcon from '@material-ui/icons/Input';
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import SignOutIcon from '@material-ui/icons/Input'
 
-import Hidden from '@material-ui/core/Hidden';
+import Hidden from '@material-ui/core/Hidden'
 
-import { AppBar, AccountName } from './components';
+import { AppBar, AccountName } from './components'
 
-const drawerWidth = 240;
-const drawerColorBlue = '#FFFFFF';
+const drawerWidth = 240
+const drawerColorBlue = '#FFFFFF'
 
-// const textMenuWhite = '#FFFFFF';
-const textMenuBlack = '#000000';
+// const textMenuWhite = '#FFFFFF'
+const textMenuBlack = '#000000'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -158,7 +158,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     marginRight: theme.spacing(1)
   },
-}));
+}))
 
 const CustomRouterLink = forwardRef((props, ref) => (
   <div
@@ -167,59 +167,66 @@ const CustomRouterLink = forwardRef((props, ref) => (
   >
     <RouterLink {...props} />
   </div>
-));
+))
 
 const Main = props => {
-  const { children, window } = props;
+  const { children, window } = props
 
-  const classes = useStyles();
-  const theme = useTheme();
+  const classes = useStyles()
+  const theme = useTheme()
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
     defaultMatches: true
-  });
+  })
   
   const params = useParams()
 
-  const [open, setOpen] = useState(true);
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [open, setOpen] = useState(true)
+  const [mobileOpen, setMobileOpen] = React.useState(false)
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+    setMobileOpen(!mobileOpen)
+  }
 
   const handleDrawerClose = () => {
     setMobileOpen(false)
   }
 
   // Dialog Box
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false)
+  // Collapsable Menus
+  const [taskOpen, setTaskOpen] = useState(false);
 
   const handleDialogClose = () => {
-    setDialogOpen(false);
-  };
+    setDialogOpen(false)
+  }
 
   const handleDoLogout = () => {
-    sessionStorage.removeItem('access_token');
-    sessionStorage.removeItem('expires_in');
-    sessionStorage.removeItem('role');
-    sessionStorage.removeItem('data');
-    sessionStorage.clear();
-    setRedirect({values: true});
+    sessionStorage.removeItem('access_token')
+    sessionStorage.removeItem('expires_in')
+    sessionStorage.removeItem('role')
+    sessionStorage.removeItem('data')
+    sessionStorage.clear()
+    setRedirect({values: true})
   }
 
   const [redirect, setRedirect] = useState({
     values : false
-  });
+  })
 
   const handlingSignout = event => {
-    event.persist();
+    event.persist()
     setDialogOpen(true)
-    
+  }
+
+  const handleClick = (event) => {
+    if (event === 'task') {
+      setTaskOpen(!taskOpen);
+    }
   };
 
   if (redirect.values) {
-    return <Redirect to='/sign-in'/>;
-  };
+    return <Redirect to='/sign-in'/>
+  }
 
   const drawer = (
     <div>
@@ -291,35 +298,76 @@ const Main = props => {
         </ListItem>
         <ListItem 
           key='task' 
-          button
           disabledGutters
           className={classes.item}
+          onClick={() => handleClick('task')}
         >
           <Button
-            activeClassName={classes.active}
             className={classes.button}
-            component={CustomRouterLink}
-            onClick={handleDrawerClose}
-            to={`/task/${params.id}`}
           >
-            {open ? (
-              <>
-              <div className={classes.icon}>
-                <TaskIcon style={{ color: textMenuBlack }} />
-              </div>
-              <div className={classes.textMenu}>
-                Task
-              </div>
-              </>
-            ):(
-              <Tooltip title="Task" placement="right" arrow>
-                <div className={classes.icon}>
-                  <TaskIcon style={{ color: textMenuBlack }} />
-                </div>
-              </Tooltip>
-            )}
+            <div className={classes.icon}>
+              <TaskIcon style={{ color: textMenuBlack }} />
+            </div>
+            <div className={classes.textMenu}>
+              Task
+            </div>
           </Button>
+          {taskOpen ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
+        <Collapse in={taskOpen} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItem
+            key='task'
+            className={classes.nested}
+          >
+            <Button
+              activeClassName={classes.active}
+              className={classes.button}
+              component={CustomRouterLink}
+              onClick={handleDrawerClose}
+              to={`/task/${params.id}`}
+            >
+                <div className={classes.textMenu}>
+                  Master Task
+                </div>
+            </Button>
+          </ListItem>
+
+          <ListItem
+            key='lookupTask'
+            className={classes.nested}
+          >
+            <Button
+              activeClassName={classes.active}
+              className={classes.button}
+              component={CustomRouterLink}
+              onClick={handleDrawerClose}
+              to={`/lookup-task/${params.id}`}
+            >
+                <div className={classes.textMenu}>
+                  Lookup Task
+                </div>
+            </Button>
+          </ListItem>
+
+          <ListItem
+            key='taskType'
+            className={classes.nested}
+          >
+            <Button
+              activeClassName={classes.active}
+              className={classes.button}
+              component={CustomRouterLink}
+              onClick={handleDrawerClose}
+              to={`/task-type/${params.id}`}
+            >
+                <div className={classes.textMenu}>
+                  Task Type
+                </div>
+            </Button>
+          </ListItem>
+        </List>
+      </Collapse>
         <ListItem 
           key='report' 
           button
@@ -382,7 +430,7 @@ const Main = props => {
     </div>
   )
   
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container = window !== undefined ? () => window().document.body : undefined
 
   return (
     <div
@@ -455,11 +503,11 @@ const Main = props => {
         </DialogActions>
       </Dialog>
     </div>
-  );
-};
+  )
+}
 
 Main.propTypes = {
   children: PropTypes.node
-};
+}
 
-export default Main;
+export default Main

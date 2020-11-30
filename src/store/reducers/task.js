@@ -3,6 +3,10 @@ import * as actions from '../actions/actionTypes'
 const initialState = {
     listTask: null,
     uploadTask: null,
+    lookupTask: null,
+    taskType: null,
+    loadingTaskType: true,
+    loadingLookupTask: true,
     loadingListTask: true,
     loadingUploadTask: false,
     error: {}
@@ -39,6 +43,18 @@ export default function (state = initialState, action) {
                 ...state,
                 error: payload,
                 loadingUploadTask: false
+            }
+        case actions.GET_LOOKUP_TASK:
+            return {
+                ...state,
+                lookupTask: payload,
+                loadingLookupTask: false
+            }
+        case actions.GET_TASK_TYPE:
+            return {
+                ...state,
+                taskType: payload,
+                loadingTaskType: false
             }
         default:
             return state

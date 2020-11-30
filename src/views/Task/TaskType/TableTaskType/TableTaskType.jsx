@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -7,17 +7,16 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import { Button, Card, CardContent, CardHeader } from '@material-ui/core';
+import { Card, CardContent, CardHeader } from '@material-ui/core';
 import TableSortLabel from "@material-ui/core/TableSortLabel";
-import { CSVLink } from 'react-csv'
-import "../../../App.css"
+import "../../../../App.css"
 
 const columns = [
   { id: 'no', label: 'No', minWidth: 100 },
-  { id: 'code', label: 'Task Code', minWidth: 100 },
-  { id: 'assign_date', label: 'Assign Date', minWidth: 100 },
-  { id: 'customer_name', label: 'Customer Name', minWidth: 170 },
-  { id: 'task_status', label: 'Task Status', minWidth: 100 },
+  { id: 'code', label: 'Task Type Code', minWidth: 100 },
+  { id: 'name', label: 'Task Name', minWidth: 100 },
+  { id: 'created_at', label: 'Created At', minWidth: 170 },
+  { id: 'created_by', label: 'Created By', minWidth: 100 },
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -131,7 +130,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const TableCustomer = props => {
+const TableTaskType = props => {
     const classes = useStyles();
     const [order, setOrder] = React.useState("asc");
     const [orderBy, setOrderBy] = React.useState("calories");
@@ -142,42 +141,22 @@ const TableCustomer = props => {
     };
     
     const { 
-        listTask,
+        taskType,
         page,
         rowsPerPage,
         handleChangePage,
         handleChangeRowsPerPage
         } = props
         
-    var no = listTask.from
-
-    const customer = () => {
-        let headers = []
-        headers.push(
-            ["Code (freetext | REQUIRED) ", "Description (freetext | OPTIONAL) ", "Customer Code (Ref: Master Customer | REQUIRED) ", "Task Type Code (Ref: Master Task Type | REQUIRED) ","User Code (Ref: Master User | REQUIRED) ","Assigndate (Date Format : yyyy-mm-dd | REQUIRED) "],
-            ["ex: TASK-1199", "ex: This task has problem with the bill", "ex: CUST001", "ex: KYC","ex: andrew@gmail.com","ex: 2020-05-21"]
-        )
-        return headers
-    }
-
-  const [exCust] = useState(customer)
+    var no = taskType.from
 
   return (
       <Card className={classes.paper}>
           <CardHeader 
-              title="Master Task"
+              title="Task Type"
               classes={{
                   title: classes.textHeader
               }}
-              action={
-                  <Button className={classes.button}>
-                      <CSVLink data={exCust} filename={`Template Task.csv`} separator={";"}>
-                        <div className={classes.textMenu}>
-                          Download Template
-                        </div>
-                      </CSVLink>
-                  </Button>
-              }
           />
           <CardContent>
             <TableContainer className={classes.container}>
@@ -187,15 +166,15 @@ const TableCustomer = props => {
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
-                    rowCount={listTask.total}
+                    rowCount={taskType.total}
                 />  
               <TableBody>
-                    {stableSort(listTask.data, getComparator(order, orderBy)).map(
+                    {stableSort(taskType.data, getComparator(order, orderBy)).map(
                         (row, index) => {
                             const labelId = `enhanced-table-checkbox-${index}`;
 
                             return (
-                                <TableRow key={row.task.code}>
+                                <TableRow key={row.code}>
                                     <TableCell id={labelId}>
                                         <div className="text">
                                             {no++}
@@ -203,22 +182,22 @@ const TableCustomer = props => {
                                     </TableCell>
                                     <TableCell>
                                         <div className="text">
-                                            {row.task.code}
+                                            {row.code}
                                         </div>
                                     </TableCell>
                                     <TableCell>
                                         <div className="text">
-                                            {row.assign_date}
+                                            {row.name}
                                         </div>
                                     </TableCell>
                                     <TableCell>
                                         <div className="text">
-                                            {row.task.customer.name}
+                                            {row.created_at}
                                         </div>
                                     </TableCell>
                                     <TableCell>
                                         <div className="text">
-                                            {row.task.status}
+                                            {row.created_by}
                                         </div>
                                     </TableCell>
                                 </TableRow>
@@ -231,7 +210,7 @@ const TableCustomer = props => {
             <TablePagination
                 rowsPerPageOptions={[10, 20, 50, 100]}
                 component="div"
-                count={listTask.total}
+                count={taskType.total}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onChangePage={handleChangePage}
@@ -242,4 +221,4 @@ const TableCustomer = props => {
   );
 }
 
-export default TableCustomer
+export default TableTaskType
