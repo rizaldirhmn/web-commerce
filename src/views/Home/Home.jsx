@@ -12,6 +12,7 @@ import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getTeam } from '../../store/actions/team'
 import { Skeleton } from '@material-ui/lab'
+import { useTranslation } from 'react-i18next';
 import "../../styles.scss"
 
 const useStyles = makeStyles(theme => ({
@@ -45,13 +46,15 @@ const useStyles = makeStyles(theme => ({
     titleTeam: {
         marginTop: theme.spacing(2),
         fontFamily: 'Montserrat',
-        textAlign: 'center'
+        textAlign: 'center',
+        width: '100%'
     }
 }))
 
 const Home = props => {
     const classes = useStyles()
     const history = useHistory()
+    const { t } = useTranslation();
     const { 
         getTeam, 
         team : { 
@@ -101,7 +104,7 @@ const Home = props => {
                                         Hello {data.display_name}!
                                     </Typography>
                                     <Typography variant="body1" className={classes.text}>
-                                        It's good to see you again
+                                        {t('greetings')}
                                     </Typography>
                                 </Grid>
                             </Grid>
@@ -118,7 +121,7 @@ const Home = props => {
                     {teamList.map(team => (
                         <Grid
                             item
-                            lg={3}
+                            lg={2}
                             md={3}
                             sm={6}
                             xs={12}

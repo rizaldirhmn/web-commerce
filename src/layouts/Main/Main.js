@@ -26,7 +26,7 @@ import SignOutIcon from '@material-ui/icons/Input';
 
 import Hidden from '@material-ui/core/Hidden';
 
-import { Footer, AppBar, AccountName } from './components';
+import { AppBar, AccountName } from './components';
 
 const drawerWidth = 240;
 const drawerColorBlue = '#FFFFFF';
@@ -429,9 +429,9 @@ const Main = props => {
         className={classes.content}
       >
         {children}
-        <Hidden only={['xs','sm']}>
+        {/* <Hidden only={['xs','sm']}>
           <Footer />
-        </Hidden>
+        </Hidden> */}
       </main>
       <Dialog
         open={dialogOpen}

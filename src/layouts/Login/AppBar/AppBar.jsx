@@ -14,9 +14,6 @@ import MailIcon from '@material-ui/icons/Mail';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { Link } from 'react-router-dom';
-import {
-  Typography,
-} from '@material-ui/core'
 
 
 const drawerWidth = 240;
@@ -27,7 +24,6 @@ const appDrawerBlue = '#f4f6f8';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    
     display: 'flex',
   },
   content: {
@@ -109,6 +105,9 @@ const useStyles = makeStyles(theme => ({
     width: 30,
     height: 30
   },
+  flag: {
+    width: '40px'
+  }
 }));
 
 const Appbar = (props) => {
@@ -156,12 +155,12 @@ const Appbar = (props) => {
     >
       <Link to="#">
         <MenuItem onClick={handleMenuClose}>
-          Indonesia
+          <img src={`${process.env.PUBLIC_URL}/images/english_flag.png`} alt="english" className={classes.flag} />
         </MenuItem>
       </Link>
       <Link to="#">
         <MenuItem onClick={handleMenuClose}>
-          English
+          <img src={`${process.env.PUBLIC_URL}/images/indonesia_flag.jpg`} alt="indonesia" className={classes.flag} />
         </MenuItem>
       </Link>
       {/* <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
@@ -224,27 +223,10 @@ const Appbar = (props) => {
             <IconButton
               onClick={handleProfileMenuOpen}
             >
-                <Typography variant="h5" className={classes.profileName}>
-                  Indonesia
-                </Typography>
+                <img src={`${process.env.PUBLIC_URL}/images/english_flag.png`} alt="english"/>
               
               <ExpandMore style={{ color: '#000' }} />
             </IconButton>
-            {/* <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              // onClick={handleProfileMenuOpen}
-              // color="inherit"
-            >
-                <Avatar
-                  alt="Person"
-                  className={classes.avatar}
-                  // src={profile.image}
-                  src={`${process.env.PUBLIC_URL}/images/logo/logo.png`}
-                />
-            </IconButton> */}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
@@ -254,9 +236,7 @@ const Appbar = (props) => {
               onClick={handleMobileMenuOpen}
               color="inherit"
             >
-              <Typography variant="h5" className={classes.profileName}>
-                  Indonesia
-                </Typography>
+              <img src={`${process.env.PUBLIC_URL}/images/english_flag.png`} alt="english"/>
               
               <ExpandMore style={{ color: '#000' }} />
             </IconButton>

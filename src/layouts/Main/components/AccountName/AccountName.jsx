@@ -36,14 +36,20 @@ const useStyles = makeStyles(theme => ({
     fontFamily: 'Montserrat'
   },
   teamName: {
-    margin: theme.spacing(3, 0, 2),
+    // margin: theme.spacing(3, 0, 2),
+    marginTop: theme.spacing(3),
+    paddingRight: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
     border: '0.5px solid rgba(224, 224, 224, 0.5)',
     boxSizing: 'border-box',
     color: '#000000',
-    // width: '100%',
+    width: '100%',
     fontFamily: 'Montserrat',
     borderRadius: theme.spacing(1)
   },
+  text: {
+    width: '100%'
+  }
 }));
 
 const CustomRouterLink = forwardRef((props, ref) => (
@@ -71,8 +77,8 @@ const Profile = props => {
             component={CustomRouterLink}
             to="/home"
           >
-            <div>
-              Team : {sessionStorage.getItem('team')}
+            <div className={classes.text}>
+              {sessionStorage.getItem('team')}
             </div>
           </Button>
     </div>

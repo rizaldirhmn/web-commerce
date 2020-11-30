@@ -21,8 +21,8 @@ const useStyles = makeStyles((theme) => ({
 	  height: '100vh'
 	},
 	paper: {
-	  margin: theme.spacing(30, 4),
-		marginTop: theme.spacing(20),
+	  margin: theme.spacing(10, 4),
+		// marginTop: theme.spacing(20),
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
@@ -31,6 +31,17 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'center',
 
 	},
+	paper2: {
+		margin: theme.spacing(30, 4),
+		  marginTop: theme.spacing(20),
+		  display: 'flex',
+		  flexDirection: 'column',
+		  alignItems: 'center',
+		  padding: '30px 50px',
+		  fontSize: 16,
+		  textAlign: 'center',
+  
+	  },
 	avatar: {
 	  marginTop: theme.spacing(8),
 	},
@@ -75,11 +86,14 @@ const useStyles = makeStyles((theme) => ({
 		fontWeight: 'bold',
 		paddingBottom: 10,
 	},
+	logoClub: {
+		width: "100%"
+	},
 	btnForget: {
 		display: 'flex',
 		justifyContent: 'flex-end',
 		width: '100%',
-		marginTop: theme.spacing(5),
+		// marginTop: theme.spacing(5),
 	},
 	footer: {
 		fontSize: 14
@@ -92,8 +106,13 @@ const useStyles = makeStyles((theme) => ({
 		bottom: 0,
 		textAlign: "center",
 		marginBottom: 20,
-		width: 'auto'
+		width: '100%',
+		marginLeft: '50px',
+		// marginRight: 'auto'
 	},
+	text: {
+		fontFamily: 'Montserrat'
+	}
 }))
 
 const Login =  props => {
@@ -120,7 +139,7 @@ const Login =  props => {
 				<Grid item lg={4} md={4} sm={6} xs={12}>
 					{/* <Grid container> */}
 						{/* <Grid item lg={12} md={12} sm={12} xs={12}> */}
-							<div className={classes.paper}>
+							<div className={classes.paper2}>
 								<div className={classes.loginContent}>
 									<div>
 										<img src={`${process.env.PUBLIC_URL}/images/jari_visibility.png`} alt="club" className={classes.logoClub} />
@@ -148,20 +167,20 @@ const Login =  props => {
 									</div>
 									
 									<div className={classes.bottomPush}>
-										<div className={classes.footer}>
+										{/* <div className={classes.footer}> */}
 											{/* © EOA Tech Team. 2020 */}
 											<Grid container spacing={2}>
 												<Grid item>
 													<img src={`${process.env.PUBLIC_URL}/images/logo/logo.png`} alt="jari"/>
 												</Grid>
 												<Grid item>
-													<Typography align="left">
+													<Typography align="left" className={classes.text}>
 														Powered by <br></br>
 														PT Jari Solusi Internasional
 													</Typography>
 												</Grid>
 											</Grid>
-										</div>
+										{/* </div> */}
 									</div>
 								</div>
 							</div>

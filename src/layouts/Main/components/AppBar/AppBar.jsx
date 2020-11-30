@@ -114,6 +114,9 @@ const useStyles = makeStyles(theme => ({
     height: 30,
     marginRight: theme.spacing(1)
   },
+  flag: {
+    width: '40px'
+  }
 }));
 
 const Appbar = (props) => {
@@ -232,12 +235,12 @@ const Appbar = (props) => {
     >
       <Link to="#">
         <MenuItem onClick={handleMenuClose}>
-          Indonesia
+          <img src={`${process.env.PUBLIC_URL}/images/english_flag.png`} alt="english" className={classes.flag} />
         </MenuItem>
       </Link>
       <Link to="#">
         <MenuItem onClick={handleMenuClose}>
-          English
+          <img src={`${process.env.PUBLIC_URL}/images/indonesia_flag.jpg`} alt="indonesia" className={classes.flag} />
         </MenuItem>
       </Link>
       {/* <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
@@ -249,7 +252,7 @@ const Appbar = (props) => {
   return (
     // <div className={classes.flexGrow}>
       <AppBar
-        // position="fixed"
+        position="fixed"
         // color="inherit"
         className={classes.appBar}
       >
@@ -281,9 +284,7 @@ const Appbar = (props) => {
             <IconButton
               onClick={handleOpenLanguage}
             >
-                <Typography variant="h5" className={classes.profileName}>
-                  English
-                </Typography>
+                <img src={`${process.env.PUBLIC_URL}/images/english_flag.png`} alt="english" className={classes.flag} />
               
               <ExpandMore style={{ color: '#000' }} />
             </IconButton>

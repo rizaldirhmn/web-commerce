@@ -25,6 +25,8 @@ import axios from 'axios'
 import UploadCustomer from './UploadCustomer'
 import { Skeleton } from '@material-ui/lab'
 
+import "../../App.css"
+
 
 const useStyles = makeStyles(theme => ({
     root: {

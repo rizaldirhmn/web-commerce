@@ -8,20 +8,84 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { Button, Card, CardContent, CardHeader } from '@material-ui/core';
-
+import TableSortLabel from "@material-ui/core/TableSortLabel";
 import { CSVLink } from 'react-csv'
+import "../../../App.css"
 
-// const columns = [
-//   { id: 'no', label: 'No', minWidth: 100 },
-//   { id: 'code', label: 'Task Code', minWidth: 100 },
-//   { id: 'task_description', label: 'Task Description' , minWidth: 270 },
-//   { id: 'assign_date', label: 'Assign Date', minWidth: 100 },
-//   { id: 'valid_until', label: 'Valid Until', minWidth: 100 },
-//   { id: 'customer_name', label: 'Customer Name', minWidth: 170 },
-//   { id: 'customer_email', label: 'Customer Email', minWidth: 170 },
-//   { id: 'task_status', label: 'Task Status', minWidth: 100 },
-//   { id: 'assign_to', label: 'Assign To', minWidth: 200 },
-// ];
+const columns = [
+  { id: 'no', label: 'No', minWidth: 100 },
+  { id: 'code', label: 'Task Code', minWidth: 100 },
+  { id: 'assign_date', label: 'Assign Date', minWidth: 100 },
+  { id: 'customer_name', label: 'Customer Name', minWidth: 170 },
+  { id: 'task_status', label: 'Task Status', minWidth: 100 },
+];
+
+function descendingComparator(a, b, orderBy) {
+    if (b[orderBy] < a[orderBy]) {
+    return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+    return 1;
+    }
+    return 0;
+}
+
+function getComparator(order, orderBy) {
+    return order === "desc"
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator) {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+    });
+    return stabilizedThis.map(el => el[0]);
+}
+
+function EnhancedTableHead(props) {
+    const {
+        classes,
+        order,
+        orderBy,
+        onRequestSort
+    } = props;
+
+    const createSortHandler = property => event => {
+    onRequestSort(event, property);
+    };
+
+    return (
+    <TableHead>
+        <TableRow>
+        {columns.map(column => (
+            <TableCell
+            key={column.id}
+            sortDirection={orderBy === column.id ? order : false}
+            >
+            <TableSortLabel
+                active={orderBy === column.id}
+                direction={orderBy === column.id ? order : "asc"}
+                onClick={createSortHandler(column.id)}
+            >
+                <div className="text">
+                    {column.label}
+                </div>
+                {orderBy === column.id ? (
+                <span className={classes.visuallyHidden}>
+                    {order === "desc" ? "sorted descending" : "sorted ascending"}
+                </span>
+                ) : null}
+            </TableSortLabel>
+            </TableCell>
+        ))}
+        </TableRow>
+    </TableHead>
+    );
+}
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -49,10 +113,28 @@ const useStyles = makeStyles(theme => ({
       width: '100%',
       marginBottom: theme.spacing(2),
     },
+    visuallyHidden: {
+        border: 0,
+        clip: "rect(0 0 0 0)",
+        height: 1,
+        margin: -1,
+        overflow: "hidden",
+        padding: 0,
+        position: "absolute",
+        top: 20,
+        width: 1
+    }
 }));
 
 const TableCustomer = props => {
     const classes = useStyles();
+    const [order, setOrder] = React.useState("asc");
+    const [orderBy, setOrderBy] = React.useState("calories");
+    const handleRequestSort = (event, property) => {
+        const isAsc = orderBy === property && order === "asc";
+        setOrder(isAsc ? "desc" : "asc");
+        setOrderBy(property);
+    };
     
     const { 
         listTask,
@@ -91,79 +173,50 @@ const TableCustomer = props => {
           />
           <CardContent>
             <TableContainer className={classes.container}>
-              <Table stickyHeader>
-              <TableHead>
-                  <TableRow>
-                  {/* {columns.map((column) => (
-                      <TableCell
-                      key={column.id}
-                      align={column.align}
-                      style={{ minWidth: column.minWidth }}
-                      >
-                      {column.label}
-                      </TableCell>
-                  ))} */}
-                    <TableCell>
-                        No
-                    </TableCell>
-                    <TableCell>
-                        Task Code
-                    </TableCell>
-                    <TableCell>
-                        Task Description
-                    </TableCell>
-                    <TableCell>
-                        Assign date
-                    </TableCell>
-                    <TableCell>
-                        Valid Until
-                    </TableCell>
-                    <TableCell>
-                        Customer Name
-                    </TableCell>
-                    <TableCell>
-                        Customer Email
-                    </TableCell>
-                    <TableCell>
-                        Task Status
-                    </TableCell>
-                    <TableCell>
-                        Assign To
-                    </TableCell>
-                  </TableRow>
-              </TableHead>
+              <Table stickyHeader size="small" aria-label="sticky table">
+                <EnhancedTableHead
+                    classes={classes}
+                    order={order}
+                    orderBy={orderBy}
+                    onRequestSort={handleRequestSort}
+                    rowCount={listTask.total}
+                />  
               <TableBody>
-                  {listTask.data.map((row) => (
-                      <TableRow key={row.task.code}>
-                          <TableCell>
-                              {no++}
-                          </TableCell>
-                          <TableCell>
-                              {row.task.code}
-                          </TableCell>
-                          <TableCell>
-                              {row.task.description}
-                          </TableCell>
-                          <TableCell>
-                              {row.assign_date}
-                          </TableCell>
-                          <TableCell>
-                              {row.valid_until}
-                          </TableCell>
-                          <TableCell>
-                              {row.task.customer.name}
-                          </TableCell>
-                          <TableCell>
-                              {row.task.customer.email}
-                          </TableCell>
-                          <TableCell>
-                              {row.task.status}
-                          </TableCell>
-                          <TableCell>
-                              {row.user_id.display_name}({row.user_id.username})
-                          </TableCell>
-                      </TableRow>
-                  ))}
+                    {stableSort(listTask.data, getComparator(order, orderBy)).map(
+                        (row, index) => {
+                            const labelId = `enhanced-table-checkbox-${index}`;
+
+                            return (
+                                <TableRow key={row.task.code}>
+                                    <TableCell id={labelId}>
+                                        <div className="text">
+                                            {no++}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className="text">
+                                            {row.task.code}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className="text">
+                                            {row.assign_date}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className="text">
+                                            {row.task.customer.name}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className="text">
+                                            {row.task.status}
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            );
+                        }
+                    )}
               </TableBody>
               </Table>
             </TableContainer>
