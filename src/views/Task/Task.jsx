@@ -13,17 +13,23 @@ import {
     Box,
     LinearProgress,
     Snackbar,
+    useMediaQuery,
 } from '@material-ui/core'
 import { Alert as Alerts } from '@material-ui/lab'
 import TableTask from './TableTask'
 import { connect } from 'react-redux'
-import { getTask } from '../../store/actions/task'
+import { getTask, getTaskType } from '../../store/actions/task'
+import { getCustomer } from '../../store/actions/customer'
+import { getMember } from '../../store/actions/member'
 import { useParams } from 'react-router-dom'
+import { useTheme } from '@material-ui/core/styles';
 
 import axios from 'axios'
 
 import UploadCustomer from './UploadTask'
 import { Skeleton } from '@material-ui/lab'
+
+import CreateTask from './CreateTask'
 
 
 const useStyles = makeStyles(theme => ({
@@ -70,20 +76,32 @@ const useStyles = makeStyles(theme => ({
 	divider: {
         height: 28,
         margin: 4,
-	},
+    },
 }))
 
 const Task = props => {
     const classes = useStyles()
     const { 
         getTask,
+        getTaskType,
+        getCustomer,
+        getMember,
         task: {
             listTask,
+            taskType
+        },
+        customer: {
+            listCustomer,
+        },
+        member: {
+            listMember
         }
     } = props
 
     const [open, setOpen] = useState(false)
     const params = useParams()
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
     const handleClickOpen = () => {
         setOpen(true)
@@ -92,12 +110,17 @@ const Task = props => {
     const handleClose = () => {
         setOpen(false)
         setErrorUpload(null)
+        setOpenCreateTask(false)
     }
 
     const [banner, setBanner] = useState([])
     const [ uploadPercentage, setUploadPercentage ] = useState(0)
     const [ errorUpload, setErrorUpload ] = useState(null)
     const [ openAlert, setOpenAlert ] = useState(false)
+
+    // Dialog for create task
+    const [openCreateTask, setOpenCreateTask ] = useState(false)
+
 
     // Table
     const [page, setPage] = useState(0);
@@ -177,7 +200,10 @@ const Task = props => {
     
     useEffect(() => {
         getTask(params.id, page+1, keyword, rowsPerPage)
-    }, [params, getTask, page, keyword, rowsPerPage])
+        getTaskType(params.id, page+1, keyword, rowsPerPage)
+        getCustomer(params.id, page+1, keyword, rowsPerPage)
+        getMember(params.id, page+1, keyword, rowsPerPage)
+    }, [params, getTask, page, keyword, rowsPerPage, getTaskType, getCustomer, getMember])
 
     return (
         <div className={classes.root}>
@@ -195,11 +221,15 @@ const Task = props => {
                 justify="space-between"
             >
                 <Grid item>  
-                    <Button className={classes.button}>
-                        <div className={classes.textMenu}>
-                            Add
-                        </div>
-                    </Button>
+                    {taskType !== null && listCustomer !== null && listMember !== null ? (
+                        <Button className={classes.button} onClick={e => setOpenCreateTask(true)}>
+                            <div className={classes.textMenu}>
+                                Add
+                            </div>
+                        </Button>
+                    ):(
+                        <Skeleton variant="rect"></Skeleton>
+                    )}
                     <Button className={classes.button} onClick={handleClickOpen}>
                         <div className={classes.textMenu}>
                             Upload
@@ -311,12 +341,32 @@ const Task = props => {
                     Task Added
                 </Alerts>
             </Snackbar>
+            <Dialog
+                open={openCreateTask}
+                onClose={handleClose}
+                fullScreen={fullScreen}
+            >
+                <DialogTitle>
+                    <Typography className={classes.title}>
+                        Create New Task
+                    </Typography>
+                </DialogTitle>
+                <CreateTask
+                    taskType={taskType}
+                    listCustomer={listCustomer}
+                    handleClose={handleClose}
+                    listMember={listMember}
+                    setOpenCreateTask={setOpenCreateTask}
+                />
+            </Dialog>
         </div>
     )
 }
 
 const mapStateToProps = state => ({
-    task : state.task
+    task : state.task,
+    customer: state.customer,
+    member: state.member
 })
 
-export default connect(mapStateToProps, { getTask })(Task)
+export default connect(mapStateToProps, { getTask, getTaskType, getCustomer, getMember })(Task)

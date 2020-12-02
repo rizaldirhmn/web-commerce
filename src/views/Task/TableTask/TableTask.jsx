@@ -17,6 +17,7 @@ const columns = [
   { id: 'code', label: 'Task Code', minWidth: 100 },
   { id: 'assign_date', label: 'Assign Date', minWidth: 100 },
   { id: 'customer_name', label: 'Customer Name', minWidth: 170 },
+  { id: 'member_name', label: 'Member Name', minWidth: 170 },
   { id: 'task_status', label: 'Task Status', minWidth: 100 },
 ];
 
@@ -214,6 +215,11 @@ const TableCustomer = props => {
                                     <TableCell>
                                         <div className="text">
                                             {row.task.customer.name}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className="text">
+                                            {row.user_id.display_name}
                                         </div>
                                     </TableCell>
                                     <TableCell>

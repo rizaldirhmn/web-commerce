@@ -75,10 +75,10 @@ const TotalInvestasiRP = props => {
               gutterBottom
               variant="body2"
             >
-              Investasi (Rupiah)
+              Your Trip Today
             </Typography>
 						<Typography className={classes.numbers} variant="h3">
-							<NumberFormat value='0' displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
+							<NumberFormat value='0' displayType={'text'} thousandSeparator={true} /> KM
 						</Typography>
           </Grid>
           <Grid item>

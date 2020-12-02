@@ -15,8 +15,7 @@ const columns = [
   { id: 'no', label: 'No', minWidth: 100 },
   { id: 'code', label: 'Task Type Code', minWidth: 100 },
   { id: 'name', label: 'Task Name', minWidth: 100 },
-  { id: 'created_at', label: 'Created At', minWidth: 170 },
-  { id: 'created_by', label: 'Created By', minWidth: 100 },
+  { id: 'is_active', label: 'Is Active', minWidth: 100 },
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -192,12 +191,7 @@ const TableTaskType = props => {
                                     </TableCell>
                                     <TableCell>
                                         <div className="text">
-                                            {row.created_at}
-                                        </div>
-                                    </TableCell>
-                                    <TableCell>
-                                        <div className="text">
-                                            {row.created_by}
+                                            {row.is_active}
                                         </div>
                                     </TableCell>
                                 </TableRow>

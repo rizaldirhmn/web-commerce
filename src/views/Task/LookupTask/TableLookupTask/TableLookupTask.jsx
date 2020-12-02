@@ -13,10 +13,10 @@ import "../../../../App.css"
 
 const columns = [
   { id: 'no', label: 'No', minWidth: 100 },
-  { id: 'code', label: 'Task Code', minWidth: 100 },
-  { id: 'profile_id', label: 'Team', minWidth: 100 },
-  { id: 'created_at', label: 'Created At', minWidth: 170 },
-  { id: 'created_by', label: 'Created By', minWidth: 100 },
+  { id: 'code', label: 'Lookup Task Code', minWidth: 100 },
+  { id: 'description', label: 'Description', minWidth: 100 },
+  { id: 'is_active', label: 'Is Active', minWidth: 170 },
+  { id: 'is_system_lookup', label: 'Is System Lookup', minWidth: 100 },
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -187,17 +187,17 @@ const TableLookupTask = props => {
                                     </TableCell>
                                     <TableCell>
                                         <div className="text">
-                                            {row.profile_id}
+                                            {row.description}
                                         </div>
                                     </TableCell>
                                     <TableCell>
                                         <div className="text">
-                                            {row.created_at}
+                                            {row.is_active}
                                         </div>
                                     </TableCell>
                                     <TableCell>
                                         <div className="text">
-                                            {row.created_by}
+                                            {row.is_system_lookup}
                                         </div>
                                     </TableCell>
                                 </TableRow>

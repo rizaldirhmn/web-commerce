@@ -9,6 +9,14 @@ import { connect } from 'react-redux'
 import { getCardStats } from '../../actions/dashboard'
 // import '../../../public/index.css'
 
+import {
+  TotalTransaction,
+  TotalInvestasi,
+  TotalInvestasiRP,
+  GrafikTransactionSales,
+  PieChart
+} from './components'
+
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(4),
@@ -68,7 +76,7 @@ const Dashboard = () => {
             <Typography variant="h4" className={classes.title}>Dashboard</Typography>
           </Grid>
         </Grid>
-        {/* <Grid
+        <Grid
           container
           spacing={2}
         >
@@ -99,7 +107,7 @@ const Dashboard = () => {
           >
               <TotalInvestasiRP />
           </Grid>
-          <Grid
+          {/* <Grid
             item
             lg={3}
             md={3}
@@ -107,8 +115,8 @@ const Dashboard = () => {
             xs={12}
           >
               <Investor />
-          </Grid>
-          <Grid
+          </Grid> */}
+          {/* <Grid
             item
             lg={3}
             md={3}
@@ -143,7 +151,7 @@ const Dashboard = () => {
             xs={12}
           >
               <LembarSaham />
-          </Grid>
+          </Grid> */}
         </Grid>
         <Grid
           container
@@ -165,9 +173,9 @@ const Dashboard = () => {
             sm={12}
             xs={12}
           >
-            <ActivityLog />
+            <PieChart />
           </Grid>
-        </Grid> */}
+        </Grid>
       </div>
   );
 };

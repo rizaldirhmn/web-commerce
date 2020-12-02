@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
-import { Bar } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 import {
     Card,
     CardContent,
     CardHeader,
     Grid,
-    makeStyles,
 } from '@material-ui/core'
 import DateFnsUtils from '@date-io/date-fns'; // choose your lib
 import {
@@ -15,16 +14,9 @@ import {
 import moment from 'moment';
 import {options} from './chart'
 
-const useStyles = makeStyles(theme => ({
-    text: {
-        color: '#000000',
-        fontFamily: 'Montserrat'
-    }
-}))
-
 const GrafikTransactionSales = () => {
     
-    const classes = useStyles()
+
     const [selectedDate ] = useState(new Date());
 
     const submitDefault = moment().subtract(7, 'd').format('YYYY-MM-DD');
@@ -82,11 +74,11 @@ const GrafikTransactionSales = () => {
     //     }
     
         data = {
-            labels: ['januari','februari','maret','april','mei','juni'],
+            labels: ['Unsuccessful','Successful'],
             datasets: [
               {
-                label : 'Jumlah Transaksi',
-                data: ['100','200','300','400','500','400'],
+                label : 'Success Rate',
+                data: ['100','200'],
                 // backgroundColor: 'rgba(75,192,192,0.4)',
                 backgroundColor: '#6200EE',
               }
@@ -98,10 +90,7 @@ const GrafikTransactionSales = () => {
         <div>
                 <Card>
                     <CardHeader 
-                        title={`Average Transaction`}
-                        classes={{
-                            title: classes.text
-                        }}
+                        title={`Success Rate`}
                     />
                     <CardContent>
                         <Grid container spacing={2} justify="space-between">
@@ -138,7 +127,7 @@ const GrafikTransactionSales = () => {
                         </Grid>
                     </CardContent>
                     <CardContent>
-                        <Bar
+                        <Doughnut
                             // width={100}
                             // height={400}
                             data={data}

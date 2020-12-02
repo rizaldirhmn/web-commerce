@@ -75,10 +75,10 @@ const TotalInvestasi = props => {
               gutterBottom
               variant="body2"
             >
-              Investasi (Gram)
+              Your Team Members
             </Typography>
 						<Typography className={classes.numbers} variant="h3">
-							<NumberFormat value='0' displayType={'text'} thousandSeparator={true} /> gram
+							<NumberFormat value='0' displayType={'text'} thousandSeparator={true} />
 						</Typography>
           </Grid>
           <Grid item>

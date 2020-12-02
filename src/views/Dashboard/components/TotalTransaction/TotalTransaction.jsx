@@ -81,7 +81,7 @@ const TotalTransaction = props => {
               gutterBottom
               variant="body2"
             >
-              Total Transaksi
+              Finished Task Today
             </Typography>
             <Typography className={classes.numbers} variant="h3">
               <NumberFormat value="0" displayType={'text'} thousandSeparator={true} />

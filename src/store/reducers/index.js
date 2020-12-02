@@ -7,6 +7,7 @@ import team from './team'
 import customer from './customer'
 import task from './task'
 import report from './report'
+import member from './member'
 
 export default combineReducers({
     alert,
@@ -16,5 +17,6 @@ export default combineReducers({
     team,
     customer,
     task,
-    report
+    report,
+    member,
 })

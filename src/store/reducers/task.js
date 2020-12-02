@@ -1,6 +1,7 @@
 import * as actions from '../actions/actionTypes'
 
 const initialState = {
+    task: null,
     listTask: null,
     uploadTask: null,
     lookupTask: null,
@@ -9,6 +10,7 @@ const initialState = {
     loadingLookupTask: true,
     loadingListTask: true,
     loadingUploadTask: false,
+    loadingCreateTask: false,
     error: {}
 }
 
@@ -55,6 +57,17 @@ export default function (state = initialState, action) {
                 ...state,
                 taskType: payload,
                 loadingTaskType: false
+            }
+        case actions.POST_TASK_START:
+            return {
+                ...state,
+                loadingCreateTask: true
+            }
+        case actions.POST_TASK_END:
+            return {
+                ...state,
+                task: payload,
+                loadingCreateTask: false
             }
         default:
             return state

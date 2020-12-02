@@ -87,6 +87,10 @@ export default function Dropzone(props) {
 	const { handleChangeBanner } = props;
 
     // const [files, setFiles] = useState([]);
+  // const uploadMultipleFiles = e => {
+  //   // if(Array.from(e))
+  //   console.log(e)
+  // }
 
 	const {
         getRootProps,
@@ -98,9 +102,9 @@ export default function Dropzone(props) {
     } = useDropzone({
       accept: 'text/*',
       maxFiles: 1,
+      multiple: false,
       onDropAccepted: handleChangeBanner,
     });
-  // console.log(files)
 
   const style = useMemo(() => ({
     ...baseStyle,
