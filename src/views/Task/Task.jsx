@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import { 
     Button,
@@ -14,14 +14,16 @@ import {
     LinearProgress,
     Snackbar,
     useMediaQuery,
+    Backdrop,
+    CircularProgress
 } from '@material-ui/core'
 import { Alert as Alerts } from '@material-ui/lab'
 import TableTask from './TableTask'
 import { connect } from 'react-redux'
-import { getTask, getTaskType } from '../../store/actions/task'
+import { getTask, getTaskType, reassignTask, updateCancelTask } from '../../store/actions/task'
 import { getCustomer } from '../../store/actions/customer'
 import { getMember } from '../../store/actions/member'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { useTheme } from '@material-ui/core/styles';
 
 import axios from 'axios'
@@ -30,6 +32,7 @@ import UploadCustomer from './UploadTask'
 import { Skeleton } from '@material-ui/lab'
 
 import CreateTask from './CreateTask'
+import ReassignTask from './ReassignTask'
 
 
 const useStyles = makeStyles(theme => ({
@@ -77,18 +80,27 @@ const useStyles = makeStyles(theme => ({
         height: 28,
         margin: 4,
     },
+    backdrop: {
+		zIndex: theme.zIndex.drawer + 1,
+		color: '#fff',
+    },
 }))
 
 const Task = props => {
     const classes = useStyles()
+    const history = useHistory()
     const { 
         getTask,
         getTaskType,
         getCustomer,
         getMember,
+        reassignTask,
+        updateCancelTask,
         task: {
             listTask,
-            taskType
+            taskType,
+            loadingCancelTask,
+            loadingReassignTask
         },
         customer: {
             listCustomer,
@@ -120,7 +132,16 @@ const Task = props => {
 
     // Dialog for create task
     const [openCreateTask, setOpenCreateTask ] = useState(false)
-
+    // Dialog for Re-assign Task
+    const [openReassignTask, setOpenReassignTask ] = useState({
+        open: false,
+        task: null
+    })
+    // Dialog for Cancel Task
+    const [openCancelTask, setOpenCancelTask ] = useState({
+        open: false,
+        task: null
+    })
 
     // Table
     const [page, setPage] = useState(0);
@@ -190,6 +211,38 @@ const Task = props => {
         setPage(0)
     }
 
+    const handleOpenReassignTask = e => {
+        // console.log(e)
+        setOpenReassignTask({
+            open: true,
+            task: e
+        })
+    }
+
+    const handleCloseReassignTask = (e) => {
+        // console.log(e)
+        setOpenReassignTask({
+            open: false,
+            task: e
+        })
+    }
+
+    const handleOpenCancelTask = e => {
+        // console.log(e)
+        setOpenCancelTask({
+            open: true,
+            task: e
+        })
+    }
+
+    const handleCloseCancelTask = (e) => {
+        // console.log(e)
+        setOpenCancelTask({
+            open: false,
+            task: e
+        })
+    }
+
     function isEmpty(obj) {
         for(var key in obj) {
             if(obj.hasOwnProperty(key))
@@ -197,7 +250,12 @@ const Task = props => {
         }
         return true;
     }
-    
+
+    const onCancelTask = e => {
+        updateCancelTask(e, history, params.id)
+        handleCloseCancelTask(e)
+    }
+
     useEffect(() => {
         getTask(params.id, page+1, keyword, rowsPerPage)
         getTaskType(params.id, page+1, keyword, rowsPerPage)
@@ -205,7 +263,18 @@ const Task = props => {
         getMember(params.id, page+1, keyword, rowsPerPage)
     }, [params, getTask, page, keyword, rowsPerPage, getTaskType, getCustomer, getMember])
 
-    return (
+    const onSubmitReassignTask = (e, task) => {
+        reassignTask(e, history)
+        // getTask(params.id, page+1, keyword, rowsPerPage)
+        handleCloseReassignTask(task)
+    }
+
+    return loadingCancelTask ? 
+    <Backdrop className={classes.backdrop} open>
+        <CircularProgress color="inherit" />
+    </Backdrop>
+    :
+    <Fragment>
         <div className={classes.root}>
             <Grid
                 container
@@ -265,6 +334,8 @@ const Task = props => {
                             rowsPerPage={rowsPerPage}
                             handleChangePage={handleChangePage}
                             handleChangeRowsPerPage={handleChangeRowsPerPage}
+                            handleOpenReassignTask={handleOpenReassignTask}
+                            handleOpenCancelTask={handleOpenCancelTask}
                         />
                     ):(
                         <Skeleton variant="rect"></Skeleton>
@@ -359,8 +430,59 @@ const Task = props => {
                     setOpenCreateTask={setOpenCreateTask}
                 />
             </Dialog>
+            <Dialog
+                open={openReassignTask.open}
+                onClose={e => handleCloseReassignTask(openReassignTask.task)}
+                fullScreen={fullScreen}
+            >
+                <DialogTitle>
+                    {openReassignTask.task !== null && (
+                        <Typography className={classes.title}>
+                                Re-Assign Task {openReassignTask.task.task.code}
+                        </Typography>
+                    )}
+                </DialogTitle>
+                {openReassignTask.task !== null && (
+                    <ReassignTask
+                        taskId={openReassignTask.task}
+                        listMember={listMember}
+                        onSubmitReassignTask={onSubmitReassignTask}
+                        loadingReassignTask={loadingReassignTask}
+                    />
+                )}
+            </Dialog>
+            <Dialog
+                open={openCancelTask.open}
+                onClose={e => handleCloseCancelTask(openCancelTask.task)}
+                fullScreen={fullScreen}
+            >
+                <DialogTitle>
+                    {openCancelTask.task !== null && (
+                        <Typography className={classes.title}>
+                                Cancel Task {openCancelTask.task.task.code}
+                        </Typography>
+                    )}
+                </DialogTitle>
+                <DialogContent>
+                    <Typography>
+                        Are you sure want to delete this Task?
+                    </Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button className={classes.button} onClick={e => handleCloseCancelTask(openCancelTask.task)}>
+                        <div className={classes.textMenu}>
+                            Close
+                        </div>
+                    </Button>
+                    <Button className={classes.button} onClick={e => onCancelTask(openCancelTask.task)}>
+                        <div className={classes.textMenu}>
+                            Cancel Anyway
+                        </div>
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
-    )
+    </Fragment>
 }
 
 const mapStateToProps = state => ({
@@ -369,4 +491,4 @@ const mapStateToProps = state => ({
     member: state.member
 })
 
-export default connect(mapStateToProps, { getTask, getTaskType, getCustomer, getMember })(Task)
+export default connect(mapStateToProps, { getTask, getTaskType, getCustomer, getMember, reassignTask, updateCancelTask })(Task)

@@ -7,9 +7,10 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import { Card, CardContent, CardHeader } from '@material-ui/core';
+import { Card, CardContent, CardHeader, Tooltip, IconButton } from '@material-ui/core';
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import "../../../../App.css"
+import LookupValueIcon from '@material-ui/icons/Details'
 
 const columns = [
   { id: 'no', label: 'No', minWidth: 100 },
@@ -17,6 +18,7 @@ const columns = [
   { id: 'description', label: 'Description', minWidth: 100 },
   { id: 'is_active', label: 'Is Active', minWidth: 170 },
   { id: 'is_system_lookup', label: 'Is System Lookup', minWidth: 100 },
+  { id: 'action', label: 'Actions', minWidth: 100 },
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -145,6 +147,7 @@ const TableLookupTask = props => {
         page,
         rowsPerPage,
         handleChangePage,
+        handleOpenDialogLookupListValue,
         handleChangeRowsPerPage
         } = props
         
@@ -199,6 +202,13 @@ const TableLookupTask = props => {
                                         <div className="text">
                                             {row.is_system_lookup}
                                         </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Tooltip arrow title="Lookup List Value" placement="bottom">
+                                            <IconButton style={{ color: '#2285DF'}} onClick={e => handleOpenDialogLookupListValue(row)}>
+                                                <LookupValueIcon />
+                                            </IconButton>
+                                        </Tooltip>
                                     </TableCell>
                                 </TableRow>
                             );

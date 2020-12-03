@@ -5,13 +5,17 @@ import {
     Typography,
     Paper,
     InputBase,
+    Dialog,
+    DialogTitle,
+    useMediaQuery
 } from '@material-ui/core'
 import { connect } from 'react-redux'
 import { getLookupTask } from '../../../store/actions/task'
 import { useParams } from 'react-router-dom'
 import { Skeleton } from '@material-ui/lab'
+import { useTheme} from '@material-ui/core/styles'
 import TableLookupTask from './TableLookupTask'
-
+import TableLookupListValue from './TableLookupListValue'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -70,6 +74,8 @@ const LookupTask = props => {
         }
     } = props
     const params = useParams()
+    const theme = useTheme()
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
     // Table
     const [page, setPage] = useState(0);
@@ -89,7 +95,26 @@ const LookupTask = props => {
         setKeyword(event.target.value)
         setPage(0)
     }
-    
+
+    const [ openDialogLookupListValue, setOpenDialogLookupListValue ] = useState({
+        open: false,
+        lookupList : null
+    })
+
+    const handleCloseDialogLookupListValue = e => {
+        setOpenDialogLookupListValue({
+            open: false,
+            lookupList: e
+        })
+    }
+
+    const handleOpenDialogLookupListValue = e => {
+        setOpenDialogLookupListValue({
+            open: true,
+            lookupList: e
+        })
+    }
+
     useEffect(() => {
         getLookupTask(params.id, page+1, keyword, rowsPerPage)
     }, [params, getLookupTask, page, keyword, rowsPerPage])
@@ -140,12 +165,29 @@ const LookupTask = props => {
                             rowsPerPage={rowsPerPage}
                             handleChangePage={handleChangePage}
                             handleChangeRowsPerPage={handleChangeRowsPerPage}
+                            handleOpenDialogLookupListValue={handleOpenDialogLookupListValue}
                         />
                     ):(
                         <Skeleton variant="rect"></Skeleton>
                     )}
                 </Grid>
             </Grid>
+            <Dialog
+                open={openDialogLookupListValue.open}
+                onClose={e => handleCloseDialogLookupListValue(openDialogLookupListValue.lookupList)}
+                fullScreen={fullScreen}
+            >
+                <DialogTitle>
+                    {openDialogLookupListValue.lookupList !== null && (
+                        <Typography className={classes.title}>
+                            Lookup List Value {openDialogLookupListValue.lookupList.code}
+                        </Typography>
+                    )}
+                </DialogTitle>
+                <TableLookupListValue
+                    lookupListValueId={openDialogLookupListValue.lookupList}
+                />
+            </Dialog>
         </div>
     )
 }

@@ -6,11 +6,17 @@ const initialState = {
     uploadTask: null,
     lookupTask: null,
     taskType: null,
+    reassignTask: null,
+    cancelTask: null,
+    lookupListValue: null,
     loadingTaskType: true,
     loadingLookupTask: true,
     loadingListTask: true,
     loadingUploadTask: false,
     loadingCreateTask: false,
+    loadingReassignTask: false,
+    loadingCancelTask: false,
+    loadingLookupListValue: true,
     error: {}
 }
 
@@ -52,6 +58,12 @@ export default function (state = initialState, action) {
                 lookupTask: payload,
                 loadingLookupTask: false
             }
+        case actions.GET_LOOKUP_LIST_VALUE:
+            return {
+                ...state,
+                lookupListValue: payload,
+                loadingLookupListValue: false
+            }
         case actions.GET_TASK_TYPE:
             return {
                 ...state,
@@ -68,6 +80,28 @@ export default function (state = initialState, action) {
                 ...state,
                 task: payload,
                 loadingCreateTask: false
+            }
+        case actions.REASSIGN_TASK_START:
+            return {
+                ...state,
+                loadingReassignTask: true
+            }
+        case actions.REASSIGN_TASK_END:
+            return {
+                ...state,
+                reassignTask: payload,
+                loadingReassignTask: false
+            }
+        case actions.CANCEL_TASK_START:
+            return {
+                ...state,
+                loadingCancelTask: true
+            }
+        case actions.CANCEL_TASK_END:
+            return {
+                ...state,
+                cancelTask: payload,
+                loadingCancelTask: false
             }
         default:
             return state

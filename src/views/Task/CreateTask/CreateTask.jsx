@@ -10,10 +10,14 @@ import {
     Button,
     CircularProgress,
     Backdrop,
+    useMediaQuery,
+    Dialog,
+    DialogTitle,
+    Typography
 } from '@material-ui/core'
-import Select from 'react-select';
 import { useForm } from "react-hook-form";
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
+import { useTheme } from '@material-ui/core/styles';
 
 // redux
 import { connect } from 'react-redux'
@@ -25,6 +29,10 @@ import {
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 import moment from 'moment'
+
+import TableMember from './TableMember'
+import TableTaskType from './TableTaskType'
+import TableCustomer from './TableCustomer'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -62,11 +70,11 @@ const useStyles = makeStyles(theme => ({
 
 const CreateTask = props => {
     const classes = useStyles()
+    const theme = useTheme()
+    const history = useHistory()
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const { 
-        taskType, 
-        listCustomer, 
         handleClose, 
-        listMember,
         postTask,
         setOpenCreateTask,
         task : {
@@ -76,20 +84,63 @@ const CreateTask = props => {
     const params = useParams()
     const { register, handleSubmit, errors } = useForm();
 
-    const optionsTaskType = [];
-    for (let i = 0; i < taskType.data.length; i++) {
-        optionsTaskType.push({'value' : taskType.data[i].id, 'label' : taskType.data[i].code, 'name' : 'task_type_id'});
-    }
+    const [formState, setFormState] = useState({
+        values: {},
+    });
 
-    const optionsCustomer = [];
-    for (let i = 0; i < listCustomer.data.length; i++) {
-        optionsCustomer.push({'value' : listCustomer.data[i].id, 'label' : listCustomer.data[i].name, 'name' : 'customer_id'});
+    // Dialog Member
+    const [ openDialogMember, setOpenDialogMember ] = useState(false)
+    const handleCloseMember = () => {
+        setOpenDialogMember(false)
     }
+    const handleSelectChange = (event) => {
+        setOpenDialogMember(false)
+        setFormState(formState => ({
+            ...formState,
+            values: {
+              ...formState.values,
+              'user_id': event.id,
+              'username': event.username
+            }
+        }));
+    }
+    // End Dialog member
 
-    const optionsMember = [];
-    for (let i = 0; i < listMember.data.length; i++) {
-        optionsMember.push({'value' : listMember.data[i].id, 'label' : listMember.data[i].display_name, 'name' : 'user_id'});
+    // Dialog Task Type
+    const [ openDialogTaskType, setOpenDialogTaskType ] = useState(false)
+    const handleCloseTaskType = () => {
+        setOpenDialogTaskType(false)
     }
+    const handleSelectTaskTypeChange = (event) => {
+        setOpenDialogTaskType(false)
+        setFormState(formState => ({
+            ...formState,
+            values: {
+              ...formState.values,
+              'task_type_id': event.id,
+              'task_name': event.code
+            }
+        }));
+    }
+    // End Dialog Task Type
+
+    // Dialog Customer
+    const [ openDialogCustomer, setOpenDialogCustomer ] = useState(false)
+    const handleCloseCustomer = () => {
+        setOpenDialogCustomer(false)
+    }
+    const handleSelectCustomerChange = (event) => {
+        setOpenDialogCustomer(false)
+        setFormState(formState => ({
+            ...formState,
+            values: {
+              ...formState.values,
+              'customer_id': event.id,
+              'customer_name': event.name
+            }
+        }));
+    }
+    // End Dialog Customer
 
     const submitDefault = moment().format('YYYY-MM-DD')
 	const [ startDate, setStartDate ] = useState({
@@ -113,10 +164,6 @@ const CreateTask = props => {
             }
         }));
     };
-
-    const [formState, setFormState] = useState({
-        values: {},
-    });
     
     const handleChange = event => {
         event.persist();
@@ -133,18 +180,8 @@ const CreateTask = props => {
         }));
     };
 
-    const onSelectedChange = (event) => {
-        setFormState(formState => ({
-            ...formState,
-            values: {
-              ...formState.values,
-              [event.name]: event.value
-            }
-        }));
-    }
-
     const onSubmit = e => {
-        postTask(params.id, formState.values, startDate.submit.submit)
+        postTask(params.id, formState.values, startDate.submit.submit, history)
         setOpenCreateTask(false)
     }
 
@@ -198,12 +235,14 @@ const CreateTask = props => {
                                 sm={12}
                                 xs={12}
                             >
-                                <InputLabel htmlFor="outlined-age-native-simple">Choose Task Type</InputLabel>
-                                <Select 
-                                    className={classes.select} 
-                                    options={optionsTaskType} 
-                                    onChange={onSelectedChange} 
-                                    placeholder="Choose task type"
+                                <TextField
+                                    autoFocus
+                                    fullWidth
+                                    margin="dense"
+                                    name="task_type_id"
+                                    label="Task Type"
+                                    value={formState.values.task_name || ''}
+                                    onClick={e => setOpenDialogTaskType(true)}
                                 />
                             </Grid>
                             <Grid
@@ -214,12 +253,14 @@ const CreateTask = props => {
                                 sm={12}
                                 xs={12}
                             >
-                                <InputLabel htmlFor="outlined-age-native-simple">Choose Customer</InputLabel>
-                                <Select 
-                                    className={classes.select} 
-                                    options={optionsCustomer} 
-                                    onChange={onSelectedChange} 
-                                    placeholder="Choose Customer"
+                                <TextField
+                                    autoFocus
+                                    fullWidth
+                                    margin="dense"
+                                    name="customer_id"
+                                    label="Customer"
+                                    value={formState.values.customer_name || ''}
+                                    onClick={e => setOpenDialogCustomer(true)}
                                 />
                             </Grid>
                             <Grid
@@ -230,12 +271,14 @@ const CreateTask = props => {
                                 sm={12}
                                 xs={12}
                             >
-                                <InputLabel htmlFor="outlined-age-native-simple">Choose Member</InputLabel>
-                                <Select 
-                                    className={classes.select} 
-                                    options={optionsMember} 
-                                    onChange={onSelectedChange} 
-                                    placeholder="Choose Member"
+                                <TextField
+                                    autoFocus
+                                    fullWidth
+                                    margin="dense"
+                                    name="user_id"
+                                    label="Assign To"
+                                    value={formState.values.username || ''}
+                                    onClick={e => setOpenDialogMember(true)}
                                 />
                             </Grid>
                             <Grid
@@ -278,6 +321,54 @@ const CreateTask = props => {
                     </Button>
                 </DialogActions>
             </form>
+            <Dialog
+                open={openDialogMember}
+                onClose={handleCloseMember}
+                fullScreen={fullScreen}
+            >
+                <DialogTitle>
+                    <Typography className={classes.title}>
+                        Member List
+                    </Typography>
+                </DialogTitle>
+                <TableMember
+                    handleCloseMember={handleCloseMember}
+                    setOpenDialogMember={setOpenDialogMember}
+                    handleSelectChange={handleSelectChange}
+                />
+            </Dialog>
+            <Dialog
+                open={openDialogTaskType}
+                onClose={handleCloseTaskType}
+                fullScreen={fullScreen}
+            >
+                <DialogTitle>
+                    <Typography className={classes.title}>
+                        Task Type
+                    </Typography>
+                </DialogTitle>
+                <TableTaskType
+                    handleCloseTaskType={handleCloseTaskType}
+                    setOpenDialogMember={setOpenDialogMember}
+                    handleSelectTaskTypeChange={handleSelectTaskTypeChange}
+                />
+            </Dialog>
+            <Dialog
+                open={openDialogCustomer}
+                onClose={handleCloseCustomer}
+                fullScreen={fullScreen}
+            >
+                <DialogTitle>
+                    <Typography className={classes.title}>
+                        Customer
+                    </Typography>
+                </DialogTitle>
+                <TableCustomer
+                    handleCloseCustomer={handleCloseCustomer}
+                    setOpenDialogCustomer={setOpenDialogCustomer}
+                    handleSelectCustomerChange={handleSelectCustomerChange}
+                />
+            </Dialog>
         </div>
     </Fragment>
 }

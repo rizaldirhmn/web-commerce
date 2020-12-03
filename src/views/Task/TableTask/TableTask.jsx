@@ -7,10 +7,14 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import { Button, Card, CardContent, CardHeader } from '@material-ui/core';
+import { Button, Card, CardContent, CardHeader, IconButton, Tooltip } from '@material-ui/core';
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import { CSVLink } from 'react-csv'
 import "../../../App.css"
+
+// Icon
+import ReassignTask from '@material-ui/icons/AssignmentTurnedIn'
+import CancelTask from '@material-ui/icons/Block'
 
 const columns = [
   { id: 'no', label: 'No', minWidth: 100 },
@@ -19,6 +23,7 @@ const columns = [
   { id: 'customer_name', label: 'Customer Name', minWidth: 170 },
   { id: 'member_name', label: 'Member Name', minWidth: 170 },
   { id: 'task_status', label: 'Task Status', minWidth: 100 },
+  { id: 'action', label: 'Actions', minWidth: 100 },
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -147,7 +152,9 @@ const TableCustomer = props => {
         page,
         rowsPerPage,
         handleChangePage,
-        handleChangeRowsPerPage
+        handleChangeRowsPerPage,
+        handleOpenCancelTask,
+        handleOpenReassignTask
         } = props
         
     var no = listTask.from
@@ -226,6 +233,18 @@ const TableCustomer = props => {
                                         <div className="text">
                                             {row.task.status}
                                         </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Tooltip arrow title="Re-Assign Task" placement="bottom">
+                                            <IconButton style={{ color: '#2285DF'}} onClick={e => handleOpenReassignTask(row)}>
+                                                <ReassignTask />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Tooltip arrow title="Cancel Task" placement="bottom">
+                                            <IconButton style={{ color: '#2285DF'}} onClick={e => handleOpenCancelTask(row)}>
+                                                <CancelTask />
+                                            </IconButton>
+                                        </Tooltip>
                                     </TableCell>
                                 </TableRow>
                             );
