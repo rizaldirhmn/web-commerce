@@ -1,9 +1,12 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { Button } from '@material-ui/core';
+import { 
+  Avatar,
+  Typography,
+} from '@material-ui/core';
 import { connect } from 'react-redux'
 import { getProfile } from '../../../../actions/profile'
 
@@ -52,26 +55,24 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const CustomRouterLink = forwardRef((props, ref) => (
-  <div
-    ref={ref}
-    style={{ flexGrow: 1 }}
-  >
-    <RouterLink {...props} />
-  </div>
-));
-
 const Profile = props => {
   const { className, ...rest } = props
 
   const classes = useStyles();
+  const data = JSON.parse(sessionStorage.getItem('data'))
+
+  const profile = {
+    name: `${data.display_name}`,
+    // avatar: data.image,
+    email: `${data.username}` 
+  };
   
   return (
     <div
       {...rest}
       className={clsx(classes.root, className)}
     >
-          <img src={`${process.env.PUBLIC_URL}/images/jari_visibility.png`} alt="club" className={classes.logo} />
+          {/* <img src={`${process.env.PUBLIC_URL}/images/jari_visibility.png`} alt="club" className={classes.logo} />
           <Button
             className={classes.teamName}
             component={CustomRouterLink}
@@ -80,7 +81,22 @@ const Profile = props => {
             <div className={classes.text}>
               {sessionStorage.getItem('team')}
             </div>
-          </Button>
+          </Button> */}
+          <Avatar
+            alt="Person"
+            className={classes.avatar}
+            component={RouterLink}
+            // src={profile.image}
+            src={`${process.env.PUBLIC_URL}/images/logo/police.png`}
+            to="/profile"
+          />
+          <Typography
+            className={classes.name}
+            variant="h4"
+          >
+            {profile.name}
+          </Typography>
+          <Typography variant="body2" style={{ color: nameColorWhite, fontFamily: 'Nunito' }}>{profile.email}</Typography>
     </div>
   );
 };

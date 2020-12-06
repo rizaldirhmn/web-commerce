@@ -7,15 +7,15 @@ import { Link as RouterLink, Redirect, useParams } from 'react-router-dom'
 
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import List from '@material-ui/core/List'
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import Collapse from '@material-ui/core/Collapse';
+// import ExpandLess from '@material-ui/icons/ExpandLess';
+// import ExpandMore from '@material-ui/icons/ExpandMore';
+// import Collapse from '@material-ui/core/Collapse';
 import ListItem from '@material-ui/core/ListItem'
 
 import DashboardIcon from '@material-ui/icons/Dashboard'
-import CustomerIcon from '@material-ui/icons/People'
-import TaskIcon from '@material-ui/icons/AssignmentInd'
-import ReportIcon from '@material-ui/icons/Assessment'
+// import CustomerIcon from '@material-ui/icons/People'
+// import TaskIcon from '@material-ui/icons/AssignmentInd'
+// import ReportIcon from '@material-ui/icons/Assessment'
 
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
@@ -194,7 +194,7 @@ const Main = props => {
   // Dialog Box
   const [dialogOpen, setDialogOpen] = useState(false)
   // Collapsable Menus
-  const [taskOpen, setTaskOpen] = useState(false);
+  // const [taskOpen, setTaskOpen] = useState(false);
 
   const handleDialogClose = () => {
     setDialogOpen(false)
@@ -218,11 +218,11 @@ const Main = props => {
     setDialogOpen(true)
   }
 
-  const handleClick = (event) => {
-    if (event === 'task') {
-      setTaskOpen(!taskOpen);
-    }
-  };
+  // const handleClick = (event) => {
+  //   if (event === 'task') {
+  //     setTaskOpen(!taskOpen);
+  //   }
+  // };
 
   if (redirect.values) {
     return <Redirect to='/sign-in'/>
@@ -260,140 +260,6 @@ const Main = props => {
               <Tooltip title="Dashboard" placement="right" arrow>
                 <div className={classes.icon}>
                   <DashboardIcon style={{ color: textMenuBlack }} />
-                </div>
-              </Tooltip>
-            )}
-          </Button>
-        </ListItem>
-        <ListItem 
-          key='customer' 
-          button
-          disabledGutters
-          className={classes.item}
-        >
-          <Button
-            activeClassName={classes.active}
-            className={classes.button}
-            component={CustomRouterLink}
-            onClick={handleDrawerClose}
-            to={`/customer/${params.id}`}
-          >
-            {open ? (
-              <>
-              <div className={classes.icon}>
-                <CustomerIcon style={{ color: textMenuBlack }} />
-              </div>
-              <div className={classes.textMenu}>
-                Customer
-              </div>
-              </>
-            ):(
-              <Tooltip title="Customer" placement="right" arrow>
-                <div className={classes.icon}>
-                  <CustomerIcon style={{ color: textMenuBlack }} />
-                </div>
-              </Tooltip>
-            )}
-          </Button>
-        </ListItem>
-        <ListItem 
-          key='task' 
-          disabledGutters
-          className={classes.item}
-          onClick={() => handleClick('task')}
-        >
-          <Button
-            className={classes.button}
-          >
-            <div className={classes.icon}>
-              <TaskIcon style={{ color: textMenuBlack }} />
-            </div>
-            <div className={classes.textMenu}>
-              Task
-            </div>
-          </Button>
-          {taskOpen ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
-        <Collapse in={taskOpen} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItem
-            key='task'
-            className={classes.nested}
-          >
-            <Button
-              activeClassName={classes.active}
-              className={classes.button}
-              component={CustomRouterLink}
-              onClick={handleDrawerClose}
-              to={`/task/${params.id}`}
-            >
-                <div className={classes.textMenu}>
-                  Master Task
-                </div>
-            </Button>
-          </ListItem>
-
-          <ListItem
-            key='lookupTask'
-            className={classes.nested}
-          >
-            <Button
-              activeClassName={classes.active}
-              className={classes.button}
-              component={CustomRouterLink}
-              onClick={handleDrawerClose}
-              to={`/lookup-task/${params.id}`}
-            >
-                <div className={classes.textMenu}>
-                  Lookup Task
-                </div>
-            </Button>
-          </ListItem>
-
-          <ListItem
-            key='taskType'
-            className={classes.nested}
-          >
-            <Button
-              activeClassName={classes.active}
-              className={classes.button}
-              component={CustomRouterLink}
-              onClick={handleDrawerClose}
-              to={`/task-type/${params.id}`}
-            >
-                <div className={classes.textMenu}>
-                  Task Type
-                </div>
-            </Button>
-          </ListItem>
-        </List>
-      </Collapse>
-        <ListItem 
-          key='report' 
-          button
-          disabledGutters
-          className={classes.item}
-        >
-          <Button
-            activeClassName={classes.active}
-            className={classes.button}
-            component={CustomRouterLink}
-            onClick={handleDrawerClose}
-            to={`/report/${params.id}`}
-          >
-            {open ? (
-              <>
-              <div className={classes.icon}>
-                <ReportIcon style={{ color: textMenuBlack }} />
-              </div>
-              <div className={classes.textMenu}>
-                Report
-              </div>
-              </>
-            ):(
-              <Tooltip title="Report" placement="right" arrow>
-                <div className={classes.icon}>
-                  <ReportIcon style={{ color: textMenuBlack }} />
                 </div>
               </Tooltip>
             )}

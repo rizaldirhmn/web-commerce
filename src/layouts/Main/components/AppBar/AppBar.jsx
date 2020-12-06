@@ -125,11 +125,11 @@ const Appbar = (props) => {
   const classes = useStyles();
   // const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
-  const [ openLanguage, setOpenLanguage ] = useState(null);
+  // const [ openLanguage, setOpenLanguage ] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
-  const isMenuLanguage = Boolean(openLanguage)
+  // const isMenuLanguage = Boolean(openLanguage)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event) => {
@@ -148,13 +148,13 @@ const Appbar = (props) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const handleOpenLanguage = (event) => {
-    setOpenLanguage(event.currentTarget)
-  }
+  // const handleOpenLanguage = (event) => {
+  //   setOpenLanguage(event.currentTarget)
+  // }
 
-  const handleCloseLanguage = () => {
-    setOpenLanguage(null)
-  }
+  // const handleCloseLanguage = () => {
+  //   setOpenLanguage(null)
+  // }
 
   // useEffect(() => {
   //   getProfile()
@@ -222,30 +222,30 @@ const Appbar = (props) => {
     </Menu>
   );
 
-  const renderLanguage = (
-    <Menu
-      anchorEl={openLanguage}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMenuLanguage}
-      onClose={handleCloseLanguage}
-      className={classes.profileMenu}
-    >
-      <Link to="#">
-        <MenuItem onClick={handleMenuClose}>
-          <img src={`${process.env.PUBLIC_URL}/images/english_flag.png`} alt="english" className={classes.flag} />
-        </MenuItem>
-      </Link>
-      <Link to="#">
-        <MenuItem onClick={handleMenuClose}>
-          <img src={`${process.env.PUBLIC_URL}/images/indonesia_flag.jpg`} alt="indonesia" className={classes.flag} />
-        </MenuItem>
-      </Link>
-      {/* <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
-    </Menu>
-  );
+  // const renderLanguage = (
+  //   <Menu
+  //     anchorEl={openLanguage}
+  //     anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+  //     id={menuId}
+  //     keepMounted
+  //     transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+  //     open={isMenuLanguage}
+  //     onClose={handleCloseLanguage}
+  //     className={classes.profileMenu}
+  //   >
+  //     <Link to="#">
+  //       <MenuItem onClick={handleMenuClose}>
+  //         <img src={`${process.env.PUBLIC_URL}/images/english_flag.png`} alt="english" className={classes.flag} />
+  //       </MenuItem>
+  //     </Link>
+  //     <Link to="#">
+  //       <MenuItem onClick={handleMenuClose}>
+  //         <img src={`${process.env.PUBLIC_URL}/images/indonesia_flag.jpg`} alt="indonesia" className={classes.flag} />
+  //       </MenuItem>
+  //     </Link>
+  //     {/* <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
+  //   </Menu>
+  // );
 
   const data = JSON.parse(sessionStorage.getItem('data'))
 
@@ -281,13 +281,13 @@ const Appbar = (props) => {
                 <NotificationsIcon />
               </Badge>
             </IconButton> */}
-            <IconButton
+            {/* <IconButton
               onClick={handleOpenLanguage}
             >
                 <img src={`${process.env.PUBLIC_URL}/images/english_flag.png`} alt="english" className={classes.flag} />
               
               <ExpandMore style={{ color: '#000' }} />
-            </IconButton>
+            </IconButton> */}
             <Divider className={classes.divider} orientation="vertical" />
             <IconButton
               onClick={handleProfileMenuOpen}
@@ -319,7 +319,7 @@ const Appbar = (props) => {
         </Toolbar>
         {renderMobileMenu}
         {renderMenu}
-        {renderLanguage}
+        {/* {renderLanguage} */}
       </AppBar>
     // </div>
   );

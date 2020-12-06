@@ -14,7 +14,7 @@ import * as actions from '../../store/actions';
 // Google Login
 import { GoogleLogin } from 'react-google-login';
 
-import AppBar from './AppBar'
+// import AppBar from './AppBar'
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -32,14 +32,13 @@ const useStyles = makeStyles((theme) => ({
 
 	},
 	paper2: {
-		margin: theme.spacing(30, 4),
-		  marginTop: theme.spacing(20),
-		  display: 'flex',
-		  flexDirection: 'column',
-		  alignItems: 'center',
-		  padding: '30px 50px',
-		  fontSize: 16,
-		  textAlign: 'center',
+		margin: theme.spacing(10, 4),
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		padding: '30px 50px',
+		fontSize: 16,
+		textAlign: 'center',
   
 	  },
 	avatar: {
@@ -126,7 +125,7 @@ const Login =  props => {
 
 	return (
 		<div>
-			<AppBar />
+			{/* <AppBar /> */}
 			<Grid container>
 				<CssBaseline />
 				<Grid item xs={false} sm={false} md={6} lg={7} className={classes.image} >
@@ -142,7 +141,7 @@ const Login =  props => {
 							<div className={classes.paper2}>
 								<div className={classes.loginContent}>
 									<div>
-										<img src={`${process.env.PUBLIC_URL}/images/jari_visibility.png`} alt="club" className={classes.logoClub} />
+										<img src={`${process.env.PUBLIC_URL}/images/logo/police.png`} alt="club" className={classes.logoClub} />
 									</div>
 
 									<div className={classes.btnForget}>
@@ -171,12 +170,12 @@ const Login =  props => {
 											{/* © EOA Tech Team. 2020 */}
 											<Grid container spacing={2}>
 												<Grid item>
-													<img src={`${process.env.PUBLIC_URL}/images/logo/logo.png`} alt="jari"/>
+													<img src={`${process.env.PUBLIC_URL}/images/logo/logo.ico`} alt="jari"/>
 												</Grid>
 												<Grid item>
 													<Typography align="left" className={classes.text}>
 														Powered by <br></br>
-														PT Jari Solusi Internasional
+														PT Ngampooz Pintar Sejahtera
 													</Typography>
 												</Grid>
 											</Grid>

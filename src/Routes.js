@@ -8,11 +8,6 @@ import {
   Dashboard as DashboardView,
   Profile as ProfileView,
   Home as HomeView,
-  Customer as CustomerView,
-  Task as TaskView,
-  Report as ReportView,
-  LookupTask as LookupTaskView,
-  TaskType as TaskTypeView
 } from './views';
 
 const Routes = () => {
@@ -22,7 +17,7 @@ const Routes = () => {
       <Redirect
         exact
         from="/"
-        to="/home"
+        to="/dashboard"
       />
 
       <RouteWithLayout 
@@ -36,7 +31,7 @@ const Routes = () => {
         component={DashboardView}
         exact
         layout={MainLayout}
-        path="/dashboard/:id"
+        path="/dashboard"
       />
 
       <RouteWithLayout
@@ -44,41 +39,6 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/profile"
-      />
-
-      <RouteWithLayout
-        component={CustomerView}
-        exact
-        layout={MainLayout}
-        path="/customer/:id"
-      />
-
-      <RouteWithLayout
-        component={TaskView}
-        exact
-        layout={MainLayout}
-        path="/task/:id"
-      />
-
-      <RouteWithLayout
-        component={LookupTaskView}
-        exact
-        layout={MainLayout}
-        path="/lookup-task/:id"
-      />
-
-      <RouteWithLayout
-        component={TaskTypeView}
-        exact
-        layout={MainLayout}
-        path="/task-type/:id"
-      />
-
-      <RouteWithLayout 
-        component={ReportView}
-        exact
-        layout={MainLayout}
-        path="/report/:id"
       />
 
       <Route
