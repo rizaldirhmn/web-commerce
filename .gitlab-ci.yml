@@ -27,5 +27,5 @@ deploy-prd:
     - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - rsync -rav --delete build/* deploy@$SSH_SERVER_PRD:/var/www/$URL_PRD/
+    - rsync -rav --delete build/* deploy@$SSH_SERVER_PRD:/home/normal/public_html/$URL_PRD/
   stage: deploy
