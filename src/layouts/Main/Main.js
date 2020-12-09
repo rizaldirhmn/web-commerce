@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import { useMediaQuery, Button, colors, Divider, Tooltip } from '@material-ui/core'
-import { Link as RouterLink, Redirect, useParams } from 'react-router-dom'
+import { Link as RouterLink, Redirect } from 'react-router-dom'
 
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import List from '@material-ui/core/List'
@@ -13,6 +13,7 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 
 import DashboardIcon from '@material-ui/icons/Dashboard'
+import SuratMasukIcon from '@material-ui/icons/Inbox'
 // import CustomerIcon from '@material-ui/icons/People'
 // import TaskIcon from '@material-ui/icons/AssignmentInd'
 // import ReportIcon from '@material-ui/icons/Assessment'
@@ -178,8 +179,6 @@ const Main = props => {
     defaultMatches: true
   })
   
-  const params = useParams()
-
   const [open, setOpen] = useState(true)
   const [mobileOpen, setMobileOpen] = React.useState(false)
 
@@ -245,7 +244,7 @@ const Main = props => {
             className={classes.button}
             component={CustomRouterLink}
             onClick={handleDrawerClose}
-            to={`/dashboard/${params.id}`}
+            to={`/dashboard`}
           >
             {open ? (
               <>
@@ -260,6 +259,37 @@ const Main = props => {
               <Tooltip title="Dashboard" placement="right" arrow>
                 <div className={classes.icon}>
                   <DashboardIcon style={{ color: textMenuBlack }} />
+                </div>
+              </Tooltip>
+            )}
+          </Button>
+        </ListItem>
+        <ListItem 
+          key='surat-masuk' 
+          button
+          disabledGutters
+          className={classes.item}
+        >
+          <Button
+            activeClassName={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            onClick={handleDrawerClose}
+            to={`/surat-masuk`}
+          >
+            {open ? (
+              <>
+              <div className={classes.icon}>
+                <SuratMasukIcon style={{ color: textMenuBlack }} />
+              </div>
+              <div className={classes.textMenu}>
+                Surat Masuk
+              </div>
+              </>
+            ):(
+              <Tooltip title="Dashboard" placement="right" arrow>
+                <div className={classes.icon}>
+                  <SuratMasukIcon style={{ color: textMenuBlack }} />
                 </div>
               </Tooltip>
             )}

@@ -8,6 +8,8 @@ import {
   Dashboard as DashboardView,
   Profile as ProfileView,
   Home as HomeView,
+  SuratMasuk as SuratMasukView,
+  FormSuratMasuk as FormSuratMasukView
 } from './views';
 
 const Routes = () => {
@@ -39,6 +41,20 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/profile"
+      />
+
+      <RouteWithLayout
+        component={SuratMasukView}
+        exact
+        layout={MainLayout}
+        path="/surat-masuk"
+      />
+
+      <RouteWithLayout
+        component={FormSuratMasukView}
+        exact
+        layout={MainLayout}
+        path="/surat-masuk/form"
       />
 
       <Route
