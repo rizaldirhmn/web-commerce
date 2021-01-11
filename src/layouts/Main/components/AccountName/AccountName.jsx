@@ -62,9 +62,9 @@ const Profile = props => {
   const data = JSON.parse(sessionStorage.getItem('data'))
 
   const profile = {
-    name: `${data.display_name}`,
+    name: `${data.name}`,
     // avatar: data.image,
-    email: `${data.username}` 
+    email: `${data.email}` 
   };
   
   return (
@@ -87,7 +87,7 @@ const Profile = props => {
             className={classes.avatar}
             component={RouterLink}
             // src={profile.image}
-            src={`${process.env.PUBLIC_URL}/images/logo/police.png`}
+            src={`${process.env.PUBLIC_URL}/images/logo/logo_dzualan.png`}
             to="/profile"
           />
           <Typography

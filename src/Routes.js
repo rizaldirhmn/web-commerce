@@ -8,8 +8,12 @@ import {
   Dashboard as DashboardView,
   Profile as ProfileView,
   Home as HomeView,
-  SuratMasuk as SuratMasukView,
-  FormSuratMasuk as FormSuratMasukView
+  Warehouse as WarehouseView,
+  CreateWarehouse as CreateWarehouseView,
+  Category as CategoryView,
+  CreateCategory as CreateCategoryView,
+  Product as ProductView,
+  CraeteProduct as CraeteProductView
 } from './views';
 
 const Routes = () => {
@@ -42,19 +46,47 @@ const Routes = () => {
         layout={MainLayout}
         path="/profile"
       />
-
+      
       <RouteWithLayout
-        component={SuratMasukView}
+        component={WarehouseView}
         exact
         layout={MainLayout}
-        path="/surat-masuk"
+        path="/warehouse"
       />
 
       <RouteWithLayout
-        component={FormSuratMasukView}
+        component={CreateWarehouseView}
         exact
         layout={MainLayout}
-        path="/surat-masuk/form"
+        path="/warehouse/create"
+      />
+
+      <RouteWithLayout
+        component={CategoryView}
+        exact
+        layout={MainLayout}
+        path="/category"
+      />
+
+      <RouteWithLayout
+        component={CreateCategoryView}
+        exact
+        layout={MainLayout}
+        path="/category/create"
+      />
+
+      <RouteWithLayout
+        component={ProductView}
+        exact
+        layout={MainLayout}
+        path="/product"
+      />
+
+      <RouteWithLayout
+        component={CraeteProductView}
+        exact
+        layout={MainLayout}
+        path="/product/create"
       />
 
       <Route

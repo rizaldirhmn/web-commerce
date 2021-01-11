@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Typography, Button } from "@material-ui/core";
+import { Grid, Button, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Hidden
@@ -10,9 +10,9 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 // import { addLogin } from '../../actions/login'
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
-
-// Google Login
-import { GoogleLogin } from 'react-google-login';
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers";
+import * as yup from "yup";
 
 // import AppBar from './AppBar'
 
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 	},
 	paper2: {
-		margin: theme.spacing(10, 4),
+		margin: theme.spacing(4, 4),
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 	  	margin: theme.spacing(3, 0, 2),
 		border: '0.5px solid rgba(224, 224, 224, 0.5)',
 		boxSizing: 'border-box',
-		color: '#000000',
+		color: '#FFFFFF',
 		width: '100%',
 		fontFamily: 'Montserrat',
 		borderRadius: theme.spacing(1)
@@ -98,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: 14
 	},
 	loginContent: {
-		marginTop: theme.spacing(5)
+		marginTop: theme.spacing(0)
 	},
 	bottomPush: {
 		position: "fixed",
@@ -114,13 +114,24 @@ const useStyles = makeStyles((theme) => ({
 	}
 }))
 
+const SignInSchema = yup.object().shape({
+	email: yup.string().required("email harus diisi").email("Format Email salah"),
+	password: yup.string().required("Password harus diisi"),
+});
+
 const Login =  props => {
 	const classes = useStyles();
 	const history = useHistory();
 
-	const responseGoogle = (response) => {
-		console.log(response.tokenId)
-		props.onAuth(response.tokenId, history)
+	const { register, handleSubmit, errors } = useForm({
+		resolver: yupResolver(SignInSchema)
+	});
+	
+	const onSubmit = event => {
+		// console.log(event);
+		// addLogin(event, history)
+		props.onAuth(event.email, event.password, history)
+		// console.log(event);
 	}
 
 	return (
@@ -141,46 +152,63 @@ const Login =  props => {
 							<div className={classes.paper2}>
 								<div className={classes.loginContent}>
 									<div>
-										<img src={`${process.env.PUBLIC_URL}/images/logo/police.png`} alt="club" className={classes.logoClub} />
+										<img src={`${process.env.PUBLIC_URL}/images/logo/logo_dzualan.png`} alt="club" className={classes.logoClub} />
 									</div>
 
 									<div className={classes.btnForget}>
-										<GoogleLogin
-											// className={classes.submit}
-											render={renderProps => (
-												<Button 
-													onClick={renderProps.onClick} 
-													className={classes.submit} 
-													disabled={renderProps.disabled}
-												>
-													<img src={`${process.env.PUBLIC_URL}/images/logo/google.svg`} alt="google" className={classes.googleLogo} />	
-													Login With Google
-												</Button>
-											)}
-											clientId={process.env.REACT_APP_CLIENT_ID}
-											buttonText="Login With Google"
-											onSuccess={responseGoogle}
-											onFailure={responseGoogle}
-											cookiePolicy={'single_host_origin'}
-										/>
+										<form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+											<TextField
+												variant="outlined"
+												margin="normal"
+												fullWidth
+												id="email"
+												label="Email"
+												name="email"
+												autoFocus
+												inputRef={register}
+												error={!!errors.email}
+												helperText={errors.email && errors.email.message}
+												className={classes.textField}
+											/>
+											<TextField
+												variant="outlined"
+												margin="normal"
+												fullWidth
+												name="password"
+												label="Password"
+												type="password"
+												id="password"
+												autoComplete="current-password"
+												inputRef={register}
+												error={!!errors.password}
+												helperText={errors.password && errors.password.message}
+												className={classes.textField}
+											/>
+											<Button
+												type="submit"
+												fullWidth
+												variant="contained"
+												color="primary"
+												className={classes.submit}
+											>
+												Sign In
+											</Button>
+										</form>
 									</div>
 									
-									<div className={classes.bottomPush}>
-										{/* <div className={classes.footer}> */}
-											{/* © EOA Tech Team. 2020 */}
-											<Grid container spacing={2}>
-												<Grid item>
-													<img src={`${process.env.PUBLIC_URL}/images/logo/logo.ico`} alt="jari"/>
-												</Grid>
-												<Grid item>
-													<Typography align="left" className={classes.text}>
-														Powered by <br></br>
-														PT Ngampooz Pintar Sejahtera
-													</Typography>
-												</Grid>
+									{/* <div className={classes.bottomPush}>
+										<Grid container spacing={2}>
+											<Grid item>
+												<img src={`${process.env.PUBLIC_URL}/images/logo/logo.ico`} alt="jari"/>
 											</Grid>
-										{/* </div> */}
-									</div>
+											<Grid item>
+												<Typography align="left" className={classes.text}>
+													Powered by <br></br>
+													PT Ngampooz Pintar Sejahtera
+												</Typography>
+											</Grid>
+										</Grid>
+									</div> */}
 								</div>
 							</div>
 						{/* </Grid> */}
@@ -193,7 +221,7 @@ const Login =  props => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuth: (tokenId, history) => dispatch(actions.auth(tokenId, history)),
+    onAuth: (email, password, history) => dispatch(actions.auth(email, password, history)),
     // onAlert: (message, alertType) => dispatch(actions.setAlert(message, alertType))
   }
 }

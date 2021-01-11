@@ -7,16 +7,10 @@ import { Link as RouterLink, Redirect } from 'react-router-dom'
 
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import List from '@material-ui/core/List'
-// import ExpandLess from '@material-ui/icons/ExpandLess';
-// import ExpandMore from '@material-ui/icons/ExpandMore';
-// import Collapse from '@material-ui/core/Collapse';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import Collapse from '@material-ui/core/Collapse';
 import ListItem from '@material-ui/core/ListItem'
-
-import DashboardIcon from '@material-ui/icons/Dashboard'
-import SuratMasukIcon from '@material-ui/icons/Inbox'
-// import CustomerIcon from '@material-ui/icons/People'
-// import TaskIcon from '@material-ui/icons/AssignmentInd'
-// import ReportIcon from '@material-ui/icons/Assessment'
 
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
@@ -38,6 +32,11 @@ const textMenuBlack = '#000000'
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
+    backgroundColor: '#FFFFFF'
+  },
+  backdrop: {
+		zIndex: theme.zIndex.drawer + 1,
+		color: '#fff',
   },
   appBar: {
     [theme.breakpoints.up('sm')]: {
@@ -71,6 +70,7 @@ const useStyles = makeStyles(theme => ({
       width: drawerWidth,
       flexShrink: 0,
     },
+    zIndex: 1400
   },
   drawerOpen: {
     width: drawerWidth,
@@ -149,6 +149,8 @@ const useStyles = makeStyles(theme => ({
   },
   nested: {
     paddingLeft: theme.spacing(6),
+    paddingTop: 0,
+    paddingBottom: 0,
     // fontSize: '14px'
   },
   icon: {
@@ -193,7 +195,7 @@ const Main = props => {
   // Dialog Box
   const [dialogOpen, setDialogOpen] = useState(false)
   // Collapsable Menus
-  // const [taskOpen, setTaskOpen] = useState(false);
+  const [masterOpen, setMasterOpen] = useState(false);
 
   const handleDialogClose = () => {
     setDialogOpen(false)
@@ -217,11 +219,11 @@ const Main = props => {
     setDialogOpen(true)
   }
 
-  // const handleClick = (event) => {
-  //   if (event === 'task') {
-  //     setTaskOpen(!taskOpen);
-  //   }
-  // };
+  const handleClick = (event) => {
+    if (event === 'master') {
+      setMasterOpen(!masterOpen);
+    }
+  };
 
   if (redirect.values) {
     return <Redirect to='/sign-in'/>
@@ -246,26 +248,71 @@ const Main = props => {
             onClick={handleDrawerClose}
             to={`/dashboard`}
           >
-            {open ? (
-              <>
               <div className={classes.icon}>
-                <DashboardIcon style={{ color: textMenuBlack }} />
+                <img src={`${process.env.PUBLIC_URL}/images/icon/dashboard.svg`} alt="Dashboard" />
               </div>
               <div className={classes.textMenu}>
                 Dashboard
               </div>
-              </>
-            ):(
-              <Tooltip title="Dashboard" placement="right" arrow>
-                <div className={classes.icon}>
-                  <DashboardIcon style={{ color: textMenuBlack }} />
-                </div>
-              </Tooltip>
-            )}
           </Button>
         </ListItem>
+        
         <ListItem 
-          key='surat-masuk' 
+          key='master'
+          disabledGutters
+          className={classes.item}
+          onClick={() => handleClick('master')}
+        >
+          <Button
+            className={classes.button}
+          >
+            <div className={classes.icon}>
+              <img src={`${process.env.PUBLIC_URL}/images/icon/master.svg`} alt="Master" />
+            </div>
+            <div className={classes.textMenu}>
+              Master
+            </div>
+          </Button>
+          {masterOpen ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={masterOpen} timeout="auto" unmountOnExit>
+          <List disablePadding>
+            <ListItem
+              key='warehouse'
+              className={classes.nested}
+            >
+              <Button
+                activeClassName={classes.active}
+                className={classes.button}
+                component={CustomRouterLink}
+                onClick={handleDrawerClose}
+                to={`/warehouse`}
+              >
+                  <div className={classes.textMenu}>
+                    Warehouse
+                  </div>
+              </Button>
+            </ListItem>
+            <ListItem
+              key='category'
+              className={classes.nested}
+            >
+              <Button
+                activeClassName={classes.active}
+                className={classes.button}
+                component={CustomRouterLink}
+                onClick={handleDrawerClose}
+                to={`/category`}
+              >
+                  <div className={classes.textMenu}>
+                    Category
+                  </div>
+              </Button>
+            </ListItem>
+          </List>
+        </Collapse>
+        <ListItem 
+          key='product' 
           button
           disabledGutters
           className={classes.item}
@@ -275,24 +322,14 @@ const Main = props => {
             className={classes.button}
             component={CustomRouterLink}
             onClick={handleDrawerClose}
-            to={`/surat-masuk`}
+            to={`/product`}
           >
-            {open ? (
-              <>
               <div className={classes.icon}>
-                <SuratMasukIcon style={{ color: textMenuBlack }} />
+                <img src={`${process.env.PUBLIC_URL}/images/icon/dashboard.svg`} alt="Dashboard" />
               </div>
               <div className={classes.textMenu}>
-                Surat Masuk
+                Produk
               </div>
-              </>
-            ):(
-              <Tooltip title="Dashboard" placement="right" arrow>
-                <div className={classes.icon}>
-                  <SuratMasukIcon style={{ color: textMenuBlack }} />
-                </div>
-              </Tooltip>
-            )}
           </Button>
         </ListItem>
         <ListItem

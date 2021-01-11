@@ -11,7 +11,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 // import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
-import ExpandMore from '@material-ui/icons/ExpandMore';
+// import ExpandMore from '@material-ui/icons/ExpandMore';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { Link } from 'react-router-dom';
@@ -290,19 +290,28 @@ const Appbar = (props) => {
             </IconButton> */}
             <Divider className={classes.divider} orientation="vertical" />
             <IconButton
-              onClick={handleProfileMenuOpen}
+              // onClick={handleProfileMenuOpen}
             >
-                <Avatar
-                  alt="Person"
-                  className={classes.avatar}
-                  // src={profile.image}
-                  src={`${process.env.PUBLIC_URL}/images/logo/logo.png`}
-                />
+                {data.photo_url === null ? (
+                  <Avatar
+                    alt="Person"
+                    className={classes.avatar}
+                    // src={profile.image}
+                    src={`${process.env.PUBLIC_URL}/images/logo/logo_dzualan.png`}
+                  />
+                ):(
+                  <Avatar
+                    alt="Person"
+                    className={classes.avatar}
+                    // src={profile.image}
+                    src={data.photo_url}
+                  />
+                )}
                 <Typography variant="h5" className={classes.profileName}>
-                  {data.display_name}
+                  {data.name}
                 </Typography>
               
-              <ExpandMore style={{ color: '#000' }} />
+              {/* <ExpandMore style={{ color: '#000' }} /> */}
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>

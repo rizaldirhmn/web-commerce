@@ -24,28 +24,26 @@ export const authFail = (error) => {
   }
 }
 
-export const auth = (tokenId, history) => {
+export const auth = (email, password, history) => {
   return dispatch => {
     dispatch(authStart())
     const authData = {
-      google_token: tokenId
+      email: email,
+      password: password
     }
+    console.log(authData)
 
-    axios.post('auth/googlelogin', authData, {
+    axios.post('api/admin/auth/login', authData, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       }
     })
       .then(response => {
-        if(response.data.code === "200"){
-          sessionStorage.setItem('access_token', response.data.token)
-          sessionStorage.setItem('data', JSON.stringify(response.data.data))
+          sessionStorage.setItem('access_token', response.data.access_token)
+          sessionStorage.setItem('data', JSON.stringify(response.data.admin))
           history.push(`/dashboard`);
-          dispatch(authSuccess(response.data.token, response.data.data))
-        }else{
-          dispatch(setAlert(response.data.message, "error"))
-        }
+          dispatch(authSuccess(response.data.access_token, response.data.admin))
       })
       .catch(err => {
         // dispatch(authFail(err.response.data.msg_str))

@@ -4,10 +4,10 @@ import auth from './auth'
 import profile from '../../reducers/profile'
 import dashboard from '../../reducers/dashboard'
 import team from './team'
-import customer from './customer'
-import task from './task'
-import report from './report'
-import member from './member'
+import warehouse from './Master/warehouse'
+import category from './Master/category'
+import province from './province'
+import product from './Product/product'
 
 export default combineReducers({
     alert,
@@ -15,8 +15,8 @@ export default combineReducers({
     profile,
     dashboard,
     team,
-    customer,
-    task,
-    report,
-    member,
+    warehouse,
+    province,
+    category,
+    product
 })

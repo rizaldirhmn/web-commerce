@@ -1,10 +1,9 @@
 export { default as Dashboard } from './Dashboard';
 export { default as Profile } from './Profile';
 export { default as Home } from './Home'
-export { default as Customer } from './Customer'
-export { default as Task } from './Task'
-export { default as Report } from './Report'
-export { default as LookupTask } from './Task/LookupTask'
-export { default as TaskType } from './Task/TaskType'
-export { default as SuratMasuk } from './SuratMasuk'
-export { default as FormSuratMasuk } from './SuratMasuk/FormSuratMasuk'
+export { default as Warehouse } from './Master/Warehouse'
+export { default as CreateWarehouse } from './Master/Warehouse/CreateWarehouse'
+export { default as Category } from './Master/Category'
+export { default as CreateCategory } from './Master/Category/CreateCategory'
+export { default as Product } from './Product'
+export { default as CraeteProduct } from './Product/CreateProduct'
