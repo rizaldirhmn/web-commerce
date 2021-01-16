@@ -325,7 +325,7 @@ const Main = props => {
             to={`/product`}
           >
               <div className={classes.icon}>
-                <img src={`${process.env.PUBLIC_URL}/images/icon/dashboard.svg`} alt="Dashboard" />
+                <img src={`${process.env.PUBLIC_URL}/images/icon/Buy.svg`} alt="Dashboard" />
               </div>
               <div className={classes.textMenu}>
                 Produk

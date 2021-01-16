@@ -13,7 +13,8 @@ import {
   Category as CategoryView,
   CreateCategory as CreateCategoryView,
   Product as ProductView,
-  CraeteProduct as CraeteProductView
+  CraeteProduct as CraeteProductView,
+  PaymentConfirmation as PaymentConfirmationView
 } from './views';
 
 const Routes = () => {
@@ -87,6 +88,13 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/product/create"
+      />
+
+      <RouteWithLayout
+        component={PaymentConfirmationView}
+        exact
+        layout={MainLayout}
+        path="/payment-confirmation"
       />
 
       <Route

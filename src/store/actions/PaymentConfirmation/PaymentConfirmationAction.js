@@ -2,8 +2,8 @@ import * as actions from '../actionTypes'
 import axios from 'axios'
 import { setAlert } from '../alert'
 
-export const getWarehouse = () => async dispatch => {
-  const endpoint = `${process.env.REACT_APP_BASE_URL}api/admin/warehouse/paginate`
+export const getConfirmationPayment = (page, status) => async dispatch => {
+  const endpoint = `${process.env.REACT_APP_BASE_URL}api/admin/bukti_pembayaran/filter?page=${page}&status=${status}`
     try {
         const res = await axios({
             url: endpoint,
@@ -15,7 +15,7 @@ export const getWarehouse = () => async dispatch => {
             }
         });
         dispatch({
-            type: actions.GET_WAREHOUSE,
+            type: actions.GET_PAYMENT_CONFIRMATION,
             payload: res.data
         })
 
@@ -23,7 +23,7 @@ export const getWarehouse = () => async dispatch => {
         dispatch(setAlert("Something went wrong", "error"))
         console.log(error)
         dispatch({
-            type: actions.GET_WAREHOUSE,
+            type: actions.GET_PAYMENT_CONFIRMATION,
             payload: error
         })
         // dispatch({
@@ -34,28 +34,15 @@ export const getWarehouse = () => async dispatch => {
     
 }
 
-export const addWarehouse = (formData, history) => async dispatch => {
+export const updateStatus = (data, status, history) => async dispatch => {
     dispatch({
-        type: actions.ADD_WAREHOUSE_START
+        type: actions.UPDATE_STATUS_CONFIRMATION_START,
     })
-    const endpoint = `${process.env.REACT_APP_BASE_URL}api/admin/warehouse`
-    const myData = {
-        name: formData.name,
-        province: formData.province,
-        city: formData.city,
-        district: formData.district,
-        village: formData.village,
-        full_address: formData.full_address,
-        code_pos: formData.code_pos,
-        number_phone: formData.number_phone
-    }
-
+    const endpoint = `${process.env.REACT_APP_BASE_URL}api/admin/bukti_pembayaran/${data.id}/confirm`
       try {
           const res = await axios({
               url: endpoint,
-              method: "POST",
-              data: myData,
-              loading: true,
+              method: "PATCH",
               headers: { 
                 'Content-Type': 'application/json', 
                 'Accept' : 'application/json', 
@@ -63,17 +50,17 @@ export const addWarehouse = (formData, history) => async dispatch => {
               }
           });
           dispatch({
-              type: actions.ADD_WAREHOUSE_SUCCESS,
+              type: actions.UPDATE_STATUS_CONFIRMATION_SUCCESS,
               payload: res.data
           })
-          dispatch(setAlert("Gudang baru berhasil ditambah", "success"))
-          history.push('/warehouse')
+          dispatch(setAlert("Status berhasil diubah", "success"))
+          history.push('/payment-confirmation')
   
       } catch (error) {
           dispatch(setAlert("Something went wrong", "error"))
           console.log(error)
           dispatch({
-              type: actions.ADD_WAREHOUSE_FAIL,
+              type: actions.UPDATE_STATUS_CONFIRMATION_FAIL,
               payload: error
           })
           // dispatch({
@@ -82,4 +69,4 @@ export const addWarehouse = (formData, history) => async dispatch => {
           // })
       }
       
-}
+  }
