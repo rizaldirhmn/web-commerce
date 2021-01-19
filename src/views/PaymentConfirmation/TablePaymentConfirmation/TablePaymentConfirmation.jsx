@@ -31,7 +31,12 @@ import CloseIcon from '@material-ui/icons/Close';
 import { useHistory } from 'react-router-dom'
 
 import { connect } from 'react-redux'
-import { getConfirmationPayment, updateStatus } from '../../../store/actions/PaymentConfirmation/PaymentConfirmationAction'
+import { 
+  getConfirmationPayment, 
+  updateStatus, 
+  updateSendStatus,
+  updateAbortStatus
+} from '../../../store/actions/PaymentConfirmation/PaymentConfirmationAction'
 // import {  } from '../../../store/actions/PaymentConfirmation/PaymentConfirmationAction'
 
 function descendingComparator(a, b, orderBy) {
@@ -242,10 +247,14 @@ const TablePaymentConfirmation = props => {
     const {
         getConfirmationPayment,
         updateStatus,
+        updateSendStatus,
+        updateAbortStatus,
         paymentConfirmationReducer : {
             confirmPaymentList,
             loadingConfirmPaymentList,
-            loadingUpdatePaymentStatus
+            loadingUpdatePaymentStatus,
+            loadingSendStatus,
+            loadingAbortStatus
         },
         status,
     } = props
@@ -284,20 +293,41 @@ const TablePaymentConfirmation = props => {
         })
     }
 
+    // Abort Status
+    const [ openAbortDialog, setOpenAbortDialog ] = useState({
+      open: false,
+      item: null
+    })
+    
+    const handleOpenAbortDialog = (event) => {
+        setOpenAbortDialog({
+            open: true,
+            item: event
+        })
+    }
+    
+    const handleCloseAbortDialog = (event) => {
+        setOpenAbortDialog({
+            open: false,
+            item: event
+        })
+    }
+
     const onUpdateStatus = event => {
-        console.log(status)
-        let statusUpdate = status
         if(event !== null){
             if(status === 2){
-                statusUpdate = 3
+              updateStatus(event, history)
             }else if (status === 3){
-                statusUpdate = 4
-            }else if (status === 4){
-                statusUpdate = 6
+              updateSendStatus(event, history)
             }
-            console.log(statusUpdate)
-            updateStatus(event, statusUpdate, history)
             handleCloseConfirmationDialog(event)
+        }
+    }
+
+    const onUpdateAbortStatus = event => {
+        if(event !== null){
+          updateAbortStatus(event, history)
+          handleCloseAbortDialog(event)
         }
     }
 
@@ -313,7 +343,7 @@ const TablePaymentConfirmation = props => {
         no = confirmPaymentList.from
     }
 
-    return loadingConfirmPaymentList || loadingUpdatePaymentStatus ?
+    return loadingConfirmPaymentList || loadingUpdatePaymentStatus || loadingSendStatus || loadingAbortStatus ?
     <Backdrop className={classes.backdrop} open>
         <CircularProgress color="inherit" />
     </Backdrop>
@@ -381,9 +411,16 @@ const TablePaymentConfirmation = props => {
                                     <Link href={row.image} target="_blank">Download Bukti Bayar</Link>
                                 </TableCell>
                                 <TableCell>
+                                  <Tooltip arrow title="Konfirmasi">
                                     <IconButton onClick={() => handleOpenConfirmationDialog(row)}>
                                         <img src={`${process.env.PUBLIC_URL}/images/icon/edit.svg`} alt="Dashboard" />
                                     </IconButton>
+                                  </Tooltip>
+                                  <Tooltip arrow title="Batalakan">
+                                    <IconButton onClick={() => handleOpenAbortDialog(row)}>
+                                        <img src={`${process.env.PUBLIC_URL}/images/icon/cancel.svg`} alt="Dashboard" />
+                                    </IconButton>
+                                  </Tooltip>
                                 </TableCell>
                             </TableRow>
                         );
@@ -425,6 +462,25 @@ const TablePaymentConfirmation = props => {
                     </DialogActions>
                 {/* </form> */}
             </Dialog>
+            <Dialog
+                fullWidth
+                open={openAbortDialog.open}
+                onClose={() => handleCloseAbortDialog(openAbortDialog.item)}
+            >
+                {/* <form onSubmit={onUpdateStatus(openAbortDialog.item)}> */}
+                    <DialogTitle id="customized-dialog-title" onClose={() => handleCloseAbortDialog(openAbortDialog.item)}>
+                        Pembatalan Pembelian/Pembayaran
+                    </DialogTitle>
+                    <DialogContent>
+                        Apakah anda ingin membatalkan pembelian ini?
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => onUpdateAbortStatus(openAbortDialog.item)} className={classes.button}>
+                            Ya
+                        </Button>
+                    </DialogActions>
+                {/* </form> */}
+            </Dialog>
         </div>
     </Fragment>
 }
@@ -433,4 +489,4 @@ const mapStateToProps = state => ({
     paymentConfirmationReducer: state.paymentConfirmationReducer
 })
 
-export default connect(mapStateToProps, { getConfirmationPayment, updateStatus })(TablePaymentConfirmation)
+export default connect(mapStateToProps, { getConfirmationPayment, updateStatus, updateSendStatus, updateAbortStatus })(TablePaymentConfirmation)

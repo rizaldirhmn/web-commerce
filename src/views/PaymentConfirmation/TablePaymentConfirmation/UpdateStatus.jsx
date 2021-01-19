@@ -31,7 +31,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { useHistory } from 'react-router-dom'
 
 import { connect } from 'react-redux'
-import { updateStatus } from '../../../store/actions/PaymentConfirmation/PaymentConfirmationAction'
+import { updateStatus, updateSendStatus } from '../../../store/actions/PaymentConfirmation/PaymentConfirmationAction'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -95,27 +95,29 @@ const TablePaymentConfirmation = props => {
         openConfirmationDialog,
         handleCloseConfirmationDialog,
         updateStatus,
+        updateSendStatus,
         paymentConfirmationReducer: {
-            loadingUpdatePaymentStatus
+            loadingUpdatePaymentStatus,
+            loadingSendStatus
         }
     } = props
 
     const onUpdateStatus = event => {
-        console.log(event)
         let statusUpdate = status
+        console.log(status)
         if(event !== null){
             if(status === 2){
-                statusUpdate = 3
+                updateStatus(event, 3, history)
             }else if (status === 3){
-                statusUpdate = 4
+                updateSendStatus(event, 4, history)
             }else if (status === 4){
                 statusUpdate = 6
             }
-            updateStatus(event, statusUpdate, history)
+            
         }
     }
 
-    return loadingUpdatePaymentStatus ?
+    return loadingUpdatePaymentStatus || loadingSendStatus ?
     <Backdrop className={classes.backdrop} open>
         <CircularProgress color="inherit" />
     </Backdrop>
@@ -149,4 +151,4 @@ const mapStateToProps = state => ({
     paymentConfirmationReducer: state.paymentConfirmationReducer
 })
 
-export default connect(mapStateToProps, { updateStatus })(TablePaymentConfirmation)
+export default connect(mapStateToProps, { updateStatus, updateSendStatus })(TablePaymentConfirmation)

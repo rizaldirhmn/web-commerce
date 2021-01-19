@@ -332,6 +332,27 @@ const Main = props => {
               </div>
           </Button>
         </ListItem>
+        <ListItem 
+          key='payment-confirmation' 
+          button
+          disabledGutters
+          className={classes.item}
+        >
+          <Button
+            activeClassName={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            onClick={handleDrawerClose}
+            to={`/payment-confirmation`}
+          >
+              <div className={classes.icon}>
+                <img src={`${process.env.PUBLIC_URL}/images/icon/wallet.svg`} alt="Dashboard" />
+              </div>
+              <div className={classes.textMenu}>
+                Payment Confirmation
+              </div>
+          </Button>
+        </ListItem>
         <ListItem
           disabledGutters
           className={classes.item}
