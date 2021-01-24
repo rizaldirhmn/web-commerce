@@ -74,6 +74,7 @@ const CraeteProduct = props => {
         getSubCategory,
         getWarehouse,
         addProduct,
+        imageUrl,
         product: {
             loadingProductData
         },
@@ -129,11 +130,8 @@ const CraeteProduct = props => {
         }
     ])
 
-    // console.log(formState)
-    // console.log(variantGroupForm)
-
     const onSubmit = () => {
-        addProduct(formState.values, variantGroupForm, history)
+        addProduct(formState.values, variantGroupForm, imageUrl, history)
     }
 
     useEffect(() => {
@@ -226,7 +224,8 @@ const CraeteProduct = props => {
 const mapStateToProps = state => ({
     category: state.category,
     warehouse: state.warehouse,
-    product: state.product
+    product: state.product,
+    imageUrl: state.productImage.urlImage,
 })
 
 export default connect(mapStateToProps, { getCategory, getSubCategory, getWarehouse, addProduct })(CraeteProduct)

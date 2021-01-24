@@ -4,13 +4,18 @@ const initialState = {
     productList: null,
     productData: null,
     loadingProductData: false,
-    loadingProductList: true,
-    error: {}
+    loadingProductList: false,
+    error: {},
 }
 
 export default function (state = initialState, action) {
     const { type, payload } = action
     switch (type) {
+        case actions.GET_PRODUCT_START:
+            return {
+                ...state,
+                loadingProductList: true
+            }
         case actions.GET_PRODUCT:
             return {
                 ...state,

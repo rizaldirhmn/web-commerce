@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, Fragment } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import {
     Card,
@@ -10,14 +10,23 @@ import {
     IconButton,
     Divider,
     Button,
+    CardMedia,
+    CardActionArea,
+    CardActions,
 } from '@material-ui/core'
+import {Delete as DeleteIcon} from '@material-ui/icons';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers"
 import * as yup from "yup";
 import CKEditor from 'ckeditor4-react';
-import UploadImage from './UploadImage'
 import NumberFormat from 'react-number-format'
 import Select from 'react-select';
+import {
+    Dropzone, Loading
+} from '../../../../../components/UI';
+import * as actions from '../../../../../store/actions'
+
+import { connect } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -62,15 +71,14 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const SchemaValidation = yup.object().shape({
-    name: yup.string().required("Warehouse Name cannot be Null"),
-	number_phone: yup.string().required("Phone Number Cannot be Null"),
-	full_address: yup.string().required("Full Address Cannot be Null"),
-	code_pos: yup.string().required("Pos Code Cannot be Null"),
+    title: yup.string().required("Judul Produk harus diisi"),
+	name: yup.string().required("Nama Produk harus diisi"),
+	stok: yup.string().required("Stok Produk harus diisi"),
 })
 
 const CraeteProduct = props => {
     const classes = useStyles()
-    const { register, errors } = useForm({
+    const { register, handleSubmit, errors } = useForm({
 		resolver: yupResolver(SchemaValidation)
     });
     const {
@@ -80,11 +88,15 @@ const CraeteProduct = props => {
         handleChangeTabs,
         handleChange,
         formState,
-        setFormState
+        setFormState,
+        onUploadImage,
+        onAlert,
+        loadingUploadImage,
+        imageUrl,
+        onDeleteImage
     } = props
 
-    const [banner, setBanner] = useState([]);
-    const [ setB64] = useState(null);
+    const token = sessionStorage.getItem("access_token");
 
     const handleChangePrice = event => {
         setFormState(formState => ({
@@ -101,19 +113,65 @@ const CraeteProduct = props => {
           ...formState,
           values: {
             ...formState.values,
-            description: event
+            description: event.editor.getData()
           }
         }));
     };
 
+    const [image, setImage] = useState('');
+
     const handleChangeBanner = event => {
-        setBanner(event[0]);
+        setImage(event)
         let reader = new FileReader();
         reader.readAsDataURL(event[0]);
         reader.onload = function(){
-            setB64(reader.result);
+            // setB64(reader.result);
+
+            if(event[0].size < 5000000){
+                onUploadImage(reader.result.split(',')[1], token);
+            }else{
+                onAlert('maksimal file 4 mb', 'error')
+            }
         }
+    }
+
+    let imageUpload = '';
+    if(imageUrl.length > 0){
+        imageUpload = (
+        <Fragment>
+            {imageUrl.map((image, index) => (
+            <Grid key={index} item lg={3} md={3} sm={12} xs={12}>
+                <Card>
+                <CardActionArea>
+                    <CardMedia
+                    style={{height: '140px'}}
+                    image={image.url}
+                    title="image upload"
+                    />
+                </CardActionArea>
+                <CardActions>
+                    <Button
+                    variant="contained"
+                    color="secondary"
+                    className={classes.buttonDelete}
+                    startIcon={<DeleteIcon />}
+                    onClick={() => onDeleteImage(index)}
+                    fullWidth
+                    >
+                    Delete
+                    </Button>
+                </CardActions>
+                </Card>
+            </Grid>
+            ))}
+        </Fragment>
+        );
     };
+
+    let loadingUploadImages = null;
+    if (loadingUploadImage) {
+        loadingUploadImages = <Loading/>
+    }
 
     const onSelectChange = (event) => {
         setFormState(formState => ({
@@ -127,27 +185,27 @@ const CraeteProduct = props => {
 
     // const optionsLoading = [{ 'value' : 'loading', 'label' : 'Loading'}];
     const categoryOptions = [];
-    if(categoryList != null){
+    if(categoryList !== null){
         for (let i = 0; i < categoryList.length; i++) {
             categoryOptions.push({'value' : categoryList[i].id, 'label' : categoryList[i].name, 'name' : 'id_category'});
         }
     }
     const subCategoryOptions = [];
-    if(subCategoryList != null){
+    if(subCategoryList !== null){
         for (let i = 0; i < subCategoryList.length; i++) {
             subCategoryOptions.push({'value' : subCategoryList[i].id, 'label' : subCategoryList[i].name, 'name' : 'id_sub_category'});
         }
     }
     const warehouseOptions = [];
-    if(warehouseList != null){
+    if(warehouseList !== null){
         for (let i = 0; i < warehouseList.total; i++) {
             warehouseOptions.push({'value' : warehouseList.data[i].id, 'label' : warehouseList.data[i].name, 'name' : 'id_warehouse'});
         }
     }
 
-
-    return (
+    return (    
         <div className={classes.root}>
+            {loadingUploadImages}
             <Grid
                 container
                 spacing={2}
@@ -200,8 +258,8 @@ const CraeteProduct = props => {
                     xs={12}
                 >
                     <CKEditor
-                        data={`<p>${formState.values.description}</p>`}
-                        onChange={evt => handleChangeEditor( evt )}
+                        data={formState.values.description}
+                        onChange={handleChangeEditor}
                     />
                 </Grid>
                 <Grid
@@ -211,7 +269,20 @@ const CraeteProduct = props => {
                     sm={6}
                     xs={12}
                 >
-                    <UploadImage handleChangeBanner={handleChangeBanner} banner={banner} />
+                    {/* <UploadImage handleChangeBanner={handleChangeBanner} banner={banner} /> */}
+                    <Dropzone
+                      multiple={false}
+                      fileType={'image/*'}
+                      value={image}
+                      handleChangeBanner={handleChangeBanner}
+                    />
+                    <Grid container spacing={2}>
+                        <Grid item lg={12} md={12} sm={12} xs={12}>
+                        <Grid container spacing={2}>
+                            {imageUpload}
+                        </Grid>
+                        </Grid>
+                    </Grid>
                 </Grid>
                 <Grid
                     item
@@ -355,7 +426,7 @@ const CraeteProduct = props => {
                     sm={12}
                     xs={12}
                 >
-                    <Button className={classes.button} onClick={e => handleChangeTabs(e, 1)}>
+                    <Button className={classes.button} onClick={e => handleSubmit(handleChangeTabs(e, 1))}>
                         Next
                     </Button>
                 </Grid>
@@ -364,4 +435,19 @@ const CraeteProduct = props => {
     )
 }
 
-export default CraeteProduct
+const mapStateToProps = state => {
+    return {
+      loadingUploadImage: state.productImage.loadingUploadImage,
+      imageUrl: state.productImage.urlImage,
+    }
+  }
+
+const mapDispatchToProps = dispatch => {
+    return {
+      onUploadImage: (storeData, token) => dispatch(actions.uploadProductImage(storeData, token)),
+      onAlert: (message, status) => dispatch(actions.setAlert(message, status)),
+      onDeleteImage: (index) => dispatch(actions.deleteImageProduct(index)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CraeteProduct)

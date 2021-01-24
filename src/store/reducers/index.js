@@ -8,6 +8,7 @@ import warehouse from './Master/warehouse'
 import category from './Master/category'
 import province from './province'
 import product from './Product/product'
+import productImage from './Product/productImage'
 import paymentConfirmationReducer from './PaymentConfirmation/paymentConfirmationReducer'
 
 export default combineReducers({
@@ -20,5 +21,6 @@ export default combineReducers({
     province,
     category,
     product,
-    paymentConfirmationReducer
+    paymentConfirmationReducer,
+    productImage
 })

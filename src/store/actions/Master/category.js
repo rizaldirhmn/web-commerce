@@ -2,7 +2,7 @@ import * as actions from '../actionTypes'
 import axios from 'axios'
 import { setAlert } from '../alert'
 
-export const getCategory = () => async dispatch => {
+export const getCategory = (page) => async dispatch => {
   const endpoint = `${process.env.REACT_APP_BASE_URL}api/admin/category`
     try {
         const res = await axios({

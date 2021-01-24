@@ -187,7 +187,7 @@ const Category = props => {
     }
   } = props
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
+  const [orderBy, setOrderBy] = React.useState('name');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -207,26 +207,6 @@ const Category = props => {
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    setSelected(newSelected);
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -236,15 +216,13 @@ const Category = props => {
     setPage(0);
   };
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
-
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  // const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   let no = 1
 
   useEffect(() => {
-      getCategory()
-  }, [getCategory])
+      getCategory(page+1)
+  }, [getCategory, page])
 
   return loadingCategory ? 
   <Backdrop className={classes.backdrop} open>
@@ -301,21 +279,21 @@ const Category = props => {
                         rowCount={rows.length}
                         />
                         <TableBody>
-                        {stableSort(categoryList, getComparator(order, orderBy))
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        {stableSort(categoryList.data, getComparator(order, orderBy))
+                            // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => {
-                            const isItemSelected = isSelected(row.name);
+                            // const isItemSelected = isSelected(row.name);
                             const labelId = `enhanced-table-checkbox-${index}`;
 
                             return (
                                 <TableRow
                                 hover
-                                onClick={(event) => handleClick(event, row.name)}
+                                // onClick={(event) => handleClick(event, row.name)}
                                 role="checkbox"
-                                aria-checked={isItemSelected}
+                                // aria-checked={isItemSelected}
                                 tabIndex={-1}
                                 key={row.name}
-                                selected={isItemSelected}
+                                // selected={isItemSelected}
                                 >
                                     <TableCell id={labelId}>{no++}</TableCell>
                                     <TableCell>{row.name}</TableCell>
@@ -328,18 +306,18 @@ const Category = props => {
                                 </TableRow>
                             );
                             })}
-                        {emptyRows > 0 && (
+                        {/* {emptyRows > 0 && (
                             <TableRow style={{ height: 33 * emptyRows }}>
                             <TableCell colSpan={6} />
                             </TableRow>
-                        )}
+                        )} */}
                         </TableBody>
                     </Table>
                     </TableContainer>
                     <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={[15]}
                     component="div"
-                    count={rows.length}
+                    count={categoryList.total}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onChangePage={handleChangePage}

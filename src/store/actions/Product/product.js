@@ -2,8 +2,11 @@ import * as actions from '../actionTypes'
 import axios from 'axios'
 import { setAlert } from '../alert'
 
-export const getProduct = () => async dispatch => {
-  const endpoint = `${process.env.REACT_APP_BASE_URL}api/admin/product/paginate`
+export const getProduct = (page) => async dispatch => {
+    dispatch({
+        type: actions.GET_PRODUCT_START,
+    })
+    const endpoint = `${process.env.REACT_APP_BASE_URL}api/admin/product/paginate?page=${page}`
     try {
         const res = await axios({
             url: endpoint,
@@ -34,7 +37,66 @@ export const getProduct = () => async dispatch => {
     
 }
 
-export const addProduct = (formData, variantGroup, history) => async dispatch => {
+export const uploadProductImageStart = () => {
+    return {
+      type: actions.UPLOAD_PRODUCT_IMAGE_START,
+    }
+}
+  
+export const uploadProductImageSuccess = (image) => {
+    return {
+      type: actions.UPLOAD_PRODUCT_IMAGE_SUCCESS,
+      image: image
+    }
+}
+  
+export const uploadProductImageFail = (error) => {
+    return {
+      type: actions.UPLOAD_PRODUCT_IMAGE_FAIL,
+      error: error
+    }
+}
+
+export const deleteImageProduct = (index) => {
+    return {
+      type: actions.DELETE_IMAGE_PRODUCT,
+      index: index
+    };
+};
+  
+export const uploadProductImage = (storeData, token) =>  async dispatch => {
+    dispatch(uploadProductImageStart());
+    const bodyFormData = {
+        image : storeData
+    }
+    console.log(bodyFormData)
+
+      const endpoint = `${process.env.REACT_APP_BASE_URL}api/admin/product/upload`
+
+        try {
+            const res = await axios({
+                url: endpoint,
+                method: "POST",
+                data: bodyFormData,
+                headers: { 
+                'Content-Type': 'application/json', 
+                'Accept' : 'application/json', 
+                'Authorization' : `Bearer ${sessionStorage.getItem('access_token')}`
+                }
+            });
+            dispatch(uploadProductImageSuccess(res.data.url))
+
+        } catch (error) {
+            dispatch(uploadProductImageFail(error))
+            dispatch(setAlert(error, 'error'))
+            // dispatch({
+            //     payload: { msg: error.response.statusText, status: error.response.status },
+            //     type: STAGE_ERROR
+            // })
+        }
+}
+
+export const addProduct = (formData, variantGroup, imageUrl, history) => async dispatch => {
     dispatch({
         type: actions.ADD_PRODUCT_START
     })
@@ -58,10 +120,7 @@ export const addProduct = (formData, variantGroup, history) => async dispatch =>
             price: 10,
             weight: 10
         }],
-        resource: [{
-            url: 'ulala',
-            type: 'image'
-        }]
+        resource: imageUrl
     }
     try {
         const res = await axios({
@@ -95,4 +154,4 @@ export const addProduct = (formData, variantGroup, history) => async dispatch =>
         // })
     }
       
-  }
+}

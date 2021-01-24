@@ -8,3 +8,8 @@ export {
 export {
   auth
 } from './auth'
+
+export {
+  uploadProductImage,
+  deleteImageProduct
+} from './Product/product'
