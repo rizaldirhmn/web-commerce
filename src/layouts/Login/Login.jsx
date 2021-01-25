@@ -2,7 +2,9 @@ import React from "react";
 import { Grid, Button, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import {
-  Hidden
+  Hidden,
+  Backdrop,
+  CircularProgress
 } from "@material-ui/core";
 import { useHistory } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -13,6 +15,7 @@ import * as actions from '../../store/actions';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
+import { Fragment } from "react";
 
 // import AppBar from './AppBar'
 
@@ -20,6 +23,10 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 	  height: '100vh'
 	},
+	backdrop: {
+		zIndex: theme.zIndex.drawer + 1,
+		color: '#fff',
+    },
 	paper: {
 	  margin: theme.spacing(10, 4),
 		// marginTop: theme.spacing(20),
@@ -122,6 +129,7 @@ const SignInSchema = yup.object().shape({
 const Login =  props => {
 	const classes = useStyles();
 	const history = useHistory();
+	const { loading } = props
 
 	const { register, handleSubmit, errors } = useForm({
 		resolver: yupResolver(SignInSchema)
@@ -134,7 +142,12 @@ const Login =  props => {
 		// console.log(event);
 	}
 
-	return (
+	return loading ?
+    <Backdrop className={classes.backdrop} open>
+        <CircularProgress color="inherit" />
+    </Backdrop>
+	:
+	<Fragment>
 		<div>
 			{/* <AppBar /> */}
 			<Grid container>
@@ -216,8 +229,12 @@ const Login =  props => {
 				</Grid>
 			</Grid>
 		</div>
-	);
+	</Fragment>
 }
+
+const mapStateToProps = state => ({
+	loading: state.auth.loading
+})
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -226,4 +243,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
