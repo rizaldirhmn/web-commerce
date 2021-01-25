@@ -37,6 +37,41 @@ export const getProduct = (page) => async dispatch => {
     
 }
 
+export const getDetailProduct = (id) => async dispatch => {
+    dispatch({
+        type: actions.GET_PRODUCT_DETAIL_START,
+    })
+    const endpoint = `${process.env.REACT_APP_BASE_URL}api/admin/product/${id}`
+    try {
+        const res = await axios({
+            url: endpoint,
+            method: "GET",
+            headers: { 
+              'Content-Type': 'application/json', 
+              'Accept' : 'application/json', 
+              'Authorization' : `Bearer ${sessionStorage.getItem('access_token')}`
+            }
+        });
+        dispatch({
+            type: actions.GET_PRODUCT_DETAIL,
+            payload: res.data
+        })
+
+    } catch (error) {
+        dispatch(setAlert("Something went wrong", "error"))
+        console.log(error)
+        dispatch({
+            type: actions.GET_PRODUCT_DETAIL,
+            payload: error
+        })
+        // dispatch({
+        //     payload: { msg: error.response.statusText, status: error.response.status },
+        //     type: STAGE_ERROR
+        // })
+    }
+    
+}
+
 export const uploadProductImageStart = () => {
     return {
       type: actions.UPLOAD_PRODUCT_IMAGE_START,
@@ -96,7 +131,7 @@ export const uploadProductImage = (storeData, token) =>  async dispatch => {
         }
 }
 
-export const addProduct = (formData, variantGroup, imageUrl, history) => async dispatch => {
+export const addProduct = (formData, variantGroup, imageUrl, combineVariant, history) => async dispatch => {
     dispatch({
         type: actions.ADD_PRODUCT_START
     })
@@ -105,21 +140,14 @@ export const addProduct = (formData, variantGroup, imageUrl, history) => async d
         id_warehouse: formData.id_warehouse,
         id_category: formData.id_category,
         id_sub_category: formData.id_sub_category,
-        title: formData.title,
+        title: formData.name,
         name: formData.name,
         description: formData.description,
         base_price: formData.base_price,
         stock: formData.stok,
         default_margin: formData.default_margin,
         group_variant: variantGroup,
-        combination: [{
-            variant_1: 'biru',
-            variant_2: 'xl',
-            variant_3: null,
-            stock: 10,
-            price: 10,
-            weight: 10
-        }],
+        combination: combineVariant,
         resource: imageUrl
     }
     try {

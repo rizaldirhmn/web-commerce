@@ -141,14 +141,16 @@ const Product = props => {
                                 primary={item.title}
                                 secondary={
                                     <React.Fragment>
-                                    <Typography
-                                        component="span"
-                                        variant="body2"
-                                        className={classes.inline}
-                                        color="textPrimary"
-                                    >
-                                        Edit
-                                    </Typography>
+                                        <RouterLink to={`/product/edit/${item.id}`}>
+                                            <Typography
+                                                component="span"
+                                                variant="body2"
+                                                className={classes.inline}
+                                                color="textPrimary"
+                                            >
+                                                Edit
+                                            </Typography>
+                                        </RouterLink>
                                     {/* {" — I'll be in your neighborhood doing errands this…"} */}
                                     </React.Fragment>
                                 }

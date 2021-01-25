@@ -3,6 +3,8 @@ import * as actions from '../../actions/actionTypes'
 const initialState = {
     productList: null,
     productData: null,
+    detailProduct: null,
+    loadingDetailProduct: false,
     loadingProductData: false,
     loadingProductList: false,
     error: {},
@@ -21,6 +23,17 @@ export default function (state = initialState, action) {
                 ...state,
                 productList: payload,
                 loadingProductList: false
+            }
+        case actions.GET_PRODUCT_DETAIL_START:
+            return {
+                ...state,
+                loadingDetailProduct: true
+            }
+        case actions.GET_PRODUCT_DETAIL:
+            return {
+                ...state,
+                detailProduct: payload,
+                loadingDetailProduct: false
             }
         case actions.ADD_PRODUCT_START:
             return {
