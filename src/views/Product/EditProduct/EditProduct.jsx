@@ -17,12 +17,12 @@ import {
     Variant,
     CombineVariant
 } from './component'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import { getCategory, getSubCategory } from '../../../store/actions/Master/category'
 import { getWarehouse } from '../../../store/actions/Master/warehouse'
-import { addProduct } from '../../../store/actions/Product/product'
+import { updateProduct, getDetailProduct } from '../../../store/actions/Product/product'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -70,14 +70,18 @@ const useStyles = makeStyles(theme => ({
 const CraeteProduct = props => {
     const classes = useStyles()
     const history = useHistory()
+    const params = useParams()
     const {
         getCategory,
         getSubCategory,
         getWarehouse,
-        addProduct,
+        updateProduct,
         imageUrl,
+        getDetailProduct,
+        detailProduct,
         product: {
-            loadingProductData
+            loadingProductData,
+            loadingDetailProduct
         },
         category: {
             categoryList,
@@ -144,16 +148,27 @@ const CraeteProduct = props => {
     ])
 
     const onSubmit = () => {
-        addProduct(formState.values, variantGroupForm, imageUrl, combineVariant, history)
+        updateProduct(params.id, formState.values, variantGroupForm, imageUrl, combineVariant, history)
     }
 
     useEffect(() => {
         getCategory()
         getSubCategory()
         getWarehouse()
-    }, [ getCategory, getSubCategory, getWarehouse ])
+        getDetailProduct(params.id, setFormState, setVariantGroupForm, setCombineVariant)
+    }, 
+    [ 
+        getCategory, 
+        getSubCategory, 
+        getWarehouse, 
+        getDetailProduct, 
+        params,
+        setFormState,
+        setVariantGroupForm,
+        setCombineVariant
+    ])
 
-    return loadingCategory || loadingSubCategory || loadingWarehouse || loadingProductData ?
+    return loadingCategory || loadingSubCategory || loadingWarehouse || loadingProductData || loadingDetailProduct ?
     <Backdrop className={classes.backdrop} open>
         <CircularProgress color="inherit" />
     </Backdrop>
@@ -167,7 +182,7 @@ const CraeteProduct = props => {
             >
                 <Grid item>  
                     <Typography variant="h4" className={classes.title}>
-                        Create New Product
+                        Edit Product
                     </Typography>
                 </Grid>
             </Grid>
@@ -207,6 +222,7 @@ const CraeteProduct = props => {
                                 formState={formState}
                                 handleChange={handleChange}
                                 setFormState={setFormState}
+                                detailProduct={detailProduct}
                             />
                         )}
                     </TabPanel>
@@ -244,7 +260,8 @@ const mapStateToProps = state => ({
     category: state.category,
     warehouse: state.warehouse,
     product: state.product,
+    detailProduct: state.product.detailProduct,
     imageUrl: state.productImage.urlImage,
 })
 
-export default connect(mapStateToProps, { getCategory, getSubCategory, getWarehouse, addProduct })(CraeteProduct)
+export default connect(mapStateToProps, { getCategory, getDetailProduct, getSubCategory, getWarehouse, updateProduct })(CraeteProduct)

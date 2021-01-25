@@ -22,7 +22,7 @@ import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getCategory, getSubCategory } from '../../../store/actions/Master/category'
 import { getWarehouse } from '../../../store/actions/Master/warehouse'
-import { addProduct } from '../../../store/actions/Product/product'
+import { addProduct, onClearImageProduct } from '../../../store/actions/Product/product'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -76,6 +76,7 @@ const CraeteProduct = props => {
         getWarehouse,
         addProduct,
         imageUrl,
+        onClearImageProduct,
         product: {
             loadingProductData
         },
@@ -98,7 +99,7 @@ const CraeteProduct = props => {
 
     const [formState, setFormState] = useState({
         values: {
-            description: 'Masukan deskripsi produk anda disini'
+            description: null
         },
     });
 
@@ -151,7 +152,8 @@ const CraeteProduct = props => {
         getCategory()
         getSubCategory()
         getWarehouse()
-    }, [ getCategory, getSubCategory, getWarehouse ])
+        onClearImageProduct()
+    }, [ getCategory, getSubCategory, getWarehouse, onClearImageProduct ])
 
     return loadingCategory || loadingSubCategory || loadingWarehouse || loadingProductData ?
     <Backdrop className={classes.backdrop} open>
@@ -247,4 +249,4 @@ const mapStateToProps = state => ({
     imageUrl: state.productImage.urlImage,
 })
 
-export default connect(mapStateToProps, { getCategory, getSubCategory, getWarehouse, addProduct })(CraeteProduct)
+export default connect(mapStateToProps, { getCategory, getSubCategory, getWarehouse, addProduct, onClearImageProduct })(CraeteProduct)

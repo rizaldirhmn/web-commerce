@@ -93,7 +93,8 @@ const CraeteProduct = props => {
         onAlert,
         loadingUploadImage,
         imageUrl,
-        onDeleteImage
+        onDeleteImage,
+        detailProduct
     } = props
 
     const token = sessionStorage.getItem("access_token");
@@ -155,7 +156,7 @@ const CraeteProduct = props => {
                     color="secondary"
                     className={classes.buttonDelete}
                     startIcon={<DeleteIcon />}
-                    onClick={() => onDeleteImage(index)}
+                    onClick={() => onDeleteImage(image.id)}
                     fullWidth
                     >
                     Delete
@@ -210,26 +211,6 @@ const CraeteProduct = props => {
                 container
                 spacing={2}
             >
-                {/* <Grid
-                    item
-                    lg={12}
-                    md={12}
-                    sm={12}
-                    xs={12}
-                >
-                    <TextField 
-                        fullWidth
-                        name="title"
-                        label="Judul Produk"
-                        defaultValue={formState.values.title || ''}
-                        onChange={handleChange}
-                        helperText={
-                            errors.title && errors.title.message
-                        }
-                        error={errors.title && true}
-                        inputRef={register}
-                    />
-                </Grid> */}
                 <Grid
                     item
                     lg={12}
@@ -241,7 +222,7 @@ const CraeteProduct = props => {
                         fullWidth
                         name="name"
                         label="Nama Produk"
-                        defaultValue={formState.values.name || ''}
+                        value={formState.values.name || ''}
                         onChange={handleChange}
                         helperText={
                             errors.name && errors.name.message
@@ -312,7 +293,7 @@ const CraeteProduct = props => {
                                         <Divider className={classes.divider} orientation="vertical" />
                                         <NumberFormat
                                             {...props}
-                                            defaultValue={formState.values.base_price || ''}
+                                            value={formState.values.base_price || ''}
                                             name="base_price"
                                             customInput={TextField}
                                             type="text"
@@ -337,7 +318,7 @@ const CraeteProduct = props => {
                                         <Divider className={classes.divider} orientation="vertical" />
                                         <NumberFormat
                                             {...props}
-                                            defaultValue={formState.values.default_margin || ''}
+                                            value={formState.values.default_margin || ''}
                                             name="default_margin"
                                             customInput={TextField}
                                             type="text"
@@ -356,15 +337,35 @@ const CraeteProduct = props => {
                                 >
                                     <TextField 
                                         fullWidth
-                                        name="stok"
+                                        name="stock"
                                         type="number"
                                         label="Stok"
-                                        defaultValue={formState.values.stok || ''}
+                                        value={formState.values.stock || ''}
                                         onChange={handleChange}
                                         helperText={
-                                            errors.stok && errors.stok.message
+                                            errors.stock && errors.stock.message
                                         }
-                                        error={errors.stok && true}
+                                        error={errors.stock && true}
+                                        inputRef={register}
+                                    />
+                                </Grid>
+                                <Grid
+                                    item
+                                    lg={12}
+                                    md={12}
+                                    sm={12}
+                                    xs={12}
+                                >
+                                    <TextField 
+                                        fullWidth
+                                        name="sku"
+                                        label="SKU"
+                                        value={formState.values.sku || ''}
+                                        onChange={handleChange}
+                                        helperText={
+                                            errors.sku && errors.sku.message
+                                        }
+                                        error={errors.sku && true}
                                         inputRef={register}
                                     />
                                 </Grid>
@@ -380,6 +381,7 @@ const CraeteProduct = props => {
                                         options={categoryOptions} 
                                         onChange={onSelectChange} 
                                         placeholder="Pilih Kategori"
+                                        defaultValue={{ label: `${detailProduct.sub_category.category.name}` ,value: `${detailProduct.sub_category.category.id}` }}
                                     />
                                 </Grid>
                                 <Grid
@@ -394,6 +396,7 @@ const CraeteProduct = props => {
                                         options={subCategoryOptions} 
                                         onChange={onSelectChange} 
                                         placeholder="Pilih Sub Kategori"
+                                        defaultValue={{ label: `${detailProduct.sub_category.name}` ,value: `${detailProduct.sub_category.id}` }}
                                     />
                                 </Grid>
                                 <Grid
@@ -408,6 +411,7 @@ const CraeteProduct = props => {
                                         options={warehouseOptions} 
                                         onChange={onSelectChange} 
                                         placeholder="Pilih Gudang"
+                                        defaultValue={{ label: `${detailProduct.warehouse.name}` ,value: `${detailProduct.warehouse.id}` }}
                                     />
                                 </Grid>
                             </Grid>
@@ -446,7 +450,7 @@ const mapDispatchToProps = dispatch => {
     return {
       onUploadImage: (storeData, token) => dispatch(actions.uploadProductImage(storeData, token)),
       onAlert: (message, status) => dispatch(actions.setAlert(message, status)),
-      onDeleteImage: (index) => dispatch(actions.deleteImageProduct(index)),
+      onDeleteImage: (idImage) => dispatch(actions.editDeleteImageProduct(idImage)),
     }
 }
 

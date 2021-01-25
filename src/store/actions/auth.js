@@ -31,8 +31,6 @@ export const auth = (email, password, history) => {
       email: email,
       password: password
     }
-    console.log(authData)
-
     axios.post('api/admin/auth/login', authData, {
       headers: {
         'Content-Type': 'application/json',
@@ -46,6 +44,7 @@ export const auth = (email, password, history) => {
           dispatch(authSuccess(response.data.access_token, response.data.admin))
       })
       .catch(err => {
+        dispatch(authFail(err))
         // dispatch(authFail(err.response.data.msg_str))
         // dispatch(setAlert(err.response.data.msg_str, 'error'))
         dispatch(setAlert("Email atau Password Salah", "error"))

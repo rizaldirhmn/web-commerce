@@ -52,6 +52,23 @@ export default function (state = initialState, action) {
                 error: payload,
                 loadingProductData: false
             }
+        case actions.UPDATE_PRODUCT_START:
+            return {
+                ...state,
+                loadingProductData: true
+            }
+        case actions.UPDATE_PRODUCT_SUCCESS:
+            return {
+                ...state,
+                productData: payload,
+                loadingProductData: false
+            }
+        case actions.UPDATE_PRODUCT_FAIL:
+            return {
+                ...state,
+                error: payload,
+                loadingProductData: false
+            }
         default:
             return state
     }

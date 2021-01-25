@@ -11,5 +11,6 @@ export {
 
 export {
   uploadProductImage,
-  deleteImageProduct
+  deleteImageProduct,
+  editDeleteImageProduct
 } from './Product/product'

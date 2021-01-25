@@ -258,6 +258,7 @@ const CraeteProduct = props => {
                     xs={12}
                 >
                     <CKEditor
+                        config={{placeholder: "Masukan deskripsi produk anda disini"}}
                         data={formState.values.description}
                         onChange={handleChangeEditor}
                     />

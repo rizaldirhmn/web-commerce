@@ -165,7 +165,7 @@ const Product = props => {
                                             className={classes.inline}
                                             color="textPrimary"
                                         >
-                                            -
+                                            {item.sku}
                                         </Typography>
                                     </React.Fragment>
                                 }
