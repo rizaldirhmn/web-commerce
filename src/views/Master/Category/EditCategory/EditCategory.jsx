@@ -11,13 +11,11 @@ import {
     CircularProgress,
     CardMedia,
     CardActionArea,
-    CardActions
 } from '@material-ui/core'
-import {Delete as DeleteIcon} from '@material-ui/icons';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers"
 import * as yup from "yup";
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 // redux
 import { connect } from 'react-redux'
 // import { getProvince, getCities, getDistrict, getVillage } from '../../../../store/actions/province'
@@ -57,6 +55,7 @@ const SchemaValidation = yup.object().shape({
 const CreateCategory = props => {
     const classes = useStyles()
     const history = useHistory()
+    const params = useParams()
     const {
         onUploadImage,
         onAlert,
@@ -65,7 +64,8 @@ const CreateCategory = props => {
         loadingUploadImage,
         loadingAddCategory,
         onClearImageCategory,
-        onDeleteImage
+        onGetDetailCategory,
+        loadingDetailCategory
     } = props
 
     const { register, handleSubmit, errors } = useForm({
@@ -122,18 +122,6 @@ const CreateCategory = props => {
                     title="image upload"
                     />
                 </CardActionArea>
-                <CardActions>
-                    <Button
-                    variant="contained"
-                    color="secondary"
-                    className={classes.buttonDelete}
-                    startIcon={<DeleteIcon />}
-                    onClick={() => onDeleteImage()}
-                    fullWidth
-                    >
-                    Delete
-                    </Button>
-                </CardActions>
                 </Card>
             </Grid>
             {/* ))} */}
@@ -141,22 +129,21 @@ const CreateCategory = props => {
         );
     };
 
-    console.log(imageUrl)
-
     // let loadingUploadImages = null;
     // if (loadingUploadImage) {
     //     loadingUploadImages = <Loading/>
     // }
 
     const onSubmit = e => {
-        onSubmitCategory(formState.values, imageUrl.url, history)
+        onSubmitCategory(params.id, formState.values, imageUrl.url, history)
     }
 
     useEffect(() => {
         onClearImageCategory()
-    }, [onClearImageCategory])
+        onGetDetailCategory(params.id, setFormState)
+    }, [onClearImageCategory, onGetDetailCategory, params])
 
-    return loadingAddCategory || loadingUploadImage ? 
+    return loadingAddCategory || loadingUploadImage || loadingDetailCategory ? 
     <Backdrop className={classes.backdrop} open>
         <CircularProgress color="inherit" />
     </Backdrop>
@@ -195,7 +182,7 @@ const CreateCategory = props => {
                                     fullWidth
                                     name="name"
                                     label="Category Name"
-                                    defaultValue={formState.values.name || ''}
+                                    value={formState.values.name || ''}
                                     onChange={handleChange}
                                     helperText={
                                         errors.name && errors.name.message
@@ -260,6 +247,7 @@ const mapStateToProps = state => {
         loadingAddCategory: state.category.loadingAddCategory,
         loadingUploadImage: state.categoryImage.loadingUploadImage,
         imageUrl: state.categoryImage.urlImage,
+        loadingDetailCategory: state.category.loadingDetailCategory
     }
 }
 
@@ -267,9 +255,10 @@ const mapDispatchToProps = dispatch => {
     return {
       onUploadImage: (storeData) => dispatch(actions.uploadCategoryImage(storeData)),
       onAlert: (message, status) => dispatch(actions.setAlert(message, status)),
-      onSubmitCategory: (formData, imageUrl, history) => dispatch(actions.addCategory(formData, imageUrl, history)),
+      onSubmitCategory: (id, formData, imageUrl, history) => dispatch(actions.updateCategory(id, formData, imageUrl, history)),
       onClearImageCategory: () => dispatch(actions.onClearImageCategory()),
-      onDeleteImage: () => dispatch(actions.deleteImageCategory()),
+      onGetDetailCategory: (id, setFormState) => dispatch(actions.getDetailCategory(id, setFormState))
+    //   onDeleteImage: (index) => dispatch(actions.deleteImageProduct(index)),
     }
 }
 

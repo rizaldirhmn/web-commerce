@@ -14,3 +14,12 @@ export {
   deleteImageProduct,
   editDeleteImageProduct
 } from './Product/product'
+
+export {
+  addCategory,
+  onClearImageCategory,
+  uploadCategoryImage,
+  getDetailCategory,
+  updateCategory,
+  deleteImageCategory
+} from './Master/category'

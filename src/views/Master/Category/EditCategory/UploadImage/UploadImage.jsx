@@ -84,7 +84,7 @@ const rejectStyle = {
 
 export default function Dropzone(props) {
     const classes = useStyles();
-	const { handleChangeBanner } = props;
+	const { handleChangeImage } = props;
 
     const [files, setFiles] = useState([]);
 
@@ -96,12 +96,13 @@ export default function Dropzone(props) {
         isDragReject,
     } = useDropzone({
             accept: 'image/*',
+            multiple: false,
             onDrop: acceptedFiles => {
             setFiles(acceptedFiles.map(file => Object.assign(file, {
             preview: URL.createObjectURL(file)
         })));
     },
-    onDropAccepted: handleChangeBanner,
+    onDropAccepted: handleChangeImage,
   });
   // console.log(files)
 

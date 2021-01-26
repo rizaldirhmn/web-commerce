@@ -9,6 +9,7 @@ import category from './Master/category'
 import province from './province'
 import product from './Product/product'
 import productImage from './Product/productImage'
+import categoryImage from './Master/categoryImage'
 import paymentConfirmationReducer from './PaymentConfirmation/paymentConfirmationReducer'
 
 export default combineReducers({
@@ -22,5 +23,6 @@ export default combineReducers({
     category,
     product,
     paymentConfirmationReducer,
-    productImage
+    productImage,
+    categoryImage
 })

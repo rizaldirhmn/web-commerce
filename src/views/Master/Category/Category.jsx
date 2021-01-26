@@ -15,32 +15,14 @@ import {
     CircularProgress,
     Grid,
     Typography,
-    Button
+    Button,
+    Tooltip,
+    IconButton
 } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom'
 
 import { connect } from 'react-redux'
-import { getCategory } from '../../../store/actions/Master/category'
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Donut', 452, 25.0, 51, 4.9),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Honeycomb', 408, 3.2, 87, 6.5),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Jelly Bean', 375, 0.0, 94, 0.0),
-  createData('KitKat', 518, 26.0, 65, 7.0),
-  createData('Lollipop', 392, 0.2, 98, 0.0),
-  createData('Marshmallow', 318, 0, 81, 2.0),
-  createData('Nougat', 360, 19.0, 9, 37.0),
-  createData('Oreo', 437, 18.0, 63, 4.0),
-];
+import { getCategoryPaginate, deleteCategory } from '../../../store/actions/Master/category'
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -69,10 +51,10 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'no', numeric: false, disablePadding: false, label: 'No' },
-  { id: 'name', numeric: false, disablePadding: false, label: 'Category Name' },
-  { id: 'imageUrl', numeric: true, disablePadding: false, label: 'Image' },
-  { id: 'actions', numeric: true, disablePadding: false, label: 'Action' },
+  { id: 'no', disablePadding: false, label: 'No' },
+  { id: 'name', disablePadding: false, label: 'Category Name' },
+  { id: 'imageUrl', disablePadding: false, label: 'Image' },
+  { id: 'actions', disablePadding: false, label: 'Action' },
 ];
 
 function EnhancedTableHead(props) {
@@ -180,31 +162,23 @@ const CustomRouterLink = forwardRef((props, ref) => (
 const Category = props => {
   const classes = useStyles();
   const {
-    getCategory,
+    getCategoryPaginate,
+    deleteCategory,
     category: {
-        categoryList,
-        loadingCategory
+        categoryListPagination,
+        loadingCategory,
+        loadingAddCategory
     }
   } = props
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('name');
-  const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(15);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -220,11 +194,15 @@ const Category = props => {
 
   let no = 1
 
-  useEffect(() => {
-      getCategory(page+1)
-  }, [getCategory, page])
+  const onDeleteCategory = (id) => {
+    deleteCategory(id)
+  }
 
-  return loadingCategory ? 
+  useEffect(() => {
+      getCategoryPaginate(page+1)
+  }, [getCategoryPaginate, page])
+
+  return loadingCategory || loadingAddCategory ? 
   <Backdrop className={classes.backdrop} open>
       <CircularProgress color="inherit" />
   </Backdrop>
@@ -271,15 +249,13 @@ const Category = props => {
                     >
                         <EnhancedTableHead
                         classes={classes}
-                        numSelected={selected.length}
                         order={order}
                         orderBy={orderBy}
-                        onSelectAllClick={handleSelectAllClick}
                         onRequestSort={handleRequestSort}
-                        rowCount={rows.length}
+                        rowCount={categoryListPagination.total}
                         />
                         <TableBody>
-                        {stableSort(categoryList.data, getComparator(order, orderBy))
+                        {stableSort(categoryListPagination.data, getComparator(order, orderBy))
                             // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => {
                             // const isItemSelected = isSelected(row.name);
@@ -297,11 +273,26 @@ const Category = props => {
                                 >
                                     <TableCell id={labelId}>{no++}</TableCell>
                                     <TableCell>{row.name}</TableCell>
-                                    <TableCell align="right">
+                                    <TableCell>
                                         <img src={row.image_url}n width={100} alt=""/>
                                     </TableCell>
-                                    <TableCell align="right">
-                                    
+                                    <TableCell>
+                                      <Grid container spacing={2}>
+                                        <Grid item>
+                                          <Tooltip arrow title="Edit Category">
+                                            <IconButton component={CustomRouterLink} to={`/category/edit/${row.id}`}>
+                                              <img src={`${process.env.PUBLIC_URL}/images/icon/edit.svg`} alt="Dashboard" />
+                                            </IconButton>
+                                          </Tooltip>
+                                        </Grid>
+                                        <Grid item>
+                                          <Tooltip arrow title="Delete Category">
+                                            <IconButton onClick={() => onDeleteCategory(row.id)}>
+                                              <img src={`${process.env.PUBLIC_URL}/images/icon/cancel.svg`} alt="Dashboard" />
+                                            </IconButton>
+                                          </Tooltip>
+                                        </Grid>
+                                      </Grid>
                                     </TableCell>
                                 </TableRow>
                             );
@@ -317,7 +308,7 @@ const Category = props => {
                     <TablePagination
                     rowsPerPageOptions={[15]}
                     component="div"
-                    count={categoryList.total}
+                    count={categoryListPagination.total}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onChangePage={handleChangePage}
@@ -334,4 +325,4 @@ const mapStateToProps = state => ({
     category: state.category
 })
 
-export default connect(mapStateToProps, { getCategory })(Category)
+export default connect(mapStateToProps, { getCategoryPaginate, deleteCategory })(Category)
