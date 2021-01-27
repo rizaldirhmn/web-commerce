@@ -37,6 +37,7 @@ import {
   updateSendStatus,
   updateAbortStatus
 } from '../../../store/actions/PaymentConfirmation/PaymentConfirmationAction'
+import { Skeleton } from '@material-ui/lab';
 // import {  } from '../../../store/actions/PaymentConfirmation/PaymentConfirmationAction'
 
 function descendingComparator(a, b, orderBy) {
@@ -243,7 +244,7 @@ const TablePaymentConfirmation = props => {
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('calories');
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [rowsPerPage, setRowsPerPage] = React.useState(15);
     const {
         getConfirmationPayment,
         updateStatus,
@@ -339,11 +340,11 @@ const TablePaymentConfirmation = props => {
 
     // console.log(confirmPaymentList)
     let no = 1
-    if(!loadingConfirmPaymentList || confirmPaymentList !== null){
+    if(!loadingConfirmPaymentList && confirmPaymentList !== null){
         no = confirmPaymentList.from
     }
 
-    return loadingConfirmPaymentList || loadingUpdatePaymentStatus || loadingSendStatus || loadingAbortStatus ?
+    return confirmPaymentList === null || loadingUpdatePaymentStatus || loadingSendStatus || loadingAbortStatus ?
     <Backdrop className={classes.backdrop} open>
         <CircularProgress color="inherit" />
     </Backdrop>
@@ -366,65 +367,85 @@ const TablePaymentConfirmation = props => {
                         rowCount={confirmPaymentList.total}
                     />
                     <TableBody>
-                    {stableSort(confirmPaymentList.data, getComparator(order, orderBy))
-                        // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        .map((row, index) => {
-                        return (
-                            <TableRow
-                                hover
-                                tabIndex={-1}
-                                key={row.name}
-                            >
-                                <TableCell>{no++}</TableCell>
-                                <TableCell>{row.checkout.user.name}</TableCell>
-                                <TableCell>{row.checkout.user.number_handphone}</TableCell>
-                                <TableCell>{row.checkout.total_price}</TableCell>
-                                <TableCell>{row.checkout.total_price_plus_ongkir}</TableCell>
-                                <TableCell>
-                                    {row.status === '2' && (
-                                        <Typography variant='p'>
-                                            Menunggu Konfirmasi
-                                        </Typography>
-                                    )}
-                                    {row.status === '3' && (
-                                        <Typography variant='p'>
-                                            Pesanan Diproses
-                                        </Typography>
-                                    )}
-                                    {row.status === '4' && (
-                                        <Typography variant='p'>
-                                            Barang Sedang Dikirim
-                                        </Typography>
-                                    )}
-                                    {row.status === '5' && (
-                                        <Typography variant='p'>
-                                            Pesanan Dibatalkan
-                                        </Typography>
-                                    )}
-                                    {row.status === '6' && (
-                                        <Typography variant='p'>
-                                            Pesanan Selesai
-                                        </Typography>
-                                    )}
-                                </TableCell>
-                                <TableCell>
-                                    <Link href={row.image} target="_blank">Download Bukti Bayar</Link>
-                                </TableCell>
-                                <TableCell>
-                                  <Tooltip arrow title="Konfirmasi">
-                                    <IconButton onClick={() => handleOpenConfirmationDialog(row)}>
-                                        <img src={`${process.env.PUBLIC_URL}/images/icon/edit.svg`} alt="Dashboard" />
-                                    </IconButton>
-                                  </Tooltip>
-                                  <Tooltip arrow title="Batalakan">
-                                    <IconButton onClick={() => handleOpenAbortDialog(row)}>
-                                        <img src={`${process.env.PUBLIC_URL}/images/icon/cancel.svg`} alt="Dashboard" />
-                                    </IconButton>
-                                  </Tooltip>
-                                </TableCell>
-                            </TableRow>
-                        );
-                        })}
+                      {!loadingConfirmPaymentList ? (
+                        <>
+                        {stableSort(confirmPaymentList.data, getComparator(order, orderBy))
+                            // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row, index) => {
+                            return (
+                                <TableRow
+                                    hover
+                                    tabIndex={-1}
+                                    key={row.name}
+                                >
+                                    <TableCell>{no++}</TableCell>
+                                    <TableCell>{row.checkout.user.name}</TableCell>
+                                    <TableCell>{row.checkout.user.number_handphone}</TableCell>
+                                    <TableCell>{row.checkout.total_price}</TableCell>
+                                    <TableCell>{row.checkout.total_price_plus_ongkir}</TableCell>
+                                    <TableCell>
+                                        {row.status === '2' && (
+                                            <Typography variant='p'>
+                                                Menunggu Konfirmasi
+                                            </Typography>
+                                        )}
+                                        {row.status === '3' && (
+                                            <Typography variant='p'>
+                                                Pesanan Diproses
+                                            </Typography>
+                                        )}
+                                        {row.status === '4' && (
+                                            <Typography variant='p'>
+                                                Barang Sedang Dikirim
+                                            </Typography>
+                                        )}
+                                        {row.status === '5' && (
+                                            <Typography variant='p'>
+                                                Pesanan Dibatalkan
+                                            </Typography>
+                                        )}
+                                        {row.status === '6' && (
+                                            <Typography variant='p'>
+                                                Pesanan Selesai
+                                            </Typography>
+                                        )}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Link href={row.image} target="_blank">Download Bukti Bayar</Link>
+                                    </TableCell>
+                                    <TableCell>
+                                      {row.status !== '4' ? (
+                                        <Tooltip arrow title="Konfirmasi">
+                                          <IconButton onClick={() => handleOpenConfirmationDialog(row)}>
+                                              <img src={`${process.env.PUBLIC_URL}/images/icon/edit.svg`} alt="Dashboard" />
+                                          </IconButton>
+                                        </Tooltip>
+                                      ):(
+                                        <Tooltip arrow title="Sudah tidak dapat di konfirmasi">
+                                          <IconButton>
+                                              <img src={`${process.env.PUBLIC_URL}/images/icon/edit.svg`} alt="Dashboard" />
+                                          </IconButton>
+                                        </Tooltip>
+                                      )}
+                                      {row.status === '2' && (
+                                        <Tooltip arrow title="Batalakan">
+                                          <IconButton onClick={() => handleOpenAbortDialog(row)}>
+                                              <img src={`${process.env.PUBLIC_URL}/images/icon/cancel.svg`} alt="Dashboard" />
+                                          </IconButton>
+                                        </Tooltip>
+                                      )}
+                                    </TableCell>
+                                </TableRow>
+                            );
+                            })}
+                        </>
+                      ):(
+                        <TableRow>
+                          <TableCell colsPan={8}>
+                            <Skeleton></Skeleton>
+                          </TableCell>
+                        </TableRow>
+                      )}
                         {/* {emptyRows > 0 && (
                             <TableRow style={{ height: 33 * emptyRows }}>
                                 <TableCell colSpan={6} />
@@ -434,7 +455,7 @@ const TablePaymentConfirmation = props => {
                 </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={confirmPaymentList.per_page}
+                    rowsPerPageOptions={[15]}
                     component="div"
                     count={confirmPaymentList.total}
                     rowsPerPage={rowsPerPage}
@@ -443,6 +464,25 @@ const TablePaymentConfirmation = props => {
                     onChangeRowsPerPage={handleChangeRowsPerPage}
                 />
             </Paper>
+            <Dialog
+                fullWidth
+                open={openConfirmationDialog.open}
+                onClose={() => handleCloseConfirmationDialog(openConfirmationDialog.item)}
+            >
+                {/* <form onSubmit={onUpdateStatus(openConfirmationDialog.item)}> */}
+                    <DialogTitle id="customized-dialog-title" onClose={() => handleCloseConfirmationDialog(openConfirmationDialog.item)}>
+                        Konfirmasi Pembelian/Pembayaran
+                    </DialogTitle>
+                    <DialogContent>
+                        Apakah anda ingin mengkonfirmasi pembelian ini menjadi ?
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => onUpdateStatus(openConfirmationDialog.item)} className={classes.button}>
+                            Ya
+                        </Button>
+                    </DialogActions>
+                {/* </form> */}
+            </Dialog>
             <Dialog
                 fullWidth
                 open={openConfirmationDialog.open}

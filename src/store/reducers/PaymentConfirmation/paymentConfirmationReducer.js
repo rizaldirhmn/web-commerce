@@ -8,17 +8,27 @@ const initialState = {
     loadingAbortStatus: false,
     loadingSendStatus: false,
     loadingUpdatePaymentStatus: false,
-    loadingConfirmPaymentList: true,
+    loadingConfirmPaymentList: false,
     error: {}
 }
 
 export default function (state = initialState, action) {
     const { type, payload } = action
     switch (type) {
+        case actions.GET_PAYMENT_CONFIRMATION_START:
+            return {
+                ...state,
+                loadingConfirmPaymentList: true
+            }
         case actions.GET_PAYMENT_CONFIRMATION:
             return {
                 ...state,
                 confirmPaymentList: payload,
+                loadingConfirmPaymentList: false
+            }
+        case actions.GET_PAYMENT_CONFIRMATION_FAIL:
+            return {
+                ...state,
                 loadingConfirmPaymentList: false
             }
         case actions.UPDATE_STATUS_CONFIRMATION_START:

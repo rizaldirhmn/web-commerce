@@ -3,6 +3,9 @@ import axios from 'axios'
 import { setAlert } from '../alert'
 
 export const getConfirmationPayment = (page, status) => async dispatch => {
+    dispatch({
+        type: actions.GET_PAYMENT_CONFIRMATION_START,
+    })
   const endpoint = `${process.env.REACT_APP_BASE_URL}api/admin/bukti_pembayaran/filter?page=${page}&status=${status}`
     try {
         const res = await axios({
@@ -23,8 +26,7 @@ export const getConfirmationPayment = (page, status) => async dispatch => {
         dispatch(setAlert("Something went wrong", "error"))
         console.log(error)
         dispatch({
-            type: actions.GET_PAYMENT_CONFIRMATION,
-            payload: error
+            type: actions.GET_PAYMENT_CONFIRMATION_FAIL,
         })
         // dispatch({
         //     payload: { msg: error.response.statusText, status: error.response.status },
@@ -54,6 +56,7 @@ export const updateStatus = (data, history) => async dispatch => {
               payload: res.data
           })
           dispatch(setAlert("Status berhasil diubah", "success"))
+          dispatch(getConfirmationPayment(1, 2))
           history.push('/payment-confirmation')
   
       } catch (error) {
@@ -91,6 +94,7 @@ export const updateSendStatus = (data, history) => async dispatch => {
               payload: res.data
           })
           dispatch(setAlert("Status berhasil diubah", "success"))
+          dispatch(getConfirmationPayment(1, 3))
           history.push('/payment-confirmation')
   
       } catch (error) {
@@ -128,6 +132,7 @@ export const updateAbortStatus = (data, history) => async dispatch => {
               payload: res.data
           })
           dispatch(setAlert("Status berhasil diubah", "success"))
+          dispatch(getConfirmationPayment(1, 2))
           history.push('/payment-confirmation')
   
       } catch (error) {
