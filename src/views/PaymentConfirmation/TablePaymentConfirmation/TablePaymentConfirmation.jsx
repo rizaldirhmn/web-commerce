@@ -414,7 +414,7 @@ const TablePaymentConfirmation = props => {
                                         <Link href={row.image} target="_blank">Download Bukti Bayar</Link>
                                     </TableCell>
                                     <TableCell>
-                                      {row.status !== '4' ? (
+                                      {row.status !== '4' && row.status !== '5' && row.status !== '6' ? (
                                         <Tooltip arrow title="Konfirmasi">
                                           <IconButton onClick={() => handleOpenConfirmationDialog(row)}>
                                               <img src={`${process.env.PUBLIC_URL}/images/icon/edit.svg`} alt="Dashboard" />

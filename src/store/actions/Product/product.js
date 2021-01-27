@@ -2,11 +2,11 @@ import * as actions from '../actionTypes'
 import axios from 'axios'
 import { setAlert } from '../alert'
 
-export const getProduct = (page) => async dispatch => {
+export const getProduct = (page, search) => async dispatch => {
     dispatch({
         type: actions.GET_PRODUCT_START,
     })
-    const endpoint = `${process.env.REACT_APP_BASE_URL}api/admin/product/paginate?page=${page}`
+    const endpoint = `${process.env.REACT_APP_BASE_URL}api/admin/product/search?kata_kunci=${search}&page=${page}`
     try {
         const res = await axios({
             url: endpoint,
