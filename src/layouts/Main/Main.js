@@ -331,7 +331,7 @@ const Main = props => {
                 <img src={`${process.env.PUBLIC_URL}/images/icon/wallet.svg`} alt="Dashboard" />
               </div>
               <div className={classes.textMenu}>
-                Payment Confirmation
+                Konfirmasi Pesanan
               </div>
           </Button>
         </ListItem>

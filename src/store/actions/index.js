@@ -21,12 +21,15 @@ export {
   addCollection,
   uploadProductCollectionImage,
   onClearImageProductCollection,
-  deleteImageCollection
+  deleteImageCollection,
+  fetchDetailCollection
 } from './Product/collection'
 
 export {
   uploadCollectionProductList,
-  deleteProductList
+  deleteProductList,
+  editDeleteProductCollection,
+  addProductCollectionEdit
 } from './Product/collectionProduct'
 
 export {

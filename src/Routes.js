@@ -18,7 +18,8 @@ import {
   EditProduct as EditProductView,
   EditCategory as EditCategoryView,
   Collection as CollectionView,
-  CreateCollection as CreateCollectionView
+  CreateCollection as CreateCollectionView,
+  EditCollection as EditCollectionView
 } from './views';
 
 const Routes = () => {
@@ -120,6 +121,13 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/product/collection/create"
+      />
+
+      <RouteWithLayout
+        component={EditCollectionView}
+        exact
+        layout={MainLayout}
+        path="/product/collection/edit/:id"
       />
 
       <RouteWithLayout

@@ -1,0 +1,390 @@
+import React, { useState, Fragment, useEffect } from 'react'
+import { makeStyles } from '@material-ui/styles'
+import { 
+    Card, 
+    CardContent, 
+    Grid, 
+    TextField, 
+    Typography, 
+    Button,
+    Backdrop,
+    CircularProgress,
+    CardMedia,
+    CardActionArea,
+    CardActions,
+    Dialog,
+    DialogContent,
+    CardHeader
+} from '@material-ui/core'
+import {Delete as DeleteIcon} from '@material-ui/icons';
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers"
+import * as yup from "yup";
+import { useHistory, useParams } from 'react-router-dom'
+// redux
+import { connect } from 'react-redux'
+// import { getProvince, getCities, getDistrict, getVillage } from '../../../../store/actions/province'
+// import { addCategory } from '../../../../store/actions/Master/category'
+import {
+    Dropzone
+} from '../../../components/UI';
+import * as actions from '../../../store/actions'
+
+import {
+    ListProduct
+} from './components'
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        padding: theme.spacing(4)
+    },
+    title: {
+        fontFamily: 'Montserrat'
+    },
+    select: {
+        minHeight: 40,
+    },
+    card: {
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+        overflow: 'visible'
+    },
+    backdrop: {
+		zIndex: theme.zIndex.drawer + 1,
+		color: '#fff',
+    },
+    media: {
+		height: 140,
+	},
+}))
+
+const SchemaValidation = yup.object().shape({
+    name: yup.string().required("Warehouse Name cannot be Null"),
+})
+
+const EditCollection = props => {
+    const classes = useStyles()
+    const history = useHistory()
+    const params = useParams()
+    const {
+        onUploadImage,
+        onAlert,
+        onSubmitCollection,
+        imageUrl,
+        loadingUploadImage,
+        loadingAddCollection,
+        onClearImageProductCollection,
+        onDeleteImage,
+        onAddProductList,
+        loadingProductList,
+        productList,
+        onDeleteProductList,
+        onFetchDetailCollection,
+        loadingDetailCollection,
+        onAddProductCollection,
+        loadingAddProduct
+    } = props
+
+    const { register, handleSubmit, errors } = useForm({
+		resolver: yupResolver(SchemaValidation)
+    });
+
+    const [formState, setFormState] = useState({
+        values: {},
+    });
+
+    const [ openDialogProduct, setOpenDialogProduct ] = useState(false)
+
+    const handleOpenDialogProduct = () => {
+        setOpenDialogProduct(true)
+    }
+
+    const handleCloseDialogProduct = () => {
+        setOpenDialogProduct(false)
+    }
+
+    const handleChange = event => {
+        event.persist();
+    
+        setFormState(formState => ({
+          ...formState,
+          values: {
+            ...formState.values,
+            [event.target.name]: 
+                event.target.type === 'checkbox'
+                ? event.target.checked
+                : event.target.value
+          }
+        }));
+    };
+
+    const [image, setImage] = useState('');
+
+    const handleChangeBanner = event => {
+        setImage(event)
+        let reader = new FileReader();
+        reader.readAsDataURL(event[0]);
+        reader.onload = function(){
+            // setB64(reader.result);
+
+            if(event[0].size < 5000000){
+                onUploadImage(reader.result.split(',')[1]);
+            }else{
+                onAlert('maksimal file 4 mb', 'error')
+            }
+        }
+    }
+
+    let imageUpload = '';
+    if(imageUrl !== null){
+        imageUpload = (
+        <Fragment>
+            {/* {imageUrl.map((image, index) => ( */}
+            <Grid key={imageUrl.url} item lg={3} md={3} sm={12} xs={12}>
+                <Card>
+                <CardActionArea>
+                    <CardMedia
+                    style={{height: '140px'}}
+                    image={imageUrl.url}
+                    title="image upload"
+                    />
+                </CardActionArea>
+                <CardActions>
+                    <Button
+                    variant="contained"
+                    color="secondary"
+                    className={classes.buttonDelete}
+                    startIcon={<DeleteIcon />}
+                    onClick={() => onDeleteImage()}
+                    fullWidth
+                    >
+                    Delete
+                    </Button>
+                </CardActions>
+                </Card>
+            </Grid>
+            {/* ))} */}
+        </Fragment>
+        );
+    };
+
+    // let loadingUploadImages = null;
+    // if (loadingUploadImage) {
+    //     loadingUploadImages = <Loading/>
+    // }
+
+    const handleAddProductList = (event) => {
+        onAddProductList(event)
+    }
+
+    const onSubmit = e => {
+        onSubmitCollection(formState.values, imageUrl.url, productList, history)
+    }
+
+    const onSubmitProductCollection = () => {
+        onAddProductCollection(params.id, productList, history)
+    }
+
+    useEffect(() => {
+        onClearImageProductCollection()
+        onFetchDetailCollection(params.id, setFormState)
+    }, [onClearImageProductCollection, params, onFetchDetailCollection, setFormState])
+
+    console.log(productList)
+
+    return loadingAddCollection || loadingUploadImage || loadingProductList || loadingDetailCollection || loadingAddProduct ? 
+    <Backdrop className={classes.backdrop} open>
+        <CircularProgress color="inherit" />
+    </Backdrop>
+    :
+    <Fragment>
+        <div className={classes.root}>
+            <Grid
+                container
+                spacing={2}
+            >
+                <Grid
+                    item
+                    lg={12}
+                >
+                    <Typography variant="h4" className={classes.title}>
+                        Create New Collection
+                    </Typography>
+                </Grid>
+            </Grid>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <Card className={classes.card}>
+                    <CardContent>
+                        <Grid
+                            container
+                            spacing={2}
+                        >
+                            <Grid
+                                item
+                                xl={6}
+                                lg={6}
+                                md={6}
+                                sm={12}
+                                xs={12}
+                            >
+                                <TextField 
+                                    fullWidth
+                                    name="name"
+                                    label="Collection Name"
+                                    value={formState.values.name || ''}
+                                    onChange={handleChange}
+                                    helperText={
+                                        errors.name && errors.name.message
+                                    }
+                                    error={errors.name && true}
+                                    inputRef={register}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Grid
+                            container
+                            spacing={2}
+                        >
+                            <Grid
+                                item
+                                xl={12}
+                                lg={12}
+                                md={12}
+                                sm={12}
+                                xs={12}
+                            >
+                                <Dropzone
+                                    multiple={false}
+                                    fileType={'image/*'}
+                                    value={image}
+                                    handleChangeBanner={handleChangeBanner}
+                                />
+                                <Grid container spacing={2}>
+                                    <Grid item lg={12} md={12} sm={12} xs={12}>
+                                        <Grid container spacing={2}>
+                                            {imageUpload}
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        
+                    </CardContent>
+                </Card>
+                
+                <Grid 
+                    container
+                    spacing={2}
+                    justify='space-between'
+                >
+                    <Grid
+                        item
+                    >
+                        <Typography variant="subtitle1" className={classes.title}>
+                            Pastikan bahwa data yang anda masukan benar
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <Button fullWidth variant="contained" type="submit" color="primary">Simpan</Button>
+                    </Grid>
+                </Grid>
+            </form>
+            <Card className={classes.card}>
+                <CardHeader
+                    title="Product List"
+                />
+                <CardContent>
+                    <Grid
+                        container
+                        spacing={2}
+                    >
+                        <Grid item>
+                            <Button className={classes.button} fullWidth onClick={handleOpenDialogProduct}>
+                                + Tambah produk
+                            </Button>
+                        </Grid>
+                    </Grid>
+                    <Grid
+                        container
+                        spacing={2}
+                    >
+                        {productList.map((item, index) => (
+                            <Grid item lg={3} md={3} sm={6} xs={12}>
+                                <Card>
+                                    <CardMedia
+                                        square
+                                        className={classes.media}
+                                        image={item.image.url}
+                                        title={item.name}
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            {item.name}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Button onClick={() => onDeleteProductList(item.id_collection, item.id_product_new)}>
+                                            Delete
+                                        </Button>
+                                    </CardActions>
+                                </Card>
+                            </Grid>
+                        ))}
+                    </Grid>
+                    <Grid 
+                        container
+                        spacing={2}
+                        justify='space-between'
+                    >
+                        <Grid
+                            item
+                        >
+                            <Typography variant="subtitle1" className={classes.title}>
+                                Silahkan klik simpan setelah menambah Produk
+                            </Typography>
+                        </Grid>
+                        <Grid item>
+                            <Button fullWidth variant="contained" type="button" onClick={onSubmitProductCollection} color="primary">Simpan</Button>
+                        </Grid>
+                    </Grid>
+                </CardContent>
+            </Card>
+        </div>
+        <Dialog
+            open={openDialogProduct}
+            onClose={handleCloseDialogProduct}
+        >
+            <DialogContent>
+                <ListProduct handleAddProductList={handleAddProductList} />
+            </DialogContent>
+        </Dialog>
+    </Fragment>
+}
+
+const mapStateToProps = state => {
+    return {
+        loadingAddCollection: state.collection.loadingAddCollection,
+        loadingUploadImage: state.collectionImage.loadingUploadImage,
+        imageUrl: state.collectionImage.urlImage,
+        loadingProductList : state.collectionProduct.loadingProductList,
+        productList : state.collectionProduct.productList,
+        loadingDetailCollection: state.collection.loadingDetailCollection,
+        loadingAddProduct: state.collectionProduct.loadingAddProduct
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+      onUploadImage: (storeData) => dispatch(actions.uploadProductCollectionImage(storeData)),
+      onAlert: (message, status) => dispatch(actions.setAlert(message, status)),
+      onSubmitCollection: (formData, imageUrl, productList, history) => dispatch(actions.addCollection(formData, imageUrl, productList, history)),
+      onClearImageProductCollection: () => dispatch(actions.onClearImageProductCollection()),
+      onDeleteImage: () => dispatch(actions.deleteImageCollection()),
+      onAddProductList: (data) => dispatch(actions.uploadCollectionProductList(data)),
+      onDeleteProductList: (id_collection, id_product) => dispatch(actions.editDeleteProductCollection(id_collection, id_product)),
+      onFetchDetailCollection: (id, setFormState) => dispatch(actions.fetchDetailCollection(id, setFormState)),
+      onAddProductCollection: (idCollection, productList, history) => dispatch(actions.addProductCollectionEdit(idCollection, productList, history))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditCollection)

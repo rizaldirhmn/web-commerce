@@ -50,6 +50,67 @@ import { setAlert } from '../alert'
       
   }
 
+// Fetching Detail Collection
+  export const fetchDetailCollectionStart = () => {
+      return {
+        type: actions.GET_DETAIL_PRODUCT_COLLECTION_START
+      }
+  }
+    
+  export const fetchDetailCollectionSuccess = (payload) => {
+      return {
+        type: actions.GET_DETAIL_PRODUCT_COLLECTION,
+        collectionDetail: payload
+      }
+  }
+    
+  export const fetchDetailCollectionFail = (error) => {
+      return {
+        type: actions.GET_DETAIL_PRODUCT_COLLECTION_FAIL,
+        error: error
+      }
+  }
+    
+  export const fetchDetailCollection = (id, setFormState) => async dispatch => {
+      dispatch(fetchDetailCollectionStart())
+      const endpoint = `${process.env.REACT_APP_BASE_URL}api/admin/collection/${id}`
+      try {
+          const res = await axios({
+              url: endpoint,
+              method: "GET",
+              headers: { 
+                'Content-Type': 'application/json', 
+                'Accept' : 'application/json', 
+                'Authorization' : `Bearer ${sessionStorage.getItem('access_token')}`
+              }
+          });
+          dispatch(fetchDetailCollectionSuccess(res.data.collection))
+          setFormState({
+            values: {
+              name: res.data.collection.name
+            }
+          })
+          dispatch({
+            type: actions.UPLOAD_PRODUCT_COLLECTION_IMAGE_EDIT_SUCCESS,
+            url: res.data.collection.image
+          })
+          dispatch({
+            type: actions.UPLOAD_PRODUCT_COLLECTION_LIST_EDIT_SUCCESS,
+            data: res.data.collection.collection_product 
+          })
+
+      } catch (error) {
+          dispatch(setAlert("Something went wrong", "error"))
+          console.log(error)
+          dispatch(fetchDetailCollectionFail(error))
+          // dispatch({
+          //     payload: { msg: error.response.statusText, status: error.response.status },
+          //     type: STAGE_ERROR
+          // })
+      }
+      
+  }
+
 // Adding Collection
   export const addCollectionStart = () => {
     return {
@@ -173,3 +234,9 @@ import { setAlert } from '../alert'
         index: index
       };
   };
+
+  export const onClearProductList = () => async dispatch => {
+      dispatch({
+          type: actions.ON_CLEAR_UPLOAD_PRODUCT_COLLECTION_LIST
+      })
+  }

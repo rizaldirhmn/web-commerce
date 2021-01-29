@@ -5,11 +5,13 @@ const initialState = {
   error: {},
   collectionList: null,
   collectionData: null,
+  collectionDetail: null,
+  loadingDetailcollection: false,
   loadingAddCollection: false,
   loadingFetchCollection: false,
 }
 
-const fetchProductCollectionStart = (state, action) => {
+const fetchProductCollectionStart = (state) => {
   return updateObject(state, {
     loadingFetchCollection: true,
   })
@@ -26,6 +28,26 @@ const fetchProductCollectionFail = (state, action) => {
     return updateObject(state, {
       error: action.error,
       loadingFetchCollection: false
+    })
+}
+
+const fetchDetailProductCollectionStart = (state) => {
+  return updateObject(state, {
+    loadingDetailcollection: true,
+  })
+}
+
+const fetchDetailProductCollection = (state, action) => {
+  return updateObject(state, {
+    collectionDetail: action.collectionDetail,
+    loadingDetailcollection: false
+  })
+}
+
+const fetchDetailProductCollectionFail = (state, action) => {
+    return updateObject(state, {
+      error: action.error,
+      loadingDetailcollection: false
     })
 }
 
@@ -57,6 +79,9 @@ const reducer = (state = initialState, action) => {
     case actionTypes.ADD_PRODUCT_COLLECTION_START: return addProductCollectionStart(state, action)
     case actionTypes.ADD_PRODUCT_COLLECTION_SUCCESS: return addProductCollection(state, action)
     case actionTypes.ADD_PRODUCT_COLLECTION_FAIL: return addProductCollectionFail(state, action)
+    case actionTypes.GET_DETAIL_PRODUCT_COLLECTION_START: return fetchDetailProductCollectionStart(state)
+    case actionTypes.GET_DETAIL_PRODUCT_COLLECTION: return fetchDetailProductCollection(state, action)
+    case actionTypes.GET_DETAIL_PRODUCT_COLLECTION_FAIL: return fetchDetailProductCollectionFail(state, action)
     default: return state
   }
 }

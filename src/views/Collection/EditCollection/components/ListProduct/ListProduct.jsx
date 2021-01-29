@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment, forwardRef, useState } from 'react'
+import React, { useEffect, Fragment, useState } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import { 
     Grid,
@@ -13,11 +13,11 @@ import {
     Paper,
     InputBase
 } from '@material-ui/core'
-import { Link as RouterLink } from 'react-router-dom'
 import TablePagination from '@material-ui/core/TablePagination'
 
 import { connect } from 'react-redux'
-import * as actions from '../../store/actions';
+import { getProduct } from '../../../../../store/actions/Product/product'
+import NumberFormat from 'react-number-format'
 import { Skeleton } from '@material-ui/lab'
 
 const useStyles = makeStyles(theme => ({
@@ -79,21 +79,15 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-const CustomRouterLink = forwardRef((props, ref) => (
-    <div
-      ref={ref}
-      style={{ flexGrow: 1 }}
-    >
-      <RouterLink {...props} />
-    </div>
-  ))
-
-const Collection = props => {
+const Product = props => {
     const classes = useStyles()
     const {
-        onFetchCollection,
-        collectionList,
-        loadingFetchCollection,
+        getProduct,
+        handleAddProductList,
+        product: {
+            productList,
+            loadingProductList
+        }
     } = props
 
     const [ page, setPage ] = useState(0)
@@ -117,13 +111,17 @@ const Collection = props => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            onFetchCollection(keyword, page+1)
+            getProduct(page+1, keyword)
         }, 1000)
 
         return () => clearTimeout(timer)
-    }, [ page, keyword, onFetchCollection ])
+    }, [ getProduct, page, keyword ])
 
-
+    // return loadingProductList || productList === null ?
+    // <Backdrop className={classes.backdrop} open>
+    //     <CircularProgress color="inherit" />
+    // </Backdrop>
+    // :
     return (
         <Fragment>
             <div className={classes.root}>
@@ -134,15 +132,8 @@ const Collection = props => {
                 >
                     <Grid item>  
                         <Typography variant="h4" className={classes.title}>
-                            List Koleksi
+                            List Product
                         </Typography>
-                    </Grid>
-                    <Grid item>  
-                        <Button className={classes.button} component={CustomRouterLink} to='/product/collection/create'>
-                            <div className={classes.textMenu}>
-                                + Tambah Koleksi
-                            </div>
-                        </Button>
                     </Grid>
                 </Grid>
                 <Grid 
@@ -156,7 +147,7 @@ const Collection = props => {
                                 name="keyword"
                                 value={keyword || ''}
                                 onChange={handleChangeSearch}
-                                placeholder='Cari Koleksi'
+                                placeholder='Cari Produk'
                                 inputProps={{ 'aria-label': 'Cari Customer' }}
                             />
                             
@@ -167,9 +158,9 @@ const Collection = props => {
                     container
                     spacing={2}
                 >
-                    {!loadingFetchCollection && collectionList !== null ? (
+                    {!loadingProductList && productList !== null ? (
                         <List className={classes.rootList}>
-                            {collectionList.data.map((item, index) => (
+                            {productList.data.map((item, index) => (
                             <Grid
                                 item
                                 lg={12}
@@ -180,28 +171,14 @@ const Collection = props => {
                             >
                                 <ListItem alignItems="flex-start">
                                     <ListItemAvatar>
-                                        <Avatar alt={item.name} src={item.image} />
+                                        <Avatar alt={item.title} src={item.resource_product[0].url} />
                                     </ListItemAvatar>
                                     <ListItemText
-                                        primary={item.name}
-                                        secondary={
-                                            <React.Fragment>
-                                                <RouterLink to={`/product/collection/edit/${item.id}`}>
-                                                    <Typography
-                                                        component="span"
-                                                        variant="body2"
-                                                        className={classes.inline}
-                                                        color="textPrimary"
-                                                    >
-                                                        Edit
-                                                    </Typography>
-                                                </RouterLink>
-                                            {/* {" — I'll be in your neighborhood doing errands this…"} */}
-                                            </React.Fragment>
-                                        }
+                                        primary={item.title}
                                     />
+                                    
                                     <ListItemText
-                                        primary="Total Product"
+                                        primary="Harga"
                                         secondary={
                                             <React.Fragment>
                                                 <Typography
@@ -210,8 +187,18 @@ const Collection = props => {
                                                     className={classes.inline}
                                                     color="textPrimary"
                                                 >
-                                                    {item.collection_product.length}
+                                                    <NumberFormat value={item.base_price} displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
                                                 </Typography>
+                                            </React.Fragment>
+                                        }
+                                    />
+                                    <ListItemText
+                                        primary="Aksi"
+                                        secondary={
+                                            <React.Fragment>
+                                                <Button onClick={() => handleAddProductList(item)}>
+                                                    Pilih
+                                                </Button>
                                             </React.Fragment>
                                         }
                                     />
@@ -246,7 +233,7 @@ const Collection = props => {
                         </List>
                     )}
                 </Grid>
-                {!loadingFetchCollection && collectionList !== null ? (
+                {!loadingProductList && productList !== null ? (
                     <Grid
                         container
                         spacing={2}
@@ -254,14 +241,14 @@ const Collection = props => {
                     >
                         <Grid item>
                             <Typography variant="h4">
-                                Total : {collectionList.total}
+                                Total : {productList.total}
                             </Typography>
                         </Grid>
                         <Grid item>
                             <TablePagination
                                 rowsPerPageOptions={[15]}
                                 component="div"
-                                count={collectionList.total}
+                                count={productList.total}
                                 rowsPerPage={rowsPerPage}
                                 page={page}
                                 onChangePage={handleChangePage}
@@ -286,14 +273,7 @@ const Collection = props => {
 }
 
 const mapStateToProps = state => ({
-    collectionList: state.collection.collectionList,
-    loadingCollection: state.collection.loadingFetchCollection
+    product: state.product
 })
 
-const mapDispatchToProps = dispatch => {
-    return {
-      onFetchCollection: (keyword, page) => dispatch(actions.fetchCollection(keyword,page)),
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Collection)
+export default connect(mapStateToProps, { getProduct })(Product)
