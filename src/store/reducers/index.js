@@ -11,6 +11,9 @@ import product from './Product/product'
 import productImage from './Product/productImage'
 import categoryImage from './Master/categoryImage'
 import paymentConfirmationReducer from './PaymentConfirmation/paymentConfirmationReducer'
+import collection from './Product/collection'
+import collectionImage from './Product/collectionImage'
+import collectionProduct from './Product/collectionProduct'
 
 export default combineReducers({
     alert,
@@ -24,5 +27,8 @@ export default combineReducers({
     product,
     paymentConfirmationReducer,
     productImage,
-    categoryImage
+    categoryImage,
+    collection,
+    collectionImage,
+    collectionProduct
 })

@@ -16,7 +16,9 @@ import {
   CraeteProduct as CraeteProductView,
   PaymentConfirmation as PaymentConfirmationView,
   EditProduct as EditProductView,
-  EditCategory as EditCategoryView
+  EditCategory as EditCategoryView,
+  Collection as CollectionView,
+  CreateCollection as CreateCollectionView
 } from './views';
 
 const Routes = () => {
@@ -104,6 +106,20 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/product/edit/:id"
+      />
+
+      <RouteWithLayout
+        component={CollectionView}
+        exact
+        layout={MainLayout}
+        path="/product/collection"
+      />
+
+      <RouteWithLayout
+        component={CreateCollectionView}
+        exact
+        layout={MainLayout}
+        path="/product/collection/create"
       />
 
       <RouteWithLayout

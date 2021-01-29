@@ -195,6 +195,7 @@ const Main = props => {
   const [dialogOpen, setDialogOpen] = useState(false)
   // Collapsable Menus
   const [masterOpen, setMasterOpen] = useState(false);
+  const [masterProduct, setMasterProduct] = useState(false);
 
   const handleDialogClose = () => {
     setDialogOpen(false)
@@ -221,6 +222,8 @@ const Main = props => {
   const handleClick = (event) => {
     if (event === 'master') {
       setMasterOpen(!masterOpen);
+    }else if(event === 'master-product'){
+      setMasterProduct(!masterProduct)
     }
   };
 
@@ -256,6 +259,82 @@ const Main = props => {
           </Button>
         </ListItem>
         
+        
+        <ListItem 
+          key='master-product'
+          disabledGutters
+          className={classes.item}
+          onClick={() => handleClick('master-product')}
+        >
+          <Button
+            className={classes.button}
+          >
+            <div className={classes.icon}>
+                <img src={`${process.env.PUBLIC_URL}/images/icon/Buy.svg`} alt="Master Product" />
+            </div>
+            <div className={classes.textMenu}>
+              Produk
+            </div>
+          </Button>
+          {masterProduct ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={masterProduct} timeout="auto" unmountOnExit>
+          <List disablePadding>
+            <ListItem 
+              key='product' 
+              className={classes.nested}
+            >
+              <Button
+                activeClassName={classes.active}
+                className={classes.button}
+                component={CustomRouterLink}
+                onClick={handleDrawerClose}
+                to={`/product`}
+              >
+                  <div className={classes.textMenu}>
+                    Produk
+                  </div>
+              </Button>
+            </ListItem>
+            <ListItem 
+              key='product-collection' 
+              className={classes.nested}
+            >
+              <Button
+                activeClassName={classes.active}
+                className={classes.button}
+                component={CustomRouterLink}
+                onClick={handleDrawerClose}
+                to={`/product/collection`}
+              >
+                  <div className={classes.textMenu}>
+                    Koleksi
+                  </div>
+              </Button>
+            </ListItem>
+          </List>
+        </Collapse>
+        <ListItem 
+          key='payment-confirmation' 
+          button
+          disabledGutters
+          className={classes.item}
+        >
+          <Button
+            activeClassName={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            onClick={handleDrawerClose}
+            to={`/payment-confirmation`}
+          >
+              <div className={classes.icon}>
+                <img src={`${process.env.PUBLIC_URL}/images/icon/wallet.svg`} alt="Dashboard" />
+              </div>
+              <div className={classes.textMenu}>
+                Payment Confirmation
+              </div>
+          </Button>
+        </ListItem>
         <ListItem 
           key='master'
           disabledGutters
@@ -269,7 +348,7 @@ const Main = props => {
               <img src={`${process.env.PUBLIC_URL}/images/icon/master.svg`} alt="Master" />
             </div>
             <div className={classes.textMenu}>
-              Master
+              Pengaturan
             </div>
           </Button>
           {masterOpen ? <ExpandLess /> : <ExpandMore />}
@@ -310,48 +389,6 @@ const Main = props => {
             </ListItem>
           </List>
         </Collapse>
-        <ListItem 
-          key='product' 
-          button
-          disabledGutters
-          className={classes.item}
-        >
-          <Button
-            activeClassName={classes.active}
-            className={classes.button}
-            component={CustomRouterLink}
-            onClick={handleDrawerClose}
-            to={`/product`}
-          >
-              <div className={classes.icon}>
-                <img src={`${process.env.PUBLIC_URL}/images/icon/Buy.svg`} alt="Dashboard" />
-              </div>
-              <div className={classes.textMenu}>
-                Produk
-              </div>
-          </Button>
-        </ListItem>
-        <ListItem 
-          key='payment-confirmation' 
-          button
-          disabledGutters
-          className={classes.item}
-        >
-          <Button
-            activeClassName={classes.active}
-            className={classes.button}
-            component={CustomRouterLink}
-            onClick={handleDrawerClose}
-            to={`/payment-confirmation`}
-          >
-              <div className={classes.icon}>
-                <img src={`${process.env.PUBLIC_URL}/images/icon/wallet.svg`} alt="Dashboard" />
-              </div>
-              <div className={classes.textMenu}>
-                Payment Confirmation
-              </div>
-          </Button>
-        </ListItem>
         <ListItem
           disabledGutters
           className={classes.item}
