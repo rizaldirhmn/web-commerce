@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Bar } from 'react-chartjs-2';
 import {
     Card,
@@ -14,6 +14,7 @@ import {
 } from '@material-ui/pickers';
 import moment from 'moment';
 import {options} from './chart'
+import './roundedBar'
 
 const useStyles = makeStyles(theme => ({
     text: {
@@ -22,21 +23,17 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const GrafikTransactionSales = () => {
-    
+const GrafikTransactionSales = props => {
+    const { 
+        startDate,
+        setStartDate,
+        endDate,
+        setEndDate,
+        grafikIncome,
+        loadingGrafikIncome
+    } = props
     const classes = useStyles()
-    const [selectedDate ] = useState(new Date());
 
-    const submitDefault = moment().subtract(7, 'd').format('YYYY-MM-DD');
-    const submitDefaultEndDate = moment({}).format('YYYY-MM-DD');
-    const [ startDate, setStartDate ] = useState({
-        submit: {
-            submit: submitDefault
-        },
-        view: {
-            view: moment().subtract(7, 'd').format('YYYY-MM-DD')
-        }
-    });
     const handleStartDate = (date) => {
     const changeDate = moment(date).format('YYYY-MM-DD');
         setStartDate(startDate => ({
@@ -50,12 +47,6 @@ const GrafikTransactionSales = () => {
         }));
     };
 
-    const [ endDate, setEndDate ] = useState({
-        submit: {
-            submit: submitDefaultEndDate
-        },
-        view: {selectedDate}
-    });
     const handleEndDate = (date) => {
     const all = moment(date).format('YYYY-MM-DD');
         setEndDate(endDate => ({
@@ -70,35 +61,45 @@ const GrafikTransactionSales = () => {
     };
 
     var data = {}
-    // var jumlah_trx=[]
-    // var bulan=[];
+    var jumlah_trx=[]
+    var bulan=[];
 
-    // if(!loadingTransactionSales || grafikTransactionSales !== null){
-    //     for (var i = 0; i < grafikTransactionSales.data.length; i++) {
-    //         // bulan.push(grafikTransactionSales.data[i].date);
-    //         var date = new Date(grafikTransactionSales.data[i].date)
-    //         bulan.push(moment_tz(date, "Europe/London").tz("Asia/Jakarta").format('DD/MM'));
-    //         jumlah_trx.push(grafikTransactionSales.data[i].total_trx);
-    //     }
+    if(loadingGrafikIncome || grafikIncome !== null){
+        for (var i = 0; i < grafikIncome.data.length; i++) {
+            // bulan.push(grafikIncome.data[i].date);
+            var date = new Date(grafikIncome.data[i].date)
+            bulan.push(moment(date).format('DD/MM'));
+            jumlah_trx.push(grafikIncome.data[i].value);
+        }
     
         data = {
-            labels: ['januari','februari','maret','april','mei','juni'],
+            // labels: ['januari','februari','maret','april','mei','juni'],
+            labels: bulan,
             datasets: [
               {
-                label : 'Jumlah Transaksi',
-                data: ['100','200','300','400','500','400'],
-                // backgroundColor: 'rgba(75,192,192,0.4)',
-                backgroundColor: '#6200EE',
+                label : 'Jumlah Income',
+                // data: ['100','200','300','400','500','400'],
+                data: jumlah_trx,
+                backgroundColor: '#2285DF',
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderRadius: 10
               }
             ]
         };
-    // }
+    }
     
     return(
         <div>
                 <Card>
                     <CardHeader 
-                        title={`Average Transaction`}
+                        title={`Gross Income`}
                         classes={{
                             title: classes.text
                         }}

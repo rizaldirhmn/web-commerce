@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { 
   Grid, 
@@ -6,16 +6,15 @@ import {
 } from '@material-ui/core';
 // import { Link as RouterLink } from 'react-router-dom';
 import { connect } from 'react-redux'
-import { getCardStats } from '../../actions/dashboard'
-// import '../../../public/index.css'
+import moment from 'moment';
 
 import {
-  TotalTransaction,
-  TotalInvestasi,
-  TotalInvestasiRP,
+  CardNumber,
   GrafikTransactionSales,
-  PieChart
+  TableProduct
 } from './components'
+import { Skeleton } from '@material-ui/lab';
+import * as actions from '../../store/actions'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -61,8 +60,51 @@ const useStyles = makeStyles(theme => ({
 //   </div>
 // ));
 
-const Dashboard = () => {
+const Dashboard = props => {
   const classes = useStyles();
+  const {
+    totalUser,
+    loadingTotalUser,
+    onFetchDashboardTotalUser,
+    totalTransaction,
+    loadingTotalTransaction,
+    onFetchDashboardTotalTransaction,
+    onFetchDashboardGrafikIncome,
+    loadingGrafikIncome,
+    grafikIncome,
+    onFetchDashboardProductBestseller,
+    productBestseller,
+    loadingProductBestseller
+  } = props
+
+  const [selectedDate ] = useState(new Date());
+  const submitDefault = moment().subtract(7, 'd').format('YYYY-MM-DD');
+  const submitDefaultEndDate = moment().format('YYYY-MM-DD');
+  const [ startDate, setStartDate ] = useState({
+      submit: {
+          submit: submitDefault
+      },
+      view: {
+          view: moment().subtract(7, 'd').format('YYYY-MM-DD')
+      }
+  });
+
+  const [ endDate, setEndDate ] = useState({
+      submit: {
+          submit: submitDefaultEndDate
+      },
+      view: {selectedDate}
+  });
+
+  useEffect(() => {
+    onFetchDashboardTotalTransaction()
+    onFetchDashboardTotalUser()
+    onFetchDashboardProductBestseller(10)
+  }, [onFetchDashboardTotalTransaction, onFetchDashboardTotalUser, onFetchDashboardProductBestseller])
+
+  useEffect(() => {
+    onFetchDashboardGrafikIncome(startDate.submit.submit, endDate.submit.submit)
+  }, [onFetchDashboardGrafikIncome, startDate, endDate ])
 
   return (
       <div className={classes.root}>
@@ -80,108 +122,174 @@ const Dashboard = () => {
           container
           spacing={2}
         >
-          <Grid
-            item
-            lg={3}
-            md={3}
-            sm={6}
-            xs={12}
-          >
-              <TotalTransaction />
-          </Grid>
-          <Grid
-            item
-            lg={3}
-            md={3}
-            sm={6}
-            xs={12}
-          >
-              <TotalInvestasi />
-          </Grid>
-          <Grid
-            item
-            lg={3}
-            md={3}
-            sm={6}
-            xs={12}
-          >
-              <TotalInvestasiRP />
-          </Grid>
-          {/* <Grid
-            item
-            lg={3}
-            md={3}
-            sm={6}
-            xs={12}
-          >
-              <Investor />
-          </Grid> */}
-          {/* <Grid
-            item
-            lg={3}
-            md={3}
-            sm={6}
-            xs={12}
-          >
-              <TotalSyirkah />
-          </Grid>
-          <Grid
-            item
-            lg={3}
-            md={3}
-            sm={6}
-            xs={12}
-          >
-              <SyirkahUmum />
-          </Grid>
-          <Grid
-            item
-            lg={3}
-            md={3}
-            sm={6}
-            xs={12}
-          >
-              <SyirkahUnitBisnis />
-          </Grid>
-          <Grid
-            item
-            lg={3}
-            md={3}
-            sm={6}
-            xs={12}
-          >
-              <LembarSaham />
-          </Grid> */}
+          {loadingTotalUser && totalUser === null ? (
+            <Grid
+              item
+              lg={3}
+              md={3}
+              sm={6}
+              xs={12}
+            >
+                <Skeleton></Skeleton>
+            </Grid>
+          ):(
+            <Grid
+              item
+              lg={3}
+              md={3}
+              sm={6}
+              xs={12}
+            >
+                <CardNumber cardName="Total Pengguna" count={totalUser} />
+            </Grid>
+          )}
+          {loadingTotalTransaction || totalTransaction === null ? (
+            <Grid
+              item
+              lg={3}
+              md={3}
+              sm={6}
+              xs={12}
+            >
+                <Skeleton></Skeleton>
+            </Grid>
+          ):(
+            <>
+            <Grid
+              item
+              lg={3}
+              md={3}
+              sm={6}
+              xs={12}
+            >
+                <CardNumber cardName="Menunggu Konfirmasi Admin" count={totalTransaction.menunggu_konfirmasi_admin} />
+            </Grid>
+            <Grid
+              item
+              lg={3}
+              md={3}
+              sm={6}
+              xs={12}
+            >
+                <CardNumber cardName="Pesanan Diproses" count={totalTransaction.pesanan_diproses} />
+            </Grid>
+            <Grid
+              item
+              lg={3}
+              md={3}
+              sm={6}
+              xs={12}
+            >
+                <CardNumber cardName="Barang Sedang dikirim" count={totalTransaction.barang_sedang_dikirim} />
+            </Grid>
+            <Grid
+              item
+              lg={3}
+              md={3}
+              sm={6}
+              xs={12}
+            >
+                <CardNumber cardName="Pesanan dibatalkan admin" count={totalTransaction.pesanan_dibatalkan_admin} />
+            </Grid>
+            <Grid
+              item
+              lg={3}
+              md={3}
+              sm={6}
+              xs={12}
+            >
+                <CardNumber cardName="Pesanan dibatalkan user" count={totalTransaction.pesanan_dibatalkan_user} />
+            </Grid>
+            <Grid
+              item
+              lg={3}
+              md={3}
+              sm={6}
+              xs={12}
+            >
+                <CardNumber cardName="Pesanan selesai" count={totalTransaction.pesanan_selesai} />
+            </Grid>
+            </>
+          )}
         </Grid>
         <Grid
           container
           spacing={2}
         >
-          <Grid
-            item
-            lg={8}
-            md={8}
-            sm={12}
-            xs={12}
-          >
-            <GrafikTransactionSales />
-          </Grid>
-          <Grid
-            item
-            lg={4}
-            md={4}
-            sm={12}
-            xs={12}
-          >
-            <PieChart />
-          </Grid>
+          {loadingGrafikIncome || grafikIncome === null ? (
+            <Grid
+              item
+              lg={8}
+              md={8}
+              sm={12}
+              xs={12}
+            >
+              <Skeleton></Skeleton>
+            </Grid>
+          ):(
+            <Grid
+              item
+              lg={8}
+              md={8}
+              sm={12}
+              xs={12}
+            >
+              <GrafikTransactionSales
+                startDate={startDate}
+                setStartDate={setStartDate}
+                endDate={endDate}
+                setEndDate={setEndDate}
+                grafikIncome={grafikIncome}
+                loadingGrafikIncome={loadingGrafikIncome}
+              />
+            </Grid>
+          )}
+          {loadingProductBestseller || productBestseller === null ? (
+            <Grid
+              item
+              lg={4}
+              md={4}
+              sm={12}
+              xs={12}
+            >
+              <Skeleton></Skeleton>
+            </Grid>
+          ):(
+            <Grid
+              item
+              lg={4}
+              md={4}
+              sm={12}
+              xs={12}
+            >
+              <TableProduct
+                productBestseller={productBestseller}
+              />
+            </Grid>
+          )}
         </Grid>
       </div>
   );
 };
 
 const mapStateToProps = state => ({
-  dashboard : state.dashboard
+  totalUser : state.dashboard.totalUser,
+  loadingTotalUser : state.dashboard.loadingTotalUser,
+  totalTransaction : state.dashboard.totalTransaction,
+  loadingTotalTransaction : state.dashboard.loadingTotalTransaction,
+  grafikIncome: state.dashboard.grafikIncome,
+  loadingGrafikIncome: state.dashboard.loadingGrafikIncome,
+  productBestseller: state.dashboard.productBestseller,
+  loadingProductBestseller: state.dashboard.loadingProductBestseller
 })
 
-export default connect(mapStateToProps, { getCardStats })(Dashboard)
+const mapDispatchToProps = dispatch => {
+  return {
+    onFetchDashboardTotalUser: () => dispatch(actions.fetchDashboardTotalUser()),
+    onFetchDashboardTotalTransaction: () => dispatch(actions.fetchDashboardTotalTransaction()),
+    onFetchDashboardGrafikIncome: (startDate, endDate) => dispatch(actions.fetchDashboardGrafikIncome(startDate, endDate)),
+    onFetchDashboardProductBestseller: (limit) => dispatch(actions.fetchDashboardProductBestseller(limit)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

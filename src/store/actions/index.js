@@ -33,6 +33,13 @@ export {
 } from './Product/collectionProduct'
 
 export {
+  fetchDashboardTotalUser,
+  fetchDashboardTotalTransaction,
+  fetchDashboardGrafikIncome,
+  fetchDashboardProductBestseller
+} from './dashboard'
+
+export {
   addCategory,
   onClearImageCategory,
   uploadCategoryImage,

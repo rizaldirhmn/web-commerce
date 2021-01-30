@@ -2,7 +2,6 @@ import { combineReducers } from 'redux'
 import alert from './alert'
 import auth from './auth'
 import profile from '../../reducers/profile'
-import dashboard from '../../reducers/dashboard'
 import team from './team'
 import warehouse from './Master/warehouse'
 import category from './Master/category'
@@ -14,6 +13,7 @@ import paymentConfirmationReducer from './PaymentConfirmation/paymentConfirmatio
 import collection from './Product/collection'
 import collectionImage from './Product/collectionImage'
 import collectionProduct from './Product/collectionProduct'
+import dashboard from './dashboard'
 
 export default combineReducers({
     alert,
@@ -30,5 +30,5 @@ export default combineReducers({
     categoryImage,
     collection,
     collectionImage,
-    collectionProduct
+    collectionProduct,
 })

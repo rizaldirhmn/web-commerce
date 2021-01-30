@@ -2,42 +2,46 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { Card, CardContent, Grid, Typography } from '@material-ui/core';
+import { 
+  Card, 
+  CardContent, 
+  Grid, 
+  Typography, 
+} from '@material-ui/core';
 import NumberFormat from 'react-number-format';
-
-// Chart js
-import { Doughnut } from 'react-chartjs-2'
-import { options, data } from './chart'
 
 const useStyles = makeStyles(theme => ({
   root: {
-		height: 'auto',
+		height: '100%',
 		backgroundColor: '#FFFFFF',
-    borderRadius: theme.spacing(2),
-    marginTop: theme.spacing(2)
   },
   content: {
     alignItems: 'center',
     display: 'flex'
   },
   title: {
-    fontSize: 18,
-    fontFamily: 'Roboto',
-		fontWeight: 400,
-    color: '#757575',
-    marginTop: theme.spacing(2)
+    fontFamily: 'Montserrat',
+    color: '#A1A0AE',
+    fontSize: 16
 	},
 	numbers: {
-		color: '#000'
+		color: '#000000',
+    fontFamily: 'Montserrat'
 	},
 	caption: {
 		fontWeight: 700,
-		color: '#000',
-		fontFamily: 'Arial',
+		color: '#000000',
+		fontFamily: 'Montserrat',
 	},
+  avatar: {
+    backgroundColor: '#fff',
+    height: 56,
+    width: 56
+  },
   icon: {
     height: 32,
-    width: 32
+    width: 32,
+    color: '#00E676'
   },
   difference: {
     marginTop: theme.spacing(2),
@@ -53,13 +57,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TotalProfit = props => {
-  const { className, ...rest } = props;
+const TotalTransaction = props => {
+  const { className, cardName, count, ...rest } = props;
 
   const classes = useStyles();
 
   return (
-    <>
     <Card
       {...rest}
       className={clsx(classes.root, className)}
@@ -70,45 +73,31 @@ const TotalProfit = props => {
           justify="space-between"
         >
           <Grid item>
-						<Typography className={classes.numbers} variant="h3">
-							<NumberFormat value="1000000" displayType={'text'} thousandSeparator={true} prefix={`RP `} />
-						</Typography>
             <Typography
               className={classes.title}
               color="textSecondary"
               gutterBottom
               variant="body2"
             >
-              Total Laba
+              {cardName}
+            </Typography>
+            <Typography className={classes.numbers} variant="h3">
+              <NumberFormat value={count} displayType={'text'} thousandSeparator={true} />
             </Typography>
           </Grid>
+          {/* <Grid item>
+            <Avatar className={classes.avatar}>
+              <TransactionIcon className={classes.icon} />
+            </Avatar>
+          </Grid> */}
         </Grid>
       </CardContent>
     </Card>
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
-      <CardContent>
-        <Grid
-          container
-          justify="center"
-        >
-          <Grid item>
-            <Doughnut 
-              data={data}
-              options={options}
-            />
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
-    </>
   );
 };
 
-TotalProfit.propTypes = {
+TotalTransaction.propTypes = {
   className: PropTypes.string
 };
 
-export default TotalProfit;
+export default TotalTransaction;

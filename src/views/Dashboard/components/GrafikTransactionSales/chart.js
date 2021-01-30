@@ -5,7 +5,7 @@ export const options = {
   responsive: true,
   maintainAspectRatio: true,
   animation: false,
-  legend: { display: true },
+  legend: { display: false },
   cornerRadius: 20,
   tooltips: {
     callbacks: {
@@ -27,8 +27,8 @@ export const options = {
   scales: {
     xAxes: [
       {
-        barThickness: 12,
-        maxBarThickness: 10,
+        barThickness: 50,
+        maxBarThickness: 100,
         barPercentage: 0,
         categoryPercentage: 0,
         ticks: {
