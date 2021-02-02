@@ -36,7 +36,8 @@ export {
   fetchDashboardTotalUser,
   fetchDashboardTotalTransaction,
   fetchDashboardGrafikIncome,
-  fetchDashboardProductBestseller
+  fetchDashboardProductBestseller,
+  fetchDashboardResellerActive
 } from './dashboard'
 
 export {

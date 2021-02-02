@@ -403,7 +403,7 @@ const Main = props => {
               <div className={classes.icon}>
                 <img src={`${process.env.PUBLIC_URL}/images/icon/Logout.svg`} alt="Dashboard" />
               </div>
-              <div className={classes.textMenu}>Sign Out</div>
+              <div className={classes.textMenu}>Keluar</div>
           </Button>
         </ListItem>
       </List>

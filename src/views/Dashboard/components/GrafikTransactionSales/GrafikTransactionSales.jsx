@@ -99,7 +99,7 @@ const GrafikTransactionSales = props => {
         <div>
                 <Card>
                     <CardHeader 
-                        title={`Gross Income`}
+                        title={`Pendapatan Kotor`}
                         classes={{
                             title: classes.text
                         }}

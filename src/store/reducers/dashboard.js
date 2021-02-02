@@ -7,6 +7,8 @@ const initialState = {
     totalTransaction: null,
     grafikIncome: null,
     productBestseller: null,
+    resellerActive: null,
+    loadingResellerActive: false,
     loadingGrafikIncome: false,
     loadingTotalTransaction: false,
     loadingTotalUser: false,
@@ -97,6 +99,27 @@ const fetchDashboardProductBestsellerFail = (state, action) => {
     })
 }
 
+// Fetching dashboard Reseller Active
+const fetchDashboardResellerActive = (state) => {
+    return updateObject(state, {
+      loadingResellerActive: true,
+    })
+}
+  
+const fetchDashboardResellerActiveSuccess = (state, action) => {
+    return updateObject(state, {
+        resellerActive: action.resellerActive,
+        loadingResellerActive: false
+    })
+}
+  
+const fetchDashboardResellerActiveFail = (state, action) => {
+    return updateObject(state, {
+        error: action.error,
+        loadingResellerActive: false
+    })
+}
+
   const reducer = (state = initialState, action) => {
     switch (action.type) {
       case actionTypes.GET_DASHBOARD_TOTAL_USER_START: return fetchDashboardTotalUser(state, action)
@@ -111,6 +134,10 @@ const fetchDashboardProductBestsellerFail = (state, action) => {
       case actionTypes.GET_DASHBOARD_PRODUCT_BESTSELLER_START: return fetchDashboardProductBestseller(state, action)
       case actionTypes.GET_DASHBOARD_PRODUCT_BESTSELLER_SUCCESS: return fetchDashboardProductBestsellerSuccess(state, action)
       case actionTypes.GET_DASHBOARD_PRODUCT_BESTSELLER_FAIL: return fetchDashboardProductBestsellerFail(state, action)
+
+      case actionTypes.GET_DASHBOARD_RESELLER_ACTIVE_START: return fetchDashboardResellerActive(state, action)
+      case actionTypes.GET_DASHBOARD_RESELLER_ACTIVE_SUCCESS: return fetchDashboardResellerActiveSuccess(state, action)
+      case actionTypes.GET_DASHBOARD_RESELLER_ACTIVE_FAIL: return fetchDashboardResellerActiveFail(state, action)
       default: return state
     }
   }

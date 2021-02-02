@@ -11,7 +11,8 @@ import moment from 'moment';
 import {
   CardNumber,
   GrafikTransactionSales,
-  TableProduct
+  TableProduct,
+  TableReseller
 } from './components'
 import { Skeleton } from '@material-ui/lab';
 import * as actions from '../../store/actions'
@@ -74,7 +75,10 @@ const Dashboard = props => {
     grafikIncome,
     onFetchDashboardProductBestseller,
     productBestseller,
-    loadingProductBestseller
+    loadingProductBestseller,
+    onFetchDashboardResellerActive,
+    resellerActive,
+    loadingResellerActive
   } = props
 
   const [selectedDate ] = useState(new Date());
@@ -100,7 +104,13 @@ const Dashboard = props => {
     onFetchDashboardTotalTransaction()
     onFetchDashboardTotalUser()
     onFetchDashboardProductBestseller(10)
-  }, [onFetchDashboardTotalTransaction, onFetchDashboardTotalUser, onFetchDashboardProductBestseller])
+    onFetchDashboardResellerActive(10)
+  }, [
+    onFetchDashboardTotalTransaction, 
+    onFetchDashboardTotalUser, 
+    onFetchDashboardProductBestseller, 
+    onFetchDashboardResellerActive
+  ])
 
   useEffect(() => {
     onFetchDashboardGrafikIncome(startDate.submit.submit, endDate.submit.submit)
@@ -268,6 +278,34 @@ const Dashboard = props => {
             </Grid>
           )}
         </Grid>
+        <Grid
+          container
+          spacing={2}
+        >
+          {loadingResellerActive || resellerActive === null ? (
+            <Grid
+              item
+              lg={6}
+              md={6}
+              sm={12}
+              xs={12}
+            >
+              <Skeleton></Skeleton>
+            </Grid>
+          ):(
+            <Grid
+              item
+              lg={6}
+              md={6}
+              sm={12}
+              xs={12}
+            >
+              <TableReseller
+                resellerActive={resellerActive}
+              />
+            </Grid>
+          )}
+        </Grid>
       </div>
   );
 };
@@ -280,7 +318,9 @@ const mapStateToProps = state => ({
   grafikIncome: state.dashboard.grafikIncome,
   loadingGrafikIncome: state.dashboard.loadingGrafikIncome,
   productBestseller: state.dashboard.productBestseller,
-  loadingProductBestseller: state.dashboard.loadingProductBestseller
+  loadingProductBestseller: state.dashboard.loadingProductBestseller,
+  resellerActive: state.dashboard.resellerActive,
+  loadingResellerActive: state.dashboard.loadingResellerActive
 })
 
 const mapDispatchToProps = dispatch => {
@@ -289,6 +329,7 @@ const mapDispatchToProps = dispatch => {
     onFetchDashboardTotalTransaction: () => dispatch(actions.fetchDashboardTotalTransaction()),
     onFetchDashboardGrafikIncome: (startDate, endDate) => dispatch(actions.fetchDashboardGrafikIncome(startDate, endDate)),
     onFetchDashboardProductBestseller: (limit) => dispatch(actions.fetchDashboardProductBestseller(limit)),
+    onFetchDashboardResellerActive: (limit) => dispatch(actions.fetchDashboardResellerActive(limit)),
   }
 }
 

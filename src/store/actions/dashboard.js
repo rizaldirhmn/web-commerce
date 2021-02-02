@@ -181,12 +181,59 @@ import { setAlert } from './alert'
 						}
 				});
 				dispatch(fetchDashboardProductBestsellerSuccess(res.data))
-				console.log(res.data)
 
 		} catch (error) {
 				dispatch(setAlert("Something went wrong", "error"))
 				console.log(error)
 				dispatch(fetchDashboardProductBestsellerFail(error))
+				// dispatch({
+				//     payload: { msg: error.response.statusText, status: error.response.status },
+				//     type: STAGE_ERROR
+				// })
+		}
+		
+	}
+
+// Fetching Dashboard Reseller Active
+	export const fetchDashboardResellerActiveStart = () => {
+		return {
+			type: actions.GET_DASHBOARD_RESELLER_ACTIVE_START
+		}
+	}
+
+	export const fetchDashboardResellerActiveSuccess = (payload) => {
+		return {
+			type: actions.GET_DASHBOARD_RESELLER_ACTIVE_SUCCESS,
+			resellerActive: payload
+		}
+	}
+
+	export const fetchDashboardResellerActiveFail = (error) => {
+		return {
+			type: actions.GET_DASHBOARD_RESELLER_ACTIVE_FAIL,
+			error: error
+		}
+	}
+
+	export const fetchDashboardResellerActive = (limit) => async dispatch => {
+		dispatch(fetchDashboardResellerActiveStart())
+		const endpoint = `${process.env.REACT_APP_BASE_URL}api/admin/dashboard/reseller_teractive?limit=${limit}`
+		try {
+				const res = await axios({
+						url: endpoint,
+						method: "GET",
+						headers: { 
+							'Content-Type': 'application/json', 
+							'Accept' : 'application/json', 
+							'Authorization' : `Bearer ${sessionStorage.getItem('access_token')}`
+						}
+				});
+				dispatch(fetchDashboardResellerActiveSuccess(res.data))
+
+		} catch (error) {
+				dispatch(setAlert("Something went wrong", "error"))
+				console.log(error)
+				dispatch(fetchDashboardResellerActiveFail(error))
 				// dispatch({
 				//     payload: { msg: error.response.statusText, status: error.response.status },
 				//     type: STAGE_ERROR
