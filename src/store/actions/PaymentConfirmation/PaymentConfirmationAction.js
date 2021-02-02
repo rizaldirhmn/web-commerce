@@ -74,15 +74,19 @@ export const updateStatus = (data, history) => async dispatch => {
       
 }
 
-export const updateSendStatus = (data, history) => async dispatch => {
+export const updateSendStatus = (data, receiptNumber, history) => async dispatch => {
     dispatch({
         type: actions.UPDATE_STATUS_SENDING_START,
     })
+    const formData = {
+        no_resi : receiptNumber
+    }
     const endpoint = `${process.env.REACT_APP_BASE_URL}api/admin/bukti_pembayaran/${data.id}/send`
       try {
           const res = await axios({
               url: endpoint,
               method: "PATCH",
+              data: formData,
               headers: { 
                 'Content-Type': 'application/json', 
                 'Accept' : 'application/json', 

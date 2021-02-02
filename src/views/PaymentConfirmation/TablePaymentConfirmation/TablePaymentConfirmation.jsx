@@ -25,10 +25,15 @@ import {
     DialogContent,
     DialogActions,
     Button,
+    DialogContentText,
+    TextField
 } from '@material-ui/core'
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
 import { useHistory } from 'react-router-dom'
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers"
+import * as yup from "yup";
 
 import { connect } from 'react-redux'
 import { 
@@ -74,6 +79,7 @@ const headCells = [
   { id: 'total_price_ongkir', label: 'Harga dan ongkir' },
   { id: 'status', label: 'Status Pembayaran' },
   { id: 'bukti', label: 'Bukti Pembayaran' },
+  { id: 'no_resi', label: 'No Resi' },
   { id: 'action', label: 'Aksi' },
 ];
 
@@ -238,6 +244,10 @@ const DialogTitle = withStyles(dialogStyles)((props) => {
     );
 });
 
+const SchemaValidation = yup.object().shape({
+  receiptNumber: yup.string().required("Nomor resi harus diisi"),
+})
+
 const TablePaymentConfirmation = props => {
     const classes = useStyles();
     const history = useHistory()
@@ -260,6 +270,10 @@ const TablePaymentConfirmation = props => {
         status,
     } = props
 
+    const { register, handleSubmit, errors } = useForm({
+      resolver: yupResolver(SchemaValidation)
+      });
+
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
@@ -275,6 +289,7 @@ const TablePaymentConfirmation = props => {
         setPage(0);
     };
 
+    // Confirmation Status
     const [ openConfirmationDialog, setOpenConfirmationDialog ] = useState({
         open: false,
         item: null
@@ -292,6 +307,46 @@ const TablePaymentConfirmation = props => {
             open: false,
             item: event
         })
+    }
+
+    // Confirmation Send 
+    const [ openConfirmationSendDialog, setOpenConfirmationSendDialog ] = useState({
+      open: false,
+      item: null
+    })
+    
+    const handleOpenConfirmationSendDialog = (event) => {
+      console.log(event)
+        setOpenConfirmationSendDialog({
+            open: true,
+            item: event
+        })
+    }
+    
+    const handleCloseConfirmationSendDialog = (event) => {
+        setOpenConfirmationSendDialog({
+            open: false,
+            item: event
+        })
+    }
+
+    const [ receiptState, setReceiptState ] = useState({
+      values: {}
+    })
+
+    const handleChangeReceipt = event => {
+      event.persist();
+    
+      setReceiptState(receiptState => ({
+        ...receiptState,
+        values: {
+          ...receiptState.values,
+          [event.target.name]: 
+              event.target.type === 'checkbox'
+              ? event.target.checked
+              : event.target.value
+        }
+      }));
     }
 
     // Abort Status
@@ -316,13 +371,20 @@ const TablePaymentConfirmation = props => {
 
     const onUpdateStatus = event => {
         if(event !== null){
-            if(status === 2){
+            // if(status === 2){
               updateStatus(event, history)
-            }else if (status === 3){
-              updateSendStatus(event, history)
-            }
+            // }else if (status === 3){
+            //   updateSendStatus(event, history)
+            // }
             handleCloseConfirmationDialog(event)
         }
+    }
+
+    const onUpdateSendStatus = event => {
+      if(event !== null){
+        updateSendStatus(event, receiptState.values.receiptNumber, history)
+        handleCloseConfirmationSendDialog(event)
+      }
     }
 
     const onUpdateAbortStatus = event => {
@@ -414,23 +476,44 @@ const TablePaymentConfirmation = props => {
                                         <Link href={row.image} target="_blank">Download Bukti Bayar</Link>
                                     </TableCell>
                                     <TableCell>
-                                      {row.status !== '4' && row.status !== '5' && row.status !== '6' ? (
-                                        <Tooltip arrow title="Konfirmasi">
-                                          <IconButton onClick={() => handleOpenConfirmationDialog(row)}>
-                                              <img src={`${process.env.PUBLIC_URL}/images/icon/edit.svg`} alt="Dashboard" />
-                                          </IconButton>
-                                        </Tooltip>
+                                        {row.checkout.no_resi !== null ? (
+                                          <Typography>
+                                            {row.checkout.no_resi}
+                                          </Typography>
+                                        ):(
+                                          <Typography>
+                                            -
+                                          </Typography>
+                                        )}
+                                    </TableCell>
+                                    <TableCell>
+                                      {/* {row.status !== '3' && row.status !== '4' && row.status !== '5' && row.status !== '6' ? (
+                                        
                                       ):(
                                         <Tooltip arrow title="Sudah tidak dapat di konfirmasi">
                                           <IconButton>
                                               <img src={`${process.env.PUBLIC_URL}/images/icon/edit.svg`} alt="Dashboard" />
                                           </IconButton>
                                         </Tooltip>
-                                      )}
+                                      )} */}
                                       {row.status === '2' && (
+                                        <>
+                                        <Tooltip arrow title="Konfirmasi">
+                                          <IconButton onClick={() => handleOpenConfirmationDialog(row)}>
+                                              <img src={`${process.env.PUBLIC_URL}/images/icon/edit.svg`} alt="Dashboard" />
+                                          </IconButton>
+                                        </Tooltip>
                                         <Tooltip arrow title="Batalakan">
                                           <IconButton onClick={() => handleOpenAbortDialog(row)}>
                                               <img src={`${process.env.PUBLIC_URL}/images/icon/cancel.svg`} alt="Dashboard" />
+                                          </IconButton>
+                                        </Tooltip>
+                                        </>
+                                      )}
+                                      {row.status === '3' && (
+                                        <Tooltip arrow title="Konfirmasi Pengiriman">
+                                          <IconButton onClick={() => handleOpenConfirmationSendDialog(row)}>
+                                              <img src={`${process.env.PUBLIC_URL}/images/icon/edit.svg`} alt="Dashboard" />
                                           </IconButton>
                                         </Tooltip>
                                       )}
@@ -474,7 +557,7 @@ const TablePaymentConfirmation = props => {
                         Konfirmasi Pembelian/Pembayaran
                     </DialogTitle>
                     <DialogContent>
-                        Apakah anda ingin mengkonfirmasi pembelian ini menjadi ?
+                        Apakah anda ingin mengkonfirmasi pembelian ini?
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => onUpdateStatus(openConfirmationDialog.item)} className={classes.button}>
@@ -485,22 +568,37 @@ const TablePaymentConfirmation = props => {
             </Dialog>
             <Dialog
                 fullWidth
-                open={openConfirmationDialog.open}
-                onClose={() => handleCloseConfirmationDialog(openConfirmationDialog.item)}
+                open={openConfirmationSendDialog.open}
+                onClose={() => handleCloseConfirmationSendDialog(openConfirmationSendDialog.item)}
             >
-                {/* <form onSubmit={onUpdateStatus(openConfirmationDialog.item)}> */}
-                    <DialogTitle id="customized-dialog-title" onClose={() => handleCloseConfirmationDialog(openConfirmationDialog.item)}>
-                        Konfirmasi Pembelian/Pembayaran
-                    </DialogTitle>
-                    <DialogContent>
-                        Apakah anda ingin mengkonfirmasi pembelian ini menjadi ?
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={() => onUpdateStatus(openConfirmationDialog.item)} className={classes.button}>
-                            Ya
-                        </Button>
-                    </DialogActions>
-                {/* </form> */}
+              <form onSubmit={handleSubmit( () => onUpdateSendStatus(openConfirmationSendDialog.item))}>
+                <DialogTitle id="customized-dialog-title" onClose={() => handleCloseConfirmationSendDialog(openConfirmationSendDialog.item)}>
+                    Konfirmasi Pengiriman Barang
+                </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText>
+                      Konfirmasi pengiriman, silahkan masukan nomor resi anda
+                    </DialogContentText>
+                    <TextField
+                      fullWidth
+                      autoFocus
+                      name="receiptNumber"
+                      label="Nomor Resi"
+                      value={receiptState.values.receiptNumber || ''}
+                      onChange={handleChangeReceipt}
+                      helperText={
+                          errors.receiptNumber && errors.receiptNumber.message
+                      }
+                      error={errors.receiptNumber && true}
+                      inputRef={register}
+                    />
+                  </DialogContent>
+                  <DialogActions>
+                      <Button type="submit" className={classes.button}>
+                          Ya
+                      </Button>
+                  </DialogActions>
+              </form>
             </Dialog>
             <Dialog
                 fullWidth
