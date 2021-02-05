@@ -26,7 +26,8 @@ import {
     DialogActions,
     Button,
     DialogContentText,
-    TextField
+    TextField,
+    Grid
 } from '@material-ui/core'
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
@@ -44,6 +45,8 @@ import {
 } from '../../../store/actions/PaymentConfirmation/PaymentConfirmationAction'
 import { Skeleton } from '@material-ui/lab';
 // import {  } from '../../../store/actions/PaymentConfirmation/PaymentConfirmationAction'
+
+import TemplateWA from './TemplateWA'
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -394,6 +397,26 @@ const TablePaymentConfirmation = props => {
         }
     }
 
+    // Dialog Follow Up Whatsapp
+    const [openWA, setOpenWA] = useState({
+      open: false,
+      item: null
+    });
+
+    const handleClickOpenWA = event => {
+      setOpenWA({
+        open: true,
+        item: event
+      });
+    };
+
+    const handleCloseWA = event => {
+      setOpenWA({
+        open: false,
+        item: event
+      });
+    };
+
     // const emptyRows = rowsPerPage - Math.min(rowsPerPage, confirmPaymentList.total - page * rowsPerPage);
     
     useEffect(() => {
@@ -496,27 +519,38 @@ const TablePaymentConfirmation = props => {
                                           </IconButton>
                                         </Tooltip>
                                       )} */}
-                                      {row.status === '2' && (
-                                        <>
-                                        <Tooltip arrow title="Konfirmasi">
-                                          <IconButton onClick={() => handleOpenConfirmationDialog(row)}>
-                                              <img src={`${process.env.PUBLIC_URL}/images/icon/edit.svg`} alt="Dashboard" />
-                                          </IconButton>
-                                        </Tooltip>
-                                        <Tooltip arrow title="Batalakan">
-                                          <IconButton onClick={() => handleOpenAbortDialog(row)}>
-                                              <img src={`${process.env.PUBLIC_URL}/images/icon/cancel.svg`} alt="Dashboard" />
-                                          </IconButton>
-                                        </Tooltip>
-                                        </>
-                                      )}
-                                      {row.status === '3' && (
-                                        <Tooltip arrow title="Konfirmasi Pengiriman">
-                                          <IconButton onClick={() => handleOpenConfirmationSendDialog(row)}>
-                                              <img src={`${process.env.PUBLIC_URL}/images/icon/edit.svg`} alt="Dashboard" />
-                                          </IconButton>
-                                        </Tooltip>
-                                      )}
+                                      <Grid container justify="space-between">
+                                        <Grid item>
+                                          {row.status === '2' && (
+                                            <>
+                                            <Tooltip arrow title="Konfirmasi">
+                                              <IconButton onClick={() => handleOpenConfirmationDialog(row)}>
+                                                  <img src={`${process.env.PUBLIC_URL}/images/icon/edit.svg`} alt="Dashboard" />
+                                              </IconButton>
+                                            </Tooltip>
+                                            <Tooltip arrow title="Batalakan">
+                                              <IconButton onClick={() => handleOpenAbortDialog(row)}>
+                                                  <img src={`${process.env.PUBLIC_URL}/images/icon/cancel.svg`} alt="Dashboard" />
+                                              </IconButton>
+                                            </Tooltip>
+                                            </>
+                                          )}
+                                          {row.status === '3' && (
+                                            <Tooltip arrow title="Konfirmasi Pengiriman">
+                                              <IconButton onClick={() => handleOpenConfirmationSendDialog(row)}>
+                                                  <img src={`${process.env.PUBLIC_URL}/images/icon/edit.svg`} alt="Dashboard" />
+                                              </IconButton>
+                                            </Tooltip>
+                                          )}
+                                        </Grid>
+                                        <Grid item>
+                                          <Tooltip arrow title="Follow Up WA">
+                                            <IconButton onClick={() => handleClickOpenWA(row)}>
+                                                <img src={`${process.env.PUBLIC_URL}/images/icon/icon-wa.png`} width='30' height='30' alt="Dashboard" />
+                                            </IconButton>
+                                          </Tooltip>
+                                        </Grid>
+                                      </Grid>
                                     </TableCell>
                                 </TableRow>
                             );
@@ -619,6 +653,7 @@ const TablePaymentConfirmation = props => {
                     </DialogActions>
                 {/* </form> */}
             </Dialog>
+            <TemplateWA open={openWA.open} item={openWA.item} handleCloseWA={handleCloseWA} />
         </div>
     </Fragment>
 }

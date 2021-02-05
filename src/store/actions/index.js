@@ -48,3 +48,15 @@ export {
   updateCategory,
   deleteImageCategory
 } from './Master/category'
+
+export {
+  fetchListText,
+  fetchListVariable,
+  addTextFollowUp,
+  fetchDetailText,
+  updateTextFollowUp
+} from './settings'
+
+export { 
+  sendingWhatsappFollowUp
+} from './PaymentConfirmation/PaymentConfirmationAction'

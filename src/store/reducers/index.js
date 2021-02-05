@@ -14,6 +14,7 @@ import collection from './Product/collection'
 import collectionImage from './Product/collectionImage'
 import collectionProduct from './Product/collectionProduct'
 import dashboard from './dashboard'
+import settings from './settings'
 
 export default combineReducers({
     alert,
@@ -31,4 +32,5 @@ export default combineReducers({
     collection,
     collectionImage,
     collectionProduct,
+    settings
 })

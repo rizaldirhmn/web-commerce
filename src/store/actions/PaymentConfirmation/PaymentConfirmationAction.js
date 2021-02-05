@@ -153,3 +153,58 @@ export const updateAbortStatus = (data, history) => async dispatch => {
       }
       
 }
+
+// Sending wa follow up
+export const sendWhatsappFollowUpStart = () => {
+    return {
+    type: actions.SEND_WHATSAPP_FOLLOW_UP_START
+    }
+}
+
+export const sendWhatsappFollowUpSuccess = (payload) => {
+    return {
+    type: actions.SEND_WHATSAPP_FOLLOW_UP_SUCCESS,
+    sendWhatsappFollowUp: payload
+    }
+}
+
+export const sendWhatsappFollowUpFail = (error) => {
+    return {
+    type: actions.SEND_WHATSAPP_FOLLOW_UP_FAIL,
+    error: error
+    }
+}
+
+export const sendingWhatsappFollowUp = (id, id_text) => async dispatch => {
+    dispatch(sendWhatsappFollowUpStart())
+    const endpoint = `${process.env.REACT_APP_BASE_URL}api/admin/text_follow_up/send/${id}`
+    const myData = {
+        id_text: id_text,
+    }
+    try {
+        const res = await axios({
+            url: endpoint,
+            method: "POST",
+            data: myData,
+            headers: { 
+            'Content-Type': 'application/json', 
+            'Accept' : 'application/json', 
+            'Authorization' : `Bearer ${sessionStorage.getItem('access_token')}`
+            }
+        });
+        dispatch(sendWhatsappFollowUpSuccess(res.data))
+        dispatch(getConfirmationPayment(1, 3))
+
+        window.open(`${res.data.url}`, '_blank')
+
+    } catch (error) {
+        dispatch(setAlert("Something went wrong", "error"))
+        console.log(error)
+        dispatch(sendWhatsappFollowUpFail(error))
+        // dispatch({
+        //     payload: { msg: error.response.statusText, status: error.response.status },
+        //     type: STAGE_ERROR
+        // })
+    }
+    
+}

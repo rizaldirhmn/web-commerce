@@ -19,7 +19,8 @@ import {
   EditCategory as EditCategoryView,
   Collection as CollectionView,
   CreateCollection as CreateCollectionView,
-  EditCollection as EditCollectionView
+  EditCollection as EditCollectionView,
+  WhatsappFollow as WhatsappFollowView
 } from './views';
 
 const Routes = () => {
@@ -135,6 +136,13 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/payment-confirmation"
+      />
+
+      <RouteWithLayout
+        component={WhatsappFollowView}
+        exact
+        layout={MainLayout}
+        path="/whatsapp-follow-settings"
       />
 
       <Route

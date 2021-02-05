@@ -367,7 +367,7 @@ const Main = props => {
                 to={`/warehouse`}
               >
                   <div className={classes.textMenu}>
-                    Warehouse
+                    Gudang
                   </div>
               </Button>
             </ListItem>
@@ -383,7 +383,23 @@ const Main = props => {
                 to={`/category`}
               >
                   <div className={classes.textMenu}>
-                    Category
+                    Kategori
+                  </div>
+              </Button>
+            </ListItem>
+            <ListItem
+              key='whatsapp-follow-settings'
+              className={classes.nested}
+            >
+              <Button
+                activeClassName={classes.active}
+                className={classes.button}
+                component={CustomRouterLink}
+                onClick={handleDrawerClose}
+                to={`/whatsapp-follow-settings`}
+              >
+                  <div className={classes.textMenu}>
+                    Pengaturan Whatsapp
                   </div>
               </Button>
             </ListItem>
