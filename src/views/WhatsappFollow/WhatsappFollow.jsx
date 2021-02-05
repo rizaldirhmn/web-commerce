@@ -12,7 +12,11 @@ import {
     TableHead,
     Tooltip,
     IconButton,
-    Button
+    Button,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    DialogActions
 } from '@material-ui/core'
 
 import { connect } from 'react-redux'
@@ -38,7 +42,8 @@ const WhatsappFollow = props => {
         onFetchListVariableFollowUp,
         variableFollowUpList,
         loadingVariableFollowUpList,
-        onAddTextFollowUp
+        onAddTextFollowUp,
+        onDeleteTextFollowUp
     } = props
 
     // Create Template
@@ -81,6 +86,35 @@ const WhatsappFollow = props => {
         });
     };
 
+    // Delete Template
+    const [openDelete, setOpenDelete] = useState({
+        open: false,
+        item: {}
+    });
+
+    const handleClickOpenDelete = (event) => {
+        console.log(event)
+        setOpenDelete({
+            open: true,
+            item: {
+                id: event.id,
+                title: event.title,
+                text: event.title
+            }
+        });
+    };
+
+    const handleCloseDelete = (event) => {
+        setOpenDelete({
+            open: false,
+            item: {
+                id: event.id,
+                title: event.title,
+                text: event.title
+            }
+        });
+    };
+
     const [ formState, setFormState ] = useState({
         values: {}
     })
@@ -106,6 +140,11 @@ const WhatsappFollow = props => {
         setFormState({
             values: {}
         })
+    }
+
+    const onDelete = event => {
+        onDeleteTextFollowUp(event.id)
+        handleCloseDelete(event)
     }
 
     useEffect(() => {
@@ -160,6 +199,11 @@ const WhatsappFollow = props => {
                                                     <Tooltip arrow title="Edit Template">
                                                         <IconButton onClick={() => handleClickOpenEdit(item)}>
                                                             <img src={`${process.env.PUBLIC_URL}/images/icon/edit.svg`} alt="Dashboard" />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                    <Tooltip arrow title="Delete Template">
+                                                        <IconButton onClick={() => handleClickOpenDelete(item)}>
+                                                            <img src={`${process.env.PUBLIC_URL}/images/icon/cancel.svg`} alt="Dashboard" />
                                                         </IconButton>
                                                     </Tooltip>
                                                 </TableCell>
@@ -220,6 +264,27 @@ const WhatsappFollow = props => {
                     onAdd={onSubmit}
                 />
             )}
+            <Dialog
+                open={openDelete.open}
+                onClose={() => handleCloseDelete(openDelete.item)}
+            >
+                <DialogTitle>
+                    Konfirmasi Penghapusan Template WhatsApp
+                </DialogTitle>
+                <DialogContent>
+                    <Typography variant="p">
+                        Apakah anda yakin ingin menghapus template WhatsApp ini?
+                    </Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => handleCloseDelete(openDelete.item)}>
+                        Batal
+                    </Button>
+                    <Button onClick={() => onDelete(openDelete.item)}>
+                        Ya
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Fragment>
     )
 }
@@ -236,7 +301,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchListTextFollowUp : () => dispatch(actions.fetchListText()),
         onFetchListVariableFollowUp : () => dispatch(actions.fetchListVariable()),
-        onAddTextFollowUp : (formData) => dispatch(actions.addTextFollowUp(formData))
+        onAddTextFollowUp : (formData) => dispatch(actions.addTextFollowUp(formData)),
+        onDeleteTextFollowUp : (id) => dispatch(actions.deleteTextFollowUp(id))
     }
 }
 

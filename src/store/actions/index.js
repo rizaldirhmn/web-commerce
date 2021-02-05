@@ -54,7 +54,8 @@ export {
   fetchListVariable,
   addTextFollowUp,
   fetchDetailText,
-  updateTextFollowUp
+  updateTextFollowUp,
+  deleteTextFollowUp
 } from './settings'
 
 export { 

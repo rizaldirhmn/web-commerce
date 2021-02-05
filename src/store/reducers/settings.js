@@ -138,6 +138,10 @@ const reducer = (state = initialState, action) => {
       case actionTypes.UPDATE_TEXT_FOLLOW_UP_WA_SUCCESS: return fetchDataTextSuccess(state, action)
       case actionTypes.UPDATE_TEXT_FOLLOW_UP_WA_FAIL: return fetchDataTextFail(state, action)
 
+      case actionTypes.DELETE_TEXT_FOLLOW_UP_WA_START: return fetchDataTextStart(state, action)
+      case actionTypes.DELETE_TEXT_FOLLOW_UP_WA_SUCCESS: return fetchDataTextSuccess(state, action)
+      case actionTypes.DELETE_TEXT_FOLLOW_UP_WA_FAIL: return fetchDataTextFail(state, action)
+
       case actionTypes.GET_VARIABLE_FOLLOW_UP_WA_START: return fetchListVariableStart(state, action)
       case actionTypes.GET_VARIABLE_FOLLOW_UP_WA_SUCCESS: return fetchListVariableSuccess(state, action)
       case actionTypes.GET_VARIABLE_FOLLOW_UP_WA_FAIL: return fetchListVariableFail(state, action)

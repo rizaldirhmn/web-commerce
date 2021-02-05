@@ -193,6 +193,35 @@ import { setAlert } from './alert'
         
     }
 
+    export const deleteTextFollowUp = (id) => async dispatch => {
+        dispatch(fetchDataTextStart())
+        const endpoint = `${process.env.REACT_APP_BASE_URL}api/admin/text_follow_up/${id}`
+        try {
+            const res = await axios({
+                url: endpoint,
+                method: "DELETE",
+                headers: { 
+                'Content-Type': 'application/json', 
+                'Accept' : 'application/json', 
+                'Authorization' : `Bearer ${sessionStorage.getItem('access_token')}`
+                }
+            });
+            dispatch(fetchDataTextSuccess(res.data))
+            dispatch(fetchListText())
+            dispatch(setAlert("Template has deleted", "success"))
+
+        } catch (error) {
+            dispatch(setAlert("Something went wrong", "error"))
+            console.log(error)
+            dispatch(fetchDataTextFail(error))
+            // dispatch({
+            //     payload: { msg: error.response.statusText, status: error.response.status },
+            //     type: STAGE_ERROR
+            // })
+        }
+        
+    }
+
 // Fetching List Text
     export const fetchListVariableStart = () => {
         return {
