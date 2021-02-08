@@ -11,7 +11,7 @@ export const uploadCollectionProductListStart = () => {
 export const uploadCollectionProductListSuccess = (payload) => {
     return {
       type: actions.UPLOAD_PRODUCT_COLLECTION_LIST_SUCCESS,
-      id_product: payload.id_product,
+      id_product_new: payload.id_product,
       name: payload.name,
       image: payload.image
     }
@@ -147,4 +147,10 @@ export const addProductCollectionEdit = (idCollection, productList, history) => 
       // })
   }
   
+}
+
+export const onClearProductList = () => async dispatch => {
+  dispatch({
+      type: actions.ON_CLEAR_UPLOAD_PRODUCT_COLLECTION_LIST
+  })
 }

@@ -19,7 +19,7 @@ const uploadProductCollectionListStart = (state, action) => {
 
 const uploadProductCollectionListSuccess = (state, action) => {
   const newArray = [...state.productList, {
-      id_product_new: action.id_product,
+      id_product: action.id_product,
       name: action.name,
       image: {
         url: action.image

@@ -29,7 +29,8 @@ export {
   uploadCollectionProductList,
   deleteProductList,
   editDeleteProductCollection,
-  addProductCollectionEdit
+  addProductCollectionEdit,
+  onClearProductList
 } from './Product/collectionProduct'
 
 export {

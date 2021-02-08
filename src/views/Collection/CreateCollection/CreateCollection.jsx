@@ -85,7 +85,8 @@ const CreateCollection = props => {
         onAddProductList,
         loadingProductList,
         productList,
-        onDeleteProductList
+        onDeleteProductList,
+        onClearProductList
     } = props
 
     const { register, handleSubmit, errors } = useForm({
@@ -186,7 +187,8 @@ const CreateCollection = props => {
 
     useEffect(() => {
         onClearImageProductCollection()
-    }, [onClearImageProductCollection])
+        onClearProductList()
+    }, [onClearImageProductCollection, onClearProductList])
 
     return loadingAddCollection || loadingUploadImage || loadingProductList ? 
     <Backdrop className={classes.backdrop} open>
@@ -355,7 +357,8 @@ const mapDispatchToProps = dispatch => {
       onClearImageProductCollection: () => dispatch(actions.onClearImageProductCollection()),
       onDeleteImage: () => dispatch(actions.deleteImageCollection()),
       onAddProductList: (data) => dispatch(actions.uploadCollectionProductList(data)),
-      onDeleteProductList: (index) => dispatch(actions.deleteProductList(index))
+      onDeleteProductList: (index) => dispatch(actions.deleteProductList(index)),
+      onClearProductList: () => dispatch(actions.onClearProductList())
     }
 }
 
