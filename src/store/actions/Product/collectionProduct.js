@@ -60,6 +60,7 @@ export const uploadCollectionProductList = (formData) =>  async dispatch => {
     }
 
     dispatch(uploadCollectionProductListSuccess(bodyFormData))
+    dispatch(setAlert('New Prodcut added', 'success'))
 
 }
 

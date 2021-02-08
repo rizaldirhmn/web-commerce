@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -49,32 +49,33 @@ const TemplateWA = props => {
 			item,
       handleCloseWA,
       onFetchListTextFollowUp,
-      loadingTextFollowUpList,
-			textFollowUpList,
+      loadingTextTranslateWA,
+			textTranslateWA,
 			onSubmitFollowUp
 	} = props
 	const classes = useStyles()
 	const [expanded, setExpanded] = React.useState(false);
+	console.log(item)
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
 	};
 	
-	const [ template, setTemplate ] = useState(null)
+	// const [ template, setTemplate ] = useState(null)
 
-	const handleChangeTemplate = event => {
-		setTemplate(event.id)
-	}
+	// const handleChangeTemplate = event => {
+	// 	setTemplate(event.id)
+	// }
 
-	const onSubmit = () => {
-		console.log(template)
-		onSubmitFollowUp(item.id_checkout, template)
+	const onSubmit = event => {
+		// console.log(template)
+		onSubmitFollowUp(item.id_checkout, event.id)
 		handleCloseWA(item)
 	}
 
   useEffect(() => {
-    onFetchListTextFollowUp()
-	}, [onFetchListTextFollowUp])
+    onFetchListTextFollowUp(item.id_checkout)
+	}, [onFetchListTextFollowUp, item])
 	
   return (
     <div>
@@ -84,11 +85,11 @@ const TemplateWA = props => {
           <DialogContentText>
             Pilih template whatsapp follow up.
           </DialogContentText>
-					{loadingTextFollowUpList || textFollowUpList === null ? (
+					{loadingTextTranslateWA || textTranslateWA === null ? (
 						<Skeleton></Skeleton>
 					):(
 						<>
-						{textFollowUpList.map((item, index) => (
+						{textTranslateWA.map((item, index) => (
 							<Accordion expanded={expanded === `panel${index+1}`} onChange={handleChange(`panel${index+1}`)}>
 								<AccordionSummary
 									expandIcon={<ExpandMoreIcon />}
@@ -101,11 +102,11 @@ const TemplateWA = props => {
 								</AccordionSummary>
 								<AccordionDetails>
 									<Typography>
-										{item.text}
+										{item.translate}
 									</Typography>
 								</AccordionDetails>
 								<AccordionActions>
-									<Button className={classes.btn} onClick={() => handleChangeTemplate(item)}>
+									<Button className={classes.btn} onClick={() => onSubmit(item)}>
 										Pilih
 									</Button>
 								</AccordionActions>
@@ -118,11 +119,11 @@ const TemplateWA = props => {
           <Button onClick={() => handleCloseWA(item)} color="primary">
             Batal
           </Button>
-					{template !== null && (
+					{/* {template !== null && (
 						<Button onClick={onSubmit} color="primary">
 							Kirim
 						</Button>
-					)}
+					)} */}
         </DialogActions>
       </Dialog>
     </div>
@@ -130,15 +131,15 @@ const TemplateWA = props => {
 }
 
 const mapStateToProps = state => ({
-    textFollowUpList: state.settings.textFollowUpList,
-		loadingTextFollowUpList : state.settings.loadingTextFollowUpList,
+    textTranslateWA: state.settings.textTranslateWA,
+		loadingTextTranslateWA : state.settings.loadingTextTranslateWA,
 		sendWhatsappFollowUp: state.settings.sendWhatsappFollowUp,
 		loadingSendWhatsappFollowUp: state.settings.loadingSendWhatsappFollowUp
 })
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchListTextFollowUp : () => dispatch(actions.fetchListText()),
+        onFetchListTextFollowUp : (idCheckout) => dispatch(actions.fetchListTranslateText(idCheckout)),
         onSubmitFollowUp : (id, id_text) => dispatch(actions.sendingWhatsappFollowUp(id, id_text)),
     }
 }

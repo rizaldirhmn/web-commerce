@@ -14,7 +14,8 @@ import {
     CardActions,
     Dialog,
     DialogContent,
-    CardHeader
+    CardHeader,
+    DialogActions
 } from '@material-ui/core'
 import {Delete as DeleteIcon} from '@material-ui/icons';
 import { useForm } from "react-hook-form";
@@ -55,7 +56,15 @@ const useStyles = makeStyles(theme => ({
     },
     media: {
 		height: 140,
-	},
+    },
+    button: {
+        textTransform: 'none',
+        backgroundColor: '#2285DF',
+        color: '#FFFFFF',
+        '&:hover': {
+            backgroundColor: '#0277BD'
+        },
+    },
 }))
 
 const SchemaValidation = yup.object().shape({
@@ -357,6 +366,11 @@ const EditCollection = props => {
             <DialogContent>
                 <ListProduct handleAddProductList={handleAddProductList} />
             </DialogContent>
+            <DialogActions>
+                <Button onClick={handleCloseDialogProduct}>
+                    Batal
+                </Button>
+            </DialogActions>
         </Dialog>
     </Fragment>
 }

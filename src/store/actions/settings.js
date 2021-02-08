@@ -50,6 +50,54 @@ import { setAlert } from './alert'
         
     }
 
+// Fetching List Translate Text
+    export const fetchListTranslateTextStart = () => {
+        return {
+        type: actions.GET_TEXT_TRANSLATE_WA_START
+        }
+    }
+
+    export const fetchListTranslateTextSuccess = (payload) => {
+        return {
+        type: actions.GET_TEXT_TRANSLATE_WA_SUCCESS,
+        textTranslateWA: payload
+        }
+    }
+
+    export const fetchListTranslateTextFail = (error) => {
+        return {
+        type: actions.GET_TEXT_TRANSLATE_WA_FAIL,
+        error: error
+        }
+    }
+
+    export const fetchListTranslateText = (idCheckout) => async dispatch => {
+        dispatch(fetchListTranslateTextStart())
+        const endpoint = `${process.env.REACT_APP_BASE_URL}api/admin/text_follow_up/${idCheckout}/preview`
+        try {
+            const res = await axios({
+                url: endpoint,
+                method: "GET",
+                headers: { 
+                'Content-Type': 'application/json', 
+                'Accept' : 'application/json', 
+                'Authorization' : `Bearer ${sessionStorage.getItem('access_token')}`
+                }
+            });
+            dispatch(fetchListTranslateTextSuccess(res.data))
+
+        } catch (error) {
+            dispatch(setAlert("Something went wrong", "error"))
+            console.log(error)
+            dispatch(fetchListTranslateTextFail(error))
+            // dispatch({
+            //     payload: { msg: error.response.statusText, status: error.response.status },
+            //     type: STAGE_ERROR
+            // })
+        }
+        
+    }
+
 // Fetching Detail Text
     export const fetchDetailTextStart = () => {
         return {

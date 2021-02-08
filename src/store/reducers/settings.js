@@ -8,6 +8,8 @@ const initialState = {
     textFollowUpData: null,
     variableFollowUpList: null,
     sendWhatsappFollowUp: null,
+    textTranslateWA: null,
+    loadingTextTranslateWA: false,
     loadingSendWhatsappFollowUp: false,
     loadingTextFollowUpData: false,
     loadingVariableFollowUpList: false,
@@ -33,6 +35,27 @@ const fetchListTextFail = (state, action) => {
     return updateObject(state, {
         error: action.error,
         loadingTextFollowUpList: false
+    })
+}
+
+// Fetching Translate List text
+const fetchListTranslateTextStart = (state) => {
+    return updateObject(state, {
+      loadingTextTranslateWA: true,
+    })
+}
+  
+const fetchListTranslateTextSuccess = (state, action) => {
+    return updateObject(state, {
+        textTranslateWA: action.textTranslateWA,
+        loadingTextTranslateWA: false
+    })
+}
+  
+const fetchListTranslateTextFail = (state, action) => {
+    return updateObject(state, {
+        error: action.error,
+        loadingTextTranslateWA: false
     })
 }
 
@@ -125,6 +148,10 @@ const reducer = (state = initialState, action) => {
       case actionTypes.GET_TEXT_FOLLOW_UP_WA_START: return fetchListTextStart(state, action)
       case actionTypes.GET_TEXT_FOLLOW_UP_WA_SUCCESS: return fetchListTextSuccess(state, action)
       case actionTypes.GET_TEXT_FOLLOW_UP_WA_FAIL: return fetchListTextFail(state, action)
+
+      case actionTypes.GET_TEXT_TRANSLATE_WA_START: return fetchListTranslateTextStart(state, action)
+      case actionTypes.GET_TEXT_TRANSLATE_WA_SUCCESS: return fetchListTranslateTextSuccess(state, action)
+      case actionTypes.GET_TEXT_TRANSLATE_WA_FAIL: return fetchListTranslateTextFail(state, action)
 
       case actionTypes.GET_DETAIL_TEXT_FOLLOW_UP_WA_START: return fetchDetailTextStart(state, action)
       case actionTypes.GET_DETAIL_TEXT_FOLLOW_UP_WA_SUCCESS: return fetchDetailTextSuccess(state, action)

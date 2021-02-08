@@ -35,6 +35,7 @@ import { useHistory } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers"
 import * as yup from "yup";
+import NumberFormat from 'react-number-format'
 
 import { connect } from 'react-redux'
 import { 
@@ -466,8 +467,12 @@ const TablePaymentConfirmation = props => {
                                     <TableCell>{no++}</TableCell>
                                     <TableCell>{row.checkout.user.name}</TableCell>
                                     <TableCell>{row.checkout.user.number_handphone}</TableCell>
-                                    <TableCell>{row.checkout.total_price}</TableCell>
-                                    <TableCell>{row.checkout.total_price_plus_ongkir}</TableCell>
+                                    <TableCell>
+                                      <NumberFormat value={row.checkout.total_price} displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
+                                    </TableCell>
+                                    <TableCell>
+                                      <NumberFormat value={row.checkout.total_price_plus_ongkir} displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
+                                    </TableCell>
                                     <TableCell>
                                         {row.status === '2' && (
                                             <Typography variant='p'>
@@ -653,7 +658,9 @@ const TablePaymentConfirmation = props => {
                     </DialogActions>
                 {/* </form> */}
             </Dialog>
-            <TemplateWA open={openWA.open} item={openWA.item} handleCloseWA={handleCloseWA} />
+            {openWA.item !== null && (
+              <TemplateWA open={openWA.open} item={openWA.item} handleCloseWA={handleCloseWA} />
+            )}
         </div>
     </Fragment>
 }

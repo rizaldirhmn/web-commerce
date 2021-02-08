@@ -4,14 +4,15 @@ import {
     Grid,
     Typography,
     Button,
-    List,
-    ListItem,
-    ListItemAvatar,
     Avatar,
     ListItemText,
-    Divider,
     Paper,
-    InputBase
+    InputBase,
+    TableRow,
+    TableContainer,
+    Table,
+    TableBody,
+    TableCell
 } from '@material-ui/core'
 import { Link as RouterLink } from 'react-router-dom'
 import TablePagination from '@material-ui/core/TablePagination'
@@ -167,84 +168,66 @@ const Collection = props => {
                     container
                     spacing={2}
                 >
-                    {!loadingFetchCollection && collectionList !== null ? (
-                        <List className={classes.rootList}>
-                            {collectionList.data.map((item, index) => (
-                            <Grid
-                                item
-                                lg={12}
-                                md={12}
-                                sm={12}
-                                xs={12}
-                                key={index}
-                            >
-                                <ListItem alignItems="flex-start">
-                                    <ListItemAvatar>
-                                        <Avatar alt={item.name} src={item.image} />
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={item.name}
-                                        secondary={
-                                            <React.Fragment>
-                                                <RouterLink to={`/product/collection/edit/${item.id}`}>
-                                                    <Typography
-                                                        component="span"
-                                                        variant="body2"
-                                                        className={classes.inline}
-                                                        color="textPrimary"
-                                                    >
-                                                        Edit
-                                                    </Typography>
-                                                </RouterLink>
-                                            {/* {" — I'll be in your neighborhood doing errands this…"} */}
-                                            </React.Fragment>
-                                        }
-                                    />
-                                    <ListItemText
-                                        primary="Total Product"
-                                        secondary={
-                                            <React.Fragment>
-                                                <Typography
-                                                    component="span"
-                                                    variant="body2"
-                                                    className={classes.inline}
-                                                    color="textPrimary"
-                                                >
-                                                    {item.collection_product.length}
-                                                </Typography>
-                                            </React.Fragment>
-                                        }
-                                    />
-                                </ListItem>
-                                <Divider variant="inset" component="li" />
-                            </Grid>
-                            ))}
-                        </List>
-                    ):(
-                        <List className={classes.rootList}>
-                            <Grid
-                                item
-                                lg={12}
-                                md={12}
-                                sm={12}
-                                xs={12}
-                                key='loading'
-                            >
-                                <ListItem>
-                                    <Skeleton style={{ width: '100%'}}></Skeleton>
-                                </ListItem>
-                                <ListItem>
-                                    <Skeleton style={{ width: '100%'}}></Skeleton>
-                                </ListItem>
-                                <ListItem>
-                                    <Skeleton style={{ width: '100%'}}></Skeleton>
-                                </ListItem>
-                                <ListItem>
-                                    <Skeleton style={{ width: '100%'}}></Skeleton>
-                                </ListItem>
-                            </Grid>
-                        </List>
-                    )}
+                    <TableContainer>
+                        <Table>
+                            {!loadingFetchCollection && collectionList !== null ? (
+                                <TableBody>
+                                    {collectionList.data.map((item, index) => (
+                                    <TableRow>
+                                        <TableCell width={70}>
+                                            <Avatar alt={item.name} src={item.image} />
+                                        </TableCell>
+                                        <TableCell>
+                                            <ListItemText
+                                                primary={item.name}
+                                                secondary={
+                                                    <React.Fragment>
+                                                        <RouterLink to={`/product/collection/edit/${item.id}`}>
+                                                            <Typography
+                                                                component="span"
+                                                                variant="body2"
+                                                                className={classes.inline}
+                                                                color="textPrimary"
+                                                            >
+                                                                Edit
+                                                            </Typography>
+                                                        </RouterLink>
+                                                    {/* {" — I'll be in your neighborhood doing errands this…"} */}
+                                                    </React.Fragment>
+                                                }
+                                            />
+                                        </TableCell>
+                                        <TableCell>
+                                            <ListItemText
+                                                primary="Total Product"
+                                                secondary={
+                                                    <React.Fragment>
+                                                        <Typography
+                                                            component="span"
+                                                            variant="body2"
+                                                            className={classes.inline}
+                                                            color="textPrimary"
+                                                        >
+                                                            {item.collection_product.length}
+                                                        </Typography>
+                                                    </React.Fragment>
+                                                }
+                                            />
+                                        </TableCell>
+                                    </TableRow>
+                                    ))}
+                                </TableBody>
+                            ):(
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell colsPan={3}>
+                                            <Skeleton></Skeleton>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            )}
+                        </Table>
+                    </TableContainer>
                 </Grid>
                 {!loadingFetchCollection && collectionList !== null ? (
                     <Grid

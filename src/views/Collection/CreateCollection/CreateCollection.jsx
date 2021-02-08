@@ -13,7 +13,8 @@ import {
     CardActionArea,
     CardActions,
     Dialog,
-    DialogContent
+    DialogContent,
+    DialogActions
 } from '@material-ui/core'
 import {Delete as DeleteIcon} from '@material-ui/icons';
 import { useForm } from "react-hook-form";
@@ -54,7 +55,15 @@ const useStyles = makeStyles(theme => ({
     },
     media: {
 		height: 140,
-	},
+    },
+    button: {
+        textTransform: 'none',
+        backgroundColor: '#2285DF',
+        color: '#FFFFFF',
+        '&:hover': {
+            backgroundColor: '#0277BD'
+        },
+    },
 }))
 
 const SchemaValidation = yup.object().shape({
@@ -175,8 +184,6 @@ const CreateCollection = props => {
         onSubmitCollection(formState.values, imageUrl.url, productList, history)
     }
 
-    console.log(productList)
-
     useEffect(() => {
         onClearImageProductCollection()
     }, [onClearImageProductCollection])
@@ -262,7 +269,7 @@ const CreateCollection = props => {
                             spacing={2}
                         >
                             <Grid item>
-                                <Button fullWidth onClick={handleOpenDialogProduct}>
+                                <Button className={classes.button} fullWidth onClick={handleOpenDialogProduct}>
                                     + Tambah produk
                                 </Button>
                             </Grid>
@@ -277,7 +284,7 @@ const CreateCollection = props => {
                                         <CardMedia
                                             square
                                             className={classes.media}
-                                            image={item.image}
+                                            image={item.image.url}
                                             title={item.name}
                                         />
                                         <CardContent>
@@ -321,6 +328,11 @@ const CreateCollection = props => {
             <DialogContent>
                 <ListProduct handleAddProductList={handleAddProductList} />
             </DialogContent>
+            <DialogActions>
+                <Button onClick={handleCloseDialogProduct}>
+                    Batal
+                </Button>
+            </DialogActions>
         </Dialog>
     </Fragment>
 }

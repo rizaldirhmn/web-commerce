@@ -377,6 +377,22 @@ const Main = props => {
         <Collapse in={masterOpen} timeout="auto" unmountOnExit>
           <List disablePadding>
             <ListItem
+              key='banner'
+              className={classes.nested}
+            >
+              <Button
+                activeClassName={classes.active}
+                className={classes.button}
+                component={CustomRouterLink}
+                onClick={handleDrawerClose}
+                to={`/banner`}
+              >
+                  <div className={classes.textMenu}>
+                    Banner
+                  </div>
+              </Button>
+            </ListItem>
+            <ListItem
               key='warehouse'
               className={classes.nested}
             >
@@ -424,22 +440,7 @@ const Main = props => {
                   </div>
               </Button>
             </ListItem>
-            <ListItem
-              key='banner'
-              className={classes.nested}
-            >
-              <Button
-                activeClassName={classes.active}
-                className={classes.button}
-                component={CustomRouterLink}
-                onClick={handleDrawerClose}
-                to={`/banner`}
-              >
-                  <div className={classes.textMenu}>
-                    Banner
-                  </div>
-              </Button>
-            </ListItem>
+            
           </List>
         </Collapse>
         

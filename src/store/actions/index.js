@@ -77,7 +77,8 @@ export {
   addTextFollowUp,
   fetchDetailText,
   updateTextFollowUp,
-  deleteTextFollowUp
+  deleteTextFollowUp,
+  fetchListTranslateText
 } from './settings'
 
 export { 

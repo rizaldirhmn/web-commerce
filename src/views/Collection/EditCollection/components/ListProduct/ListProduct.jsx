@@ -4,14 +4,15 @@ import {
     Grid,
     Typography,
     Button,
-    List,
-    ListItem,
-    ListItemAvatar,
     Avatar,
     ListItemText,
-    Divider,
     Paper,
-    InputBase
+    InputBase,
+    TableContainer,
+    Table,
+    TableBody,
+    TableRow,
+    TableCell
 } from '@material-ui/core'
 import TablePagination from '@material-ui/core/TablePagination'
 
@@ -158,80 +159,91 @@ const Product = props => {
                     container
                     spacing={2}
                 >
-                    {!loadingProductList && productList !== null ? (
-                        <List className={classes.rootList}>
-                            {productList.data.map((item, index) => (
-                            <Grid
-                                item
-                                lg={12}
-                                md={12}
-                                sm={12}
-                                xs={12}
-                                key={index}
-                            >
-                                <ListItem alignItems="flex-start">
-                                    <ListItemAvatar>
-                                        <Avatar alt={item.title} src={item.resource_product[0].url} />
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={item.title}
-                                    />
-                                    
-                                    <ListItemText
-                                        primary="Harga"
-                                        secondary={
-                                            <React.Fragment>
-                                                <Typography
-                                                    component="span"
-                                                    variant="body2"
-                                                    className={classes.inline}
-                                                    color="textPrimary"
-                                                >
-                                                    <NumberFormat value={item.base_price} displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
-                                                </Typography>
-                                            </React.Fragment>
-                                        }
-                                    />
-                                    <ListItemText
-                                        primary="Aksi"
-                                        secondary={
-                                            <React.Fragment>
-                                                <Button onClick={() => handleAddProductList(item)}>
-                                                    Pilih
-                                                </Button>
-                                            </React.Fragment>
-                                        }
-                                    />
-                                </ListItem>
-                                <Divider variant="inset" component="li" />
-                            </Grid>
-                            ))}
-                        </List>
-                    ):(
-                        <List className={classes.rootList}>
-                            <Grid
-                                item
-                                lg={12}
-                                md={12}
-                                sm={12}
-                                xs={12}
-                                key='loading'
-                            >
-                                <ListItem>
-                                    <Skeleton style={{ width: '100%'}}></Skeleton>
-                                </ListItem>
-                                <ListItem>
-                                    <Skeleton style={{ width: '100%'}}></Skeleton>
-                                </ListItem>
-                                <ListItem>
-                                    <Skeleton style={{ width: '100%'}}></Skeleton>
-                                </ListItem>
-                                <ListItem>
-                                    <Skeleton style={{ width: '100%'}}></Skeleton>
-                                </ListItem>
-                            </Grid>
-                        </List>
-                    )}
+                    <TableContainer>
+                        <Table>
+                            {loadingProductList || productList === null ? (
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell colsPan={5}>
+                                            <Skeleton></Skeleton>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell colsPan={5}>
+                                            <Skeleton></Skeleton>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell colsPan={5}>
+                                            <Skeleton></Skeleton>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            ):(
+                                <TableBody>
+                                    {productList.data.map((item, index) => (
+                                        <TableRow>
+                                            <TableCell>
+                                                <Avatar alt={item.title} src={item.resource_product[0].url} />
+                                            </TableCell>
+                                            <TableCell>
+                                                <ListItemText
+                                                    primary={item.title}
+                                                />
+                                            </TableCell>
+                                            <TableCell>
+                                                <ListItemText
+                                                    primary="Kategori"
+                                                    secondary={
+                                                        <React.Fragment>
+                                                            <Typography
+                                                                component="span"
+                                                                variant="body2"
+                                                                className={classes.inline}
+                                                                color="textPrimary"
+                                                            >
+                                                                {item.sub_category.category.name}
+                                                            </Typography>
+                                                        </React.Fragment>
+                                                    }
+                                                />
+                                            </TableCell>
+                                            <TableCell>
+                                                <ListItemText
+                                                    primary="Harga"
+                                                    secondary={
+                                                        <React.Fragment>
+                                                            <Typography
+                                                                component="span"
+                                                                variant="body2"
+                                                                className={classes.inline}
+                                                                color="textPrimary"
+                                                            >
+                                                                <NumberFormat value={item.base_price} displayType={'text'} thousandSeparator={true} prefix={`Rp `} />
+                                                            </Typography>
+                                                        </React.Fragment>
+                                                    }
+                                                />
+                                            </TableCell>
+                                            <TableCell>
+                                                <ListItemText
+                                                    primary="Aksi"
+                                                    secondary={
+                                                        <React.Fragment>
+                                                            <Button className={classes.button} onClick={() => handleAddProductList(item)}>
+                                                                Pilih
+                                                            </Button>
+                                                        </React.Fragment>
+                                                    }
+                                                />
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                                
+                            )}
+                        </Table>
+                    </TableContainer>
                 </Grid>
                 {!loadingProductList && productList !== null ? (
                     <Grid
