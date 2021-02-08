@@ -20,7 +20,13 @@ import {
   Collection as CollectionView,
   CreateCollection as CreateCollectionView,
   EditCollection as EditCollectionView,
-  WhatsappFollow as WhatsappFollowView
+  WhatsappFollow as WhatsappFollowView,
+  Banner as BannerView,
+  CreateBanner as CreateBannerView,
+  EditBanner as EditBannerView,
+  Blog as BlogView,
+  CreateBlog as CreateBlogView,
+  EditBlog as EditBlogView
 } from './views';
 
 const Routes = () => {
@@ -143,6 +149,48 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/whatsapp-follow-settings"
+      />
+
+      <RouteWithLayout
+        component={BannerView}
+        exact
+        layout={MainLayout}
+        path="/banner"
+      />
+
+      <RouteWithLayout
+        component={CreateBannerView}
+        exact
+        layout={MainLayout}
+        path="/banner/create"
+      />
+
+      <RouteWithLayout
+        component={EditBannerView}
+        exact
+        layout={MainLayout}
+        path="/banner/edit/:id"
+      />
+
+      <RouteWithLayout
+        component={BlogView}
+        exact
+        layout={MainLayout}
+        path="/blog"
+      />
+
+      <RouteWithLayout
+        component={CreateBlogView}
+        exact
+        layout={MainLayout}
+        path="/blog/create"
+      />
+
+      <RouteWithLayout
+        component={EditBlogView}
+        exact
+        layout={MainLayout}
+        path="/blog/edit/:slug"
       />
 
       <Route

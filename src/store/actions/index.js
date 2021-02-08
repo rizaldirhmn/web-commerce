@@ -50,6 +50,22 @@ export {
 } from './Master/category'
 
 export {
+  fetchBannerList,
+  addBanner,
+  fetchDetailBanner,
+  editBanner,
+  deleteBanner
+} from './Master/banner'
+
+export {
+  fetchBlogList,
+  addBlogList,
+  deleteBlogList,
+  fetchDetailBlog,
+  editBlogList
+} from './blog'
+
+export {
   fetchListText,
   fetchListVariable,
   addTextFollowUp,

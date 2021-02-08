@@ -336,6 +336,27 @@ const Main = props => {
           </Button>
         </ListItem>
         <ListItem 
+          key='blog' 
+          button
+          disabledGutters
+          className={classes.item}
+        >
+          <Button
+            activeClassName={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            onClick={handleDrawerClose}
+            to={`/blog`}
+          >
+              <div className={classes.icon}>
+                <img src={`${process.env.PUBLIC_URL}/images/icon/Document.svg`} alt="Dashboard" />
+              </div>
+              <div className={classes.textMenu}>
+                Blog
+              </div>
+          </Button>
+        </ListItem>
+        <ListItem 
           key='master'
           disabledGutters
           className={classes.item}
@@ -345,7 +366,7 @@ const Main = props => {
             className={classes.button}
           >
             <div className={classes.icon}>
-              <img src={`${process.env.PUBLIC_URL}/images/icon/master.svg`} alt="Master" />
+              <img src={`${process.env.PUBLIC_URL}/images/icon/Setting.svg`} alt="Master" />
             </div>
             <div className={classes.textMenu}>
               Pengaturan
@@ -400,6 +421,22 @@ const Main = props => {
               >
                   <div className={classes.textMenu}>
                     Pengaturan Whatsapp
+                  </div>
+              </Button>
+            </ListItem>
+            <ListItem
+              key='banner'
+              className={classes.nested}
+            >
+              <Button
+                activeClassName={classes.active}
+                className={classes.button}
+                component={CustomRouterLink}
+                onClick={handleDrawerClose}
+                to={`/banner`}
+              >
+                  <div className={classes.textMenu}>
+                    Banner
                   </div>
               </Button>
             </ListItem>
