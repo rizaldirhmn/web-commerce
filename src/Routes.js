@@ -26,7 +26,8 @@ import {
   EditBanner as EditBannerView,
   Blog as BlogView,
   CreateBlog as CreateBlogView,
-  EditBlog as EditBlogView
+  EditBlog as EditBlogView,
+  Notification as NotificationView
 } from './views';
 
 const Routes = () => {
@@ -191,6 +192,13 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/blog/edit/:slug"
+      />
+
+      <RouteWithLayout
+        component={NotificationView}
+        exact
+        layout={MainLayout}
+        path="/notifications"
       />
 
       <Route

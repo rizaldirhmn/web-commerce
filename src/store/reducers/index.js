@@ -17,6 +17,7 @@ import dashboard from './dashboard'
 import settings from './settings'
 import banner from './Master/banner'
 import blog from './blog'
+import notification from './notification'
 
 export default combineReducers({
     alert,
@@ -36,5 +37,6 @@ export default combineReducers({
     collectionProduct,
     settings,
     banner,
-    blog
+    blog,
+    notification
 })

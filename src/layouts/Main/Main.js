@@ -420,7 +420,7 @@ const Main = props => {
                 to={`/whatsapp-follow-settings`}
               >
                   <div className={classes.textMenu}>
-                    Pengaturan Whatsapp
+                    Whatsapp
                   </div>
               </Button>
             </ListItem>
@@ -442,6 +442,29 @@ const Main = props => {
             </ListItem>
           </List>
         </Collapse>
+        
+        <ListItem 
+          key='notifications' 
+          button
+          disabledGutters
+          className={classes.item}
+        >
+          <Button
+            activeClassName={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            onClick={handleDrawerClose}
+            to={`/notifications`}
+          >
+              <div className={classes.icon}>
+                <img src={`${process.env.PUBLIC_URL}/images/icon/Notification.svg`} alt="Dashboard" />
+              </div>
+              <div className={classes.textMenu}>
+                Notifications
+              </div>
+          </Button>
+        </ListItem>
+        
         <ListItem
           disabledGutters
           className={classes.item}

@@ -66,6 +66,12 @@ export {
 } from './blog'
 
 export {
+  sendNotifProduct,
+  sendNotifProductCollection,
+  sendNotificationInformation
+} from './notification'
+
+export {
   fetchListText,
   fetchListVariable,
   addTextFollowUp,
