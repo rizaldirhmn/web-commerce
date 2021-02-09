@@ -38,7 +38,10 @@ export {
   fetchDashboardTotalTransaction,
   fetchDashboardGrafikIncome,
   fetchDashboardProductBestseller,
-  fetchDashboardResellerActive
+  fetchDashboardResellerActive,
+  fetchDashboardPopularProduct,
+  fetchDashboardInterestedProduct,
+  fetchDashboardGrafikTransactionMonthly
 } from './dashboard'
 
 export {
@@ -81,6 +84,18 @@ export {
   deleteTextFollowUp,
   fetchListTranslateText
 } from './settings'
+
+export {
+  fetchSocialMediaList,
+  uploadSocialMediaImage,
+  deleteImageSocialMedia,
+  onClearImageSocialMedia,
+  addSocialMedia,
+  fetchSocialMediaDetail,
+  uploadSocialMediaImageEdit,
+  editSocialMedia,
+  deleteSocialMedia
+} from './socialMedia'
 
 export { 
   sendingWhatsappFollowUp

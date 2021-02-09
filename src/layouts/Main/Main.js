@@ -465,6 +465,28 @@ const Main = props => {
               </div>
           </Button>
         </ListItem>
+
+        <ListItem 
+          key='social-media' 
+          button
+          disabledGutters
+          className={classes.item}
+        >
+          <Button
+            activeClassName={classes.active}
+            className={classes.button}
+            component={CustomRouterLink}
+            onClick={handleDrawerClose}
+            to={`/social-media`}
+          >
+              <div className={classes.icon}>
+                <img src={`${process.env.PUBLIC_URL}/images/icon/link.svg`} alt="Dashboard" />
+              </div>
+              <div className={classes.textMenu}>
+                Sosial Media
+              </div>
+          </Button>
+        </ListItem>
         
         <ListItem
           disabledGutters

@@ -8,6 +8,12 @@ const initialState = {
     grafikIncome: null,
     productBestseller: null,
     resellerActive: null,
+    popularProduct: null,
+    interestedProduct: null,
+    grafikTransactionMonthly: null,
+    loadingGrafikTransactionMonthly: false,
+    loadingInterestedProduct: false,
+    loadingPopularProduct: false,
     loadingResellerActive: false,
     loadingGrafikIncome: false,
     loadingTotalTransaction: false,
@@ -99,6 +105,48 @@ const fetchDashboardProductBestsellerFail = (state, action) => {
     })
 }
 
+// Fetching dashboard Popular Product
+const fetchDashboardPopularProduct = (state) => {
+    return updateObject(state, {
+      loadingPopularProduct: true,
+    })
+}
+  
+const fetchDashboardPopularProductSuccess = (state, action) => {
+    return updateObject(state, {
+        popularProduct: action.popularProduct,
+        loadingPopularProduct: false
+    })
+}
+  
+const fetchDashboardPopularProductFail = (state, action) => {
+    return updateObject(state, {
+        error: action.error,
+        loadingPopularProduct: false
+    })
+}
+
+// Fetching dashboard Interested Product
+const fetchDashboardInterestedProduct = (state) => {
+    return updateObject(state, {
+      loadingInterestedProduct: true,
+    })
+}
+  
+const fetchDashboardInterestedProductSuccess = (state, action) => {
+    return updateObject(state, {
+        interestedProduct: action.interestedProduct,
+        loadingInterestedProduct: false
+    })
+}
+  
+const fetchDashboardInterestedProductFail = (state, action) => {
+    return updateObject(state, {
+        error: action.error,
+        loadingInterestedProduct: false
+    })
+}
+
 // Fetching dashboard Reseller Active
 const fetchDashboardResellerActive = (state) => {
     return updateObject(state, {
@@ -120,6 +168,27 @@ const fetchDashboardResellerActiveFail = (state, action) => {
     })
 }
 
+// Fetching dashboard Grafik Transaction
+const fetchDashboardTransactionMonthly = (state) => {
+    return updateObject(state, {
+      loadingGrafikTransactionMonthly: true,
+    })
+}
+  
+const fetchDashboardTransactionMonthlySuccess = (state, action) => {
+    return updateObject(state, {
+        grafikTransactionMonthly: action.grafikTransactionMonthly,
+        loadingGrafikTransactionMonthly: false
+    })
+}
+  
+const fetchDashboardTransactionMonthlyFail = (state, action) => {
+    return updateObject(state, {
+        error: action.error,
+        loadingGrafikTransactionMonthly: false
+    })
+}
+
   const reducer = (state = initialState, action) => {
     switch (action.type) {
       case actionTypes.GET_DASHBOARD_TOTAL_USER_START: return fetchDashboardTotalUser(state, action)
@@ -128,12 +197,26 @@ const fetchDashboardResellerActiveFail = (state, action) => {
       case actionTypes.GET_DASHBOARD_TOTAL_TRANSACTION_START: return fetchDashboardTotalTransaction(state, action)
       case actionTypes.GET_DASHBOARD_TOTAL_TRANSACTION_SUCCESS: return fetchDashboardTotalTransactionSuccess(state, action)
       case actionTypes.GET_DASHBOARD_TOTAL_TRANSACTION_FAIL: return fetchDashboardTotalTransactionFail(state, action)
+
       case actionTypes.GET_DASHBOARD_GRAFIK_INCOME_START: return fetchDashboardGrafikIncome(state, action)
       case actionTypes.GET_DASHBOARD_GRAFIK_INCOME_SUCCESS: return fetchDashboardGrafikIncomeSuccess(state, action)
       case actionTypes.GET_DASHBOARD_GRAFIK_INCOME_FAIL: return fetchDashboardGrafikIncomeFail(state, action)
+
+      case actionTypes.GET_DASHBOARD_GRAFIK_TRANSACTION_MONTHLY_START: return fetchDashboardTransactionMonthly(state, action)
+      case actionTypes.GET_DASHBOARD_GRAFIK_TRANSACTION_MONTHLY_SUCCESS: return fetchDashboardTransactionMonthlySuccess(state, action)
+      case actionTypes.GET_DASHBOARD_GRAFIK_TRANSACTION_MONTHLY_FAIL: return fetchDashboardTransactionMonthlyFail(state, action)
+
       case actionTypes.GET_DASHBOARD_PRODUCT_BESTSELLER_START: return fetchDashboardProductBestseller(state, action)
       case actionTypes.GET_DASHBOARD_PRODUCT_BESTSELLER_SUCCESS: return fetchDashboardProductBestsellerSuccess(state, action)
       case actionTypes.GET_DASHBOARD_PRODUCT_BESTSELLER_FAIL: return fetchDashboardProductBestsellerFail(state, action)
+
+      case actionTypes.GET_DASHBOARD_POPULAR_PRODUCT_START: return fetchDashboardPopularProduct(state, action)
+      case actionTypes.GET_DASHBOARD_POPULAR_PRODUCT_SUCCESS: return fetchDashboardPopularProductSuccess(state, action)
+      case actionTypes.GET_DASHBOARD_POPULAR_PRODUCT_FAIL: return fetchDashboardPopularProductFail(state, action)
+
+      case actionTypes.GET_DASHBOARD_INTERESTED_PRODUCT_START: return fetchDashboardInterestedProduct(state, action)
+      case actionTypes.GET_DASHBOARD_INTERESTED_PRODUCT_SUCCESS: return fetchDashboardInterestedProductSuccess(state, action)
+      case actionTypes.GET_DASHBOARD_INTERESTED_PRODUCT_FAIL: return fetchDashboardInterestedProductFail(state, action)
 
       case actionTypes.GET_DASHBOARD_RESELLER_ACTIVE_START: return fetchDashboardResellerActive(state, action)
       case actionTypes.GET_DASHBOARD_RESELLER_ACTIVE_SUCCESS: return fetchDashboardResellerActiveSuccess(state, action)

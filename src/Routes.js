@@ -27,7 +27,10 @@ import {
   Blog as BlogView,
   CreateBlog as CreateBlogView,
   EditBlog as EditBlogView,
-  Notification as NotificationView
+  Notification as NotificationView,
+  SocialMedia as SocialMediaView,
+  CreateSocialMedia as CreateSocialMediaView,
+  EditSocialMedia as EditSocialMediaView
 } from './views';
 
 const Routes = () => {
@@ -199,6 +202,27 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/notifications"
+      />
+
+      <RouteWithLayout
+        component={SocialMediaView}
+        exact
+        layout={MainLayout}
+        path="/social-media"
+      />
+
+      <RouteWithLayout
+        component={CreateSocialMediaView}
+        exact
+        layout={MainLayout}
+        path="/social-media/create"
+      />
+
+      <RouteWithLayout
+        component={EditSocialMediaView}
+        exact
+        layout={MainLayout}
+        path="/social-media/edit/:id"
       />
 
       <Route

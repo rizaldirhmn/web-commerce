@@ -15,7 +15,8 @@ import RefreshIcon from '@material-ui/icons/Refresh'
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      height: 466
+        height: '530px',
+        overflow: 'auto'
     },
     media: {
       height: 0,
