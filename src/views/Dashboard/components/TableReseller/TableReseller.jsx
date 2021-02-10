@@ -3,15 +3,16 @@ import {
     Card,
     CardHeader,
     CardContent,
-    Divider,
-    List,
-    ListItem,
     Typography,
-    ListItemSecondaryAction,
-    IconButton
+    // IconButton,
+    TableContainer,
+    TableCell,
+    Table,
+    TableRow,
+    TableBody
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import RefreshIcon from '@material-ui/icons/Refresh'
+// import RefreshIcon from '@material-ui/icons/Refresh'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,30 +44,33 @@ const ResellerActive = props => {
         <Card className={classes.root}>
             <CardHeader 
                 title="Reseller Paling Aktif"
-                action={
-                    <IconButton aria-label="settings">
-                      <RefreshIcon style={{ color: '#6200EE'}} />
-                    </IconButton>
-                }
+                // action={
+                //     <IconButton aria-label="settings">
+                //       <RefreshIcon style={{ color: '#6200EE'}} />
+                //     </IconButton>
+                // }
             />
             <CardContent>
-                <List>
-                    {resellerActive.map(item => (
-                        <>
-                        <ListItem>
-                            <Typography className={classes.text}>
-                                {item.name}
-                            </Typography>
-                            <ListItemSecondaryAction>
-                                <Typography className={classes.textNumber}>
-                                    {item.number_handphone}
-                                </Typography>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                        <Divider />
-                        </>
-                    ))}
-                </List>
+                <TableContainer>
+                    <Table>
+                        <TableBody>
+                            {resellerActive.map(item => (
+                                <TableRow>
+                                    <TableCell>
+                                        <Typography className={classes.text}>
+                                            {item.name}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography className={classes.textNumber}>
+                                            {item.number_handphone}
+                                        </Typography>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </CardContent>
         </Card>
     )

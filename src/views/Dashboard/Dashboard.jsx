@@ -177,8 +177,8 @@ const Dashboard = props => {
           ):(
             <Grid
               item
-              lg={3}
-              md={3}
+              lg={4}
+              md={4}
               sm={6}
               xs={12}
             >
@@ -188,8 +188,8 @@ const Dashboard = props => {
           {loadingTotalTransaction || totalTransaction === null ? (
             <Grid
               item
-              lg={3}
-              md={3}
+              lg={4}
+              md={4}
               sm={6}
               xs={12}
             >
@@ -199,8 +199,8 @@ const Dashboard = props => {
             <>
             <Grid
               item
-              lg={3}
-              md={3}
+              lg={4}
+              md={4}
               sm={6}
               xs={12}
             >
@@ -208,8 +208,8 @@ const Dashboard = props => {
             </Grid>
             <Grid
               item
-              lg={3}
-              md={3}
+              lg={4}
+              md={4}
               sm={6}
               xs={12}
             >
@@ -217,8 +217,8 @@ const Dashboard = props => {
             </Grid>
             <Grid
               item
-              lg={3}
-              md={3}
+              lg={4}
+              md={4}
               sm={6}
               xs={12}
             >
@@ -226,8 +226,8 @@ const Dashboard = props => {
             </Grid>
             <Grid
               item
-              lg={3}
-              md={3}
+              lg={4}
+              md={4}
               sm={6}
               xs={12}
             >
@@ -235,8 +235,8 @@ const Dashboard = props => {
             </Grid>
             <Grid
               item
-              lg={3}
-              md={3}
+              lg={4}
+              md={4}
               sm={6}
               xs={12}
             >
@@ -244,12 +244,39 @@ const Dashboard = props => {
             </Grid>
             <Grid
               item
-              lg={3}
-              md={3}
+              lg={4}
+              md={4}
               sm={6}
               xs={12}
             >
                 <CardNumber cardName="Pesanan selesai" count={totalTransaction.pesanan_selesai} />
+            </Grid>
+            <Grid
+              item
+              lg={4}
+              md={4}
+              sm={6}
+              xs={12}
+            >
+                <CardNumber cardName="Gross Income" type="money" count={totalTransaction.overall_transaksi} />
+            </Grid>
+            <Grid
+              item
+              lg={4}
+              md={4}
+              sm={6}
+              xs={12}
+            >
+                <CardNumber cardName="Transaksi Terbesar" type="money" count={totalTransaction.transaksi_terbesar} />
+            </Grid>
+            <Grid
+              item
+              lg={4}
+              md={4}
+              sm={6}
+              xs={12}
+            >
+                <CardNumber cardName="Rata-rata Transaksi" type="money" count={totalTransaction.rata_rata_transaksi} />
             </Grid>
             </>
           )}
@@ -314,6 +341,29 @@ const Dashboard = props => {
           container
           spacing={2}
         >
+          {loadingResellerActive || resellerActive === null ? (
+            <Grid
+              item
+              lg={4}
+              md={4}
+              sm={6}
+              xs={12}
+            >
+              <Skeleton></Skeleton>
+            </Grid>
+          ):(
+            <Grid
+              item
+              lg={4}
+              md={4}
+              sm={6}
+              xs={12}
+            >
+              <TableReseller
+                resellerActive={resellerActive}
+              />
+            </Grid>
+          )}
           {loadingGrafikIncome || grafikIncome === null ? (
             <Grid
               item
@@ -340,29 +390,7 @@ const Dashboard = props => {
               />
             </Grid>
           )}
-          {loadingResellerActive || resellerActive === null ? (
-            <Grid
-              item
-              lg={4}
-              md={4}
-              sm={6}
-              xs={12}
-            >
-              <Skeleton></Skeleton>
-            </Grid>
-          ):(
-            <Grid
-              item
-              lg={4}
-              md={4}
-              sm={6}
-              xs={12}
-            >
-              <TableReseller
-                resellerActive={resellerActive}
-              />
-            </Grid>
-          )}
+          
         </Grid>
         <Grid
           container

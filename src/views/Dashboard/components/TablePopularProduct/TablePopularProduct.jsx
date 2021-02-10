@@ -4,7 +4,7 @@ import {
     CardHeader,
     CardContent,
     Typography,
-    IconButton,
+    // IconButton,
     TableContainer,
     Table,
     TableCell,
@@ -12,7 +12,7 @@ import {
     TableRow
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import RefreshIcon from '@material-ui/icons/Refresh'
+// import RefreshIcon from '@material-ui/icons/Refresh'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,11 +43,11 @@ const PopularProduct = props => {
         <Card className={classes.root}>
             <CardHeader 
                 title="Produk Terpopuler"
-                action={
-                    <IconButton aria-label="settings">
-                      <RefreshIcon style={{ color: '#6200EE'}} />
-                    </IconButton>
-                }
+                // action={
+                //     <IconButton aria-label="settings">
+                //       <RefreshIcon style={{ color: '#6200EE'}} />
+                //     </IconButton>
+                // }
             />
             <CardContent>
                 <TableContainer>

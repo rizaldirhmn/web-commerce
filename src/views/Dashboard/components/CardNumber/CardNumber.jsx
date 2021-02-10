@@ -58,7 +58,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TotalTransaction = props => {
-  const { className, cardName, count, ...rest } = props;
+  const { className, cardName, count, type, ...rest } = props;
 
   const classes = useStyles();
 
@@ -81,9 +81,15 @@ const TotalTransaction = props => {
             >
               {cardName}
             </Typography>
-            <Typography className={classes.numbers} variant="h3">
-              <NumberFormat value={count} displayType={'text'} thousandSeparator={true} />
-            </Typography>
+            {type === "money" ? (
+              <Typography className={classes.numbers} variant="h3">
+                <NumberFormat value={count} prefix={'Rp '} displayType={'text'} thousandSeparator={true} />
+              </Typography>
+            ):(
+              <Typography className={classes.numbers} variant="h3">
+                <NumberFormat value={count} displayType={'text'} thousandSeparator={true} />
+              </Typography>
+            )}
           </Grid>
           {/* <Grid item>
             <Avatar className={classes.avatar}>
