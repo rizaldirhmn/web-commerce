@@ -19,6 +19,7 @@ import banner from './Master/banner'
 import blog from './blog'
 import notification from './notification'
 import socialMedia from './socialMedia'
+import user from './user'
 
 export default combineReducers({
     alert,
@@ -40,5 +41,6 @@ export default combineReducers({
     banner,
     blog,
     notification,
-    socialMedia
+    socialMedia,
+    user
 })

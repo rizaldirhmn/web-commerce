@@ -30,7 +30,10 @@ import {
   Notification as NotificationView,
   SocialMedia as SocialMediaView,
   CreateSocialMedia as CreateSocialMediaView,
-  EditSocialMedia as EditSocialMediaView
+  EditSocialMedia as EditSocialMediaView,
+  Users as UsersView,
+  CreateUser as CreateUserView,
+  EditUser as EditUserView
 } from './views';
 
 const Routes = () => {
@@ -223,6 +226,27 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/social-media/edit/:id"
+      />
+
+      <RouteWithLayout
+        component={UsersView}
+        exact
+        layout={MainLayout}
+        path="/users"
+      />
+
+      <RouteWithLayout
+        component={CreateUserView}
+        exact
+        layout={MainLayout}
+        path="/users/create"
+      />
+
+      <RouteWithLayout
+        component={EditUserView}
+        exact
+        layout={MainLayout}
+        path="/users/edit/:id"
       />
 
       <Route

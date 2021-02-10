@@ -98,5 +98,13 @@ export {
 } from './socialMedia'
 
 export { 
+  fetchUserList,
+  fetchUserRoleList,
+  addUser,
+  fetchDetailUser,
+  editUser
+} from './user'
+
+export { 
   sendingWhatsappFollowUp
 } from './PaymentConfirmation/PaymentConfirmationAction'
